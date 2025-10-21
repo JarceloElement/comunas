@@ -1,0 +1,68 @@
+**Configuracion del sistema en un servidor local**
+
+En GNU-Linux instalar desde terminal:
+
+# Librería para la compresión de imágenes:
+   $ apt-get install php-gd
+
+   # LINUX-MANJARO (ArchiLinux)
+   $ pamac install php-gd
+
+    !!Ver instalación y versión PHP:
+       $ php -i | grep -i --color gd
+
+      - Ver en php_info.php
+       buscar: 20-g
+
+# reiniciar apache:
+   $ sudo service apache2 restart
+
+   # LINUX-MANJARO (ArchiLinux)
+    $ sudo systemctl restart httpd
+
+
+
+
+
+1. Copiar carpeta infoapp en el servidor local
+
+2. Crear una base de datos con el nombre "infoapp"
+
+3. Importar los datos en la DB creada. Cambiar los valores de peso maximo para importar sql en php.ini (Ya que la BD pesa max de 2m)
+    # reiniciar apache:
+    $ sudo service apache2 restart
+   
+   
+4. Editar datos de acceso a la DB en:
+
+    PARA ADMIN EN LA RUTA:
+   infoapp/core/controller/Database.php
+    
+    PARA USER EN LA RUTA:
+    infoapp/user/core/controller/Database.php
+
+        $this->ddbb='info_app'; // nombre DB
+		$this->user='infoadmin'; // usuario de base de datos del servidor
+		$this->pass='infoadmin2050'; // clave de la base de datos del servidor
+		$this->host='192.99.147.218'; // URL del dominio
+		
+	PARA ADMIN EN LA RUTA:
+    infoapp/core/app/view/conexion.php
+
+    PARA USER EN LA RUTA:
+    infoapp/user/core/app/view/conexion.php
+
+        private static $dbHost = "192.99.147.218"; // URL del dominio
+        private static $dbName = "info_app"; // nombre DB
+        private static $dbUsername = "infoadmin"; // usuario de base de datos del servidor
+        private static $dbUserpassword = "infoadmin2050"; // clave de la base de datos del servidor
+        private static $connection = null;
+       
+       
+    
+5. iniciar sesion a traves servidor local en: localhost/infoapp
+
+Datos de acceso del administrador:
+
+Usuario: admin
+Contraseña: admin#2050

@@ -1,0 +1,71 @@
+Infoapp
+**Configuracion del sistema en un servidor local**
+
+__________________LIBRERIAS NECESARIAS_____________________
+
+En GNU-Linux instalar desde terminal:
+
+# Librería para la compresión de imágenes:
+   $ apt-get install php-gd
+
+   # LINUX-MANJARO (ArchiLinux)
+   $ pamac install php-gd
+
+    !!Ver instalación y versión PHP:
+       $ php -i | grep -i --color gd
+
+      - Ver en php_info.php
+       buscar: 20-g
+
+# reiniciar apache:
+   $ sudo service apache2 restart
+   o
+   $ /etc/init.d/apache2 restart
+
+   # LINUX-MANJARO (ArchiLinux)
+    $ sudo systemctl restart httpd
+
+
+
+__________________INSTALACION INFOAPP____________________________
+
+1. Copiar carpeta infoapp en el servidor local
+
+2. Crear una base de datos con el nombre "lanubede_info_app"
+
+3. Importar los datos en la DB creada. Si se usa PhpMyAdmin: Cambiar los valores de peso maximo para importar sql en php.ini (Ya que la BD pesa max de 2m) | Recomendado subirla por la terminal.
+      
+4. Editar datos de acceso a la DB en:
+
+
+- Hacer una copia de: core/controller/Database_demo.php con el nombre: Database.php
+- Hacer una copia de: core/controller/DatabasePg_demo.php con el nombre: DatabasePg.php
+--Atención: Hacer una copia de cada archivo, no modificar los nombres de los originales.
+
+    --En Mysql editar--
+    /infoapp/core/controller/Database.php
+
+    $this->ddbb='lanubede_info_app'; // nombre DB
+	$this->user='infoadmin'; // usuario de base de datos del servidor
+	$this->pass='infoadmin2050'; // clave de la base de datos del servidor
+	$this->host='localhost'; // URL del dominio
+    
+    --En Postgresql editar--
+    /infoapp/core/controller/DatabasePg.php
+
+    private static $dbName = "info_app"; // nombre DB
+    private static $dbUsername = "userinfoapp"; // usuario de base de datos del servidor
+    private static $dbUserpassword = "infoadmin#2050"; // clave de la base de datos del servidor
+    private static $dbHost = "localhost";
+    private static $dbPort = "5432";
+    private static $connection = null;
+
+
+5. iniciar sesion a traves del servidor local en: localhost/infoapp
+
+________________ACCESO______________________
+
+Datos de acceso del administrador:
+
+Usuario: admin
+Contraseña: admin

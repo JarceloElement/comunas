@@ -1,0 +1,80 @@
+
+
+.form-horizontal .form-group {
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
+
+.card [data-background-color="orange"] {
+  background: linear-gradient(60deg, #ffa726, #fb8c00);
+  box-shadow: 0 12px 15px -10px #ff980047, 0 4px 15px 0px #0000001f, 0 7px 8px -5px #ff980033;
+}
+
+.card .card-header {
+  margin: -20px 10px 0;
+  border-radius: 3px;
+  padding: 15px;
+}
+
+.text_label{
+  text-align: center;
+  
+}
+
+.icon_label{
+  font-size: 24px;
+  color: #d30c5f;
+  margin-right: 10px;
+  
+}
+
+
+
+.card .title {
+  margin-top: 0;
+  margin-bottom: 5px;
+  margin-left: 10px;
+  margin-right: 0px;
+}
+
+h5, .h5 {
+  font-size: 1.0em;
+  line-height: 1.0em;
+  margin-bottom: 15px;
+}
+
+
+#cover-spin {
+  position:fixed;
+  width:100%;
+  left:0;right:0;top:0;bottom:0;
+  background-color: rgba(255,255,255,0.7);
+  z-index:9999;
+  display:none;
+}
+
+@-webkit-keyframes spin {
+from {-webkit-transform:rotate(0deg);}
+to {-webkit-transform:rotate(360deg);}
+}
+
+@keyframes spin {
+from {transform:rotate(0deg);}
+to {transform:rotate(360deg);}
+}
+
+#cover-spin::after {
+  content:'';
+  display:block;
+  position:absolute;
+  left:48%;top:40%;
+  width:40px;height:40px;
+  border-style:solid;
+  border-color:#ee0086;
+  border-top-color:transparent;
+  border-width: 4px;
+  border-radius:50%;
+  -webkit-animation: spin .8s linear infinite;
+  animation: spin .8s linear infinite;
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Prueba Swiper</title>
+	<!-- Archivo CSS para Swiper JS -->
+	<link rel="stylesheet" type="text/css" href="node_modules/swiper/swiper-bundle.css">
+	<!-- Archivo Javascript para Swiper JS -->
+	<script type="text/javascript" src="node_modules/swiper/swiper-bundle.js"></script>
+</head>
+<body>
+
+<h1>Probando Swiper JS</h1>
+
+<!-- Contenerdor Principal de Swiper -->
+<div class="swiper">
+  <!-- Agregamos un sub contenedor adicional-->
+  <div class="swiper-wrapper">
+    <!-- Aqui van los slides -->
+    <div class="swiper-slide"><img src="images/image1.png"></div>
+    <div class="swiper-slide"><img src="images/image2.png"></div>
+    <div class="swiper-slide"><img src="images/image3.png"></div>
+    <div class="swiper-slide"><img src="images/2.png"></div>
+    ...
+  </div>
+  <!-- Si necesitamos el Contenedor de la paginacion -->
+  <div class="swiper-pagination"></div>
+
+  <!-- Botones de naveacion -->
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+
+  <!-- Si necesitamos el scrollcar -->
+  <div class="swiper-scrollbar"></div>
+</div>
+
+
+
+    <!-- Inicializar el plugin -->
+    <script>
+      var swiper = new Swiper(".swiper", {
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      });
+    </script>
+
+</body>
+</html>
