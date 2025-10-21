@@ -5,9 +5,10 @@ class Database {
 	public static $db;
 	public static $con;
 
-    private static $dbName = "lanubede_info_app";
+    private static $dbName = "comunas";
     private static $dbUsername = "admin";
-    private static $dbUserpassword = "Desarrollo#1";
+    private static $dbUserpassword = "aJSyeAfFCStqncqsmGEMYYrXYdyJtOqD";
+    // private static $dbUserpassword = "Desarrollo#1";
 	private static $dbHost = "localhost";
     private static $connection = null;
 
