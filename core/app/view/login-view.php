@@ -150,8 +150,6 @@ if (Session::getUID() != "") {
 	}
 </script>
 
-
-
 <!-- div de alerta toastjs -->
 <!-- <div id="toastjs"></div> -->
 
