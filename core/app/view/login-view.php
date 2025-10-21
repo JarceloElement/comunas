@@ -182,7 +182,7 @@ if (Session::getUID() != "") {
 
 						<!-- <div class="row justify-content-center" material-icons.md-36> <span class="material-icons md-48 orange600">person_pin</span></div>   -->
 						<div class="row justify-content-center">
-							<h6 class="title">Ingresar a Infocentro</h6>
+							<h6 class="title">Ingresar a Infocentrox</h6>
 						</div>
 
 						<div class="card-content table-responsive">
