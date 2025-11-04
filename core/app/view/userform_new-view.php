@@ -387,7 +387,10 @@ if (isset($_GET['new'])) {
 
             <div class="row justify-content-center"><span class="material-icons">&#xE87C;</span></div>
             <!-- saludo al iniciar sesion -->
-            <?php if ($is_new != "1") { ?>
+            <?php if ($is_new != "1") { 
+					echo $_SERVER["DOCUMENT_ROOT"];
+                
+                ?>
                 <div class="row justify-content-center">
                     <h4 class="title">Un paso más <?php echo $_SESSION['user_name']; ?></h4>
                 </div>
