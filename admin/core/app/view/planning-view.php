@@ -494,14 +494,16 @@ date_default_timezone_set("America/La_Paz");
                         } else {
                             toastify('Registro guardado', true, 1000, "dashboard");
                         }
+                        location.reload();
+
                         // enviar notificacion con ajax
-                        if (notific != '' && notific_data != notific) {
-                            url = "http://infoapp2.infocentro.gob.ve/admin/index.php?view=editplanning&user_id=" + user_id + "&id=" + id_status + "&code_info=" + code_info + "&estado=" + estado + "&participantes=&start_at=&finish_at=&pag=1";
-                            message = "🔥 REVISIÓN INFOAPP PARA: <b>" + code_info + "</b>\n\n<b>Región:</b> " + estado + "\n<b>Nombre:</b> " + responsible_name + "\n<b>UID:</b> " + user_id + "\n<b>Rol:</b> " + responsible_type + "\n<b>Revisado por:</b> " + user_username + "\n\n<b>Actividad PLANIFICADA:</b>\n\n -" + activity_title + "\n\n<b>Observación:</b>\n\n" + notific + "\n\nPor favor revisar las observaciones.";
-                            sendMessage(event, message, url);
-                        } else {
-                            location.reload();
-                        }
+                        // if (notific != '' && notific_data != notific) {
+                        //     url = "http://infoapp2.infocentro.gob.ve/admin/index.php?view=editplanning&user_id=" + user_id + "&id=" + id_status + "&code_info=" + code_info + "&estado=" + estado + "&participantes=&start_at=&finish_at=&pag=1";
+                        //     message = "🔥 REVISIÓN INFOAPP PARA: <b>" + code_info + "</b>\n\n<b>Región:</b> " + estado + "\n<b>Nombre:</b> " + responsible_name + "\n<b>UID:</b> " + user_id + "\n<b>Rol:</b> " + responsible_type + "\n<b>Revisado por:</b> " + user_username + "\n\n<b>Actividad PLANIFICADA:</b>\n\n -" + activity_title + "\n\n<b>Observación:</b>\n\n" + notific + "\n\nPor favor revisar las observaciones.";
+                        //     sendMessage(event, message, url);
+                        // } else {
+                        //     location.reload();
+                        // }
                         // window.document.location=msg;
                         // location.reload();
                         // console.log(msg);

@@ -1,4 +1,63 @@
 <script language="javascript">
+	async function del_item(id) {
+		Swal.fire({
+			title: "¿Desea eliminar?",
+			text: "¡Esto es irreversible! y eliminará todas las dependencias de ésta línea de acción",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "¡Sí, eliminar!",
+			cancelButtonText: "Cancelar",
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+
+				$('#cover-spin').show(0);
+
+				// 1. Datos para la URL
+				const datos = {
+					function: "del_product_type",
+					id: id
+				};
+				// 2. Construir la URL con los parámetros de búsqueda
+				const params = new URLSearchParams(datos);
+				const url = `./?action=ajax&${params.toString()}`;
+
+				try {
+					// 3. Realizar la solicitud GET, sin 'method' ni 'body'
+					const res = await fetch(url);
+
+					if (res.ok) {
+						// console.log(res);
+						const array = await res.json();
+						// console.log(array);
+						toastify(array.alert, true, 13000, array.alert_type);
+						$('#cover-spin').hide(0);
+						if (array.err == 'false') {
+							window.timer = setTimeout(function() {
+								location.reload();
+							}, 800);
+						}
+
+					} else {
+						// Leer la respuesta como texto para depurar
+						const errorText = await res.text();
+						$('#cover-spin').hide(0);
+						// Mostrar el texto de error real del servidor
+						toastify(`Error del servidor: ${errorText}`, true, 12000, "error");
+						throw new Error(`Error de red: ${res.statusText}`);
+					}
+
+				} catch (error) {
+					$('#cover-spin').hide(0);
+					toastify(`Error inesperado: ${error.message}`, true, 12000, "error");
+					console.error("Detalle del error:", error);
+				}
+			}
+		});
+	};
+
+
 	$(document).ready(function() {
 		// NOTIFICACION
 		if ('<?php echo $_SESSION['alert']; ?>' != "") {
@@ -20,46 +79,47 @@
 		document.getElementById("addproduct").addEventListener('submit', validarFormulario);
 	});
 
-	function validarFormulario(event) {
+	async function validarFormulario(event) {
 		event.preventDefault();
-		$('#cover-spin').show(1);
-		$.ajax({
-				type: "POST",
-				url: "./?action=ajax",
-				// headers: {
-				//     "X-CSRFToken": getCookie("csrftoken")
-				// },
-				data: {
-					function: "add_product_type",
-					categoria: $("#categoria").val(),
-					tipo: $("#tipo").val(),
-					codigo: $("#codigo").val()
-				}
-			})
-			.done(function(msg) {
-				if (getOS() == "Android") {
-					alert("Registro guardado");
-				} else {
-					toastify('Registro guardado', true, 1000, "dashboard");
-				}
-				// console.log(msg);
-				location.reload();
-				// $('#content').reload('#content');
 
-			})
-			.fail(function() {
-				if (getOS() == "Android") {
-					alert("Hubo un error al guardar, intenta nuevamente");
-				} else {
-					toastify('Hubo un error al guardar, intenta nuevamente', true, 5000, "warning");
-				}
-				$('#cover-spin').hide(0);
-				return false;
+		let url = "./?action=ajax";
+
+		var formData = new FormData(event.target);
+		formData.append('function', 'add_product_type'); // Agrega la función a llamar
+		// console.log(formData);
+
+		$('#cover-spin').show(0);
+
+		try {
+			const res = await fetch(url, {
+				method: 'POST',
+				body: formData
 			});
-		// .always(function() {
-		//     toastify('Finished',true,1000,"warning");
-		// });
-	};
+
+			if (res.ok) {
+				// console.log(res);
+				const result_await = await res.text();
+				var array = JSON.parse(result_await);
+				// console.log(array);
+				toastify(array.alert, true, 13000, array.alert_type);
+				$('#cover-spin').hide(0);
+				window.timer = setTimeout(function() {
+					location.reload();
+				}, 800);
+
+			} else {
+				$('#cover-spin').hide(0);
+				toastify(res.statusText, true, 12000, "error");
+				throw res.statusText;
+			}
+
+		} catch (error) {
+			$('#cover-spin').hide(0);
+			toastify(error, true, 12000, "error");
+			throw error;
+		}
+
+	}
 </script>
 
 <div id="cover-spin"></div>
@@ -113,7 +173,7 @@ $products_cat = ProductsType::getBySQL("select * from categoria_productos");
 										<input type="text" name="codigo" id="codigo" required class="form-control" placeholder="">
 									</div>
 								</div>
-					
+
 
 								<div class="col-md-6">
 									<div class="form-group">
@@ -174,7 +234,17 @@ $products_cat = ProductsType::getBySQL("select * from categoria_productos");
 												<td><?php echo $types->tipo_categoria; ?></td>
 												<td><?php echo $types->name; ?></td>
 												<td><?php echo $types->cod_producto; ?></td>
-												<td style="width:180px;"><a href="./?action=ajax&function=del_product_type&id=<?php echo $types->id; ?>&type=<?php echo $_GET["type"]; ?>" class="btn btn-danger btn-xs">Eliminar</a></td>
+												<td>
+													<a onclick="del_item('<?php echo $types->id; ?>')" title="Eliminar">
+														<button type="button" class="btn btn-danger btn-sm"><i>
+																<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+																	<path fill="currentColor" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z" />
+																</svg></i>
+														</button>
+													</a>
+												</td>
+
+												<!-- <td style="width:180px;"><a href="./?action=ajax&function=del_product_type&id=<!?php echo $types->id; ?>&type=<!?php echo $_GET["type"]; ?>" class="btn btn-danger btn-xs">Eliminar</a></td> -->
 											</tr>
 										<?php }	?>
 

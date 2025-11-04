@@ -381,7 +381,7 @@ function alter_db()
     };
     // Executor::doit('ALTER TABLE info_social_map DROP CONSTRAINT info_social_map_ibfk_10;');
     // Executor::doit('ALTER TABLE info_social_map DROP CONSTRAINT info_social_map_ibfk;');
-    Executor::doit('ALTER TABLE info_social_map ADD CONSTRAINT `info_social_map_ibfk` FOREIGN KEY (code_info) REFERENCES `user` (code_info) ON UPDATE CASCADE ON DELETE SET NULL;');
+    // Executor::doit('ALTER TABLE info_social_map ADD CONSTRAINT `info_social_map_ibfk` FOREIGN KEY (code_info) REFERENCES `user` (code_info) ON UPDATE CASCADE ON DELETE SET NULL;');
 
 
     // EJECUTAR CUERY EN MYSQL
@@ -399,14 +399,14 @@ function alter_db()
         Executor::doit('ALTER TABLE `info_social_map_educations` ADD INDEX `idx_map_educations_info_code` (code_info);');
     };
     // Executor::doit('ALTER TABLE info_social_map_educations DROP CONSTRAINT `info_map_educations_ibfk`;');
-    Executor::doit('ALTER TABLE info_social_map_educations ADD CONSTRAINT `info_map_educations_ibfk` FOREIGN KEY (code_info) REFERENCES `user` (code_info) ON UPDATE CASCADE;');
+    // Executor::doit('ALTER TABLE info_social_map_educations ADD CONSTRAINT `info_map_educations_ibfk` FOREIGN KEY (code_info) REFERENCES `user` (code_info) ON UPDATE CASCADE;');
 
     if ($con->query("SHOW INDEX FROM info_social_map_organizations WHERE Key_name = 'idx_map_organizations_info_code' ")->num_rows != 1) {
         Executor::doit('ALTER TABLE `info_social_map_organizations` ADD INDEX `idx_map_organizations_info_code` (code_info);');
     };
     // Executor::doit('ALTER TABLE info_social_map_organizations DROP CONSTRAINT `info_social_map_organizations_ibfk_6`;');
     // Executor::doit('ALTER TABLE info_social_map_organizations DROP CONSTRAINT `info_map_organizations_ibfk`;');
-    Executor::doit('ALTER TABLE info_social_map_organizations ADD CONSTRAINT `info_map_organizations_ibfk` FOREIGN KEY (code_info) REFERENCES `user` (code_info) ON UPDATE CASCADE;');
+    // Executor::doit('ALTER TABLE info_social_map_organizations ADD CONSTRAINT `info_map_organizations_ibfk` FOREIGN KEY (code_info) REFERENCES `user` (code_info) ON UPDATE CASCADE;');
 
 
     
@@ -421,7 +421,7 @@ function alter_db()
     // Executor::doit('ALTER TABLE categoria_productos CHANGE nombre_categoria nombre_categoria VARCHAR(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;');
     // Executor::doit('ALTER TABLE `products_type` ADD INDEX(tipo_categoria);');
     // Executor::doit('ALTER TABLE `categoria_productos` ADD INDEX(`nombre_categoria`);');
-    // Executor::doit('ALTER TABLE products_type ADD FOREIGN KEY (tipo_categoria) REFERENCES categoria_productos(nombre_categoria) ON DELETE CASCADE ON UPDATE CASCADE;');
+    Executor::doit('ALTER TABLE products_type ADD FOREIGN KEY (tipo_categoria) REFERENCES categoria_productos(nombre_categoria) ON DELETE CASCADE ON UPDATE CASCADE;');
 
     // deshabilitar las claves foraneas para poder eliminar y editar las tablas secundarias
 

@@ -682,7 +682,9 @@ if (!isset($table_name["table_name"])) {
     $add_column->execute();
     $add_column->fetch();
 
-    ExecutorPg::doit('ALTER TABLE IF EXISTS public.products_list ADD COLUMN IF NOT EXISTS doc_ttipo VARCHAR(20);');
+    ExecutorPg::doit('ALTER TABLE IF EXISTS public.products_list ADD COLUMN IF NOT EXISTS doc_tipo VARCHAR(20);');
+    ExecutorPg::doit('ALTER TABLE IF EXISTS public.products_list ADD COLUMN IF NOT EXISTS red_creada VARCHAR(200);');
+    ExecutorPg::doit('ALTER TABLE IF EXISTS public.products_list ADD COLUMN IF NOT EXISTS formulario_url VARCHAR(200);');
 
 
 
