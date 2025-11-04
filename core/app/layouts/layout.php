@@ -59,7 +59,7 @@
   <?php
   date_default_timezone_set('UTC');
   date_default_timezone_set("America/La_Paz");
-  $view = $_GET["view"];
+  $view = isset($_GET["view"]) ? $_GET["view"] : "";
 
 
 
@@ -107,7 +107,7 @@ $user_username = isset($_SESSION['user_username']) ? $_SESSION['user_username'] 
       }, function (data) {
         var array = JSON.parse(data);
         console.log("Sesiones activas:", array["total"]);
-        console.log("SesionID:", '<?php echo $_SESSION['session_id']; ?>');
+        // console.log("SesionID:", '<!?php echo $_SESSION['session_id']; ?>');
         if (array["active_session"] == "Session_cerrada") {
           console.log(array["active_session"]);
         }
