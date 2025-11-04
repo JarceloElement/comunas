@@ -758,13 +758,13 @@ if (!isset($table_name["table_name"])) {
     // brigades / user_brigades
     // ExecutorPg::doit('TRUNCATE TABLE public.user_brigades;');
 
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.brigades ALTER COLUMN info_id TYPE INTEGER USING (info_id::integer)");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.brigades ALTER COLUMN info_id TYPE INTEGER USING (info_id::integer)");
+    // $add_column->execute();
+    // $add_column->fetch();
 
-    $add_column = $conn->prepare("CREATE INDEX IF NOT EXISTS idx_brigades_code ON public.brigades(info_cod)");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("CREATE INDEX IF NOT EXISTS idx_brigades_code ON public.brigades(info_cod)");
+    // $add_column->execute();
+    // $add_column->fetch();
 
     // ExecutorPg::doit('UPDATE public.brigades SET info_cod = infocentros.cod FROM infocentros WHERE brigades.info_id = infocentros.id;');
     // ExecutorPg::doit('UPDATE public.user_brigades SET parroquia = infocentros.parroquia FROM infocentros WHERE user_brigades.info_cod = infocentros.cod;');
@@ -861,12 +861,12 @@ if (!isset($table_name["table_name"])) {
 
     // ExecutorPg::doit('ALTER TABLE encuesta_capacidades_tecnologicas ALTER COLUMN suggestions_provided TYPE VARCHAR(1000);');
 
-    $add_column = $conn->prepare("CREATE INDEX IF NOT EXISTS idx_encuesta_code ON public.encuesta_capacidades_tecnologicas(code_info)");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("CREATE INDEX IF NOT EXISTS idx_encuesta_code ON public.encuesta_capacidades_tecnologicas(code_info)");
+    // $add_column->execute();
+    // $add_column->fetch();
 
     // borra antes de crear para evitar el error
-    ExecutorPg::doit('ALTER TABLE IF EXISTS encuesta_capacidades_tecnologicas DROP CONSTRAINT IF EXISTS fk_encuesta_info_cod;');
+    // ExecutorPg::doit('ALTER TABLE IF EXISTS encuesta_capacidades_tecnologicas DROP CONSTRAINT IF EXISTS fk_encuesta_info_cod;');
     // ==
 
     // $add_constraint = $conn->prepare("ALTER TABLE encuesta_capacidades_tecnologicas ADD CONSTRAINT fk_encuesta_info_cod FOREIGN KEY (code_info) REFERENCES infocentros(cod) ON UPDATE CASCADE NOT VALID");
@@ -900,34 +900,34 @@ if (!isset($table_name["table_name"])) {
 
     // BORRAR CONSTRAINTS Y VOLVER A CREARLAS
 
-    ExecutorPg::doit('ALTER TABLE IF EXISTS public.specific_action DROP CONSTRAINT IF EXISTS fk_k_strategic;');
-    ExecutorPg::doit('ALTER TABLE IF EXISTS public.specific_action DROP CONSTRAINT IF EXISTS fk_name_strategic;');
-    ExecutorPg::doit('ALTER TABLE IF EXISTS public.specific_action DROP CONSTRAINT IF EXISTS fk_name_line_action;');
-    ExecutorPg::doit('ALTER TABLE specific_action ADD CONSTRAINT fk_k_strategic FOREIGN KEY(k_strategic) REFERENCES public.strategic_action(id) ON DELETE CASCADE ON UPDATE CASCADE NOT VALID;');
-    ExecutorPg::doit('ALTER TABLE specific_action ADD CONSTRAINT fk_name_strategic FOREIGN KEY (name_strategic) REFERENCES public.strategic_action(name_action) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;');
-    ExecutorPg::doit('ALTER TABLE specific_action ADD CONSTRAINT fk_name_line_action FOREIGN KEY (name_line_action) REFERENCES public.actions_line(line_name) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;');
+    // ExecutorPg::doit('ALTER TABLE IF EXISTS public.specific_action DROP CONSTRAINT IF EXISTS fk_k_strategic;');
+    // ExecutorPg::doit('ALTER TABLE IF EXISTS public.specific_action DROP CONSTRAINT IF EXISTS fk_name_strategic;');
+    // ExecutorPg::doit('ALTER TABLE IF EXISTS public.specific_action DROP CONSTRAINT IF EXISTS fk_name_line_action;');
+    // ExecutorPg::doit('ALTER TABLE specific_action ADD CONSTRAINT fk_k_strategic FOREIGN KEY(k_strategic) REFERENCES public.strategic_action(id) ON DELETE CASCADE ON UPDATE CASCADE NOT VALID;');
+    // ExecutorPg::doit('ALTER TABLE specific_action ADD CONSTRAINT fk_name_strategic FOREIGN KEY (name_strategic) REFERENCES public.strategic_action(name_action) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;');
+    // ExecutorPg::doit('ALTER TABLE specific_action ADD CONSTRAINT fk_name_line_action FOREIGN KEY (name_line_action) REFERENCES public.actions_line(line_name) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;');
     
-    // $add_column = $conn->prepare("DROP INDEX IF EXISTS idx_facilitators_code");
+    // // $add_column = $conn->prepare("DROP INDEX IF EXISTS idx_facilitators_code");
 
-    ExecutorPg::doit('DROP INDEX IF EXISTS idx_line_action;');
-    ExecutorPg::doit('DROP INDEX IF EXISTS idx_line_id;');
-    // ExecutorPg::doit('CREATE UNIQUE INDEX IF NOT EXISTS idx_line_id ON public.strategic_action(line_id);');
-    ExecutorPg::doit('ALTER TABLE IF EXISTS strategic_action DROP CONSTRAINT IF EXISTS fk_line_action;');
-    ExecutorPg::doit('ALTER TABLE IF EXISTS strategic_action DROP CONSTRAINT IF EXISTS fk_strategic_action_line;');
-    ExecutorPg::doit('ALTER TABLE strategic_action ADD CONSTRAINT fk_line_action FOREIGN KEY(line_action) REFERENCES actions_line(line_name) ON DELETE CASCADE ON UPDATE CASCADE NOT VALID;');
-    ExecutorPg::doit('ALTER TABLE strategic_action ADD CONSTRAINT fk_strategic_action_line FOREIGN KEY(line_id) REFERENCES actions_line(line_id) ON DELETE CASCADE ON UPDATE CASCADE NOT VALID;');
+    // ExecutorPg::doit('DROP INDEX IF EXISTS idx_line_action;');
+    // ExecutorPg::doit('DROP INDEX IF EXISTS idx_line_id;');
+    // // ExecutorPg::doit('CREATE UNIQUE INDEX IF NOT EXISTS idx_line_id ON public.strategic_action(line_id);');
+    // ExecutorPg::doit('ALTER TABLE IF EXISTS strategic_action DROP CONSTRAINT IF EXISTS fk_line_action;');
+    // ExecutorPg::doit('ALTER TABLE IF EXISTS strategic_action DROP CONSTRAINT IF EXISTS fk_strategic_action_line;');
+    // ExecutorPg::doit('ALTER TABLE strategic_action ADD CONSTRAINT fk_line_action FOREIGN KEY(line_action) REFERENCES actions_line(line_name) ON DELETE CASCADE ON UPDATE CASCADE NOT VALID;');
+    // ExecutorPg::doit('ALTER TABLE strategic_action ADD CONSTRAINT fk_strategic_action_line FOREIGN KEY(line_id) REFERENCES actions_line(line_id) ON DELETE CASCADE ON UPDATE CASCADE NOT VALID;');
     
 
-    ExecutorPg::doit('ALTER TABLE IF EXISTS training_type DROP CONSTRAINT IF EXISTS fk_training_to_name_line_action;');
-    ExecutorPg::doit('ALTER TABLE IF EXISTS training_type DROP CONSTRAINT IF EXISTS fk_training_to_name_strategic_action;');
-    ExecutorPg::doit('ALTER TABLE IF EXISTS training_type DROP CONSTRAINT IF EXISTS fk_training_to_name_specific_action;');
-    ExecutorPg::doit('ALTER TABLE training_type ADD CONSTRAINT fk_training_to_name_line_action FOREIGN KEY(name_line_action) REFERENCES actions_line(line_name) ON DELETE CASCADE ON UPDATE CASCADE NOT VALID;');
-    ExecutorPg::doit('ALTER TABLE training_type ADD CONSTRAINT fk_training_to_name_strategic_action FOREIGN KEY (name_strategic_action) REFERENCES public.strategic_action(name_action) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;');
-    ExecutorPg::doit('ALTER TABLE training_type ADD CONSTRAINT fk_training_to_name_specific_action FOREIGN KEY (name_specific_action) REFERENCES public.specific_action(name_specific_action) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;');
+    // ExecutorPg::doit('ALTER TABLE IF EXISTS training_type DROP CONSTRAINT IF EXISTS fk_training_to_name_line_action;');
+    // ExecutorPg::doit('ALTER TABLE IF EXISTS training_type DROP CONSTRAINT IF EXISTS fk_training_to_name_strategic_action;');
+    // ExecutorPg::doit('ALTER TABLE IF EXISTS training_type DROP CONSTRAINT IF EXISTS fk_training_to_name_specific_action;');
+    // ExecutorPg::doit('ALTER TABLE training_type ADD CONSTRAINT fk_training_to_name_line_action FOREIGN KEY(name_line_action) REFERENCES actions_line(line_name) ON DELETE CASCADE ON UPDATE CASCADE NOT VALID;');
+    // ExecutorPg::doit('ALTER TABLE training_type ADD CONSTRAINT fk_training_to_name_strategic_action FOREIGN KEY (name_strategic_action) REFERENCES public.strategic_action(name_action) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;');
+    // ExecutorPg::doit('ALTER TABLE training_type ADD CONSTRAINT fk_training_to_name_specific_action FOREIGN KEY (name_specific_action) REFERENCES public.specific_action(name_specific_action) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;');
 
 
-    ExecutorPg::doit('ALTER TABLE IF EXISTS tipo_taller DROP CONSTRAINT IF EXISTS fk_tipotaller_to_name_training_type;');
-    ExecutorPg::doit('ALTER TABLE tipo_taller ADD CONSTRAINT fk_tipotaller_to_name_training_type FOREIGN KEY (name_training_type) REFERENCES public.training_type(name_training_type) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;');
+    // ExecutorPg::doit('ALTER TABLE IF EXISTS tipo_taller DROP CONSTRAINT IF EXISTS fk_tipotaller_to_name_training_type;');
+    // ExecutorPg::doit('ALTER TABLE tipo_taller ADD CONSTRAINT fk_tipotaller_to_name_training_type FOREIGN KEY (name_training_type) REFERENCES public.training_type(name_training_type) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;');
 
 
 // https://infoapp2.infocentro.gob.v|e/core/app/view/exportxlsxmysql.php?param=SELECT%20*%20from%20tipo_taller%20order%20by%20id%20asc&param_sql=true&filename=tipo_taller
