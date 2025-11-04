@@ -3,6 +3,68 @@
 <script language="javascript">
 	$('#cover-spin').show(0);
 
+
+	async function del_item(url,id) {
+		Swal.fire({
+			title: "¿Desea eliminar?",
+			text: "¡Esto es irreversible! y eliminará todas las dependencias de ésta línea de acción",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "¡Sí, eliminar!",
+			cancelButtonText: "Cancelar",
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+
+				$('#cover-spin').show(0);
+
+				// 1. Datos para la URL
+				const datos = {
+					function: "del_product_type",
+					id: id
+				};
+				// 2. Construir la URL con los parámetros de búsqueda
+				const params = new URLSearchParams(datos);
+				// const url = `./?action=ajax&${params.toString()}`;
+
+				try {
+					// 3. Realizar la solicitud GET, sin 'method' ni 'body'
+					const res = await fetch(url);
+
+					if (res.ok) {
+						// console.log(res);
+						const array = await res.json();
+						// console.log(array);
+						toastify(array.alert, true, 13000, array.alert_type);
+						$('#cover-spin').hide(0);
+						if (array.err == 'false') {
+							window.timer = setTimeout(function() {
+								location.reload();
+							}, 800);
+						}
+
+					} else {
+						// Leer la respuesta como texto para depurar
+						const errorText = await res.text();
+						$('#cover-spin').hide(0);
+						// Mostrar el texto de error real del servidor
+						toastify(`Error del servidor: ${errorText}`, true, 12000, "error");
+						throw new Error(`Error de red: ${res.statusText}`);
+					}
+
+				} catch (error) {
+					$('#cover-spin').hide(0);
+					toastify(`Error inesperado: ${error.message}`, true, 12000, "error");
+					console.error("Detalle del error:", error);
+				}
+			}
+		});
+	};
+
+
+
+
 	var socialMedias;
 
 	$(document).ready(function() {
@@ -13,7 +75,9 @@
 
 		// <!-- MODAL SWEET ALERT -->
 		$(function() {
-			<?php if (isset($_SESSION['alert']) && $_SESSION['alert'] != "") : ?>
+			<?php
+
+			if (isset($_SESSION['alert']) && $_SESSION['alert'] != "") : ?>
 				if (getOS() != "Android") {
 					Swal.fire({
 						icon: 'success',
@@ -120,12 +184,58 @@
 
 	}
 
+
 	document.addEventListener("DOMContentLoaded", function() {
 		document.getElementById("validar").addEventListener('submit', validarFormulario);
 	});
 
+	async function validarFormulario(event) {
+		event.preventDefault();
 
-	function validarFormulario(event) {
+		let url = "./?action=ajax";
+
+		var formData = new FormData(event.target);
+		formData.append('function', 'add_product'); // Agrega la función a llamar
+		// console.log(formData);
+
+		$('#cover-spin').show(0);
+
+		try {
+			const res = await fetch(url, {
+				method: 'POST',
+				body: formData
+			});
+
+			if (res.ok) {
+				// console.log(res);
+				const result_await = await res.text();
+				// console.log(result_await);
+				var array = JSON.parse(result_await);
+				// console.log(array);
+				toastify(array.alert, true, 13000, array.alert_type);
+				$('#cover-spin').hide(0);
+				if (array.err == 'false') {
+					window.timer = setTimeout(function() {
+						location.reload();
+					}, 800);
+				}
+
+			} else {
+				$('#cover-spin').hide(0);
+				toastify(res.statusText, true, 12000, "error");
+				throw res.statusText;
+			}
+
+		} catch (error) {
+			$('#cover-spin').hide(0);
+			toastify(error, true, 12000, "error");
+			throw error;
+		}
+
+	}
+
+
+	function validarFormulariox(event) {
 		event.preventDefault();
 
 		$('#cover-spin').show(0);
@@ -152,6 +262,7 @@
 
 		var formData = new FormData(); // Obtiene los datos del formulario
 		var fileInput = $('#userfile')[0]; // Selecciona el input de tipo file
+		var userfile_imagen = $('#userfile_imagen')[0]; // Selecciona el input de tipo file
 		formData.append('function', 'add_product'); // Agrega la función a llamar
 		formData.append('id_activity', $("#id_activity").val());
 		formData.append('activity', $("#activity").val());
@@ -168,13 +279,16 @@
 		if (fileInput.files.length > 0) {
 			formData.append('userfile', fileInput.files[0]);
 		}
-
-		if (!validarDuplicidad()) {
-			$('#cover-spin').hide(0);
-			toastify("Hay enlaces duplicados, por favor revisa que no sean iguales.", true, 12000, "error");
-
-			return false;
+		if (userfile_imagen.files.length > 0) {
+			formData.append('userfile_imagen', userfile_imagen.files[0]);
 		}
+
+		// if (!validarDuplicidad()) {
+		// 	$('#cover-spin').hide(0);
+		// 	toastify("Hay enlaces duplicados, por favor revisa que no sean iguales.", true, 12000, "error");
+
+		// 	return false;
+		// }
 
 		$.ajax({
 				type: "POST",
@@ -253,7 +367,7 @@
 
 		let valor = e.target.value;
 		let campoCantidadCreado = document.getElementById("quantity_created");
-		console.log(valor);
+		// console.log(valor);
 
 		if (valor == 0) {
 			campoCantidadCreado.value = 0;
@@ -322,21 +436,6 @@
 
 	$(document).ready(function() {
 
-		$("#format").change(function() {
-			$('#format_detail').find('option').remove().end().append('<option value=""></option>').val('0');
-			$("#format option:selected").each(function() {
-				categoria = $(this).val();
-				console.log(categoria);
-				$.post("core/app/view/getCatProduct.php", {
-					categoria: categoria
-				}, function(data) {
-					// console.log(data);
-					$("#format_detail").html(data);
-				});
-
-			});
-		})
-
 	});
 </script>
 
@@ -388,7 +487,7 @@ $social_medias = SocialMediasData::getBySQL("SELECT * FROM social_medias;")[0];
 		</h6>
 		<h6 class="card-category text-danger text-center">
 			<!-- Si has publicado varios productos en redes sociales el mismo día, debes reportar una sola actividad de acción en redes para todos los productos, en el formulario irás agregando cada producto, uno a la vez. En resumen no se debe crear un reporte por cada publicación en redes cuando se hayan generado el mismo día. -->
-			Todos los productos que hayan sido publicados en redes sociales el mismo día, se cargaran en un mismo reporte.
+			<!-- Todos los productos que hayan sido publicados en redes sociales el mismo día, se cargaran en un mismo reporte. -->
 		</h6>
 		<!-- <h6 class="card-category text-info text-center">
 		AVISO: A partir del 1 de agosto no se crearan los reportes de actividades desde este módulo de Reportes, la nueva forma será primero planificar la actividad en la sección de planificación y se cambia el estatus a ejecutada, luego se cargan participantes, productos e imágenes.
@@ -414,8 +513,10 @@ $social_medias = SocialMediasData::getBySQL("SELECT * FROM social_medias;")[0];
 								<input type="hidden" name="id_activity" id="id_activity" value="<?php echo $_GET['id_activity']; ?>">
 								<input type="hidden" name="activity" id="activity" value="<?php echo isset($_GET['activity']) ? $_GET['activity'] : ''; ?>">
 								<input type="hidden" name="date_activity" id="date_activity" value="<?php echo $_GET['date_activity']; ?>">
+								<input type="hidden" name="activity_title" id="activity_title" value="<?php echo $_GET['activity_title']; ?>">
 								<input type="hidden" name="estate" id="estate" value="<?php echo $_GET['estate']; ?>">
 								<input type="hidden" name="code_info" id="code_info" value="<?php echo $_GET['code_info']; ?>">
+								<input type="hidden" name="action_performed" id="action_performed">
 
 								<div class="form-row">
 
@@ -441,56 +542,97 @@ $social_medias = SocialMediasData::getBySQL("SELECT * FROM social_medias;")[0];
 										</div>
 									</div>
 
-									<div class="col-md-12">
+									<!-- <div class="col-md-12">
 										<div class="form-group">
 											<label class="control-label">¿Creaste este producto?</label>
 											<select class="form-control" id="creado" required>
-												<option value=""><?php echo "-SELECCIONE-" ?></option>
+												<option value=""><!?php echo "-SELECCIONE-" ?></option>
 												<option value="1">Si</option>
 												<option value="0">No</option>
 											</select>
 										</div>
-									</div>
+									</div> -->
 
-									<div class="col-md-6">
+									<!-- <div class="col-md-6" style="visibility: hidden;">
 										<div class="form-group">
 											<label for="quantity_created" class="control-label">Total de productos creados*</label>
-											<input type="number" name="quantity_created" id="quantity_created" disabled="true" value="0" min="0" class="form-control" placeholder="Número">
+											<input type="number" name="quantity_created" id="quantity_created" disabled="true" value="1" min="0" class="form-control" placeholder="Número">
 										</div>
 									</div>
 
-									<div class="col-md-6">
+									<div class="col-md-6" style="visibility: hidden;">
 										<div class="form-group">
 											<label for="quantity_published" class="control-label">Total de productos publicados*</label>
 											<input type="number" name="quantity_published" id="quantity_published" disabled="true" value="0" min="0" class="form-control" placeholder="Número">
 										</div>
+									</div> -->
+
+
+
+
+									<div class="col-md-12" id="red_creada_v" style="display:none">
+										<div class="form-group">
+											<div class="row">
+												<div class="col">
+													<div class="form-group col-mg-4">
+														<div class="mui-textfield mui-textfield--float-label">
+															<input type="url" data-is-link=false id="red_creada" name="red_creada" value="" />
+															<label>
+																<i>
+																	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -30 256 256">
+																		<path fill="#B6B6B6FF" d="M208 32H48a16 16 0 0 0-16 16v160a16 16 0 0 0 16 16h160a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16m-92.3 160.49a43.31 43.31 0 0 1-55-66.43l25.37-25.37a43.35 43.35 0 0 1 61.25 0a42.9 42.9 0 0 1 9.95 15.43a8 8 0 1 1-15 5.6a27.33 27.33 0 0 0-44.9-9.72L72 137.37a27.32 27.32 0 0 0 34.68 41.91a8 8 0 1 1 9 13.21Zm79.61-62.55l-25.37 25.37A43 43 0 0 1 139.32 168a43.35 43.35 0 0 1-40.53-28.12a8 8 0 1 1 15-5.6A27.35 27.35 0 0 0 139.28 152a27.14 27.14 0 0 0 19.32-8l25.4-25.37a27.32 27.32 0 0 0-34.68-41.91a8 8 0 1 1-9-13.21a43.32 43.32 0 0 1 55 66.43Z" />
+																	</svg>
+																</i>
+																Enlace de la red creada (url)
+															</label>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
 									</div>
 
-									<div class="col-md-12" id="userfile_f" style="display:true">
-										<label for="action_performed" class="control-label">Adjuntar producto (Tipo documento)</label>
+									<!-- formulario_url  -->
+									<div class="col-md-12" id="formulario_url_v" style="display:none">
+										<div class="form-group">
+											<div class="row">
+												<div class="col">
+													<div class="form-group col-mg-4">
+														<div class="mui-textfield mui-textfield--float-label">
+															<input type="url" data-is-link=false id="formulario_url" name="formulario_url" value="" />
+															<label>
+																<i>
+																	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -30 256 256">
+																		<path fill="#B6B6B6FF" d="M208 32H48a16 16 0 0 0-16 16v160a16 16 0 0 0 16 16h160a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16m-92.3 160.49a43.31 43.31 0 0 1-55-66.43l25.37-25.37a43.35 43.35 0 0 1 61.25 0a42.9 42.9 0 0 1 9.95 15.43a8 8 0 1 1-15 5.6a27.33 27.33 0 0 0-44.9-9.72L72 137.37a27.32 27.32 0 0 0 34.68 41.91a8 8 0 1 1 9 13.21Zm79.61-62.55l-25.37 25.37A43 43 0 0 1 139.32 168a43.35 43.35 0 0 1-40.53-28.12a8 8 0 1 1 15-5.6A27.35 27.35 0 0 0 139.28 152a27.14 27.14 0 0 0 19.32-8l25.4-25.37a27.32 27.32 0 0 0-34.68-41.91a8 8 0 1 1-9-13.21a43.32 43.32 0 0 1 55 66.43Z" />
+																	</svg>
+																</i>
+																Enlace del formulario llenado (url)
+															</label>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+
+									<!-- input file tipo documento -->
+									<div class="col-md-12" id="userfile_f" style="display:none">
+										<label for="userfile" class="control-label">Adjuntar producto (Tipo documento)</label><br>
 										<span class="btn btn-raised btn-round btn-default btn-file">
-											<span class="fileinput-new">Select</span>
-											<span class="fileinput-exists">Change</span>
+											<span class="fileinput-new">Selecc</span>
+											<span class="fileinput-exists">Cambiar</span>
 											<input type="file" name="userfile" id="userfile" class="file-input__input" accept=".pdf,.xlsx,.ods,.doc,.odt" />
 										</span>
 									</div>
 
-
-
-									<!-- <div class="col-md-12" id="userfile_f" style="display:none">
-										<label for="action_performed" class="control-label">Adjuntar producto de Comunas en Red (Formato PDF)</label>
+									<div class="col-md-12" id="userfile_img" style="display:none">
+										<label for="userfile" class="control-label">Adjuntar producto (Tipo imagen)</label><br>
 										<span class="btn btn-raised btn-round btn-default btn-file">
-											<span class="fileinput-new">Select</span>
-											<span class="fileinput-exists">Change</span>
-											<input type="file" name="userfile" id="userfile" class="file-input__input" accept=".pdf" />
+											<span class="fileinput-new">Selecc</span>
+											<span class="fileinput-exists">Cambiar</span>
+											<input type="file" name="userfile_imagen" id="userfile_imagen" class="file-input__input" accept=".jpg,.png,.JPEG,.PNG" />
 										</span>
-									</div> -->
-
-
-									<div class="col-md-12">
-										<div class="form-group" id="new_rrss">
-
-										</div>
 									</div>
 
 
@@ -533,6 +675,9 @@ $TotalReg = $total[1];
 $param_csv = "SELECT * from products_list where id_activity=" . $_GET['id_activity'] . " order by id desc ";
 $sql = "SELECT 
 	products_list.id as id,
+	products_list.doc_tipo,
+	products_list.doc_name,
+	products_list.formulario_url,
 	products_list.activity_title as activity_title,
 	products_list.format as format, 
 	products_list.format_detail as format_detail, 
@@ -581,10 +726,10 @@ $DB_name = "products_list";
 							<th>Actividad</th>
 							<th>Categoría</th>
 							<th>Tipo de producto</th>
-							<th>Cantidad creados</th>
-							<th>Cantidad publicados</th>
-							<th>Descripción</th>
-							<th>Enlaces web</th>
+							<!-- <!th>Cantidad creados</!th> -->
+							<!-- <th>Cantidad publicados</th> -->
+							<th>Código-Formato</th>
+							<th>Archivo</th>
 							<th>Acciones</th>
 						</thead>
 
@@ -598,79 +743,99 @@ $DB_name = "products_list";
 							<tr>
 								<td><?php echo $var_count; ?></td>
 								<td><?php echo $types["activity_title"]; ?></td>
-								<td><?php echo $types["format"]; ?></td>
-								<td><?php echo $types["format_detail"]; ?></td>
-								<td><?php echo $types["quantity_created"]; ?></td>
-								<td><?php echo $types["quantity_published"]; ?></td>
 								<td><?php echo $types["action_performed"]; ?></td>
+								<td><?php echo $types["format_detail"]; ?></td>
+								<!-- <td><!?php echo $types["quantity_created"]; ?></td> -->
+								<!-- <td><!?php echo $types["quantity_published"]; ?></td> -->
+								<td><?php echo $types["format"]; ?></td>
 								<td>
 									<?php
-									$id = $types["id"];
-									$sql = "SELECT * FROM links INNER JOIN social_medias ON links.social_medias_id = social_medias.id WHERE links.products_list_id = $id";
-									$param = LinksData::getBySQL($sql);
+									// $id = $types["id"];
+									// $sql = "SELECT * FROM links INNER JOIN social_medias ON links.social_medias_id = social_medias.id WHERE links.products_list_id = $id";
+									// $param = LinksData::getBySQL($sql);
 
-									if ($param[0] != array()) {
-										foreach ($param[0] as $link) {
-											$svg_icon = "";
-											$background_icon_color = "";
+									if ($types["doc_tipo"] != "") {
+										// foreach ($param[0] as $link) {
+										$svg_icon = "";
+										$background_icon_color = "";
 
-											switch (strtoupper(explode("-", $link["nombre"])[0])) {
-												case "FACEBOOK":
-													$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.04c-5.5 0-10 4.49-10 10.02c0 5 3.66 9.15 8.44 9.9v-7H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.89 3.78-3.89c1.09 0 2.23.19 2.23.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v7a10 10 0 0 0 8.44-9.9c0-5.53-4.5-10.02-10-10.02"/></svg>';
-													$background_icon_color = "#0866FF";
-													break;
-												case "X":
-													$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m9 7l2 5l-2 5h2l1-2.5l1 2.5h2l-2-5l2-5h-2l-1 2.5L11 7zm3-5a10 10 0 0 1 10 10a10 10 0 0 1-10 10A10 10 0 0 1 2 12A10 10 0 0 1 12 2"/></svg>';
-													$background_icon_color = "#0F1419";
-													break;
-												case "PINTEREST":
-													$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M9.04 21.54c.96.29 1.93.46 2.96.46a10 10 0 0 0 10-10A10 10 0 0 0 12 2A10 10 0 0 0 2 12c0 4.25 2.67 7.9 6.44 9.34c-.09-.78-.18-2.07 0-2.96l1.15-4.94s-.29-.58-.29-1.5c0-1.38.86-2.41 1.84-2.41c.86 0 1.26.63 1.26 1.44c0 .86-.57 2.09-.86 3.27c-.17.98.52 1.84 1.52 1.84c1.78 0 3.16-1.9 3.16-4.58c0-2.4-1.72-4.04-4.19-4.04c-2.82 0-4.48 2.1-4.48 4.31c0 .86.28 1.73.74 2.3c.09.06.09.14.06.29l-.29 1.09c0 .17-.11.23-.28.11c-1.28-.56-2.02-2.38-2.02-3.85c0-3.16 2.24-6.03 6.56-6.03c3.44 0 6.12 2.47 6.12 5.75c0 3.44-2.13 6.2-5.18 6.2c-.97 0-1.92-.52-2.26-1.13l-.67 2.37c-.23.86-.86 2.01-1.29 2.7z"/></svg>';
-													$background_icon_color = "#E60023";
-													break;
-												case "INSTAGRAM":
-													$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4zm9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8A1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5a5 5 0 0 1-5 5a5 5 0 0 1-5-5a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3"/></svg>';
-													$background_icon_color = "linear-gradient(115deg, #f9ce34, #ee2a7b, #6228d7)";
-													break;
-												case "THREADS":
-													$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16"><rect width="24" height="24" fill="none"/><path fill="#FFFFFF" d="M6.321 6.016c-.27-.18-1.166-.802-1.166-.802.756-1.081 1.753-1.502 3.132-1.502.975 0 1.803.327 2.394.948s.928 1.509 1.005 2.644q.492.207.905.484c1.109.745 1.719 1.86 1.719 3.137 0 2.716-2.226 5.075-6.256 5.075C4.594 16 1 13.987 1 7.994 1 2.034 4.482 0 8.044 0 9.69 0 13.55.243 15 5.036l-1.36.353C12.516 1.974 10.163 1.43 8.006 1.43c-3.565 0-5.582 2.171-5.582 6.79 0 4.143 2.254 6.343 5.63 6.343 2.777 0 4.847-1.443 4.847-3.556 0-1.438-1.208-2.127-1.27-2.127-.236 1.234-.868 3.31-3.644 3.31-1.618 0-3.013-1.118-3.013-2.582 0-2.09 1.984-2.847 3.55-2.847.586 0 1.294.04 1.663.114 0-.637-.54-1.728-1.9-1.728-1.25 0-1.566.405-1.967.868ZM8.716 8.19c-2.04 0-2.304.87-2.304 1.416 0 .878 1.043 1.168 1.6 1.168 1.02 0 2.067-.282 2.232-2.423a6.2 6.2 0 0 0-1.528-.161"/></svg>';
-													$background_icon_color = "#000000";
-													break;
-												case "TIKTOK";
-													$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256"><g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)"><path d="M 36.203 35.438 v -3.51 c -1.218 -0.173 -2.447 -0.262 -3.677 -0.268 c -15.047 0 -27.289 12.244 -27.289 27.291 c 0 9.23 4.613 17.401 11.65 22.342 c -4.712 -5.039 -7.332 -11.681 -7.328 -18.58 C 9.559 47.88 21.453 35.784 36.203 35.438" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,242,234); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round"/><path d="M 36.847 75.175 c 6.714 0 12.19 -5.341 12.44 -11.997 l 0.023 -59.417 h 10.855 c -0.232 -1.241 -0.349 -2.5 -0.35 -3.762 H 44.989 l -0.025 59.419 c -0.247 6.654 -5.726 11.993 -12.438 11.993 c -2.015 0.001 -4 -0.49 -5.782 -1.431 C 29.079 73.238 32.839 75.171 36.847 75.175 M 80.441 23.93 v -3.302 c -3.989 0.004 -7.893 -1.157 -11.232 -3.339 c 2.928 3.371 6.869 5.701 11.234 6.641" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,242,234); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round"/><path d="M 69.209 17.286 c -3.272 -3.744 -5.075 -8.549 -5.073 -13.522 h -3.972 C 61.203 9.318 64.472 14.205 69.209 17.286 M 32.526 46.486 c -6.88 0.008 -12.455 5.583 -12.463 12.463 c 0.004 4.632 2.576 8.88 6.679 11.032 c -1.533 -2.114 -2.358 -4.657 -2.358 -7.268 c 0.007 -6.88 5.582 -12.457 12.463 -12.465 c 1.284 0 2.515 0.212 3.677 0.577 V 35.689 c -1.218 -0.173 -2.447 -0.262 -3.677 -0.268 c -0.216 0 -0.429 0.012 -0.643 0.016 v 11.626 C 35.014 46.685 33.774 46.49 32.526 46.486" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(255,0,79); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round"/><path d="M 80.441 23.93 v 11.523 c -7.689 0 -14.81 -2.459 -20.627 -6.633 v 30.13 c 0 15.047 -12.24 27.289 -27.287 27.289 c -5.815 0 -11.207 -1.835 -15.639 -4.947 c 5.151 5.555 12.384 8.711 19.959 8.709 c 15.047 0 27.289 -12.242 27.289 -27.287 v -30.13 c 6.009 4.321 13.226 6.642 20.627 6.633 V 24.387 c -1.484 0 -2.927 -0.161 -4.323 -0.46" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(255,0,79); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round"/><path d="M 59.813 58.949 v -30.13 c 6.009 4.322 13.226 6.642 20.627 6.633 V 23.93 c -4.364 -0.941 -8.305 -3.272 -11.232 -6.644 c -4.737 -3.081 -8.006 -7.968 -9.045 -13.522 H 49.309 l -0.023 59.417 c -0.249 6.654 -5.726 11.995 -12.44 11.995 c -4.007 -0.004 -7.768 -1.938 -10.102 -5.194 c -4.103 -2.151 -6.676 -6.399 -6.681 -11.032 c 0.008 -6.88 5.583 -12.455 12.463 -12.463 c 1.282 0 2.513 0.21 3.677 0.577 V 35.438 C 21.453 35.784 9.559 47.88 9.559 62.713 c 0 7.173 2.787 13.703 7.328 18.58 c 4.578 3.223 10.041 4.95 15.639 4.945 C 47.574 86.238 59.813 73.996 59.813 58.949" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round"/></g></svg>';
-													$background_icon_color = "#000000";
-													break;
-												case "YOUTUBE";
-													$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#FFFFFF" d="M8 19V5l11 7z"/></svg>';
-													$background_icon_color = "#FF0033";
-													break;
-												case "DRIVE";
-													$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect width="24" height="24" fill="none"/><path fill="#FFFFFFFF" d="M12.003 21q-1.866 0-3.51-.708q-1.643-.709-2.859-1.924t-1.925-2.856T3 12.003t.709-3.51Q4.417 6.85 5.63 5.634t2.857-1.925T11.997 3t3.51.709q1.643.708 2.859 1.922t1.925 2.857t.709 3.509t-.708 3.51t-1.924 2.859t-2.856 1.925t-3.509.709M12 20q3.35 0 5.675-2.325T20 12q0-.175-.003-.353t-.022-.341q-.067.667-.53 1.104q-.464.436-1.137.436h-2.539q-.698 0-1.195-.496t-.497-1.193v-.845h-3.385v-1.69q0-.697.498-1.198q.497-.501 1.195-.501h.846v-.77q0-.728.476-1.146t1.137-.482q-.673-.26-1.38-.392T12 4Q8.65 4 6.325 6.325T4 12v.289q0 .134.02.288H8.5q1.42 0 2.402.983q.983.982.983 2.393v.855H9.346v2.73q.616.222 1.286.342T12 20"/></svg>';
-													$background_icon_color = "#4AB1FFFF";
-													break;
-												case "FACEBOOK_GRUPO";
-													$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#036ED1FF" d="M12 2.04c-5.5 0-10 4.49-10 10.02c0 5 3.66 9.15 8.44 9.9v-7H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.89 3.78-3.89c1.09 0 2.23.19 2.23.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v7a10 10 0 0 0 8.44-9.9c0-5.53-4.5-10.02-10-10.02"/></svg>';
-													$background_icon_color = "#FFFFFFFF";
-													break;
-												case "TELEGRAM";
-													$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+										switch (strtoupper($types["doc_tipo"])) {
+											case "XLSX":
+												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" d="M14 4.5V11h-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM7.86 14.841a1.13 1.13 0 0 0 .401.823q.195.162.479.252q.284.091.665.091q.507 0 .858-.158q.355-.158.54-.44a1.17 1.17 0 0 0 .187-.656q0-.336-.135-.56a1 1 0 0 0-.375-.357a2 2 0 0 0-.565-.21l-.621-.144a1 1 0 0 1-.405-.176a.37.37 0 0 1-.143-.299q0-.234.184-.384q.188-.152.513-.152q.214 0 .37.068a.6.6 0 0 1 .245.181a.56.56 0 0 1 .12.258h.75a1.1 1.1 0 0 0-.199-.566a1.2 1.2 0 0 0-.5-.41a1.8 1.8 0 0 0-.78-.152q-.44 0-.777.15q-.336.149-.527.421q-.19.273-.19.639q0 .302.123.524t.351.367q.229.143.54.213l.618.144q.31.073.462.193a.39.39 0 0 1 .153.326a.5.5 0 0 1-.085.29a.56.56 0 0 1-.255.193q-.168.07-.413.07q-.176 0-.32-.04a.8.8 0 0 1-.249-.115a.58.58 0 0 1-.255-.384zm-3.726-2.909h.893l-1.274 2.007l1.254 1.992h-.908l-.85-1.415h-.035l-.853 1.415H1.5l1.24-2.016l-1.228-1.983h.931l.832 1.438h.036zm1.923 3.325h1.697v.674H5.266v-3.999h.791zm7.636-3.325h.893l-1.274 2.007l1.254 1.992h-.908l-.85-1.415h-.035l-.853 1.415h-.861l1.24-2.016l-1.228-1.983h.931l.832 1.438h.036z"/></svg>';
+												$background_icon_color = "#53CE57FF";
+												break;
+											case "PDF":
+												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 20 20"><path fill="#fff" d="M17.924 7.154h-.514l.027-1.89a.46.46 0 0 0-.12-.298L12.901.134A.4.4 0 0 0 12.618 0h-9.24a.8.8 0 0 0-.787.784v6.37h-.515c-.285 0-.56.118-.76.328A1.14 1.14 0 0 0 1 8.275v5.83c0 .618.482 1.12 1.076 1.12h.515v3.99A.8.8 0 0 0 3.38 20h13.278c.415 0 .78-.352.78-.784v-3.99h.487c.594 0 1.076-.503 1.076-1.122v-5.83c0-.296-.113-.582-.315-.792a1.05 1.05 0 0 0-.76-.328M3.95 1.378h6.956v4.577a.4.4 0 0 0 .11.277a.37.37 0 0 0 .267.115h4.759v.807H3.95zm0 17.244v-3.397h12.092v3.397zM12.291 1.52l.385.434l2.58 2.853l.143.173h-2.637q-.3 0-.378-.1q-.08-.098-.093-.313zM3 14.232v-6h1.918q1.09 0 1.42.09q.51.135.853.588q.343.451.343 1.168q0 .552-.198.93q-.198.375-.503.59a1.7 1.7 0 0 1-.62.285q-.428.086-1.239.086h-.779v2.263zm1.195-4.985v1.703h.654q.707 0 .945-.094a.79.79 0 0 0 .508-.762a.78.78 0 0 0-.19-.54a.82.82 0 0 0-.48-.266q-.213-.04-.86-.04zm4.04-1.015h2.184q.739 0 1.127.115q.52.155.892.552q.371.398.565.972q.195.576.194 1.418q0 .741-.182 1.277q-.223.655-.634 1.06q-.31.308-.84.48q-.395.126-1.057.126H8.235zM9.43 9.247v3.974h.892q.501 0 .723-.057q.291-.074.482-.25q.193-.176.313-.579q.121-.403.121-1.099t-.12-1.068a1.4 1.4 0 0 0-.34-.581a1.13 1.13 0 0 0-.553-.283q-.25-.057-.98-.057zm4.513 4.985v-6H18v1.015h-2.862v1.42h2.47v1.015h-2.47v2.55z"/></svg>';
+												$background_icon_color = "#D02626FF";
+												break;
+											case "DOCX":
+												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16"><path fill="#fff" fill-rule="evenodd" d="M14 4.5V11h-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zm-6.839 9.688v-.522a1.5 1.5 0 0 0-.117-.641a.86.86 0 0 0-.322-.387a.86.86 0 0 0-.469-.129a.87.87 0 0 0-.471.13a.87.87 0 0 0-.32.386a1.5 1.5 0 0 0-.117.641v.522q0 .384.117.641a.87.87 0 0 0 .32.387a.9.9 0 0 0 .471.126a.9.9 0 0 0 .469-.126a.86.86 0 0 0 .322-.386a1.55 1.55 0 0 0 .117-.642m.803-.516v.513q0 .563-.205.973a1.47 1.47 0 0 1-.589.627q-.381.216-.917.216a1.86 1.86 0 0 1-.92-.216a1.46 1.46 0 0 1-.589-.627a2.15 2.15 0 0 1-.205-.973v-.513q0-.569.205-.975q.205-.411.59-.627q.386-.22.92-.22q.535 0 .916.22q.383.219.59.63q.204.406.204.972M1 15.925v-3.999h1.459q.609 0 1.005.235q.396.233.589.68q.196.445.196 1.074q0 .634-.196 1.084q-.197.451-.595.689q-.396.237-.999.237zm1.354-3.354H1.79v2.707h.563q.277 0 .483-.082a.8.8 0 0 0 .334-.252q.132-.17.196-.422a2.3 2.3 0 0 0 .068-.592q0-.45-.118-.753a.9.9 0 0 0-.354-.454q-.237-.152-.61-.152Zm6.756 1.116q0-.373.103-.633a.87.87 0 0 1 .301-.398a.8.8 0 0 1 .475-.138q.225 0 .398.097a.7.7 0 0 1 .273.26a.85.85 0 0 1 .12.381h.765v-.073a1.33 1.33 0 0 0-.466-.964a1.4 1.4 0 0 0-.49-.272a1.8 1.8 0 0 0-.606-.097q-.534 0-.911.223q-.375.222-.571.633q-.197.41-.197.978v.498q0 .568.194.976q.195.406.571.627q.375.216.914.216q.44 0 .785-.164t.551-.454a1.27 1.27 0 0 0 .226-.674v-.076h-.765a.8.8 0 0 1-.117.364a.7.7 0 0 1-.273.248a.9.9 0 0 1-.401.088a.85.85 0 0 1-.478-.131a.83.83 0 0 1-.298-.393a1.7 1.7 0 0 1-.103-.627zm5.092-1.76h.894l-1.275 2.006l1.254 1.992h-.908l-.85-1.415h-.035l-.852 1.415h-.862l1.24-2.015l-1.228-1.984h.932l.832 1.439h.035z"/></svg>';
+												$background_icon_color = "#0362C7FF";
+												break;
+											case "ODS":
+												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" d="M14 4.5V11h-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM7.86 14.841a1.13 1.13 0 0 0 .401.823q.195.162.479.252q.284.091.665.091q.507 0 .858-.158q.355-.158.54-.44a1.17 1.17 0 0 0 .187-.656q0-.336-.135-.56a1 1 0 0 0-.375-.357a2 2 0 0 0-.565-.21l-.621-.144a1 1 0 0 1-.405-.176a.37.37 0 0 1-.143-.299q0-.234.184-.384q.188-.152.513-.152q.214 0 .37.068a.6.6 0 0 1 .245.181a.56.56 0 0 1 .12.258h.75a1.1 1.1 0 0 0-.199-.566a1.2 1.2 0 0 0-.5-.41a1.8 1.8 0 0 0-.78-.152q-.44 0-.777.15q-.336.149-.527.421q-.19.273-.19.639q0 .302.123.524t.351.367q.229.143.54.213l.618.144q.31.073.462.193a.39.39 0 0 1 .153.326a.5.5 0 0 1-.085.29a.56.56 0 0 1-.255.193q-.168.07-.413.07q-.176 0-.32-.04a.8.8 0 0 1-.249-.115a.58.58 0 0 1-.255-.384zm-3.726-2.909h.893l-1.274 2.007l1.254 1.992h-.908l-.85-1.415h-.035l-.853 1.415H1.5l1.24-2.016l-1.228-1.983h.931l.832 1.438h.036zm1.923 3.325h1.697v.674H5.266v-3.999h.791zm7.636-3.325h.893l-1.274 2.007l1.254 1.992h-.908l-.85-1.415h-.035l-.853 1.415h-.861l1.24-2.016l-1.228-1.983h.931l.832 1.438h.036z"/></svg>';
+												$background_icon_color = "#53CE57FF";
+												break;
+											case "ODT":
+												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16"><path fill="#fff" fill-rule="evenodd" d="M14 4.5V11h-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zm-6.839 9.688v-.522a1.5 1.5 0 0 0-.117-.641a.86.86 0 0 0-.322-.387a.86.86 0 0 0-.469-.129a.87.87 0 0 0-.471.13a.87.87 0 0 0-.32.386a1.5 1.5 0 0 0-.117.641v.522q0 .384.117.641a.87.87 0 0 0 .32.387a.9.9 0 0 0 .471.126a.9.9 0 0 0 .469-.126a.86.86 0 0 0 .322-.386a1.55 1.55 0 0 0 .117-.642m.803-.516v.513q0 .563-.205.973a1.47 1.47 0 0 1-.589.627q-.381.216-.917.216a1.86 1.86 0 0 1-.92-.216a1.46 1.46 0 0 1-.589-.627a2.15 2.15 0 0 1-.205-.973v-.513q0-.569.205-.975q.205-.411.59-.627q.386-.22.92-.22q.535 0 .916.22q.383.219.59.63q.204.406.204.972M1 15.925v-3.999h1.459q.609 0 1.005.235q.396.233.589.68q.196.445.196 1.074q0 .634-.196 1.084q-.197.451-.595.689q-.396.237-.999.237zm1.354-3.354H1.79v2.707h.563q.277 0 .483-.082a.8.8 0 0 0 .334-.252q.132-.17.196-.422a2.3 2.3 0 0 0 .068-.592q0-.45-.118-.753a.9.9 0 0 0-.354-.454q-.237-.152-.61-.152Zm6.756 1.116q0-.373.103-.633a.87.87 0 0 1 .301-.398a.8.8 0 0 1 .475-.138q.225 0 .398.097a.7.7 0 0 1 .273.26a.85.85 0 0 1 .12.381h.765v-.073a1.33 1.33 0 0 0-.466-.964a1.4 1.4 0 0 0-.49-.272a1.8 1.8 0 0 0-.606-.097q-.534 0-.911.223q-.375.222-.571.633q-.197.41-.197.978v.498q0 .568.194.976q.195.406.571.627q.375.216.914.216q.44 0 .785-.164t.551-.454a1.27 1.27 0 0 0 .226-.674v-.076h-.765a.8.8 0 0 1-.117.364a.7.7 0 0 1-.273.248a.9.9 0 0 1-.401.088a.85.85 0 0 1-.478-.131a.83.83 0 0 1-.298-.393a1.7 1.7 0 0 1-.103-.627zm5.092-1.76h.894l-1.275 2.006l1.254 1.992h-.908l-.85-1.415h-.035l-.852 1.415h-.862l1.24-2.015l-1.228-1.984h.932l.832 1.439h.035z"/></svg>';
+												$background_icon_color = "#0362C7FF";
+												break;
+											case "PNG";
+												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16"><g fill="#FFFFFFFF"><path d="M6.002 5.5a1.5 1.5 0 1 1-3 0a1.5 1.5 0 0 1 3 0"/><path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71l-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z"/></g></svg>';
+												$background_icon_color = "#3E88FFFF";
+												break;
+											case "JPEG";
+												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16"><g fill="#FFFFFFFF"><path d="M6.002 5.5a1.5 1.5 0 1 1-3 0a1.5 1.5 0 0 1 3 0"/><path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71l-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z"/></g></svg>';
+												$background_icon_color = "#3E88FFFF";
+											case "DRIVE";
+												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect width="24" height="24" fill="none"/><path fill="#FFFFFFFF" d="M12.003 21q-1.866 0-3.51-.708q-1.643-.709-2.859-1.924t-1.925-2.856T3 12.003t.709-3.51Q4.417 6.85 5.63 5.634t2.857-1.925T11.997 3t3.51.709q1.643.708 2.859 1.922t1.925 2.857t.709 3.509t-.708 3.51t-1.924 2.859t-2.856 1.925t-3.509.709M12 20q3.35 0 5.675-2.325T20 12q0-.175-.003-.353t-.022-.341q-.067.667-.53 1.104q-.464.436-1.137.436h-2.539q-.698 0-1.195-.496t-.497-1.193v-.845h-3.385v-1.69q0-.697.498-1.198q.497-.501 1.195-.501h.846v-.77q0-.728.476-1.146t1.137-.482q-.673-.26-1.38-.392T12 4Q8.65 4 6.325 6.325T4 12v.289q0 .134.02.288H8.5q1.42 0 2.402.983q.983.982.983 2.393v.855H9.346v2.73q.616.222 1.286.342T12 20"/></svg>';
+												$background_icon_color = "#4AB1FFFF";
+												break;
+											case "FACEBOOK_GRUPO";
+												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#036ED1FF" d="M12 2.04c-5.5 0-10 4.49-10 10.02c0 5 3.66 9.15 8.44 9.9v-7H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.89 3.78-3.89c1.09 0 2.23.19 2.23.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v7a10 10 0 0 0 8.44-9.9c0-5.53-4.5-10.02-10-10.02"/></svg>';
+												$background_icon_color = "#FFFFFFFF";
+												break;
+											case "TELEGRAM";
+												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 												<path fill="#1576C1FF" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19c-.14.75-.42 1-.68 1.03c-.58.05-1.02-.38-1.58-.75c-.88-.58-1.38-.94-2.23-1.5c-.99-.65-.35-1.01.22-1.59c.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02c-.09.02-1.49.95-4.22 2.79c-.4.27-.76.41-1.08.4c-.36-.01-1.04-.2-1.55-.37c-.63-.2-1.12-.31-1.08-.66c.02-.18.27-.36.74-.55c2.92-1.27 4.86-2.11 5.83-2.51c2.78-1.16 3.35-1.36 3.73-1.36c.08 0 .27.02.39.12c.1.08.13.19.14.27c-.01.06.01.24 0 .38" />
 											</svg>';
-													$background_icon_color = "#FFFFFFFF";
-													break;
-												case "WHATSAPP";
-													$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+												$background_icon_color = "#FFFFFFFF";
+												break;
+											case "WHATSAPP";
+												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 												<path fill="#06A93FFF" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91c0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.23 8.23 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23c-1.48 0-2.93-.39-4.19-1.15l-.3-.17l-3.12.82l.83-3.04l-.2-.32a8.2 8.2 0 0 1-1.26-4.38c.01-4.54 3.7-8.24 8.25-8.24M8.53 7.33c-.16 0-.43.06-.66.31c-.22.25-.87.86-.87 2.07c0 1.22.89 2.39 1 2.56c.14.17 1.76 2.67 4.25 3.73c.59.27 1.05.42 1.41.53c.59.19 1.13.16 1.56.1c.48-.07 1.46-.6 1.67-1.18s.21-1.07.15-1.18c-.07-.1-.23-.16-.48-.27c-.25-.14-1.47-.74-1.69-.82c-.23-.08-.37-.12-.56.12c-.16.25-.64.81-.78.97c-.15.17-.29.19-.53.07c-.26-.13-1.06-.39-2-1.23c-.74-.66-1.23-1.47-1.38-1.72c-.12-.24-.01-.39.11-.5c.11-.11.27-.29.37-.44c.13-.14.17-.25.25-.41c.08-.17.04-.31-.02-.43c-.06-.11-.56-1.35-.77-1.84c-.2-.48-.4-.42-.56-.43c-.14 0-.3-.01-.47-.01" />
 											</svg>';
-													$background_icon_color = "#FFFFFFFF";
-													break;
-											}
+												$background_icon_color = "#FFFFFFFF";
+												break;
+										}
 									?>
 
 
-											<a href="<?php echo $link['link'] ?>" target="_blank" style="background:<?php echo $background_icon_color; ?>;" class=" btn btn-info btn-sm"><?php echo $svg_icon; ?> </a>
-										<?php }
-									} else { ?>
-										<a href="#" class=" btn btn-warning btn-sm"><i class="fa fa-globe"></i> </a>
+										<a href="<?php echo "uploads/files/" . str_replace(" ", "-", $types['doc_name']) ?>" target="_blank" style="background:<?php echo $background_icon_color; ?>;" class=" btn btn-info btn-sm"><?php echo $svg_icon; ?> </a>
+
+									<?php } else { ?>
+
+										<?php
+										$svg_icon = "";
+										$background_icon_color = "";
+
+										switch (strtoupper($types["format"])) {
+											case "XLSX":
+												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" d="M14 4.5V11h-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM7.86 14.841a1.13 1.13 0 0 0 .401.823q.195.162.479.252q.284.091.665.091q.507 0 .858-.158q.355-.158.54-.44a1.17 1.17 0 0 0 .187-.656q0-.336-.135-.56a1 1 0 0 0-.375-.357a2 2 0 0 0-.565-.21l-.621-.144a1 1 0 0 1-.405-.176a.37.37 0 0 1-.143-.299q0-.234.184-.384q.188-.152.513-.152q.214 0 .37.068a.6.6 0 0 1 .245.181a.56.56 0 0 1 .12.258h.75a1.1 1.1 0 0 0-.199-.566a1.2 1.2 0 0 0-.5-.41a1.8 1.8 0 0 0-.78-.152q-.44 0-.777.15q-.336.149-.527.421q-.19.273-.19.639q0 .302.123.524t.351.367q.229.143.54.213l.618.144q.31.073.462.193a.39.39 0 0 1 .153.326a.5.5 0 0 1-.085.29a.56.56 0 0 1-.255.193q-.168.07-.413.07q-.176 0-.32-.04a.8.8 0 0 1-.249-.115a.58.58 0 0 1-.255-.384zm-3.726-2.909h.893l-1.274 2.007l1.254 1.992h-.908l-.85-1.415h-.035l-.853 1.415H1.5l1.24-2.016l-1.228-1.983h.931l.832 1.438h.036zm1.923 3.325h1.697v.674H5.266v-3.999h.791zm7.636-3.325h.893l-1.274 2.007l1.254 1.992h-.908l-.85-1.415h-.035l-.853 1.415h-.861l1.24-2.016l-1.228-1.983h.931l.832 1.438h.036z"/></svg>';
+												$background_icon_color = "#53CE57FF";
+												break;
+											case "FORMULARIO":
+												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 36 36"><path fill="#fffdfd" d="M21 12H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1M8 10h12V7.94H8Z" class="clr-i-outline clr-i-outline-path-1"/><path fill="#fffdfd" d="M21 14.08H7a1 1 0 0 0-1 1V19a1 1 0 0 0 1 1h11.36L22 16.3v-1.22a1 1 0 0 0-1-1M20 18H8v-2h12Z" class="clr-i-outline clr-i-outline-path-2"/><path fill="#fffdfd" d="M11.06 31.51v-.06l.32-1.39H4V4h20v10.25l2-1.89V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v28a1 1 0 0 0 1 1h8a3.4 3.4 0 0 1 .06-.49" class="clr-i-outline clr-i-outline-path-3"/><path fill="#fffdfd" d="m22 19.17l-.78.79a1 1 0 0 0 .78-.79" class="clr-i-outline clr-i-outline-path-4"/><path fill="#fffdfd" d="M6 26.94a1 1 0 0 0 1 1h4.84l.3-1.3l.13-.55v-.05H8V24h6.34l2-2H7a1 1 0 0 0-1 1Z" class="clr-i-outline clr-i-outline-path-5"/><path fill="#fffdfd" d="m33.49 16.67l-3.37-3.37a1.61 1.61 0 0 0-2.28 0L14.13 27.09L13 31.9a1.61 1.61 0 0 0 1.26 1.9a1.6 1.6 0 0 0 .31 0a1.2 1.2 0 0 0 .37 0l4.85-1.07L33.49 19a1.6 1.6 0 0 0 0-2.27ZM18.77 30.91l-3.66.81l.89-3.63L26.28 17.7l2.82 2.82Zm11.46-11.52l-2.82-2.82L29 15l2.84 2.84Z" class="clr-i-outline clr-i-outline-path-6"/><path fill="none" d="M0 0h36v36H0z"/></svg>';
+												$background_icon_color = "#AE00FFFF";
+												break;
+										}
+										?>
+										<?php if ($types['format'] == "formulario") { ?>
+											<a href="<?php echo $types['formulario_url'] ?>" target="_blank" style="background:<?php echo $background_icon_color; ?>;" class=" btn btn-info btn-sm"><?php echo $svg_icon; ?> </a>
+
+										<?php } else { ?>
+											<a href="#" class=" btn btn-warning btn-sm"><i class="fa fa-globe"></i> </a>
+										<?php } ?>
 									<?php } ?>
 
 								</td>
@@ -682,9 +847,21 @@ $DB_name = "products_list";
 										<a href="index.php?view=editproduct&id=<?php echo $types["id"]; ?>" class="btn btn-warning btn-sm"><i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 													<path fill="currentColor" d="M3 21v-4.25L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.438.65T21 6.4q0 .4-.137.763t-.438.662L7.25 21zM17.6 7.8L19 6.4L17.6 5l-1.4 1.4z" />
 												</svg></i></a>
-										<a href="./?action=ajax&function=del_products&user_id=<?php echo $_GET['user_id']; ?>&id=<?php echo $types["id"]; ?>&id_activity=<?php echo $_GET["id_activity"]; ?>&activity_title=<?php echo $_GET["activity_title"]; ?>&estate=<?php echo $_GET["estate"]; ?>&date_activity=<?php echo $_GET["date_activity"]; ?>&code_info=<?php echo $_GET["code_info"]; ?>" class="btn btn-danger btn-sm"><i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+													
+												<?php $url = "./?action=ajax&function=del_products&user_id=" . $_GET['user_id'] . "&id=" . $types["id"] . "&id_activity=" . $_GET["id_activity"] . "&activity_title=" . $_GET["activity_title"] . "&estate=" . $_GET["estate"] . "&date_activity=" . $_GET["date_activity"] . "&code_info=" . $_GET["code_info"]; ?>
+													
+													<a onclick="del_item('<?php echo $url; ?>', '<?php echo $_GET['user_id']; ?>')" href="javascript:void(0);">
+														<button type="button" class="btn btn-danger btn-sm"><i>
+																<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+																	<path fill="currentColor" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z" />
+																</svg></i>
+														</button>
+													</a>
+
+
+										<!-- <a href="./?action=ajax&function=del_products&user_id=<?php echo $_GET['user_id']; ?>&id=<?php echo $types["id"]; ?>&id_activity=<?php echo $_GET["id_activity"]; ?>&activity_title=<?php echo $_GET["activity_title"]; ?>&estate=<?php echo $_GET["estate"]; ?>&date_activity=<?php echo $_GET["date_activity"]; ?>&code_info=<?php echo $_GET["code_info"]; ?>" class="btn btn-danger btn-sm"><i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 													<path fill="currentColor" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z" />
-												</svg></i></a>
+												</svg></i></a> -->
 
 
 									<?php } elseif ($_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 9 || (($_SESSION["user_type"] == 8 || $_SESSION["user_rol"] == 'Políticas públicas') && $_SESSION["user_region"] == $_GET["estate"])) { ?>
@@ -741,16 +918,66 @@ $DB_name = "products_list";
 						categoria: categoria
 					}, function(data) {
 						// console.log(data);
-						$("#format_detail").html(data);
+						var array = JSON.parse(data);
+						// console.log(array["html"]);
+						$("#format_detail").html(array["html"]);
+
+						if (array["total"] === 1) {
+							$("#format_detail").trigger("change");
+						}
 					});
 
-					// if (categoria == "Comunas en Red Digital") {
-					// 	document.getElementById("userfile_f").style.display = "block";
-					// 	document.getElementById("userfile_f").required = true;
-					// }else {
-					// 	document.getElementById("userfile_f").style.display = "none";
-					// 	document.getElementById("userfile_f").required = false;
-					// }
+
+
+				});
+			})
+
+			$("#format_detail").change(function() {
+				$("#format_detail option:selected").each(function() {
+					cod = $(this).data("cod");
+					console.log(cod);
+					$("#action_performed").val(cod);
+
+					if (cod == "writer" || cod == "calc" || cod == "doc" || cod == "documento") {
+						document.getElementById("userfile_f").style.display = "block";
+						document.getElementById("userfile").required = true;
+
+						document.getElementById("userfile_img").style.display = "none";
+						document.getElementById("userfile_imagen").required = false;
+						document.getElementById("formulario_url_v").style.display = "none";
+						document.getElementById("formulario_url").required = false;
+					} else {
+						document.getElementById("userfile_f").style.display = "none";
+						document.getElementById("userfile").required = false;
+					}
+
+					if (cod == "imagen") {
+						document.getElementById("userfile_img").style.display = "block";
+						document.getElementById("userfile_imagen").required = true;
+
+						document.getElementById("userfile_f").style.display = "none";
+						document.getElementById("userfile_f").required = false;
+						document.getElementById("formulario_url_v").style.display = "none";
+						document.getElementById("formulario_url").required = false;
+					} else {
+						document.getElementById("userfile_img").style.display = "none";
+						document.getElementById("userfile_imagen").required = false;
+					}
+
+					if (cod == "formulario") {
+						document.getElementById("formulario_url_v").style.display = "block";
+						document.getElementById("formulario_url").required = true;
+
+						document.getElementById("userfile_f").style.display = "none";
+						document.getElementById("userfile_f").required = false;
+						document.getElementById("userfile_img").style.display = "none";
+						document.getElementById("userfile_imagen").required = false;
+					} else {
+						document.getElementById("formulario_url_v").style.display = "none";
+						document.getElementById("formulario_url").required = false;
+					}
+
+					// falta en campo de red_creada_v
 
 				});
 			})

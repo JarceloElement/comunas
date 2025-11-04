@@ -640,24 +640,24 @@ $view = $_GET["view"];
                     <p>Tipo de estatus</p>
                   </a>
                 </li> -->
-<!-- 
-                <li class="nav-item data" id="data" type="collapse_data">
-                  <a class="nav-link" href="./?view=data&type=9&swal=">
+
+                <li class="nav-item products_category" id="products_category" type="collapse_data">
+                  <a class="nav-link" href="./?view=products_category&swal=">
                     <i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path fill="currentColor" d="M5 21q-1.275 0-1.812-1.137t.262-2.113L9 11V5H8q-.425 0-.712-.288T7 4t.288-.712T8 3h8q.425 0 .713.288T17 4t-.288.713T16 5h-1v6l5.55 6.75q.8.975.263 2.113T19 21z" />
                       </svg></i>
                     <p>Categoría de productos</p>
                   </a>
-                </li> -->
+                </li>
 
-                <!-- <li class="nav-item data" id="data" type="collapse_data">
-                  <a class="nav-link" href="./?view=data&type=11&swal=">
+                <li class="nav-item products_type" id="products_type" type="collapse_data">
+                  <a class="nav-link" href="./?view=products_type&swal=">
                     <i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path fill="currentColor" d="M5 21q-1.275 0-1.812-1.137t.262-2.113L9 11V5H8q-.425 0-.712-.288T7 4t.288-.712T8 3h8q.425 0 .713.288T17 4t-.288.713T16 5h-1v6l5.55 6.75q.8.975.263 2.113T19 21z" />
                       </svg></i>
                     <p>Tipo de productos</p>
                   </a>
-                </li> -->
+                </li>
 
                 <!-- <li class="nav-item social_medias" id="social_medias" type="collapse_data">
                   <a class="nav-link" href="./?view=social_medias&swal=">

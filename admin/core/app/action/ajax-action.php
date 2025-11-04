@@ -5,16 +5,6 @@
  * @author Jarcelo
  **/
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-// ini_set('display_errors', 0);
-// ini_set('display_startup_errors', 0);
-// error_reporting(0);
-// header('Content-Type: application/json');
-
-
 date_default_timezone_set('UTC');
 date_default_timezone_set("America/La_Paz");
 
@@ -22,6 +12,17 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE");
 header("Allow: POST, GET, OPTIONS, DELETE");
+
+
+
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
+
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
+error_reporting(0);
+header('Content-Type: application/json');
 
 $func_post = "";
 $func_get = "";
@@ -401,10 +402,29 @@ if ($func_post == "add_product_type") {
     $param->tipo_categoria = $_POST["categoria"];
     $param->name = $_POST["tipo"];
     $param->cod_producto = $_POST["codigo"];
-    $param->addProd();
+    // $param->addProd();
     $_SESSION['alert'] = "¡Creado exitosamente!";
-}
 
+    try {
+        $result = $param->addProd();
+        // if ($product_id !== true && $product_id !== "ok") {
+        //     throw new Exception(is_string($product_id) ? $product_id : "Error desconocido en la actualización.");
+        // }
+        $array = array(
+            "data"  => "ID: " . $result,
+            "alert" => "Registro creado con éxito.",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+    }
+    echo json_encode($array);
+    return;
+}
 
 
 // add_participant
@@ -845,19 +865,22 @@ if ($func_post == "add_product") {
     }
 
 
+
     // ---------- FILE UPLOAD ----------
     $file = "";
     $uploaddir = "uploads/files/";
 
-    if (isset($_FILES['userfile'])) {
+    if (isset($_FILES['userfile']) && $_FILES["userfile"]["size"] > 0) {
 
         $code_info = $_POST["code_info"];
         $uploadfile = basename($_FILES['userfile']['name']);
-        $fileName = explode(".", $uploadfile);
-        $finalimage_prev = $code_info."_".$fileName[0] . "_" . date('Y-m-d-H-i-s');
+        $fileName = explode(".", str_replace("(", "_", str_replace(")", "", $uploadfile)));
+        $finalimage_prev = $code_info . "_" . $_POST["format"] . "_" . str_replace(" ", "_", $fileName[0]) . "_" . date('Y-m-d-H-i-s');
         $extension = pathinfo($uploadfile, PATHINFO_EXTENSION);
 
+
         $handle = new Upload($_FILES['userfile']);
+
 
         if ($handle->uploaded) {
 
@@ -880,29 +903,115 @@ if ($func_post == "add_product") {
             // $handle->image_resize            = true;
             // $handle->image_ratio_y           = true;
             // $handle->image_x                 = 420;
-            $handle->file_new_name_body      = $finalimage_prev;
+            $handle->file_new_name_body      = normalizarNombreArchivo($finalimage_prev);
             // $handle->image_convert           = 'pdf';
             // $handle->file_overwrite = true;
             // $handle->jpeg_quality = 40;     // Calidad JPEG (si es una imagen)
 
-            $file = $finalimage_prev . '.' . $extension;
+            $file = normalizarNombreArchivo($finalimage_prev) . '.' . $extension;
 
 
             $handle->process($uploaddir);
 
+
+
             // we check if everything went OK
             if ($handle->processed) {
-                echo 'Archivo cargado y procesado con éxito.';
+                // echo 'Archivo cargado y procesado con éxito.';
                 $handle->clean(); // Elimina el archivo temporal
             } else {
-                echo 'Error al procesar el archivo: ' . $handle->error;
+                // echo 'Error al procesar el archivo: ' . $handle->error;
+                $array = array(
+                    "data"  => "",
+                    "alert" => "¡Error: " . $handle->error . "!",
+                    "alert_type" => "error"
+                );
             }
         } else {
-            echo 'Error al subir el archivo: ' . $handle->error;
+            // echo 'Error al subir el archivo: ' . $handle->error;
+            $array = array(
+                "data"  => "",
+                "alert" => "¡Error: " . $handle->error . "!",
+                "alert_type" => "error"
+            );
         }
     } else {
-        echo "Sin archivo";
+        // echo "Sin archivo";
+        $array = array(
+            "data"  => "",
+            "alert" => "¡Error: Sin archivo seleccionado!",
+            "alert_type" => "error"
+        );
     }
+
+
+    // ---------- FILE UPLOAD ----------
+    $userfile_imagen = "";
+    $uploaddir = "uploads/files/";
+
+    if (isset($_FILES['userfile_imagen']) && $_FILES["userfile_imagen"]["size"] > 0) {
+
+        $code_info = $_POST["code_info"];
+        $uploadfile = basename($_FILES['userfile_imagen']['name']);
+        $fileName = explode(".", str_replace("(", "_", str_replace(")", "", $uploadfile)));
+        $finalimage_prev = $code_info . "_" . $_POST["format"] . "_" . str_replace(" ", "_", $fileName[0]) . "_" . date('Y-m-d-H-i-s');
+        $extension = pathinfo($uploadfile, PATHINFO_EXTENSION);
+
+
+        $handle = new Upload($_FILES['userfile_imagen']);
+
+
+        if ($handle->uploaded) {
+
+            $handle->image_resize            = true;
+            $handle->image_ratio_y           = true;
+            $handle->image_x                 = 420;
+            $handle->file_new_name_body      = normalizarNombreArchivo($finalimage_prev);
+            // $handle->image_convert           = 'pdf';
+            // $handle->file_overwrite = true;
+            $handle->jpeg_quality = 40;     // Calidad JPEG (si es una imagen)
+
+            $file = normalizarNombreArchivo($finalimage_prev) . '.' . $extension;
+
+
+            $handle->process($uploaddir);
+
+
+
+            // we check if everything went OK
+            if ($handle->processed) {
+                // echo 'Archivo cargado y procesado con éxito.';
+                $handle->clean(); // Elimina el archivo temporal
+            } else {
+                // echo 'Error al procesar el archivo: ' . $handle->error;
+                $array = array(
+                    "data"  => "",
+                    "alert" => "¡Error: " . $handle->error . "!",
+                    "alert_type" => "error"
+                );
+            }
+        } else {
+            // echo 'Error al subir el archivo: ' . $handle->error;
+            $array = array(
+                "data"  => "",
+                "alert" => "¡Error: " . $handle->error . "!",
+                "alert_type" => "error"
+            );
+        }
+    } else {
+        // echo "Sin archivo";
+        $array = array(
+            "data"  => "",
+            "alert" => "¡Error: Sin archivo seleccionado!",
+            "alert_type" => "error"
+        );
+    }
+
+
+
+
+
+
 
 
 
@@ -913,21 +1022,111 @@ if ($func_post == "add_product") {
         $info_id = isset($res["id"]) ? $res["id"] : "0";
     }
 
-    $param = new ProductsData();
-    $param->id_activity = $_POST["id_activity"];
-    $param->date_activity = $_POST["date_activity"];
-    $param->estate = $_POST["estate"];
-    $param->info_id = $info_id;
-    $param->code_info = $_POST["code_info"];
-    $param->format = $_POST["format"];
-    $param->format_detail = $_POST["format_detail"];
-    $param->quantity_created = $_POST["quantity_created"];
-    $param->quantity_published = $_POST["quantity_published"];
-    $param->doc_name = $file;
-    $product_id = $param->add_Pg();
+    // $param = new ProductsData();
+    // $param->id_activity = $_POST["id_activity"];
+    // $param->date_activity = $_POST["date_activity"];
+    // $param->estate = $_POST["estate"];
+    // $param->info_id = $info_id;
+    // $param->code_info = $_POST["code_info"];
+    // $param->action_performed = $_POST["action_performed"];
+    // $param->format = $_POST["format"];
+    // $param->format_detail = $_POST["format_detail"];
+    // $param->quantity_created = $_POST["quantity_created"];
+    // $param->quantity_published = $_POST["quantity_published"];
+    // $param->doc_name = $file;
+    // $param->doc_tipo = $extension;
+    // $product_id = $param->add_Pg();
 
-    $jsonString = $_POST['web_link'];
-    $links = json_decode($jsonString, true);
+
+
+
+
+
+
+
+    $sql = "INSERT into products_list (
+		id_activity,
+        estate,
+        info_id,
+        code_info,
+        activity_title,
+        action_performed,
+        date,
+        format,
+        format_detail,
+        quantity_created,
+        quantity_published,
+        doc_name,
+        doc_tipo,
+        web_link,
+        red_creada,
+        formulario_url
+			)";
+    $sql .= " VALUES (
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?
+			) RETURNING id;";
+    $values = [
+        (int)$_POST["id_activity"],
+        $_POST["estate"],
+        (int)$info_id,
+        $_POST["code_info"],
+        $_POST["activity_title"],
+        $_POST["format"],
+        $_POST["date_activity"],
+        $_POST["action_performed"],
+        $_POST["format_detail"],
+        (int)$_POST["quantity_created"],
+        (int)$_POST["quantity_published"],
+        $file,
+        $extension,
+        $_POST["web_link"],
+        $_POST["red_creada"],
+        $_POST["formulario_url"]
+    ];
+
+
+    try {
+        $product_id = ExecutorPg::insert($sql, $values)[0]["id"];
+        // if ($product_id !== true && $product_id !== "ok") {
+        //     throw new Exception(is_string($product_id) ? $product_id : "Error desconocido en la actualización.");
+        // }
+        $array = array(
+            "err"  => "false",
+            "data"  => "ID: " . $product_id,
+            "alert" => "Producto creado con éxito.",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "err"  => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+    }
+
+
+
+
+
+
+    // $jsonString = $_POST['web_link'];
+    // $links = json_decode($jsonString, true);
 
 
     // foreach ($links as $link) {
@@ -959,9 +1158,13 @@ if ($func_post == "add_product") {
 
     $_SESSION['alert'] = "¡Agregado!";
 
-    // $PHP_SELFx = "index.php?view=products_list&swal=Agregado correctamente&id_activity=" . $_POST["id_activity"] . "&activity=" . $_POST["activity"] . "&code_info=" . $_POST['code_info'] . "&estate=" . $_POST['estate'] . "&date_activity=" . $_POST['date_activity'];
-    // echo $PHP_SELFx;
+    echo json_encode($array);
+    return;
 }
+
+
+
+
 
 // update_prod
 if ($func_post == "update_prod") {
@@ -972,19 +1175,61 @@ if ($func_post == "update_prod") {
         return false;
     }
 
-    $param = new ProductsData();
     $product_id = $_POST["id"];
-    $param->id = $product_id;
-    $param->action_performed = $_POST["action_performed"];
-    $param->date_activity = $_POST["date_activity"];
-    $param->estate = $_POST["estate"];
-    $param->code_info = $_POST["code_info"];
-    $param->format = $_POST["format"];
-    $param->format_detail = $_POST["format_detail"];
-    $param->quantity_created = $_POST["quantity_created"];
-    $param->quantity_published = $_POST["quantity_published"];
 
-    $product = $param->update();
+
+    $sql = "UPDATE products_list set 
+		action_performed = ?, 
+		estate = ?, 
+		code_info = ?, 
+		format_detail = ?
+		where id = ?;";
+    $values = [
+        $_POST["action_performed"],
+        $_POST["estate"],
+        $_POST["code_info"],
+        $_POST["format_detail"],
+        $_POST["id"]
+    ];
+
+
+    // $param = new ProductsData();
+    // $param->id = $product_id;
+    // $param->action_performed = $_POST["action_performed"];
+    // $param->date_activity = $_POST["date_activity"];
+    // $param->estate = $_POST["estate"];
+    // $param->code_info = $_POST["code_info"];
+    // $param->format = $_POST["format"];
+    // $param->format_detail = $_POST["format_detail"];
+    // $param->quantity_created = $_POST["quantity_created"];
+    // $param->quantity_published = $_POST["quantity_published"];
+
+
+    try {
+        $result = ExecutorPg::update($sql, $values);
+        // $result = $param->update();
+        // Si tu función retorna algo, puedes verificarlo aquí
+        // if ($result !== true && $result !== "ok") {
+        //     throw new Exception(is_string($result) ? $result : "Error desconocido en la actualización.");
+        // }
+
+        // $result = $r->update();
+
+        $array = array(
+            "data"  => "",
+            "alert" => "Producto actualizado con éxito.",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+    }
+    echo json_encode($array);
+    return;
+
 
     // $product = ProductsData::getById($product_id);
 
@@ -1016,7 +1261,7 @@ if ($func_post == "update_prod") {
     // }
 
     // Core::alert("Creado exitosamente!");
-    echo "Producto actualizado";
+    // echo "Producto actualizado";
 }
 
 if ($func_post == "verify_links") {
@@ -1122,18 +1367,33 @@ if ($func_post == "update_planning") {
         $profile_image,
         $_POST["id"]
     ];
-    ExecutorPg::update($sql, $values);
 
 
 
+    try {
+        $result = ExecutorPg::update($sql, $values);
 
-    // Core::alert("Creado exitosamente!");
-    echo "Guardado exitosamente!";
-    if ($_POST["status_activity"] == "1" && $_POST["location"] == "planning") {
-        $_SESSION['alert'] = "La planificación fue enviada a (Reportes / Actividades), desde allí se cargan las imágenes, los participantes y productos.";
-    } else if ($_POST["status_activity"] != "1" && $_POST["location"] == "planning") {
-        $_SESSION['alert'] = "Estatus actualizado" . $code_info;
+        if ($_POST["status_activity"] == "1" && $_POST["location"] == "planning") {
+            $_SESSION['alert'] = "La planificación fue enviada a (Reportes / Actividades), desde allí se cargan las imágenes, los participantes y productos.";
+        } else if ($_POST["status_activity"] != "1" && $_POST["location"] == "planning") {
+            $_SESSION['alert'] = "Estatus actualizado" . $code_info;
+        }
+
+        $array = array(
+            "error" => "false",
+            "data"  => "ID: " . $result,
+            "alert" => "Registro creado con éxito.",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
     }
+    echo json_encode($array);
+    return;
 
 
 
@@ -1187,16 +1447,36 @@ if ($func_post == "update_status") {
         $profile_image,
         (int)$_POST["id"]
     ];
-    ExecutorPg::update($sql, $values);
 
 
-    // Core::alert("Creado exitosamente!");
-    // echo "¡Guardado exitosamente!";
-    if ($_POST["status_activity"] == "1" && $_POST["location"] == "planning") {
-        $_SESSION['alert'] = "La planificación fue enviada a (Reportes / Actividades), desde allí se cargan las imágenes, los participantes y productos.";
-    } else if ($_POST["status_activity"] == "1" && $_POST["location"] == "report") {
-        $_SESSION['alert'] = "Estatus actualizado";
+
+
+    try {
+        $result = ExecutorPg::update($sql, $values);
+
+        if ($_POST["status_activity"] == "1" && $_POST["location"] == "planning") {
+            $_SESSION['alert'] = "La planificación fue enviada a (Reportes / Actividades), desde allí se cargan las imágenes, los participantes y productos.";
+        } else if ($_POST["status_activity"] == "1" && $_POST["location"] == "report") {
+            $_SESSION['alert'] = "Estatus actualizado";
+        }
+
+        $array = array(
+            "error" => "false",
+            "data"  => "ID: " . $result,
+            "alert" => "Registro creado con éxito.",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
     }
+    echo json_encode($array);
+    return;
+
+    
 
     // notificar la corrección del reporte por Telegeram
     $url = "http://infoapp2.infocentro.gob.ve/admin/index.php?view=editplanning&user_id=" . $_POST["user_id"] . "&id=" . $_POST["id"] . "&code_info=" . $_POST["code_info"] . "&estado=" . $_POST["code_info"] . "&participantes=&start_at=&finish_at=&pag=1";
@@ -1549,6 +1829,7 @@ if ($func_get == "del_products") {
         return;
     }
 
+    $product = ProductsData::getById($_GET['id']);
     $param = ProductsData::delByIdPg($_GET["id"]);
 
     $id_activity = $_GET["id_activity"];
@@ -1564,14 +1845,32 @@ if ($func_get == "del_products") {
     $values = [(int)$total, (int)$id_activity];
     ExecutorPg::update($sql, $values);
 
-    $_SESSION['alert'] = "¡Eliminado!";
+    // eliminar archivo
+    $filePath  = "uploads/files/";
+    $file = $product["doc_name"];
+    if (file_exists($filePath . $file) && $file != "") {
+        unlink($filePath . $file);
+    }
 
+    $_SESSION['alert'] = "¡Eliminado!";
     $PHP_SELFx = "index.php?view=products_list&id_activity=" . $_GET["id_activity"] . "&activity_title=" . $_GET["activity_title"] . "&user_id=" . $_GET['user_id'] . "&date_activity=" . $_GET['date_activity'] . "&estate=" . $_GET['estate'] . "&code_info=" . $_GET['code_info'];
-    echo "<script language=\"JavaScript\">
-        <!-- 
-        document.location=\"$PHP_SELFx\";
-        //-->
-        </script>";
+
+    $array = array(
+        "err"  => 'false',
+        "alert_type"  => "dashboard",
+        "alert"  => '¡Eliminado!',
+        "redirect"  => $PHP_SELFx
+    );
+    $res = json_encode($array);
+    echo $res;
+    exit;
+
+
+    // echo "<script language=\"JavaScript\">
+    //     <!-- 
+    //     document.location=\"$PHP_SELFx\";
+    //     //-->
+    //     </script>";
 }
 
 
@@ -1601,10 +1900,17 @@ if ($func_get == "del_product_cat") {
 
 // del_product_type
 if ($func_get == "del_product_type") {
+
     if (!isset( # valido los parametros recibidos
         $_GET['id']
     )) {
-        Core::alert("Error: Falta el id a eliminar");
+        $array = array(
+            "err"  => 'true',
+            "alert_type"  => "warning",
+            "alert"  => 'Falta el ID a eliminar!'
+        );
+        $res = json_encode($array);
+        echo $res;
         return;
     }
     $id = $_GET["id"];
@@ -1612,12 +1918,14 @@ if ($func_get == "del_product_type") {
     Executor::doit($sql);
     $_SESSION['alert'] = "¡Eliminado!";
 
-    $PHP_SELFx = "index.php?view=data&swal=Eliminado&type=" . $_GET["type"];
-    echo "<script language=\"JavaScript\">
-        <!-- 
-        document.location=\"$PHP_SELFx\";
-        //-->
-        </script>";
+    $array = array(
+        "err"  => 'false',
+        "alert_type"  => "dashboard",
+        "alert"  => '¡Eliminado!'
+    );
+    $res = json_encode($array);
+    echo $res;
+    exit;
 }
 
 
@@ -1922,4 +2230,26 @@ if ($func_get == "del_social_media") {
 	document.location=\"$PHP_SELFx\";
 	//-->
     </script>";
+}
+
+
+
+function normalizarNombreArchivo($nombre)
+{
+    // Eliminar tildes y diacríticos
+    $nombre = iconv('UTF-8', 'ASCII//TRANSLIT', $nombre);
+
+    // Reemplazar espacios por guiones bajos
+    $nombre = preg_replace('/\s+/', '_', $nombre);
+
+    // Eliminar caracteres no deseados (conserva letras, números, puntos y guiones bajos)
+    $nombre = preg_replace('/[^A-Za-z0-9\._-]/', '', $nombre);
+
+    // Asegurar que no haya múltiples guiones bajos consecutivos
+    $nombre = preg_replace('/_+/', '_', $nombre);
+
+    // Convertir a minúsculas
+    $nombre = strtolower($nombre);
+
+    return $nombre;
 }

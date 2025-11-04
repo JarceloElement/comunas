@@ -87,9 +87,11 @@ class ProductsData
         quantity_created,
         quantity_published,
         doc_name,
+        doc_tipo,
         web_link
 			)";
 		$sql .= " VALUES (
+			?,
 			?,
 			?,
 			?,
@@ -110,13 +112,14 @@ class ProductsData
 			(int)$this->info_id,
 			$this->code_info,
 			$this->activity_title,
-			$this->action_performed,
-			$this->date_activity,
 			$this->format,
+			$this->date_activity,
+			$this->action_performed,
 			$this->format_detail,
 			(int)$this->quantity_created,
 			(int)$this->quantity_published,
 			$this->doc_name,
+			$this->doc_tipo,
 			$this->web_link
 		];
 
