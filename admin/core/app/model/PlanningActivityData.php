@@ -9,7 +9,7 @@ class PlanningActivityData
 	public function __construct()
 	{
 		$this->location = "";
-		$this->id = "1";
+		$this->id = "";
 		$this->info_id = "";
 		$this->status_activity = 1;
 		$this->code_info = null;
