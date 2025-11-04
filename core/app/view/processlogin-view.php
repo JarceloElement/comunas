@@ -307,7 +307,9 @@ UPDATE `final_users` SET `user_dni` = '', `user_correo` = '', `user_type` = '' W
 
 
 
+PERMISOS POSTGRESQL
 
+GRANT USAGE, SELECT ON SEQUENCE reports_id_seq TO lanubepl_managercomunas;
 
 
 

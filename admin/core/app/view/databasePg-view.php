@@ -522,165 +522,165 @@ if (!isset($table_name["table_name"])) {
     // }
 
     // AGREGAR UNA COLUMNA
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.reports ADD COLUMN IF NOT EXISTS tipo_taller VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.reports ADD COLUMN IF NOT EXISTS profile_image VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.reports ADD COLUMN IF NOT EXISTS tipo_taller VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.reports ADD COLUMN IF NOT EXISTS profile_image VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
 
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.final_users ADD COLUMN IF NOT EXISTS profile_image VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.final_users ADD COLUMN IF NOT EXISTS profile_image VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
 
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.final_users ADD COLUMN IF NOT EXISTS user_equipo_sala_comunal VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.final_users ADD COLUMN IF NOT EXISTS user_equipo_sala_comunal VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
 
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.infocentros ADD COLUMN IF NOT EXISTS servicio_pagado_por VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.infocentros ADD COLUMN IF NOT EXISTS servicio_pagado_por VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
 
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.infocentros ADD COLUMN IF NOT EXISTS propuesto_nucleo_robotica VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.infocentros ADD COLUMN IF NOT EXISTS propuesto_nucleo_robotica VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
 
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.infocentros ADD COLUMN IF NOT EXISTS espacio_robotica_educativa VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.infocentros ADD COLUMN IF NOT EXISTS espacio_robotica_educativa VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
 
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.infocentros ADD COLUMN IF NOT EXISTS fecha_solicitud_migracion VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.infocentros ADD COLUMN IF NOT EXISTS fecha_solicitud_migracion VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
 
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.infocentros ADD COLUMN IF NOT EXISTS fecha_reporte VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.infocentros ADD COLUMN IF NOT EXISTS fecha_reporte VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
 
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.infocentros ADD COLUMN IF NOT EXISTS fecha_solucion VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.infocentros ADD COLUMN IF NOT EXISTS fecha_solucion VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
 
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.infocentros ADD COLUMN IF NOT EXISTS observacion_falla VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.infocentros ADD COLUMN IF NOT EXISTS observacion_falla VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
 
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.infocentros ADD COLUMN IF NOT EXISTS casos_resueltos_ano VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.infocentros ADD COLUMN IF NOT EXISTS casos_resueltos_ano VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
 
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS causa_imp_inop VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS causa_imp_inop VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
 
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS desc_fotocopiadora VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS desc_fotocopiadora VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
 
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS t_fotocopiadora VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS t_fotocopiadora VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
 
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS t_fotoc_ope VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS t_fotoc_ope VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
 
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS t_fotoc_inop VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS t_fotoc_inop VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
 
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS causa_fotoc_inop VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS causa_fotoc_inop VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
 
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS causa_fotoc_inop VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
-
-
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS desc_video VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
-
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS t_video VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
-
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS estado_video VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
-
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS causa_video_inop VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS causa_fotoc_inop VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
 
 
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS desc_scanner VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS desc_video VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
 
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS t_scanner VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS t_video VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
 
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS estado_scan VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS estado_video VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
 
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS causa_scan_inop VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
-
-
-    // report
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.reports ADD COLUMN IF NOT EXISTS institucion_formacion VARCHAR(255) ");
-    $add_column->execute();
-    $add_column->fetch();
-
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.reports ADD COLUMN IF NOT EXISTS id_institucion VARCHAR(50) ");
-    $add_column->execute();
-    $add_column->fetch();
-
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.reports ADD COLUMN IF NOT EXISTS isnt_type VARCHAR(50) ");
-    $add_column->execute();
-    $add_column->fetch();
-
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.reports ADD COLUMN IF NOT EXISTS circuito_comunal VARCHAR(50) ");
-    $add_column->execute();
-    $add_column->fetch();
-
-    // cambiar tamaño de datos
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.reports  ALTER COLUMN isnt_type TYPE VARCHAR(500) ");
-    $add_column->execute();
-    $add_column->fetch();
-
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.reports  ALTER COLUMN circuito_comunal TYPE VARCHAR(500) ");
-    $add_column->execute();
-    $add_column->fetch();
-
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.reports  ALTER COLUMN institucion_formacion TYPE VARCHAR(500) ");
-    $add_column->execute();
-    $add_column->fetch();
-
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.reports  ALTER COLUMN organized_by_info TYPE VARCHAR(500) ");
-    $add_column->execute();
-    $add_column->fetch();
-
-    // services_users
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.services_users ADD COLUMN IF NOT EXISTS user_f_id VARCHAR(50) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS causa_video_inop VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
 
 
-    // services_users
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.participants_list ADD COLUMN IF NOT EXISTS equipo_sala_comunal VARCHAR(200) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS desc_scanner VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
+
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS t_scanner VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
+
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS estado_scan VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
+
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.info_inventory ADD COLUMN IF NOT EXISTS causa_scan_inop VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
+
+
+    // // report
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.reports ADD COLUMN IF NOT EXISTS institucion_formacion VARCHAR(255) ");
+    // $add_column->execute();
+    // $add_column->fetch();
+
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.reports ADD COLUMN IF NOT EXISTS id_institucion VARCHAR(50) ");
+    // $add_column->execute();
+    // $add_column->fetch();
+
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.reports ADD COLUMN IF NOT EXISTS isnt_type VARCHAR(50) ");
+    // $add_column->execute();
+    // $add_column->fetch();
+
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.reports ADD COLUMN IF NOT EXISTS circuito_comunal VARCHAR(50) ");
+    // $add_column->execute();
+    // $add_column->fetch();
+
+    // // cambiar tamaño de datos
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.reports  ALTER COLUMN isnt_type TYPE VARCHAR(500) ");
+    // $add_column->execute();
+    // $add_column->fetch();
+
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.reports  ALTER COLUMN circuito_comunal TYPE VARCHAR(500) ");
+    // $add_column->execute();
+    // $add_column->fetch();
+
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.reports  ALTER COLUMN institucion_formacion TYPE VARCHAR(500) ");
+    // $add_column->execute();
+    // $add_column->fetch();
+
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.reports  ALTER COLUMN organized_by_info TYPE VARCHAR(500) ");
+    // $add_column->execute();
+    // $add_column->fetch();
+
+    // // services_users
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.services_users ADD COLUMN IF NOT EXISTS user_f_id VARCHAR(50) ");
+    // $add_column->execute();
+    // $add_column->fetch();
+
+
+    // // services_users
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.participants_list ADD COLUMN IF NOT EXISTS equipo_sala_comunal VARCHAR(200) ");
+    // $add_column->execute();
+    // $add_column->fetch();
     
-    // products_list
-    $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.products_list ADD COLUMN IF NOT EXISTS doc_name VARCHAR(200) ");
-    $add_column->execute();
-    $add_column->fetch();
+    // // products_list
+    // $add_column = $conn->prepare("ALTER TABLE IF EXISTS public.products_list ADD COLUMN IF NOT EXISTS doc_name VARCHAR(200) ");
+    // $add_column->execute();
+    // $add_column->fetch();
 
     ExecutorPg::doit('ALTER TABLE IF EXISTS public.products_list ADD COLUMN IF NOT EXISTS doc_tipo VARCHAR(20);');
     ExecutorPg::doit('ALTER TABLE IF EXISTS public.products_list ADD COLUMN IF NOT EXISTS red_creada VARCHAR(200);');
