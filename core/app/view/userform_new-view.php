@@ -388,7 +388,7 @@ if (isset($_GET['new'])) {
             <div class="row justify-content-center"><span class="material-icons">&#xE87C;</span></div>
             <!-- saludo al iniciar sesion -->
             <?php if ($is_new != "1") { 
-					echo "SERV:-".$_SERVER["DOCUMENT_ROOT"];
+					// echo "SERV:-".$_SERVER["DOCUMENT_ROOT"];
                 
                 ?>
                 <div class="row justify-content-center">
