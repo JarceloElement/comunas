@@ -1006,7 +1006,7 @@ $fecha_end = "2025-01-01";
                     categoria: categoria,
                     code_info: code_info
                 }, function(data) {
-                    // console.log('Data: ',data);
+                    console.log('Data: ',data);
                     var array = JSON.parse(data);
                     // console.log(array["total"]);
                     $("#tipo_taller").html(array["html"]);
