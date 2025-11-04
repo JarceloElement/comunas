@@ -706,17 +706,17 @@ if (!isset($table_name["table_name"])) {
 
 
     // ===== SOLO UNA EJECUCION | COMENTAR LUEGO 29/09/2025
-    $add_column = $conn->prepare("CREATE UNIQUE INDEX IF NOT EXISTS idx_code ON public.info_inventory(code_info, k_info)");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("CREATE UNIQUE INDEX IF NOT EXISTS idx_code ON public.info_inventory(code_info, k_info)");
+    // $add_column->execute();
+    // $add_column->fetch();
 
-    $add_column = $conn->prepare("CREATE UNIQUE INDEX IF NOT EXISTS idx_code_process ON public.info_process(code_info, k_info)");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("CREATE UNIQUE INDEX IF NOT EXISTS idx_code_process ON public.info_process(code_info, k_info)");
+    // $add_column->execute();
+    // $add_column->fetch();
 
-    $add_column = $conn->prepare("CREATE UNIQUE INDEX IF NOT EXISTS idx_info_code ON public.infocentros(cod)");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("CREATE UNIQUE INDEX IF NOT EXISTS idx_info_code ON public.infocentros(cod)");
+    // $add_column->execute();
+    // $add_column->fetch();
 
 
     // coordinators
@@ -739,9 +739,9 @@ if (!isset($table_name["table_name"])) {
     // $add_column->execute();
     // $add_column->fetch();
 
-    $add_column = $conn->prepare("CREATE INDEX IF NOT EXISTS idx_facilitators_code ON public.facilitators(info_cod)");
-    $add_column->execute();
-    $add_column->fetch();
+    // $add_column = $conn->prepare("CREATE INDEX IF NOT EXISTS idx_facilitators_code ON public.facilitators(info_cod)");
+    // $add_column->execute();
+    // $add_column->fetch();
 
 
     // borra antes de crear para evitar el error
