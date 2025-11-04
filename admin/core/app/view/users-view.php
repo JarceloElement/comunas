@@ -87,7 +87,9 @@ function del_item(url) {
 		<div class="card-body">
 
 			<div class="card-content table-responsive">
-				<?php if ($_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 8 || $_SESSION["user_type"] == 9) { ?>
+				<?php if ($_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 8 || $_SESSION["user_type"] == 9) { 
+					echo $_SERVER["DOCUMENT_ROOT"];
+					?>
 					<a href="index.php?view=newuser" class="btn btn-default"><i class='fa fa-user'></i> Nuevo Usuario</a>
 
 						<br>
