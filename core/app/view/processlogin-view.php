@@ -157,16 +157,16 @@ if (Session::getUID() == "") {
 		// print "<script>sessionStorage.setItem('usersession', '$user_id');</script>";
 		print "<script>localStorage.setItem('usersession', '$user_id');</script>";
 
-		if (count($sessions) > 0) {
-			$sql = "UPDATE user_session set active=1, ip='$ip', session_id='$session_id' where user_id=$user_id";
-			$row_table = $conn->prepare($sql);
-			$row_table->execute();
-			// $sessions = $row_table->fetchAll(PDO::FETCH_ASSOC);
-		} else {
-			$sql = "INSERT into user_session (user_id, session_id, user_name, ip, active, region) values ($user_id, '$session_id', '$user_username', '$ip', 1, '$session_region')";
-			$row_table = $conn->prepare($sql);
-			$row_table->execute();
-		}
+		// if (count($sessions) > 0) {
+		// 	$sql = "UPDATE user_session set active=1, ip='$ip', session_id='$session_id' where user_id=$user_id";
+		// 	$row_table = $conn->prepare($sql);
+		// 	$row_table->execute();
+		// 	// $sessions = $row_table->fetchAll(PDO::FETCH_ASSOC);
+		// } else {
+		// 	$sql = "INSERT into user_session (user_id, session_id, user_name, ip, active, region) values ($user_id, '$session_id', '$user_username', '$ip', 1, '$session_region')";
+		// 	$row_table = $conn->prepare($sql);
+		// 	$row_table->execute();
+		// }
 
 		// carga las sessiones activas
 		$sql = "SELECT * from user_session where active=1";
