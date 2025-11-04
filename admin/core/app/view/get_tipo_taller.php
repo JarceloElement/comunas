@@ -14,7 +14,7 @@ $code_info = strtoupper($_POST['code_info']);
 // $res = $statement_1->fetchAll(PDO::FETCH_ASSOC);
 
 require('../../../core/controller/DatabasePg_admin.php');
-$sql = "SELECT tipo_taller.nombre_taller,tipo_taller.descripcion_taller,tipo_taller.nivel,tipo_taller.modalidad,tipo_taller.duracion_horas,tipo_taller.permisos,training_type.contenido_curso FROM tipo_taller INNER JOIN training_type ON (tipo_taller.name_training_type = training_type.name_training_type) where tipo_taller.name_training_type='$categoria' GROUP BY tipo_taller.nombre_taller,tipo_taller.nivel,tipo_taller.modalidad,tipo_taller.duracion_horas,tipo_taller.nivel,training_type.contenido_curso,tipo_taller.id,tipo_taller.descripcion_taller ORDER BY tipo_taller.id";
+$sql = "SELECT tipo_taller.nombre_taller,tipo_taller.descripcion_taller,tipo_taller.nivel,tipo_taller.modalidad,tipo_taller.duracion_horas,tipo_taller.permisos,training_type.contenido_curso FROM tipo_taller INNER JOIN training_type ON (tipo_taller.name_training_type = training_type.name_training_type) where tipo_taller.name_training_type='$categoria' GROUP BY tipo_taller.nombre_taller,tipo_taller.nivel,tipo_taller.modalidad,tipo_taller.duracion_horas,tipo_taller.nivel,training_type.contenido_curso,tipo_taller.id,tipo_taller.descripcion_taller,tipo_taller.permisos ORDER BY tipo_taller.id";
 $conn = DatabasePg::connectPg();
 $stmt = $conn->prepare($sql);
 $stmt->execute();
