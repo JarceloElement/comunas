@@ -780,8 +780,8 @@ if (!isset($table_name["table_name"])) {
     // $add_constraint->execute();
     // $add_constraint->fetch();
 
-    ExecutorPg::doit('ALTER TABLE IF EXISTS public.user_brigades ADD COLUMN IF NOT EXISTS info_cod VARCHAR(255);');
-    ExecutorPg::doit('ALTER TABLE IF EXISTS public.user_brigades ADD COLUMN IF NOT EXISTS municipio VARCHAR(255);');
+    // ExecutorPg::doit('ALTER TABLE IF EXISTS public.user_brigades ADD COLUMN IF NOT EXISTS info_cod VARCHAR(255);');
+    // ExecutorPg::doit('ALTER TABLE IF EXISTS public.user_brigades ADD COLUMN IF NOT EXISTS municipio VARCHAR(255);');
 
     // ExecutorPg::doit('ALTER TABLE IF EXISTS user_brigades DROP CONSTRAINT fk_brigade;');
     // ExecutorPg::doit('ALTER TABLE IF EXISTS user_brigades DROP CONSTRAINT fk_user;');
@@ -803,9 +803,9 @@ if (!isset($table_name["table_name"])) {
     // INFOCENTROS
 
     // ExecutorPg::doit('ALTER TABLE infocentros ALTER COLUMN observacion_tecnica TYPE VARCHAR(2000);');
-    ExecutorPg::doit('ALTER TABLE infocentros ALTER COLUMN observacion_tecnica DROP NOT NULL;');
+    // ExecutorPg::doit('ALTER TABLE infocentros ALTER COLUMN observacion_tecnica DROP NOT NULL;');
     // ExecutorPg::doit('ALTER TABLE infocentros ALTER COLUMN creacion_year TYPE VARCHAR(50);');
-    ExecutorPg::doit('ALTER TABLE infocentros ALTER COLUMN creacion_year DROP NOT NULL;');
+    // ExecutorPg::doit('ALTER TABLE infocentros ALTER COLUMN creacion_year DROP NOT NULL;');
 
 
     // ExecutorPg::doit('TRUNCATE TABLE public.infocentros CASCADE;');
