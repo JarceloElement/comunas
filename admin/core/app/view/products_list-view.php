@@ -4,7 +4,7 @@
 	$('#cover-spin').show(0);
 
 
-	async function del_item(url,id) {
+	async function del_item(url, id) {
 		Swal.fire({
 			title: "¿Desea eliminar?",
 			text: "¡Esto es irreversible! y eliminará todas las dependencias de ésta línea de acción",
@@ -847,16 +847,16 @@ $DB_name = "products_list";
 										<a href="index.php?view=editproduct&id=<?php echo $types["id"]; ?>" class="btn btn-warning btn-sm"><i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 													<path fill="currentColor" d="M3 21v-4.25L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.438.65T21 6.4q0 .4-.137.763t-.438.662L7.25 21zM17.6 7.8L19 6.4L17.6 5l-1.4 1.4z" />
 												</svg></i></a>
-													
-												<?php $url = "./?action=ajax&function=del_products&user_id=" . $_GET['user_id'] . "&id=" . $types["id"] . "&id_activity=" . $_GET["id_activity"] . "&activity_title=" . $_GET["activity_title"] . "&estate=" . $_GET["estate"] . "&date_activity=" . $_GET["date_activity"] . "&code_info=" . $_GET["code_info"]; ?>
-													
-													<a onclick="del_item('<?php echo $url; ?>', '<?php echo $_GET['user_id']; ?>')" href="javascript:void(0);">
-														<button type="button" class="btn btn-danger btn-sm"><i>
-																<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-																	<path fill="currentColor" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z" />
-																</svg></i>
-														</button>
-													</a>
+
+										<?php $url = "./?action=ajax&function=del_products&user_id=" . $_GET['user_id'] . "&id=" . $types["id"] . "&id_activity=" . $_GET["id_activity"] . "&activity_title=" . $_GET["activity_title"] . "&estate=" . $_GET["estate"] . "&date_activity=" . $_GET["date_activity"] . "&code_info=" . $_GET["code_info"]; ?>
+
+										<a onclick="del_item('<?php echo $url; ?>', '<?php echo $_GET['user_id']; ?>')" href="javascript:void(0);">
+											<button type="button" class="btn btn-danger btn-sm"><i>
+													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+														<path fill="currentColor" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z" />
+													</svg></i>
+											</button>
+										</a>
 
 
 										<!-- <a href="./?action=ajax&function=del_products&user_id=<?php echo $_GET['user_id']; ?>&id=<?php echo $types["id"]; ?>&id_activity=<?php echo $_GET["id_activity"]; ?>&activity_title=<?php echo $_GET["activity_title"]; ?>&estate=<?php echo $_GET["estate"]; ?>&date_activity=<?php echo $_GET["date_activity"]; ?>&code_info=<?php echo $_GET["code_info"]; ?>" class="btn btn-danger btn-sm"><i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -869,9 +869,16 @@ $DB_name = "products_list";
 										<a href="index.php?view=editproduct&id=<?php echo $types["id"]; ?>" class="btn btn-warning btn-sm"><i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 													<path fill="currentColor" d="M3 21v-4.25L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.438.65T21 6.4q0 .4-.137.763t-.438.662L7.25 21zM17.6 7.8L19 6.4L17.6 5l-1.4 1.4z" />
 												</svg></i></a>
-										<a href="./?action=ajax&function=del_products&user_id=<?php echo $_GET['user_id']; ?>&id=<?php echo $types["id"]; ?>&id_activity=<?php echo $_GET["id_activity"]; ?>&activity_title=<?php echo $_GET["activity_title"]; ?>&estate=<?php echo $_GET["estate"]; ?>&date_activity=<?php echo $_GET["date_activity"]; ?>&code_info=<?php echo $_GET["code_info"]; ?>" class="btn btn-danger btn-sm"><i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-													<path fill="currentColor" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z" />
-												</svg></i></a>
+
+										<?php $url = "./?action=ajax&function=del_products&user_id=" . $_GET['user_id'] . "&id=" . $types["id"] . "&id_activity=" . $_GET["id_activity"] . "&activity_title=" . $_GET["activity_title"] . "&estate=" . $_GET["estate"] . "&date_activity=" . $_GET["date_activity"] . "&code_info=" . $_GET["code_info"]; ?>
+
+										<a onclick="del_item('<?php echo $url; ?>', '<?php echo $_GET['user_id']; ?>')" href="javascript:void(0);">
+											<button type="button" class="btn btn-danger btn-sm"><i>
+													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+														<path fill="currentColor" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z" />
+													</svg></i>
+											</button>
+										</a>
 
 
 									<?php } ?>

@@ -508,3 +508,9 @@ GRANT ALL ON TABLE public.products_list TO lanubede WITH GRANT OPTION;
 -- PostgreSQL database dump complete
 --
 
+
+
+-- CREATE SEQUENCE IF NOT EXISTS public.products_list_id_seq START WITH 1 INCREMENT BY 1 NO MINVALUE NO MAXVALUE CACHE 1;
+-- ALTER TABLE public.products_list OWNER TO lanubepl;
+-- ALTER SEQUENCE public.products_list_id_seq OWNED BY public.products_list.id;
+-- ALTER TABLE ONLY public.products_list ALTER COLUMN id SET DEFAULT nextval('public.products_list_id_seq'::regclass);
