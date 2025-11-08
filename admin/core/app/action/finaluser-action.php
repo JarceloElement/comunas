@@ -18,7 +18,7 @@ $fecha_n = isset($_GET['user_f_nacimiento'])? $_POST["user_f_nacimiento"] :null;
 // $edad = $fecha_actual-date("Y", $formatted_date);
 
 $fecha_actual = date("Y",time());
-$edad = $fecha_actual-date("Y", strtotime($fecha_n));
+$edad = $fecha_actual-date("Y", strtotime($fecha_n ?? ''));
 
 
 
