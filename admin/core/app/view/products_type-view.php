@@ -2,7 +2,7 @@
 	async function del_item(id) {
 		Swal.fire({
 			title: "¿Desea eliminar?",
-			text: "¡Esto es irreversible! y eliminará todas las dependencias de ésta línea de acción",
+			text: "¡Esto es irreversible! y eliminará todas las dependencias de ésta catrgoría",
 			icon: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#3085d6",
@@ -201,7 +201,7 @@ $products_cat = ProductsType::getBySQL("select * from categoria_productos");
 						$sql = "SELECT * from products_type order by tipo_categoria asc LIMIT " . (($compag - 1) * $CantidadMostrar) . " , " . $CantidadMostrar;
 						$param = ProductsType::getBySQL($sql);
 
-						$url_pag = "<a href=\"?view=data&type=" . $_GET["type"] . "&pag=";
+						$url_pag = "<a href=\"?view=products_type&pag=";
 
 						$TotalRegistro  = ceil($TotalReg / $CantidadMostrar);
 						?>

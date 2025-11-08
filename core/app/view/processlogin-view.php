@@ -310,8 +310,9 @@ UPDATE `final_users` SET `user_dni` = '', `user_correo` = '', `user_type` = '' W
 PERMISOS POSTGRESQL
 
 GRANT USAGE, SELECT ON SEQUENCE reports_id_seq TO lanubepl_managercomunas;
+GRANT USAGE, SELECT ON TABLE public.actions_line TO lanubepl_managercomunas;
 
-
+A la columna ID hacer esto: nextval('reports_id_seq'::regclass)
 
 
 

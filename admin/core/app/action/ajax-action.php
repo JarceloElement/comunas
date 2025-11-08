@@ -78,10 +78,26 @@ if ($func_post == "add_action_line") {
     $param = new ActionsLineData();
     $param->line_name = $_POST["name"];
     $param->permisos = $_POST["permisos"];
-    $param->addPg();
-    // Core::alert("Creado exitosamente!");
-    $_SESSION['alert'] = '¡Creado exitosamente!';
-    echo "¡Creado exitosamente!";
+
+    try {
+        $result = $param->addPg();
+        $_SESSION['alert'] = '¡Creado exitosamente!';
+        $array = array(
+            "error"  => "false",
+            "data"  => "ID: " . $result,
+            "alert" => "Registro creado con éxito.",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "error"  => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+    }
+    echo json_encode($array);
+    return;
 }
 
 
@@ -383,8 +399,29 @@ if ($func_post == "add_product_cat") {
     $param = new ProductsType();
     $param->nombre_categoria = $_POST["name"];
     $param->cod_categoria = $_POST["codigo"];
-    $param->addCat();
-    $_SESSION['alert'] = "¡Creado exitosamente!";
+
+
+
+    try {
+        $result = $param->addCat();
+
+        $_SESSION['alert'] = "¡Creado exitosamente!";
+
+        $array = array(
+            "error" => "false",
+            "data"  => "ID: " . $result,
+            "alert" => "Registro creado con éxito.",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+    }
+    echo json_encode($array);
+    return;
 }
 
 
@@ -1476,7 +1513,7 @@ if ($func_post == "update_status") {
     echo json_encode($array);
     return;
 
-    
+
 
     // notificar la corrección del reporte por Telegeram
     $url = "http://infoapp2.infocentro.gob.ve/admin/index.php?view=editplanning&user_id=" . $_POST["user_id"] . "&id=" . $_POST["id"] . "&code_info=" . $_POST["code_info"] . "&estado=" . $_POST["code_info"] . "&participantes=&start_at=&finish_at=&pag=1";
@@ -1618,12 +1655,14 @@ if ($func_get == "del_action_line") {
     // Core::alert("Eliminado exitosamente!");
     $_SESSION['alert'] = 'Eliminado exitosamente!';
 
-    $PHP_SELFx = "index.php?view=action_line";
-    echo "<script language=\"JavaScript\">
-	<!-- 
-	document.location=\"$PHP_SELFx\";
-	//-->
-    </script>";
+    $array = array(
+        "err"  => 'false',
+        "alert_type"  => "dashboard",
+        "alert"  => '¡Eliminado!'
+    );
+    $res = json_encode($array);
+    echo $res;
+    exit;
 }
 
 
@@ -1890,12 +1929,14 @@ if ($func_get == "del_product_cat") {
     Executor::doit($sql);
     $_SESSION['alert'] = "¡Eliminado!";
 
-    $PHP_SELFx = "index.php?view=data&swal=Eliminado&type=" . $_GET["type"];
-    echo "<script language=\"JavaScript\">
-        <!-- 
-        document.location=\"$PHP_SELFx\";
-        //-->
-        </script>";
+    $array = array(
+        "err"  => 'false',
+        "alert_type"  => "dashboard",
+        "alert"  => '¡Eliminado!'
+    );
+    $res = json_encode($array);
+    echo $res;
+    exit;
 }
 
 // del_product_type

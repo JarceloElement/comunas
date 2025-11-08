@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 
 
 <script language="javascript">
-	function del_item(id) {
+	async function del_item(id) {
 		Swal.fire({
 			title: "¿Desea eliminar?",
 			text: "¡Esto es irreversible! y eliminará todas las dependencias de ésta línea de acción",
@@ -16,12 +16,107 @@ error_reporting(E_ALL);
 			cancelButtonColor: "#d33",
 			confirmButtonText: "¡Sí, eliminar!",
 			cancelButtonText: "Cancelar",
-		}).then((result) => {
+		}).then(async (result) => {
 			if (result.isConfirmed) {
-				window.location.href = "./?action=ajax&function=del_action_line&id=" + id
+
+				$('#cover-spin').show(0);
+
+				// 1. Datos para la URL
+				const datos = {
+					function: "del_action_line",
+					id: id
+				};
+				// 2. Construir la URL con los parámetros de búsqueda
+				const params = new URLSearchParams(datos);
+				const url = `./?action=ajax&${params.toString()}`;
+
+				try {
+					// 3. Realizar la solicitud GET, sin 'method' ni 'body'
+					const res = await fetch(url);
+
+					if (res.ok) {
+						// console.log(res);
+						const array = await res.json();
+						// console.log(array);
+						toastify(array.alert, true, 13000, array.alert_type);
+						$('#cover-spin').hide(0);
+						if (array.err == 'false') {
+							window.timer = setTimeout(function() {
+								location.reload();
+							}, 800);
+						}
+
+					} else {
+						// Leer la respuesta como texto para depurar
+						const errorText = await res.text();
+						$('#cover-spin').hide(0);
+						// Mostrar el texto de error real del servidor
+						toastify(`Error del servidor: ${errorText}`, true, 12000, "error");
+						throw new Error(`Error de red: ${res.statusText}`);
+					}
+
+				} catch (error) {
+					$('#cover-spin').hide(0);
+					toastify(`Error inesperado: ${error.message}`, true, 12000, "error");
+					console.error("Detalle del error:", error);
+				}
 			}
 		});
 	};
+
+
+
+	document.addEventListener("DOMContentLoaded", function() {
+		document.getElementById("addline").addEventListener('submit', validarFormulario);
+	});
+
+	async function validarFormulario(event) {
+		event.preventDefault();
+
+		if ($("#action_line_name").val() != "") { // valida la informacion
+
+			let url = "./?action=ajax";
+
+			var formData = new FormData(event.target);
+			formData.append('function', 'add_action_line'); // Agrega la función a llamar
+			// console.log(formData);
+
+			$('#cover-spin').show(0);
+
+			try {
+				const res = await fetch(url, {
+					method: 'POST',
+					body: formData
+				});
+
+				if (res.ok) {
+					// console.log(res);
+					const result_await = await res.text();
+					var array = JSON.parse(result_await);
+					// console.log(array);
+					toastify(array.alert, true, 13000, array.alert_type);
+					$('#cover-spin').hide(0);
+					if (array.error == 'false') {
+						window.timer = setTimeout(function() {
+							location.reload();
+						}, 800);
+					}
+
+				} else {
+					$('#cover-spin').hide(0);
+					toastify(res.statusText, true, 12000, "error");
+					throw res.statusText;
+				}
+
+			} catch (error) {
+				$('#cover-spin').hide(0);
+				toastify(error, true, 12000, "error");
+				throw error;
+			}
+		};
+
+	}
+
 
 
 	// SCRIPTS FUCNTIONS
@@ -51,38 +146,38 @@ error_reporting(E_ALL);
 
 
 
-		$('#add_submit').click(function(event) {
+		// $('#add_submit').click(function(event) {
 
-			event.preventDefault();
+		// 	event.preventDefault();
 
-			if ($("#action_line_name").val() != "") { // valida la informacion
-				$.ajax({
-						type: "POST",
-						url: "./?action=ajax",
-						// headers: {
-						//     "X-CSRFToken": getCookie("csrftoken")
-						// },
-						data: {
-							function: "add_action_line", // funcion que llama
-							name: $("#action_line_name").val(),
-							permisos: $("#permisos").val()
-						}
-					})
-					.done(function(msg) {
-						toastify('Guardado', true, 1000, "dashboard");
-						location.reload();
+		// 	if ($("#action_line_name").val() != "") { // valida la informacion
+		// 		$.ajax({
+		// 				type: "POST",
+		// 				url: "./?action=ajax",
+		// 				// headers: {
+		// 				//     "X-CSRFToken": getCookie("csrftoken")
+		// 				// },
+		// 				data: {
+		// 					function: "add_action_line", // funcion que llama
+		// 					name: $("#action_line_name").val(),
+		// 					permisos: $("#permisos").val()
+		// 				}
+		// 			})
+		// 			.done(function(msg) {
+		// 				toastify('Guardado', true, 1000, "dashboard");
+		// 				location.reload();
 
-					})
-					.fail(function(error) {
-						console.log(error.statusText);
-						toastify('Hubo un error al guardar: ' + error.statusText, true, 5000, "warning");
-					});
-				// .always(function() {
-				//     toastify('Finished',true,1000,"warning");
-				// });
-			};
+		// 			})
+		// 			.fail(function(error) {
+		// 				console.log(error.statusText);
+		// 				toastify('Hubo un error al guardar: ' + error.statusText, true, 5000, "warning");
+		// 			});
+		// 		// .always(function() {
+		// 		//     toastify('Finished',true,1000,"warning");
+		// 		// });
+		// 	};
 
-		});
+		// });
 
 
 
@@ -150,7 +245,7 @@ error_reporting(E_ALL);
 								<div class="col-md-12">
 									<div class="form-group">
 										<label for="action_line_name" class="control-label">Nueva línea de acción</label>
-										<input type="text" name="param" id="action_line_name" required class="form-control" placeholder="Nombre">
+										<input type="text" name="name" id="action_line_name" required class="form-control" placeholder="Nombre">
 									</div>
 								</div>
 
@@ -164,7 +259,7 @@ error_reporting(E_ALL);
 
 								<div class="col-md-6">
 									<div class="form-group">
-										<button type="submit" id="add_submit" class="btn btn-primary btn-block">Agregar</button>
+										<button type="submit" class="btn btn-primary btn-block">Agregar</button>
 									</div>
 								</div>
 							</div>

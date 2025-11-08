@@ -16,6 +16,68 @@
 	});
 
 
+
+	async function del_item(url,id) {
+		Swal.fire({
+			title: "¿Desea eliminar?",
+			text: "¡Esto es irreversible! y eliminará todas las dependencias de ésta categoría",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "¡Sí, eliminar!",
+			cancelButtonText: "Cancelar",
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+
+				$('#cover-spin').show(0);
+
+				// 1. Datos para la URL
+				const datos = {
+					function: "del_product_type",
+					id: id
+				};
+				// 2. Construir la URL con los parámetros de búsqueda
+				const params = new URLSearchParams(datos);
+				// const url = `./?action=ajax&${params.toString()}`;
+
+				try {
+					// 3. Realizar la solicitud GET, sin 'method' ni 'body'
+					const res = await fetch(url);
+
+					if (res.ok) {
+						// console.log(res);
+						const array = await res.json();
+						// console.log(array);
+						toastify(array.alert, true, 13000, array.alert_type);
+						$('#cover-spin').hide(0);
+						if (array.err == 'false') {
+							window.timer = setTimeout(function() {
+								location.reload();
+							}, 800);
+						}
+
+					} else {
+						// Leer la respuesta como texto para depurar
+						const errorText = await res.text();
+						$('#cover-spin').hide(0);
+						// Mostrar el texto de error real del servidor
+						toastify(`Error del servidor: ${errorText}`, true, 12000, "error");
+						throw new Error(`Error de red: ${res.statusText}`);
+					}
+
+				} catch (error) {
+					$('#cover-spin').hide(0);
+					toastify(`Error inesperado: ${error.message}`, true, 12000, "error");
+					console.error("Detalle del error:", error);
+				}
+			}
+		});
+	};
+
+
+
+
 	document.addEventListener("DOMContentLoaded", function() {
 		document.getElementById("addcategory").addEventListener('submit', validarFormulario);
 	});
@@ -41,6 +103,7 @@
 				} else {
 					toastify('Registro guardado', true, 1000, "dashboard");
 				}
+
 				// console.log(msg);
 				// window.document.location=msg;
 				location.reload();
@@ -125,7 +188,7 @@
 						$sql = "SELECT * from categoria_productos order by id asc LIMIT " . (($compag - 1) * $CantidadMostrar) . " , " . $CantidadMostrar;
 						$param = ProductsType::getBySQL($sql);
 
-						$url_pag = "<a href=\"?view=data&type=" . $_GET["type"] . "&pag=";
+						$url_pag = "<a href=\"?view=products_category&pag=";
 
 						$TotalRegistro  = ceil($TotalReg / $CantidadMostrar);
 						?>
@@ -156,7 +219,22 @@
 											<tr>
 												<td><?php echo $types->nombre_categoria; ?></td>
 												<td><?php echo $types->cod_categoria; ?></td>
-												<td style="width:180px;"><a href="./?action=ajax&function=del_product_cat&id=<?php echo $types->id; ?>&type=<?php echo $_GET["type"]; ?>" class="btn btn-danger btn-xs">Eliminar</a></td>
+
+												<td>
+
+													<?php $url = "./?action=ajax&function=del_product_cat&id=". $types->id; ?>
+
+													<a onclick="del_item('<?php echo $url; ?>', '<?php echo $types->id; ?>')" href="javascript:void(0);">
+														<button type="button" class="btn btn-danger btn-sm"><i>
+																<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+																	<path fill="currentColor" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z" />
+																</svg></i>
+														</button>
+													</a>
+
+
+												</td>
+
 											</tr>
 										<?php }	?>
 
