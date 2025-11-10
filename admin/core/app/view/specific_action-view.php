@@ -1,5 +1,6 @@
 <script language="javascript">
-    function del_item(url) {
+
+    async function del_item(id) {
         Swal.fire({
             title: "<br>¿Desea eliminar?",
             text: "¡Esto es irreversible!",
@@ -9,12 +10,51 @@
             cancelButtonColor: "#d33",
             confirmButtonText: "¡Sí, eliminar!",
             cancelButtonText: "Cancelar",
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                window.location.href = url
+
+                $('#cover-spin').show(0);
+
+                // 1. Datos para la URL
+                const datos = {
+                    function: "del_specific_action",
+                    id: id
+                };
+                // 2. Construir la URL con los parámetros de búsqueda
+                const params = new URLSearchParams(datos);
+                const url = `./?action=ajax&${params.toString()}`;
+
+                try {
+                    const res = await fetch(url);
+
+                    if (res.ok) {
+                        // console.log(res);
+                        const array = await res.json();
+                        // console.log(array);
+                        toastify(array.alert, true, 13000, array.alert_type);
+                        $('#cover-spin').hide(0);
+                        if (array.error == 'false') {
+                            window.timer = setTimeout(function() {
+                                location.reload();
+                            }, 800);
+                        }
+
+                    } else {
+                        const errorText = await res.text();
+                        $('#cover-spin').hide(0);
+                        toastify(`Error del servidor: ${errorText}`, true, 12000, "error");
+                        throw new Error(`Error de red: ${res.statusText}`);
+                    }
+
+                } catch (error) {
+                    $('#cover-spin').hide(0);
+                    toastify(`Error inesperado: ${error.message}`, true, 12000, "error");
+                    console.error("Detalle del error:", error);
+                }
             }
         });
     };
+
 
     // SCRIPTS FUCNTIONS
     $(document).ready(function() {
@@ -45,7 +85,7 @@
         $('#add_submit').click(function(event) {
             event.preventDefault();
 
-			var strategic_action = $("#tipo_reporte").val().split(",");
+            var strategic_action = $("#tipo_reporte").val().split(",");
 
             if ($("#tipo_reporte").val() != "" && $("#accion_especifica").val() != "") { // valida la informacion
 
@@ -56,7 +96,7 @@
                             function: "add_accion_especifica", // funcion que llama
                             line_action: $("#line_action").val(),
                             tipo_reporte: strategic_action[0],
-							strategic_action_id: strategic_action[1],
+                            strategic_action_id: strategic_action[1],
                             accion_especifica: $("#accion_especifica").val(),
                             descripcion_actividad: $("#descripcion_actividad").val(),
                             has_formation: $("#has_formation").val(),
@@ -98,32 +138,32 @@ $action_line = ActionsLineData::getAll();
 
 <?php if ($_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 9) { ?>
 
-	<div class="row">
-		<div class="col-md-12">
-			<div class="row justify-content-center container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row justify-content-center container">
 
-				<div class="col-md-4">
-					<div class="row justify-content-center container">
-						<form action="index.php?view=import_xlsx_specific_action" method="POST" enctype="multipart/form-data" />
-						<span class="btn btn-raised btn-round btn-default btn-file">
-							<span class="fileinput-new">Select</span>
-							<span class="fileinput-exists">Change</span>
-							<input type="file" name="datafile" id="file-input" class="file-input__input" accept=".xlsx" />
-						</span>
+                <div class="col-md-4">
+                    <div class="row justify-content-center container">
+                        <form action="index.php?view=import_xlsx_specific_action" method="POST" enctype="multipart/form-data" />
+                        <span class="btn btn-raised btn-round btn-default btn-file">
+                            <span class="fileinput-new">Select</span>
+                            <span class="fileinput-exists">Change</span>
+                            <input type="file" name="datafile" id="file-input" class="file-input__input" accept=".xlsx" />
+                        </span>
 
-						<button type="submit" name="subir" onclick="uploadXLSX()" class="btn btn-default btn-block">
-							Subir Archivo
-							<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 16 16">
-								<path fill="currentColor" fill-rule="evenodd" d="M14 4.5V11h-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM7.86 14.841a1.13 1.13 0 0 0 .401.823q.195.162.479.252q.284.091.665.091q.507 0 .858-.158q.355-.158.54-.44a1.17 1.17 0 0 0 .187-.656q0-.336-.135-.56a1 1 0 0 0-.375-.357a2 2 0 0 0-.565-.21l-.621-.144a1 1 0 0 1-.405-.176a.37.37 0 0 1-.143-.299q0-.234.184-.384q.188-.152.513-.152q.214 0 .37.068a.6.6 0 0 1 .245.181a.56.56 0 0 1 .12.258h.75a1.1 1.1 0 0 0-.199-.566a1.2 1.2 0 0 0-.5-.41a1.8 1.8 0 0 0-.78-.152q-.44 0-.777.15q-.336.149-.527.421q-.19.273-.19.639q0 .302.123.524t.351.367q.229.143.54.213l.618.144q.31.073.462.193a.39.39 0 0 1 .153.326a.5.5 0 0 1-.085.29a.56.56 0 0 1-.255.193q-.168.07-.413.07q-.176 0-.32-.04a.8.8 0 0 1-.249-.115a.58.58 0 0 1-.255-.384zm-3.726-2.909h.893l-1.274 2.007l1.254 1.992h-.908l-.85-1.415h-.035l-.853 1.415H1.5l1.24-2.016l-1.228-1.983h.931l.832 1.438h.036zm1.923 3.325h1.697v.674H5.266v-3.999h.791zm7.636-3.325h.893l-1.274 2.007l1.254 1.992h-.908l-.85-1.415h-.035l-.853 1.415h-.861l1.24-2.016l-1.228-1.983h.931l.832 1.438h.036z" />
-							</svg>
-						</button>
-					</div>
-					</form>
-				</div>
+                        <button type="submit" name="subir" onclick="uploadXLSX()" class="btn btn-default btn-block">
+                            Subir Archivo
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 16 16">
+                                <path fill="currentColor" fill-rule="evenodd" d="M14 4.5V11h-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM7.86 14.841a1.13 1.13 0 0 0 .401.823q.195.162.479.252q.284.091.665.091q.507 0 .858-.158q.355-.158.54-.44a1.17 1.17 0 0 0 .187-.656q0-.336-.135-.56a1 1 0 0 0-.375-.357a2 2 0 0 0-.565-.21l-.621-.144a1 1 0 0 1-.405-.176a.37.37 0 0 1-.143-.299q0-.234.184-.384q.188-.152.513-.152q.214 0 .37.068a.6.6 0 0 1 .245.181a.56.56 0 0 1 .12.258h.75a1.1 1.1 0 0 0-.199-.566a1.2 1.2 0 0 0-.5-.41a1.8 1.8 0 0 0-.78-.152q-.44 0-.777.15q-.336.149-.527.421q-.19.273-.19.639q0 .302.123.524t.351.367q.229.143.54.213l.618.144q.31.073.462.193a.39.39 0 0 1 .153.326a.5.5 0 0 1-.085.29a.56.56 0 0 1-.255.193q-.168.07-.413.07q-.176 0-.32-.04a.8.8 0 0 1-.249-.115a.58.58 0 0 1-.255-.384zm-3.726-2.909h.893l-1.274 2.007l1.254 1.992h-.908l-.85-1.415h-.035l-.853 1.415H1.5l1.24-2.016l-1.228-1.983h.931l.832 1.438h.036zm1.923 3.325h1.697v.674H5.266v-3.999h.791zm7.636-3.325h.893l-1.274 2.007l1.254 1.992h-.908l-.85-1.415h-.035l-.853 1.415h-.861l1.24-2.016l-1.228-1.983h.931l.832 1.438h.036z" />
+                            </svg>
+                        </button>
+                    </div>
+                    </form>
+                </div>
 
-			</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
 
 <?php } ?>
 
@@ -231,17 +271,17 @@ $action_line = ActionsLineData::getAll();
                         $compag = (int)(!isset($_GET['pag'])) ? 1 : $_GET['pag'];
 
                         // pg
-						$total = StrategicActionData::getAllPg("SELECT * from specific_action order by id desc");
-						$TotalReg = $total[1];
+                        $total = StrategicActionData::getAllPg("SELECT * from specific_action order by id desc");
+                        $TotalReg = $total[1];
 
-						$sql = "SELECT * from specific_action order by id desc";
+                        $sql = "SELECT * from specific_action order by id desc";
 
-						$param_csv = mb_convert_encoding($sql, 'UTF-8', 'UTF-8');
-						// $param_sql = mb_convert_encoding($sql, 'UTF-8', 'UTF-8');
-						$DB_name = "specific_action";
+                        $param_csv = mb_convert_encoding($sql, 'UTF-8', 'UTF-8');
+                        // $param_sql = mb_convert_encoding($sql, 'UTF-8', 'UTF-8');
+                        $DB_name = "specific_action";
 
-						$sql .= " LIMIT " . $CantidadMostrar . " OFFSET " . (($compag - 1) * $CantidadMostrar);
-						$param = StrategicActionData::getObj($sql);
+                        $sql .= " LIMIT " . $CantidadMostrar . " OFFSET " . (($compag - 1) * $CantidadMostrar);
+                        $param = StrategicActionData::getObj($sql);
 
                         $url_pag = "<a href=\"?view=specific_action&pag=";
 
@@ -264,20 +304,20 @@ $action_line = ActionsLineData::getAll();
                                     </div>
 
                                     <!-- botones de descarga de reportes -->
-									<div class="col-md-12">
-										<div class="input-group">
-											<!-- <a href="./pdf/csv_pdo.php?param_csv=<!?php echo $param_csv . '&param_sql=' . $param_sql . '&DB_name=' . $DB_name; ?>"
+                                    <div class="col-md-12">
+                                        <div class="input-group">
+                                            <!-- <a href="./pdf/csv_pdo.php?param_csv=<!?php echo $param_csv . '&param_sql=' . $param_sql . '&DB_name=' . $DB_name; ?>"
 												name="Descargar" class=" btn btn-success "><i class="fa fa-file-excel-o"></i> CSV
 											</a> -->
-											<a target="_blank" class="btn btn-success"
-												href="../core/app/view/exportxlsx_2.php?param=<?php echo $param_csv . '&param_sql=true&filename=' . $DB_name; ?>"
-												name="Descargar"><i class="fa fa-file-excel-o"></i> XLSX
-											</a>
+                                            <a target="_blank" class="btn btn-success"
+                                                href="../core/app/view/exportxlsx_2.php?param=<?php echo $param_csv . '&param_sql=true&filename=' . $DB_name; ?>"
+                                                name="Descargar"><i class="fa fa-file-excel-o"></i> XLSX
+                                            </a>
 
-										</div>
+                                        </div>
 
-										<br>
-									</div>
+                                        <br>
+                                    </div>
 
 
                                     <table class="table table-bordered table-hover">
@@ -300,9 +340,13 @@ $action_line = ActionsLineData::getAll();
                                                 <td style="width:180px;">
                                                     <a href="./index.php?view=edit_specific_action&id=<?php echo $user->id; ?>" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a>
 
-                                                    <?php $URL = "./?action=ajax&function=del_specific_action&id=" . $user->id; ?>
-                                                    <button type="button" onclick="del_item('<?php echo $URL; ?>')" title="Eliminar" class="btn btn-danger btn-sm"><i class="material-icons">close</i></button></a>
-
+                                                    <a onclick="del_item('<?php echo $user->id; ?>')" href="javascript:void(0);">
+                                                        <button type="button" class="btn btn-danger btn-sm"><i>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                                                    <path fill="currentColor" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z" />
+                                                                </svg></i>
+                                                        </button>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         <?php }    ?>

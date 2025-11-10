@@ -1,5 +1,5 @@
 <script language="javascript">
-    function del_item(url) {
+    async function del_item(id) {
         Swal.fire({
             title: "<br>¿Desea eliminar?",
             text: "¡Esto es irreversible!",
@@ -9,12 +9,53 @@
             cancelButtonColor: "#d33",
             confirmButtonText: "¡Sí, eliminar!",
             cancelButtonText: "Cancelar",
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                window.location.href = url
+
+                $('#cover-spin').show(0);
+
+                // 1. Datos para la URL
+                const datos = {
+                    function: "del_tipo_taller",
+                    id: id
+                };
+                // 2. Construir la URL con los parámetros de búsqueda
+                const params = new URLSearchParams(datos);
+                const url = `./?action=ajax&${params.toString()}`;
+
+                try {
+                    const res = await fetch(url);
+
+                    if (res.ok) {
+                        // console.log(res);
+                        const array = await res.json();
+                        // console.log(array);
+                        toastify(array.alert, true, 13000, array.alert_type);
+                        $('#cover-spin').hide(0);
+                        if (array.error == 'false') {
+                            window.timer = setTimeout(function() {
+                                location.reload();
+                            }, 800);
+                        }
+
+                    } else {
+                        const errorText = await res.text();
+                        $('#cover-spin').hide(0);
+                        toastify(`Error del servidor: ${errorText}`, true, 12000, "error");
+                        throw new Error(`Error de red: ${res.statusText}`);
+                    }
+
+                } catch (error) {
+                    $('#cover-spin').hide(0);
+                    toastify(`Error inesperado: ${error.message}`, true, 12000, "error");
+                    console.error("Detalle del error:", error);
+                }
             }
         });
     };
+
+
+
 
     $(document).ready(function() {
         $('#cover-spin').hide(0);
@@ -340,9 +381,13 @@ $TotalRegistro  = ceil($TotalReg / $CantidadMostrar);
                                                 <td style="width:180px;">
                                                     <a href="./?view=edit_tipo_taller&id=<?php echo $user->id; ?>" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a>
 
-                                                    <?php $URL = "./?action=ajax&function=del_tipo_taller&id=" . $user->id; ?>
-                                                    <button type="button" onclick="del_item('<?php echo $URL; ?>')" title="Eliminar" class="btn btn-danger btn-sm"><i class="material-icons">close</i></button>
-
+                                                    <a onclick="del_item('<?php echo $user->id; ?>')" href="javascript:void(0);">
+                                                        <button type="button" class="btn btn-danger btn-sm"><i>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                                                    <path fill="currentColor" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z" />
+                                                                </svg></i>
+                                                        </button>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         <?php }    ?>

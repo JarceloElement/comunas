@@ -34,60 +34,85 @@
 		var location = window.location;
 
 		// NOTIFICACION
-		if ('<?php echo $_GET['swal']; ?>' != "") {
-			Swal.fire({
-				position: 'top-center',
-				icon: 'success',
-				title: '<?php echo $_GET['swal']; ?>',
-				showConfirmButton: false,
-				timer: 1500
-			})
-		};
-		// cambiar el parametro de alert
-		const url = new URL(window.location);
-		url.searchParams.set('swal', '');
-		window.history.pushState({}, '', url);
+		$(function() {
+			<?php
+
+			if (isset($_SESSION['alert']) && $_SESSION['alert'] != "") : ?>
+				if (getOS() != "Android") {
+					Swal.fire({
+						icon: 'success',
+						title: '<?php echo $_SESSION['alert']; ?>',
+						showConfirmButton: false,
+						timer: 1000
+					})
+				} else {
+					alert("<?php echo $_SESSION['alert']; ?>");
+				}
+
+				<?php echo $_SESSION['alert'] = ""; ?>
+
+			<?php endif; ?>
+		});
 
 
 
 
 
-		$('#add_submit').click(function(event) {
+		$('#add_submit').click(async function(event) {
 			event.preventDefault();
 
 			var line = $("#line_action").val().split(",");
 			var id = $("#id").val();
 
+			let url = "./?action=ajax";
+
+			var formData = new FormData(document.getElementById('edit_strategic'));
+			formData.append('function', 'edit_strategic_action'); // Agrega la función a llamar
+			formData.append('id', id);
+			formData.append('line_action', line[0]);
+			formData.append('line_id', line[1]);
+			formData.append('name_action', $("#name_action").val());
+			formData.append('permisos', $("#permisos").val());
+			// console.log(formData);
+
 			if ($("#line_action").val() != "" && $("#name_action").val() != "") { // valida la informacion
 
-				$.ajax({
-						type: "POST",
-						url: "./?action=ajax",
-						data: {
-							function: "edit_strategic_action", // funcion que llama
-							id: id,
-							line_action: line[0],
-							line_id: line[1],
-							name_action: $("#name_action").val(),
-							permisos: $("#permisos").val()
-						}
-					})
-					.done(function(msg) {
-						toastify('Guardado', true, 1000, "dashboard");
-						document.location='index.php?view=strategic_action&swal=Guardado';
+				$('#cover-spin').show(0);
 
-					})
-					.fail(function() {
-						toastify('Hubo un error al guardar', true, 5000, "warning");
+				try {
+					const res = await fetch(url, {
+						method: 'POST',
+						body: formData
 					});
-				// .always(function() {
-				//     toastify('Finished',true,1000,"warning");
-				// });
 
+					if (res.ok) {
+						// console.log(res);
+						const result_await = await res.text();
+						// console.log(result_await);
+						var array = JSON.parse(result_await);
+						console.log(array);
+						toastify(array.alert, true, 13000, array.alert_type);
+						$('#cover-spin').hide(0);
+						if (array.error == 'false') {
+							window.timer = setTimeout(function() {
+								// location.reload();
+								location.href = './?view=strategic_action';
+							}, 800);
+						}
 
+					} else {
+						$('#cover-spin').hide(0);
+						toastify(res.statusText, true, 12000, "error");
+						throw res.statusText;
+					}
 
+				} catch (error) {
+					$('#cover-spin').hide(0);
+					toastify(error, true, 12000, "error");
+					throw error;
+				}
 
-			}else{
+			} else {
 				toastify('Por favor selecciona la línea de acción', true, 5000, "warning");
 			};
 
@@ -124,7 +149,7 @@ $action_line = ActionsLineData::getAllPg("SELECT * from actions_line order by li
 
 						<br>
 
-						<form method="post" id="add_strategic" role="form">
+						<form method="post" id="edit_strategic" role="form">
 							<input type="hidden" name="id" id="id" value="<?php echo $data->id; ?>"></input>
 
 

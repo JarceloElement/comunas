@@ -140,16 +140,30 @@ if ($func_post == "add_strategic_action") {
     $param->line_action = $_POST["line_action"];
     $param->name_action = $_POST["name_action"];
     $param->permisos = $permisos;
-    $param->addPg();
-    // Core::alert("Creado exitosamente!");
-    $array = array(
-        "error"  => $_POST["line_action"]
-    );
-    $res = json_encode($array);
-    echo $res;
 
-    // echo "¡Creado exitosamente!";
+    try {
+        $result = $param->addPg();
+        $_SESSION['alert'] = '¡Creado con éxito!';
+        $array = array(
+            "error"  => "false",
+            "data"  => "Result: " . $result,
+            "alert" => "Creado con éxito",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "error"  => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+    }
+    echo json_encode($array);
+    return;
 }
+
+
+
 
 // add_accion_especifica
 if ($func_post == "add_accion_especifica") {
@@ -207,12 +221,26 @@ if ($func_post == "edit_strategic_action") {
     $permisos = strtoupper($permisos);
 
     $sql = "UPDATE strategic_action set line_id='$line_id', line_action='$line_action', name_action='$name_action', permisos='$permisos' where id=$id";
-    ExecutorPg::doit($sql);
-    $array = array(
-        "error"  => $_POST["line_action"]
-    );
-    $res = json_encode($array);
-    echo $res;
+
+    try {
+        $result = ExecutorPg::doit($sql);
+        $_SESSION['alert'] = '¡Actualizado con éxito!';
+        $array = array(
+            "error"  => "false",
+            "data"  => "Result: " . $result,
+            "alert" => "Actualizado con éxito",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "error"  => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+    }
+    echo json_encode($array);
+    return;
 }
 
 
@@ -230,13 +258,25 @@ if ($func_post == "edit_tipo_taller") {
     $permisos = strtoupper($permisos);
 
     $sql = "UPDATE tipo_taller set name_training_type='$line_action', nombre_taller='$nombre_taller', descripcion_taller='$descripcion_taller', duracion_horas='$duracion_horas', nivel='$nivel', modalidad='$modalidad', permisos='$permisos' where id=$id";
-    ExecutorPg::doit($sql);
-    $array = array(
-        "error"  => $_POST["nombre_taller"]
-    );
-    $res = json_encode($array);
-    echo $res;
-    $_SESSION['alert'] = 'Actualizado';
+    try {
+        $result = ExecutorPg::doit($sql);
+        $_SESSION['alert'] = '¡Actualizado con éxito!';
+        $array = array(
+            "error"  => "false",
+            "data"  => "Result: " . $result,
+            "alert" => "Actualizado con éxito",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "error"  => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+    }
+    echo json_encode($array);
+    return;
 }
 
 
@@ -381,9 +421,27 @@ if ($func_post == "add_user_type") {
     $param = new UserTypeData();
     $param->user_type = $_POST["user_type"];
     $param->user_type_name = $_POST["user_type_name"];
-    $param->add();
-    // Core::alert("Creado exitosamente!");
-    echo "¡Creado exitosamente!";
+    
+    try {
+        $result = $param->add();
+
+        $_SESSION['alert'] = "¡Creado exitosamente!";
+
+        $array = array(
+            "error" => "false",
+            "data"  => "ID: " . $result,
+            "alert" => "Registro creado con éxito.",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+    }
+    echo json_encode($array);
+    return;
 }
 
 
@@ -1675,15 +1733,25 @@ if ($func_get == "del_strategic_action") {
         return;
     }
     $param = StrategicActionData::getByIdPg($_GET["id"]);
-    $param->delPg();
-    // Core::alert("Eliminado exitosamente!");
-
-    $PHP_SELFx = "index.php?view=strategic_action&swal=Eliminado";
-    echo "<script language=\"JavaScript\">
-	<!-- 
-	document.location=\"$PHP_SELFx\";
-	//-->
-    </script>";
+    try {
+        $result = $param->delPg();
+        $_SESSION['alert'] = '¡Eliminado!';
+        $array = array(
+            "error"  => "false",
+            "data"  => "Result: " . $result,
+            "alert" => "¡Eliminado con éxito!",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "error"  => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+    }
+    echo json_encode($array);
+    return;
 }
 
 
@@ -1769,20 +1837,25 @@ if ($func_get == "del_user_type") {
         return;
     }
     $param = UserTypeData::getById($_GET["id"]);
-    echo $param->del();
-    // Core::alert("Eliminado exitosamente!");
-
-
-
-
-
-
-    $PHP_SELFx = "index.php?view=data&swal=Eliminado&type=" . $_GET["type"];
-    echo "<script language=\"JavaScript\">
-        <!-- 
-        document.location=\"$PHP_SELFx\";
-        //-->
-        </script>";
+     try {
+        $result = $param->del();
+        $_SESSION['alert'] = '¡Eliminado!';
+        $array = array(
+            "error"  => "false",
+            "data"  => "Result: " . $result,
+            "alert" => "¡Eliminado con éxito!",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "error"  => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+    }
+    echo json_encode($array);
+    return;
 }
 
 // del_user
@@ -1978,14 +2051,25 @@ if ($func_get == "del_specific_action") {
         return;
     }
     $param = SpecificActionData::getByIdPg($_GET["id"]);
-    $param->delPg();
-
-    $PHP_SELFx = "index.php?view=specific_action&swal=Eliminado";
-    echo "<script language=\"JavaScript\">
-        <!-- 
-        document.location=\"$PHP_SELFx\";
-        //-->
-        </script>";
+    try {
+        $result = $param->delPg();
+        $_SESSION['alert'] = '¡Eliminado!';
+        $array = array(
+            "error"  => "false",
+            "data"  => "Result: " . $result,
+            "alert" => "¡Eliminado con éxito!",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "error"  => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+    }
+    echo json_encode($array);
+    return;
 }
 
 // del_specific_action
@@ -1996,17 +2080,26 @@ if ($func_get == "del_training_type") {
         return;
     }
     $sql = "DELETE from training_type where id=$id";
-    ExecutorPg::doit($sql);
 
-
-    $_SESSION['alert'] = "Registro eliminado";
-
-    $PHP_SELFx = "index.php?view=training_type";
-    echo "<script language=\"JavaScript\">
-        <!-- 
-        document.location=\"$PHP_SELFx\";
-        //-->
-        </script>";
+    try {
+        $result = ExecutorPg::doit($sql);
+        $_SESSION['alert'] = '¡Eliminado!';
+        $array = array(
+            "error"  => "false",
+            "data"  => "Result: " . $result,
+            "alert" => "¡Eliminado con éxito!",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "error"  => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+    }
+    echo json_encode($array);
+    return;
 }
 
 
@@ -2018,16 +2111,25 @@ if ($func_get == "del_tipo_taller") {
         return;
     }
     $sql = "DELETE from tipo_taller where id=$id";
-    ExecutorPg::doit($sql);
-
-    $_SESSION['alert'] = "Registro eliminado";
-
-    $PHP_SELFx = "index.php?view=tipo_taller_view";
-    echo "<script language=\"JavaScript\">
-        <!-- 
-        document.location=\"$PHP_SELFx\";
-        //-->
-        </script>";
+    try {
+        $result = ExecutorPg::doit($sql);
+        $_SESSION['alert'] = '¡Eliminado!';
+        $array = array(
+            "error"  => "false",
+            "data"  => "Result: " . $result,
+            "alert" => "¡Eliminado con éxito!",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "error"  => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+    }
+    echo json_encode($array);
+    return;
 }
 
 // del_tipo_nivel

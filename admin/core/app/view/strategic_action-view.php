@@ -16,7 +16,7 @@ error_reporting(E_ALL);
 	// }
 
 
-	function del_item(url) {
+	async function del_item(id) {
 		Swal.fire({
 			title: "<br>¿Desea eliminar?",
 			text: "¡Esto es irreversible!",
@@ -26,12 +26,52 @@ error_reporting(E_ALL);
 			cancelButtonColor: "#d33",
 			confirmButtonText: "¡Sí, eliminar!",
 			cancelButtonText: "Cancelar",
-		}).then((result) => {
+		}).then(async (result) => {
 			if (result.isConfirmed) {
-				window.location.href = url
+
+				$('#cover-spin').show(0);
+
+				// 1. Datos para la URL
+				const datos = {
+					function: "del_strategic_action",
+					id: id
+				};
+				// 2. Construir la URL con los parámetros de búsqueda
+				const params = new URLSearchParams(datos);
+				const url = `./?action=ajax&${params.toString()}`;
+
+				try {
+					const res = await fetch(url);
+
+					if (res.ok) {
+						// console.log(res);
+						const array = await res.json();
+						// console.log(array);
+						toastify(array.alert, true, 13000, array.alert_type);
+						$('#cover-spin').hide(0);
+						if (array.error == 'false') {
+							window.timer = setTimeout(function() {
+								location.reload();
+							}, 800);
+						}
+
+					} else {
+						const errorText = await res.text();
+						$('#cover-spin').hide(0);
+						toastify(`Error del servidor: ${errorText}`, true, 12000, "error");
+						throw new Error(`Error de red: ${res.statusText}`);
+					}
+
+				} catch (error) {
+					$('#cover-spin').hide(0);
+					toastify(`Error inesperado: ${error.message}`, true, 12000, "error");
+					console.error("Detalle del error:", error);
+				}
 			}
 		});
 	};
+
+
 
 	// SCRIPTS FUCNTIONS
 	$(document).ready(function() {
@@ -39,59 +79,84 @@ error_reporting(E_ALL);
 		var location = window.location;
 
 		// NOTIFICACION
-		if ('<?php echo $_GET['swal']; ?>' != "") {
-			Swal.fire({
-				position: 'top-center',
-				icon: 'success',
-				title: '<?php echo $_GET['swal']; ?>',
-				showConfirmButton: false,
-				timer: 1500
-			})
-		};
-		// cambiar el parametro de alert
-		const url = new URL(window.location);
-		url.searchParams.set('swal', '');
-		window.history.pushState({}, '', url);
+		$(function() {
+			<?php if (isset($_SESSION['alert']) && $_SESSION['alert'] != "") : ?>
+				if (getOS() != "Android") {
+					Swal.fire({
+						icon: 'success',
+						title: '<?php echo $_SESSION['alert']; ?>',
+						showConfirmButton: false,
+						timer: 1000
+					})
+				} else {
+					alert("<?php echo $_SESSION['alert']; ?>");
+				}
+
+				<?php echo $_SESSION['alert'] = ""; ?>
+
+			<?php endif; ?>
+		});
 
 
 
 
 
-		$('#add_submit').click(function(event) {
+		$('#add_submit').click(async function(event) {
 			event.preventDefault();
 
 			var line = $("#line_action").val().split(",");
-			if ($("#line_action").val() != "" && $("#name_action").val() != "") { // valida la informacion
+			if ($("#line_action").val() != "" && $("#name_action").val() != "") {
 
-				$.ajax({
-						type: "POST",
-						url: "./?action=ajax",
-						// headers: {
-						//     "X-CSRFToken": getCookie("csrftoken")
-						// },
-						data: {
-							function: "add_strategic_action", // funcion que llama
-							line_action: line[0],
-							line_id: line[1],
-							name_action: $("#name_action").val(),
-							permisos: $("#permisos").val()
+				let url = "./?action=ajax";
+
+				var formData = new FormData(document.getElementById('add_strategic'));
+				formData.append('function', 'add_strategic_action');
+				formData.append('line_action', line[0]);
+				formData.append('line_id', line[1]);
+				formData.append('name_action', $("#name_action").val());
+				formData.append('permisos', $("#permisos").val());
+				// console.log(formData);
+
+				if ($("#line_action").val() != "" && $("#name_action").val() != "") { // valida la informacion
+
+					$('#cover-spin').show(0);
+
+					try {
+						const res = await fetch(url, {
+							method: 'POST',
+							body: formData
+						});
+
+						if (res.ok) {
+							// console.log(res);
+							const result_await = await res.text();
+							// console.log(result_await);
+							var array = JSON.parse(result_await);
+							console.log(array);
+							toastify(array.alert, true, 13000, array.alert_type);
+							$('#cover-spin').hide(0);
+							if (array.error == 'false') {
+								window.timer = setTimeout(function() {
+									// location.reload();
+									location.href = './?view=strategic_action';
+								}, 800);
+							}
+
+						} else {
+							$('#cover-spin').hide(0);
+							toastify(res.statusText, true, 12000, "error");
+							throw res.statusText;
 						}
-					})
-					.done(function(msg) {
-						// console.log(msg);
-						toastify('Guardado', true, 1000, "dashboard");
-						location.reload();
-						// $('#content').reload('#content');
 
-					})
-					.fail(function(error) {
-						toastify('Hubo un error al guardar: '+error.statusText, true, 5000, "warning");
-					});
-				// .always(function() {
-				//     toastify('Finished',true,1000,"warning");
-				// });
+					} catch (error) {
+						$('#cover-spin').hide(0);
+						toastify(error, true, 12000, "error");
+						throw error;
+					}
 
-
+				} else {
+					toastify('Por favor selecciona la línea de acción', true, 5000, "warning");
+				};
 
 
 			};
@@ -110,7 +175,7 @@ error_reporting(E_ALL);
 
 <?php
 $action_line = ActionsLineData::getAll();
-											// print_r($action_line);
+// print_r($action_line);
 
 ?>
 
@@ -287,9 +352,9 @@ $action_line = ActionsLineData::getAll();
 											<th>Acciones</th>
 										</thead>
 
-										<?php foreach ($param as $user) { 
-											
-											?>
+										<?php foreach ($param as $user) {
+
+										?>
 											<tr>
 												</td>
 												<?php if ($user->line_action == "Infocentro adentro" || $user->line_action == "Participación digital" || $user->line_action == "Comunidades de participación digital") {
@@ -310,9 +375,13 @@ $action_line = ActionsLineData::getAll();
 												<td>
 													<a href="./?view=edit_strategic_action&id=<?php echo $user->id; ?>" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a>
 
-													<?php $URL = "./?action=ajax&function=del_strategic_action&id=" . $user->id; ?>
-													<button type="button" onclick="del_item('<?php echo $URL; ?>')" title="Eliminar" class="btn btn-danger btn-sm"><i class="material-icons">close</i></button>
-
+													<a onclick="del_item('<?php echo $user->id; ?>')" href="javascript:void(0);">
+														<button type="button" class="btn btn-danger btn-sm"><i>
+																<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+																	<path fill="currentColor" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z" />
+																</svg></i>
+														</button>
+													</a>
 												</td>
 											</tr>
 										<?php }	?>
