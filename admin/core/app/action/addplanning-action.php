@@ -86,9 +86,9 @@ $param->specific_action = $_POST["accion_especifica"];
 $param->training_type = $_POST["area_formativa"];
 $param->training_level = $_POST["nivel_formacion"];
 $param->tipo_taller = $_POST["tipo_taller"];
-$param->institucion_formacion = $_POST["institucion_formacion"];
-$param->id_institucion = $_POST["id_institucion"];
-$param->isnt_type = $_POST["isnt_type"];
+// $param->institucion_formacion = $_POST["institucion_formacion"];
+// $param->id_institucion = $_POST["id_institucion"];
+// $param->isnt_type = $_POST["isnt_type"];
 $param->circuito_comunal = $_POST["circuito_comunal"];
 
 $param->activity_title = $_POST["nombre_act"];

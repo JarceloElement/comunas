@@ -321,6 +321,7 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
                                 <input type="hidden" name="nivel_formacion" id="nivel_formacion" value="No aplica">
                                 <input type="hidden" name="id_institucion" id="id_institucion" value="<?php echo $activity["id_institucion"]; ?>">
                                 <input type="hidden" name="isnt_type" id="isnt_type" value="<?php echo $activity["isnt_type"]; ?>">
+                                <input type="hidden" name="institucion_formacion" value="No aplica">
 
 
                                 <div class="form-row">

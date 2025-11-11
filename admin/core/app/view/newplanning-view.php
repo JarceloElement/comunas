@@ -402,6 +402,7 @@ $fecha_end = "2025-01-01";
                             <input type="hidden" name="nivel_formacion" id="nivel_formacion" value="No aplica">
                             <input type="hidden" name="id_institucion" id="id_institucion" value="No aplica">
                             <input type="hidden" name="isnt_type" id="isnt_type" value="No aplica">
+                            <input type="hidden" name="institucion_formacion" value="No aplica">
 
 
 
