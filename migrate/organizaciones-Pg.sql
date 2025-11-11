@@ -23,10 +23,10 @@ CREATE TABLE IF NOT EXISTS public.organizaciones (
     update_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
 
 );
-ALTER TABLE public.organizaciones OWNER TO lanubede;
+ALTER TABLE public.organizaciones OWNER TO lanubepl_managercomunas;
 
 CREATE SEQUENCE IF NOT EXISTS public.organizaciones_id_seq START WITH 1 INCREMENT BY 1 NO MINVALUE NO MAXVALUE CACHE 1;
-ALTER TABLE public.organizaciones_id_seq OWNER TO lanubede;
+ALTER TABLE public.organizaciones_id_seq OWNER TO lanubepl_managercomunas;
 ALTER SEQUENCE public.organizaciones_id_seq OWNED BY public.organizaciones.id;
 
 ALTER TABLE ONLY public.organizaciones ALTER COLUMN id SET DEFAULT nextval('public.organizaciones_id_seq'::regclass);
