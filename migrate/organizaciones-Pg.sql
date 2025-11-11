@@ -1,7 +1,7 @@
-CREATE UNIQUE INDEX IF NOT EXISTS idx_training_type_code ON training_type(codigo_curso);
-CREATE INDEX IF NOT EXISTS idx_final_users_dni ON public.final_users(user_dni);
-CREATE INDEX IF NOT EXISTS idx_training_type_cod ON public.training_type(codigo_curso);
-ALTER TABLE IF EXISTS public.tipo_taller ADD COLUMN IF NOT EXISTS orden_taller VARCHAR(20);
+CREATE UNIQUE INDEX idx_training_type_code ON training_type(codigo_curso);
+CREATE INDEX idx_final_users_dni ON public.final_users(user_dni);
+CREATE INDEX idx_training_type_cod ON public.training_type(codigo_curso);
+ALTER TABLE public.tipo_taller ADD COLUMN IF NOT EXISTS orden_taller VARCHAR(20);
 
 CREATE TABLE IF NOT EXISTS public.organizaciones (
     id bigint PRIMARY KEY NOT NULL,
