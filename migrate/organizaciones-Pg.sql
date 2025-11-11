@@ -1,3 +1,8 @@
+CREATE UNIQUE INDEX IF NOT EXISTS idx_training_type_code ON training_type(codigo_curso);
+CREATE INDEX IF NOT EXISTS idx_final_users_dni ON public.final_users(user_dni);
+CREATE INDEX IF NOT EXISTS idx_training_type_cod ON public.training_type(codigo_curso);
+ALTER TABLE IF EXISTS public.tipo_taller ADD COLUMN IF NOT EXISTS orden_taller VARCHAR(20);
+
 CREATE TABLE IF NOT EXISTS public.organizaciones (
     id bigint PRIMARY KEY NOT NULL,
     code_info character varying(100),
@@ -18,10 +23,10 @@ CREATE TABLE IF NOT EXISTS public.organizaciones (
     update_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
 
 );
-ALTER TABLE public.organizaciones OWNER TO lanubepl_managercomunas;
+ALTER TABLE public.organizaciones OWNER TO lanubede;
 
 CREATE SEQUENCE IF NOT EXISTS public.organizaciones_id_seq START WITH 1 INCREMENT BY 1 NO MINVALUE NO MAXVALUE CACHE 1;
-ALTER TABLE public.organizaciones_id_seq OWNER TO lanubepl_managercomunas;
+ALTER TABLE public.organizaciones_id_seq OWNER TO lanubede;
 ALTER SEQUENCE public.organizaciones_id_seq OWNED BY public.organizaciones.id;
 
 ALTER TABLE ONLY public.organizaciones ALTER COLUMN id SET DEFAULT nextval('public.organizaciones_id_seq'::regclass);
