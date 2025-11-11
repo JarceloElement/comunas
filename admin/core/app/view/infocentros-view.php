@@ -175,8 +175,8 @@ if (isset($_GET['pag'])) {
 													</svg></i></span>
 										</div>
 										<label class="bmd-label-floating floating_icon">Palabra clave</label>
-										<input type="text" name="q" value="<?php if (isset($_GET["q"]) && $_GET["q"] != "") {
-																				echo $_GET["q"];
+										<input type="text" name="q" value="<?php if (isset($q_info) && $q_info != "") {
+																				echo $q_info;
 																			} ?>" class="form-control">
 									</div>
 								</div>
@@ -281,15 +281,20 @@ $url_pag_adelante = "";
 
 // Validado  la variable GET
 $compag = (int)(!isset($_GET['pag'])) ? 1 : $_GET['pag'];
-$q_info = isset($_GET['q']) ? trim(strtoupper($_GET['q'])) : "";
+$q_info = isset($_GET['q']) ? $_GET['q'] : "";
+$q_info2 = isset($_GET['q']) ? trim(strtoupper($_GET['q'])) : "";
+$operatividad = isset($_GET['operatividad']) ? $_GET['operatividad'] : "";
+$internet = isset($_GET['operatividad']) ? $_GET['operatividad'] : "";
+$estatus = isset($_GET['estatus']) ? $_GET['estatus'] : "";
+$cod_gerencia = isset($_GET['cod_gerencia']) ? $_GET['cod_gerencia'] : "";
 $users = array();
-if ((isset($_GET["q"]) || isset($_GET["estado"]) || isset($_GET["operatividad"]) || isset($_GET["internet"]) || isset($_GET["estatus"]) || isset($_GET["cod_gerencia"])) && ($_GET["q"] != "" || $_GET["estado"] != "" || $_GET["operatividad"] != "" || $_GET["internet"] != "" || $_GET["estatus"] != "" || $_GET["cod_gerencia"] != "")) {
+if ((isset($q_info) || isset($_GET["estado"]) || isset($operatividad) || isset($internet) || isset($estatus) || isset($cod_gerencia)) && ($q_info != "" || $_GET["estado"] != "" || $operatividad != "" || $internet != "" || $estatus != "" || $cod_gerencia != "")) {
 
 
 	$sql = "SELECT * from infocentros where ";
 
-	if ($_GET["q"] != "") {
-		$sql .= " (nombre like '%$_GET[q]%' or estado like '%$_GET[q]%' or cod like '%$q_info%') ";
+	if ($q_info != "") {
+		$sql .= " (nombre like '%$_GET[q]%' or estado like '%$_GET[q]%' or cod like '%$q_info2%') ";
 	}
 
 	// filtra por regiones
@@ -297,7 +302,7 @@ if ((isset($_GET["q"]) || isset($_GET["estado"]) || isset($_GET["operatividad"])
 
 
 		if ($_SESSION["user_region"] == "Bolívar") {
-			if ($_GET["q"] != "") {
+			if ($q_info != "") {
 				$sql .= " and ";
 			}
 			if ($_GET["estado"] == "") {
@@ -306,7 +311,7 @@ if ((isset($_GET["q"]) || isset($_GET["estado"]) || isset($_GET["operatividad"])
 				$sql .= "(estado ='" . $_SESSION['user_region'] . "' or estado ='Guayana Esequiba')";
 			}
 		} else {
-			if ($_GET["q"] != "") {
+			if ($q_info != "") {
 				$sql .= " and ";
 			}
 			if ($_GET["estado"] == "") {
@@ -317,52 +322,52 @@ if ((isset($_GET["q"]) || isset($_GET["estado"]) || isset($_GET["operatividad"])
 		}
 	} else {
 		if ($_GET["estado"] != "") {
-			if ($_GET["q"] != "") {
+			if ($q_info != "") {
 				$sql .= " and ";
 			}
 			$sql .= " estado ='" . $_GET["estado"] . "'";
 		}
 	}
 
-	if ($_GET["operatividad"] != "") {
-		if ($_GET["q"] != "" || $_GET["estado"] != "") {
+	if ($operatividad != "") {
+		if ($q_info != "" || $_GET["estado"] != "") {
 			$sql .= " and ";
 		}
 
-		$sql .= " estatus_op ='" . $_GET["operatividad"] . "'";
+		$sql .= " estatus_op ='" . $operatividad . "'";
 	}
 
 
-	if ($_GET["internet"] != "") {
-		if ($_GET["q"] != "" || $_GET["estado"] != "" || $_GET["operatividad"] != "") {
+	if ($internet != "") {
+		if ($q_info != "" || $_GET["estado"] != "" || $operatividad != "") {
 			$sql .= " and ";
 		}
-		$sql .= " tecno_internet = '" . $_GET["internet"] . "'";
+		$sql .= " tecno_internet = '" . $internet . "'";
 	}
 
-	if ($_GET["estatus"] != "") {
-		if ($_GET["q"] != "" || $_GET["estado"] != "" || $_GET["operatividad"] != "" || $_GET["internet"] != "") {
-			$sql .= " and ";
-		}
-
-		$sql .= " estatus ='" . $_GET["estatus"] . "'";
-	}
-
-	if ($_GET["cod_gerencia"] != "") {
-		if ($_GET["q"] != "" || $_GET["estado"] != "" || $_GET["operatividad"] != "" || $_GET["internet"] != "" || $_GET["estatus"] != "") {
+	if ($estatus != "") {
+		if ($q_info != "" || $_GET["estado"] != "" || $operatividad != "" || $internet != "") {
 			$sql .= " and ";
 		}
 
-		if ($_GET["cod_gerencia"] == "1") {
-			$sql .= " cod_gerencia ='" . $_GET["cod_gerencia"] . "' ";
+		$sql .= " estatus ='" . $estatus . "'";
+	}
+
+	if ($cod_gerencia != "") {
+		if ($q_info != "" || $_GET["estado"] != "" || $operatividad != "" || $internet != "" || $estatus != "") {
+			$sql .= " and ";
 		}
-		if ($_GET["cod_gerencia"] == "0") {
-			$sql .= " (cod_gerencia ='" . $_GET["cod_gerencia"] . "' or cod_gerencia ='') ";
+
+		if ($cod_gerencia == "1") {
+			$sql .= " cod_gerencia ='" . $cod_gerencia . "' ";
+		}
+		if ($cod_gerencia == "0") {
+			$sql .= " (cod_gerencia ='" . $cod_gerencia . "' or cod_gerencia ='') ";
 		}
 	}
 
 
-	if ($_GET["cod_gerencia"] == "1") {
+	if ($cod_gerencia == "1") {
 
 		$sql_dw = "SELECT 
 		i.cod,
@@ -400,56 +405,56 @@ if ((isset($_GET["q"]) || isset($_GET["estado"]) || isset($_GET["operatividad"])
 		left join user u on i.cod = u.code_info 
 		where";
 
-		if ($_GET["q"] != "") {
+		if ($q_info != "") {
 			$sql_dw .= " (nombre like '%$_GET[q]%' or estado like '%$_GET[q]%' or cod like '%$_GET[q]%') ";
 		}
 
 
 		if ($_GET["estado"] != "") {
-			if ($_GET["q"] != "") {
+			if ($q_info != "") {
 				$sql_dw .= " and ";
 			}
 			$sql_dw .= " i.estado ='" . $_GET["estado"] . "'";
 		}
 
-		if ($_GET["operatividad"] != "") {
-			if ($_GET["q"] != "" || $_GET["estado"] != "") {
+		if ($operatividad != "") {
+			if ($q_info != "" || $_GET["estado"] != "") {
 				$sql_dw .= " and ";
 			}
 
-			$sql_dw .= " i.estatus_op ='" . $_GET["operatividad"] . "'";
+			$sql_dw .= " i.estatus_op ='" . $operatividad . "'";
 		}
 
 
 
-		if ($_GET["internet"] != "") {
-			if ($_GET["q"] != "" || $_GET["estado"] != "" || $_GET["operatividad"] != "") {
+		if ($internet != "") {
+			if ($q_info != "" || $_GET["estado"] != "" || $operatividad != "") {
 				$sql_dw .= " and ";
 			}
 
-			$sql_dw .= " i.tecno_internet = '" . $_GET["internet"] . "'";
+			$sql_dw .= " i.tecno_internet = '" . $internet . "'";
 		}
 
 
 
-		if ($_GET["estatus"] != "") {
-			if ($_GET["q"] != "" || $_GET["estado"] != "" || $_GET["operatividad"] != "" || $_GET["internet"] != "") {
+		if ($estatus != "") {
+			if ($q_info != "" || $_GET["estado"] != "" || $operatividad != "" || $internet != "") {
 				$sql_dw .= " and ";
 			}
 
-			$sql_dw .= " i.estatus ='" . $_GET["estatus"] . "'";
+			$sql_dw .= " i.estatus ='" . $estatus . "'";
 		}
 
-		if ($_GET["cod_gerencia"] != "") {
-			if ($_GET["q"] != "" || $_GET["estado"] != "" || $_GET["operatividad"] != "" || $_GET["internet"] != "" || $_GET["estatus"] != "") {
+		if ($cod_gerencia != "") {
+			if ($q_info != "" || $_GET["estado"] != "" || $operatividad != "" || $internet != "" || $estatus != "") {
 				$sql_dw .= " and ";
 			}
 
-			if ($_GET["cod_gerencia"] == "1") {
-				$sql_dw .= " i.cod_gerencia ='" . $_GET["cod_gerencia"] . "' ";
+			if ($cod_gerencia == "1") {
+				$sql_dw .= " i.cod_gerencia ='" . $cod_gerencia . "' ";
 			}
-			if ($_GET["cod_gerencia"] == "0") {
-				$sql_dw .= " (i.cod_gerencia ='" . $_GET["cod_gerencia"] . "' or cod_gerencia ='') ";
+			if ($cod_gerencia == "0") {
+				$sql_dw .= " (i.cod_gerencia ='" . $cod_gerencia . "' or cod_gerencia ='') ";
 			}
 		}
 
@@ -474,8 +479,8 @@ if ((isset($_GET["q"]) || isset($_GET["estado"]) || isset($_GET["operatividad"])
 	$users = $data;
 
 	// Asigna url de paginacion
-	$url_pag = "<a href=\"?view=infocentros&q=" . $_GET["q"] . "&estado=" . $_GET["estado"] . "&operatividad=" . $_GET["operatividad"] . "&internet=" . $_GET["internet"] . "&estatus=" . $_GET["estatus"] . "&cod_gerencia=" . $_GET["cod_gerencia"] . "&pag=";
-	$_SESSION["location"] = "q=" . $_GET["q"] . "&estado=" . $_GET["estado"] . "&operatividad=" . $_GET["operatividad"] . "&internet=" . $_GET["internet"] . "&estatus=" . $_GET["estatus"] . "&cod_gerencia=" . $_GET["cod_gerencia"] . "&pag=" . $compag;
+	$url_pag = "<a href=\"?view=infocentros&q=" . $q_info . "&estado=" . $_GET["estado"] . "&operatividad=" . $operatividad . "&internet=" . $internet . "&estatus=" . $estatus . "&cod_gerencia=" . $cod_gerencia . "&pag=";
+	$_SESSION["location"] = "q=" . $q_info . "&estado=" . $_GET["estado"] . "&operatividad=" . $operatividad . "&internet=" . $internet . "&estatus=" . $estatus . "&cod_gerencia=" . $cod_gerencia . "&pag=" . $compag;
 } else {
 	// $users = InfoData::getAll();
 	$region = $_SESSION['user_region'];

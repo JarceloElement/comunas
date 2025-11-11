@@ -66,7 +66,7 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
 
             var area = $("#area_formativa").val();
             var tipo_taller = $("#tipo_taller").val();
-            var institucion_formacion_v = $("#institucion_formacion").val();
+            // var institucion_formacion_v = $("#institucion_formacion").val();
             var circuito_comunal_v = $("#circuito_comunal").val();
 
             if (area != "") {
@@ -75,9 +75,9 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
             if (tipo_taller != "") {
                 $("#tipo_taller_f").show();
             }
-            if (institucion_formacion_v != "") {
-                $("#institucion_formacion_v").show();
-            }
+            // if (institucion_formacion_v != "") {
+            //     $("#institucion_formacion_v").show();
+            // }
             if (circuito_comunal_v != "") {
                 $("#circuito_comunal_v").show();
             }
@@ -368,7 +368,7 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
 
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label for="tipo_reporte" class=" control-label"><i class="fa fa-reorder"></i> Acción estratégica</label>
+                                            <label for="tipo_reporte" class=" control-label"><i class="fa fa-reorder"></i> Etapas</label>
                                             <select name="tipo_reporte" class="form-control" id="tipo_reporte" required>
                                                 <option value="<?php echo $activity["report_type"]; ?>"><?php echo $activity["report_type"]; ?></option>
                                             </select>
@@ -404,18 +404,18 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
                                     </div>
 
 
-                                    <div class="col-lg-12" id="institucion_formacion_v" style="display: none;">
+                                    <!-- <div class="col-lg-12" id="institucion_formacion_v" style="display: none;">
                                         <div class="form-group">
                                             <label for="institucion_formacion" class=" control-label"><i class="fa fa-building"></i> Institución vinculada a la formación (Se cargan en el Mapa Social)</label>
                                             <select name="institucion_formacion" class="form-control" id="institucion_formacion">
-                                                <option value="<?php echo $activity["institucion_formacion"]; ?>"><?php echo $activity["institucion_formacion"]; ?></option>
+                                                <option value="<!?php echo $activity["institucion_formacion"]; ?>"><!?php echo $activity["institucion_formacion"]; ?></option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <div class="col-lg-12" id="circuito_comunal_v" style="display: none;">
                                         <div class="form-group">
-                                            <label for="circuito_comunal" class=" control-label"><i class="fa fa-users"></i> Circuito comunal (Se cargan en el Mapa Social)</label>
+                                            <label for="circuito_comunal" class=" control-label"><i class="fa fa-users"></i> Nombre de la Comuna o Circuito Comunal</label>
                                             <select name="circuito_comunal" class="form-control" id="circuito_comunal">
                                                 <option value="<?php echo $activity["circuito_comunal"]; ?>"><?php echo $activity["circuito_comunal"]; ?></option>
                                             </select>
@@ -783,7 +783,7 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
                 $('#accion_especifica').find('option').remove().end().append('<option value=""></option>').val('0');
                 $('#area_formativa').find('option').remove().end().append('<option value=""></option>').val('0');
                 $('#tipo_taller').find('option').remove().end().append('<option value=""></option>').val('0');
-                $('#institucion_formacion').find('option').remove().end().append('<option value=""></option>').val('0');
+                // $('#institucion_formacion').find('option').remove().end().append('<option value=""></option>').val('0');
                 $('#circuito_comunal').find('option').remove().end().append('<option value=""></option>').val('0');
 
                 $("#linea_accion option:selected").each(function() {
@@ -866,8 +866,8 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
                             $("#tipo_taller").find('option').remove();
                             $("#tipo_taller_f").hide();
 
-                            $("#institucion_formacion_v").hide();
-                            $("#institucion_formacion").find('option').remove();
+                            // $("#institucion_formacion_v").hide();
+                            // $("#institucion_formacion").find('option').remove();
 
                             $('#cover-spin').hide(0);
 
@@ -886,9 +886,9 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
                         document.getElementById("tipo_taller").required = false;
                         document.getElementsByName('tipo_taller')[0].options[0].value = "No aplica";
 
-                        $("#institucion_formacion_v").hide();
-                        document.getElementById("institucion_formacion").required = false;
-                        document.getElementsByName('institucion_formacion')[0].options[0].value = "No aplica";
+                        // $("#institucion_formacion_v").hide();
+                        // document.getElementById("institucion_formacion").required = false;
+                        // document.getElementsByName('institucion_formacion')[0].options[0].value = "No aplica";
 
 
                         // console.log(document.getElementsByName('nivel_formacion')[0].options[0]);
@@ -916,7 +916,7 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
 
                 $("#tipo_taller_f").show();
                 document.getElementById("tipo_taller").required = true;
-                document.getElementById("institucion_formacion").required = true;
+                // document.getElementById("institucion_formacion").required = true;
 
                 $('#tipo_taller').find('option').remove().end().append('<option value=""></option>').val('0');
                 $("#area_formativa option:selected").each(function() {
@@ -974,10 +974,10 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
                             estado_info: estado_info,
                         }, function(data) {
                             var array = JSON.parse(data);
-                            $("#institucion_formacion").html(array["html"]);
+                            // $("#institucion_formacion").html(array["html"]);
                             $("#circuito_comunal").html(array["html"]);
                             $('#cover-spin').hide(0);
-                            $("#institucion_formacion_v").show();
+                            // $("#institucion_formacion_v").show();
 
                             if ($("#linea_accion").val() == "Comunas en Red Digital") {
                                 $("#circuito_comunal_v").show();
@@ -995,10 +995,10 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
                             estado_info: estado_info
                         }, function(data) {
                             var array = JSON.parse(data);
-                            $("#institucion_formacion").html(array["html"]);
+                            // $("#institucion_formacion").html(array["html"]);
                             $("#circuito_comunal").html(array["html"]);
                             $('#cover-spin').hide(0);
-                            $("#institucion_formacion_v").show();
+                            // $("#institucion_formacion_v").show();
 
                             if ($("#linea_accion").val() == "Comunas en Red Digital") {
                                 $("#circuito_comunal_v").show();
@@ -1243,7 +1243,7 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
                 $('#accion_especifica').find('option').remove().end().append('<option value=""></option>').val('0');
                 $('#area_formativa').find('option').remove().end().append('<option value=""></option>').val('0');
                 $('#tipo_taller').find('option').remove().end().append('<option value=""></option>').val('0');
-                $('#institucion_formacion').find('option').remove().end().append('<option value=""></option>').val('0');
+                // $('#institucion_formacion').find('option').remove().end().append('<option value=""></option>').val('0');
 
                 $('#cover-spin').show(0);
                 $.post("core/app/view/getActionLine.php", {

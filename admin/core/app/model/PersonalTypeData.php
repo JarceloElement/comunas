@@ -1,4 +1,6 @@
 <?php
+#[AllowDynamicProperties]
+
 class PersonalTypeData {
 	public static $tablename = "personal_type";
 

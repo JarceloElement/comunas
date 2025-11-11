@@ -6,7 +6,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="assets/material/assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="uploads/icon.png" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>Infoapp</title>
+  <title>Comunas en Red Digital</title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
   <link rel="stylesheet" href="assets/plugins/font-awesome-4/css/font-awesome.min.css">
@@ -162,7 +162,7 @@ $view = $_GET["view"];
 
 
             <li class="nav-item">
-              <a class="nav-link" href="./../index.php">
+              <a class="nav-link" href="./index.php">
                 <i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <path fill="currentColor" d="M13 9V3h8v6zM3 13V3h8v10zm10 8V11h8v10zM3 21v-6h8v6z" />
                   </svg>
@@ -171,14 +171,14 @@ $view = $_GET["view"];
               </a>
             </li>
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a style="color: #e91e63;" class="nav-link" data-toggle="collapse" data-parent="#accordion" href="#collapse_guia">
                 <i style="color: #e91e63;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <path fill="currentColor" d="M11.95 18q.525 0 .888-.363t.362-.887t-.362-.888t-.888-.362t-.887.363t-.363.887t.363.888t.887.362m-.9-3.85h1.85q0-.825.188-1.3t1.062-1.3q.65-.65 1.025-1.238T15.55 8.9q0-1.4-1.025-2.15T12.1 6q-1.425 0-2.312.75T8.55 8.55l1.65.65q.125-.45.563-.975T12.1 7.7q.8 0 1.2.438t.4.962q0 .5-.3.938t-.75.812q-1.1.975-1.35 1.475t-.25 1.825M12 22q-2.075 0-3.9-.787t-3.175-2.138T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22" />
                   </svg></i>
                 <p>Guías Infoapp</p>
               </a>
-            </li>
+            </li> -->
 
             <div id="collapse_guia" class="panel-collapse collapse">
               <ul class="nav accordion">
@@ -221,14 +221,14 @@ $view = $_GET["view"];
             <?php if ($_SESSION["user_type"] != 0 && $_SESSION["user_type"] != 1) { ?>
 
               <!-- accordion mapa-->
-              <li class="nav-item ">
+              <!-- <li class="nav-item ">
                 <a class="nav-link nav-primary" data-toggle="collapse" data-parent="#accordion" href="#collapse_map">
                   <i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                       <path fill="currentColor" d="M12 22q-2.05 0-3.875-.788t-3.187-2.15t-2.15-3.187T2 12q0-2.075.788-3.887t2.15-3.175t3.187-2.15T12 2q2.075 0 3.888.788t3.174 2.15t2.15 3.175T22 12q0 2.05-.788 3.875t-2.15 3.188t-3.175 2.15T12 22m0-2.05q.65-.9 1.125-1.875T13.9 16h-3.8q.3 1.1.775 2.075T12 19.95m-2.6-.4q-.45-.825-.787-1.713T8.05 16H5.1q.725 1.25 1.813 2.175T9.4 19.55m5.2 0q1.4-.45 2.488-1.375T18.9 16h-2.95q-.225.95-.562 1.838T14.6 19.55M4.25 14h3.4q-.075-.5-.112-.987T7.5 12t.038-1.012T7.65 10h-3.4q-.125.5-.187.988T4 12t.063 1.013t.187.987m5.4 0h4.7q.075-.5.113-.987T14.5 12t-.038-1.012T14.35 10h-4.7q-.075.5-.112.988T9.5 12t.038 1.013t.112.987m6.7 0h3.4q.125-.5.188-.987T20 12t-.062-1.012T19.75 10h-3.4q.075.5.113.988T16.5 12t-.038 1.013t-.112.987m-.4-6h2.95q-.725-1.25-1.812-2.175T14.6 4.45q.45.825.788 1.713T15.95 8M10.1 8h3.8q-.3-1.1-.775-2.075T12 4.05q-.65.9-1.125 1.875T10.1 8m-5 0h2.95q.225-.95.563-1.838T9.4 4.45Q8 4.9 6.912 5.825T5.1 8" />
                     </svg></i>
                   <p>Mapa social</p>
                 </a>
-              </li>
+              </li> -->
 
               <div id="collapse_map" class="panel-collapse collapse">
                 <ul class="nav accordion">
@@ -951,16 +951,16 @@ $view = $_GET["view"];
               <ul>
                 Copyright &copy;<script>
                   document.write(new Date().getFullYear());
-                </script> | Fundación Infocentro
+                </script> | Comunas en Red Digital
               </ul>
             </div>
-            <div class="row justify-content-center">
+            <!-- <div class="row justify-content-center">
               <ul>
                 Con <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <path fill="currentColor" d="m12 21l-1.45-1.3q-2.525-2.275-4.175-3.925T3.75 12.812T2.388 10.4T2 8.15Q2 5.8 3.575 4.225T7.5 2.65q1.3 0 2.475.55T12 4.75q.85-1 2.025-1.55t2.475-.55q2.35 0 3.925 1.575T22 8.15q0 1.15-.387 2.25t-1.363 2.412t-2.625 2.963T13.45 19.7z" />
                   </svg></span> y Software Libre
               </ul>
-            </div>
+            </div> -->
           </div>
         </footer>
 

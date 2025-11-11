@@ -7,6 +7,7 @@ class UserTypeData {
 	public function __construct(){
 		$this->user_type = "";
 		$this->user_type_name = "";
+		$this->active_name = "";
 	}
 
 	public function add(){

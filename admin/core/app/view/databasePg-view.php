@@ -837,7 +837,7 @@ if (!isset($table_name["table_name"])) {
     // $add_column->execute();
     // $add_column->fetch();
 
-    // $add_constraint = $conn->prepare("ALTER TABLE info_process ADD CONSTRAINT fk_info_process_code_info FOREIGN KEY (code_info) REFERENCES infocentros(cod) ON UPDATE CASCADE NOT VALID");
+    // $add_constraint = $conn->prepare("ALTER TABLE info_process ADD CONSTRAINT fk_info_process_code_info FOREIGN KEY (code_info) REFERENCES infocentros(cod) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID");
     // $add_constraint->execute();
     // $add_constraint->fetch();
 
@@ -846,7 +846,7 @@ if (!isset($table_name["table_name"])) {
     // $add_column->execute();
     // $add_column->fetch();
 
-    // $add_constraint = $conn->prepare("ALTER TABLE info_inventory ADD CONSTRAINT fk_info_inventory_code_info FOREIGN KEY (code_info) REFERENCES infocentros(cod) ON UPDATE CASCADE NOT VALID");
+    // $add_constraint = $conn->prepare("ALTER TABLE info_inventory ADD CONSTRAINT fk_info_inventory_code_info FOREIGN KEY (code_info) REFERENCES infocentros(cod) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID");
     // $add_constraint->execute();
     // $add_constraint->fetch();
     // =======

@@ -24,7 +24,7 @@ $status_type = StatusInfocentroData::getAll();
     document.getElementById("addinfocentro").addEventListener('submit', validarFormulario);
   });
 
-  function validarFormulario(evento) {
+  async function validarFormulario(evento) {
     event.preventDefault();
 
 
@@ -33,51 +33,48 @@ $status_type = StatusInfocentroData::getAll();
 
     $('#cover-spin').show(0);
 
-    $.ajax({
-        type: "POST",
-        url: "./?action=ajax",
-        data: {
-          function: "get_repeated_info", // funcion que llama
-          cod: $("#cod").val().toUpperCase()
-        }
-      })
-      .done(function(msg) {
+    try {
+      const res = await fetch("./?action=ajax", {
+        method: 'POST',
+        body: formData = new URLSearchParams({
+          'function': 'get_repeated_info', // funcion que llama
+          'cod': cod.toUpperCase()
+        })
+      });
+
+      if (res.ok) {
+        // console.log(res);
+        const result_await = await res.text();
+        // console.log(result_await);
+        var array = JSON.parse(result_await);
+        // console.log(array);
         $('#cover-spin').hide(0);
-
-        console.log(msg);
-        var array = JSON.parse(msg);
-
-        if (array['err'] == 'true') {
-          console.log(array['text']);
+        if (array.error == 'true') {
+          console.log(array.text);
           $("#cod").focus();
 
           if (getOS() == "Android") {
-            alert(array['text']);
+            alert(array.text);
           } else {
-            toastify(array['text'], true, 15000, "error");
+            toastify(array.text, true, 15000, "error");
           }
 
         } else {
           formObj.submit()
         }
 
-
-
-      })
-      .fail(function() {
-        if (getOS() == "Android") {
-          alert("Hubo un error, intenta nuevamente");
-        } else {
-          toastify('Hubo un error, intenta nuevamente', true, 5000, "warning");
-        }
+      } else {
         $('#cover-spin').hide(0);
-        return false;
-      });
-    // .always(function() {
-    //     toastify('Finished',true,1000,"warning");
-    // });
+        toastify(res.statusText, true, 12000, "error");
+        throw res.statusText;
+      }
 
-    // this.submit();
+    } catch (error) {
+      $('#cover-spin').hide(0);
+      toastify(error, true, 12000, "error");
+      throw error;
+    }
+
 
   };
 </script>
@@ -190,7 +187,7 @@ $status_type = StatusInfocentroData::getAll();
 
 
 
-          <div class="col-md-6" >
+          <div class="col-md-6">
             <div class="form-group" id="id_estatus">
               <label class="control-label"><i class="fa fa-hourglass-2"></i> Estatus</label>
               <select name="estatus" class="form-control" id="estatus" required>
@@ -347,7 +344,7 @@ $status_type = StatusInfocentroData::getAll();
           <div class="col-lg-6" id="id_t_espacio">
             <div class="form-group">
               <label for="t_espacio" class=" control-label"><i class="fa fa-map"></i> Tipo espacio de ubicación</label>
-              <input class="form-control" name="t_espacio"  placeholder="Descripción"></input>
+              <input class="form-control" name="t_espacio" placeholder="Descripción"></input>
             </div>
           </div>
 
@@ -427,7 +424,7 @@ $status_type = StatusInfocentroData::getAll();
             <div class="form-group">
               <label for="fecha_solicitud_migracion" class=" control-label"><i class="fa fa-traffic-light"></i>Fecha de solicitud de migracion</label>
               <input type="date" name="fecha_solicitud_migracion" id="fecha_solicitud_migracion" class="form-control" placeholder="Fecha de solicitud de migracion">
-    
+
             </div>
           </div>
 

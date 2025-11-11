@@ -114,28 +114,28 @@ class FacilitatorsData {
 
 	public function update(){
 
-		if ($this->estate >= 1){
-			$estado_n = EstadoData::getById($this->estate);
+		if (is_numeric($this->f_state)){
+			$estado_n = EstadoData::getById($this->f_state);
 			foreach($estado_n as $p):
 				$this->estado_name = $p['estado'];
 			endforeach;
-		}else{$this->estado_name = $this->estate;}	
-		  
+		}else{$this->estado_name = $this->f_state;}	
 
-		if ($this->municipality >= 1){
+
+		if (is_numeric($this->municipality)){
 			$municipio_n = MunicipioData::getById($this->municipality);
 			foreach($municipio_n as $p):
 				$this->municipio_name = $p['municipio'];
 			endforeach;
 		}else{$this->municipio_name = $this->municipality;}	
-		
 
-		if ($this->parish >= 1){
+
+		if (is_numeric($this->parish)){
 			$parroquia_n = ParroquiaData::getById($this->parish);
 			foreach($parroquia_n as $p):
 				$this->parroquia_name = $p['parroquia'];
 			endforeach;
-		}else{$this->parroquia_name = $this->parish;}	
+		}else{$this->parroquia_name = $this->parish;}
 		
 
 		$sql = "update facilitators set 

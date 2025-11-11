@@ -425,3 +425,49 @@ UPDATE "public"."reports" SET "estate"=(SELECT "estado" FROM "public"."infocentr
 
 <!-- SUBIR IMAGENES CON PROGRESO -->
 <!-- https://www.php.net/manual/es/session.upload-progress.php -->
+
+
+
+
+
+<!-- try {
+      const res = await fetch("./?action=ajax", {
+        method: 'POST',
+        body: formData = new URLSearchParams({
+          'function': 'get_repeated_info', // funcion que llama
+          'cod': cod.toUpperCase()
+        })
+      });
+
+      if (res.ok) {
+        // console.log(res);
+        const result_await = await res.text();
+        // console.log(result_await);
+        var array = JSON.parse(result_await);
+        // console.log(array);
+        $('#cover-spin').hide(0);
+        if (array.error == 'true') {
+          console.log(array.text);
+          $("#cod").focus();
+
+          if (getOS() == "Android") {
+            alert(array.text);
+          } else {
+            toastify(array.text, true, 15000, "error");
+          }
+
+        } else {
+          formObj.submit()
+        }
+
+      } else {
+        $('#cover-spin').hide(0);
+        toastify(res.statusText, true, 12000, "error");
+        throw res.statusText;
+      }
+
+    } catch (error) {
+      $('#cover-spin').hide(0);
+      toastify(error, true, 12000, "error");
+      throw error;
+    } -->

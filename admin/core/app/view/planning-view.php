@@ -8,12 +8,6 @@ $action_line = ActionsLineData::getAll();
 
 $location = "index.php?view=report";
 
-$conn = DatabasePg::connectPg();
-$row_table = $conn->prepare("INSERT INTO public.actions_line (line_name, permisos) VALUES ('Ax','Bx')");
-$row_table->execute();
-
-
-
 date_default_timezone_set('UTC');
 date_default_timezone_set("America/La_Paz");
 

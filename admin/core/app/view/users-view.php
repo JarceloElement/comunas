@@ -5,46 +5,83 @@ $alert = isset($_GET['swal']) ? $_GET['swal'] : "";
 ?>
 
 <script language="javascript">
+	$(document).ready(function() {
+		// NOTIFICACION
+		if ('<?php echo $alert; ?>' != "") {
+			Swal.fire({
+				// position: 'top-center',
+				icon: 'success',
+				title: '<?php echo $alert; ?>',
+				showConfirmButton: false,
+				timer: 1500
+			})
+		};
+	});
 
-$(document).ready(function(){
-	// NOTIFICACION
-	if ('<?php echo $alert; ?>' != ""){
+
+	// cambiar el parametro de alert
+	const url = new URL(window.location);
+	url.searchParams.set('swal', '');
+	window.history.pushState({}, '', url);
+
+
+
+	async function del_item(id) {
 		Swal.fire({
-		// position: 'top-center',
-		icon: 'success',
-		title: '<?php echo $alert; ?>',
-		showConfirmButton: false,
-		timer: 1500
-		})
+			title: "¿Desea eliminar?",
+			text: "¡Esto es irreversible! y eliminará todas las dependencias de ésta línea de acción",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "¡Sí, eliminar!",
+			cancelButtonText: "Cancelar",
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+
+				$('#cover-spin').show(0);
+
+				// 1. Datos para la URL
+				const datos = {
+					function: "del_user",
+					id: id
+				};
+				// 2. Construir la URL con los parámetros de búsqueda
+				const params = new URLSearchParams(datos);
+
+				try {
+					// 3. Realizar la solicitud GET, sin 'method' ni 'body'
+					const res = await fetch(`./?action=ajax&${params.toString()}`);
+
+					if (res.ok) {
+						// console.log(res);
+						const array = await res.json();
+						console.log(array);
+						toastify(array.alert, true, 13000, array.alert_type);
+						$('#cover-spin').hide(0);
+						if (array.error == 'false') {
+							window.timer = setTimeout(function() {
+								location.reload();
+							}, 800);
+						}
+
+					} else {
+						// Leer la respuesta como texto para depurar
+						const errorText = await res.text();
+						$('#cover-spin').hide(0);
+						// Mostrar el texto de error real del servidor
+						toastify(`Error del servidor: ${errorText}`, true, 12000, "error");
+						throw new Error(`Error de red: ${res.statusText}`);
+					}
+
+				} catch (error) {
+					$('#cover-spin').hide(0);
+					toastify(`Error inesperado: ${error.message}`, true, 12000, "error");
+					console.error("Detalle del error:", error);
+				}
+			}
+		});
 	};
-});
-
-
-// cambiar el parametro de alert
-const url = new URL(window.location);
-url.searchParams.set('swal', '');
-window.history.pushState({}, '', url);
-
-
-
-function del_item(url) {
-    Swal.fire({
-        title: "<br>¿Desea eliminar?",
-        text: "¡Esto es irreversible!",
-        // icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "¡Sí, eliminar!",
-        cancelButtonText: "Cancelar",
-    }).then((result) => {
-        if (result.isConfirmed) {
-            window.location.href = url
-        }
-    });
-};
-
-
 </script>
 
 
@@ -87,36 +124,36 @@ function del_item(url) {
 		<div class="card-body">
 
 			<div class="card-content table-responsive">
-				<?php if ($_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 8 || $_SESSION["user_type"] == 9) { 
-					?>
+				<?php if ($_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 8 || $_SESSION["user_type"] == 9) {
+				?>
 					<a href="index.php?view=newuser" class="btn btn-default"><i class='fa fa-user'></i> Nuevo Usuario</a>
 
-						<br>
-						<br>
+					<br>
+					<br>
 
 					PERMISOS
 					<br>
-					(1) Usuario final: Puede editar sus datos
+					(1) Sala de Autogobierno u Organización
 					<br>
-					(2) Facilitador: Puede editar sus datos
+					(2) Facilitador o Promotor
 					<br>
-					(3) Coordinador estadal: Puede editar sus datos	
+					(3) Coordinador estadal
 					<br>
-					(4) Gerencias sustantivas CCS: Puede editar datos de usuarios de su unidad 	
+					<!-- (4) Gerencias sustantivas CCS: Puede editar datos de usuarios de su unidad 	
 					<br>
 					(5) Gerencia RNI: Puede crear y editar usuarios y roles CCS
+					<br> -->
+					(6) Dirección de Políticas Públicas de Min Comunas
+					<!-- <br>
+					(7) Administración del sistema -->
 					<br>
-					(6) Políticas públicas ADMIN: Puede crear y editar usuarios y roles
-					<br>
-					(7) Administración del sistema: Puede crear y editar usuarios y roles
-					<br>
-					(8) Jefe de estado: Puede crear y editar datos a usuarios de su estado
-					<br>
+					(8) Jefe de Estado o Responsable de Sala Unificada
+					<!-- <br>
 					(9) Gerencias ADMIN: Puede crear y editar las unidades sustantivas CCS
 					<br>
-					(10) Lector: Solo puede ver y descargar reporte (no edita ni elimina)
+					(10) Lector: Solo puede ver y descargar reporte (no edita ni elimina) -->
 
-					
+
 				<?php } ?>
 
 			</div>
@@ -133,7 +170,7 @@ function del_item(url) {
 					<div class="form-group">
 						<div class="card-content table-responsive">
 							<div class="card-body">
-				
+
 								<form class="form-horizontal" role="form">
 									<input type="hidden" name="view" value="users">
 
@@ -144,7 +181,9 @@ function del_item(url) {
 											<div class="row">
 
 												<div class="col-md-6 mui-textfield mui-textfield--float-label">
-													<input type="text" name="q" value="<?php if(isset($_GET["q"]) && $_GET["q"]!=""){ echo $_GET["q"]; } ?>">
+													<input type="text" name="q" value="<?php if (isset($_GET["q"]) && $_GET["q"] != "") {
+																							echo $_GET["q"];
+																						} ?>">
 													<label><i class="fa fa-search"></i> Filtrar por palabra clave</label>
 												</div>
 
@@ -152,14 +191,14 @@ function del_item(url) {
 													<span class="input-group-addon"><i class="fa fa-user"></i> Por tipo de usuario</span>
 													<select name="user_type" class="form-control" id="user_type">
 														<option value="">-TIPO DE USUARIO-</option>
-														<?php foreach($user_type as $p):?>
-															<?php if ($_SESSION["user_type"] == 8 && $p->user_type <= 3) {?>
+														<?php foreach ($user_type as $p): ?>
+															<?php if ($_SESSION["user_type"] == 8 && $p->user_type <= 3) { ?>
 
-															<option value="<?php echo $p->user_type; ?>"> <?php echo $p->user_type_name; ?></option>
-														<?php }else if($_SESSION["user_type"] != 8){ ?>
-															<option value="<?php echo $p->user_type; ?>"> <?php echo $p->user_type_name; ?></option>
+																<option value="<?php echo $p->user_type; ?>"> <?php echo $p->user_type_name; ?></option>
+															<?php } else if ($_SESSION["user_type"] != 8) { ?>
+																<option value="<?php echo $p->user_type; ?>"> <?php echo $p->user_type_name; ?></option>
 
-														<?php } ?>
+															<?php } ?>
 														<?php endforeach; ?>
 													</select>
 												</div>
@@ -169,11 +208,11 @@ function del_item(url) {
 												</div>
 											</div>
 										</div>
-										
+
 									<?php } ?>
 
 								</form>
-									
+
 								<br>
 
 
@@ -181,96 +220,85 @@ function del_item(url) {
 
 								<?php
 
-								$CantidadMostrar=100;
+								$CantidadMostrar = 100;
 								$url_pag_atras = "";
 								$url_pag_adelante = "";
 
 								// Validado  la variable GET
-								$compag =(int)(!isset($_GET['pag'])) ? 1 : $_GET['pag'];
+								$compag = (int)(!isset($_GET['pag'])) ? 1 : $_GET['pag'];
 								$user_type = isset($_GET["user_type"]) ? $_GET["user_type"] : "";
 								$q_info = isset($_GET['q']) ? trim(strtoupper($_GET['q'])) : "";
 
 
 
-								$users= array();
-								if( ( isset($_GET["q"]) && isset($_GET["user_type"]) ) && ( $_GET["q"]!="" || $_GET["user_type"]!="" ) ) {
-								
+								$users = array();
+								if ((isset($_GET["q"]) && isset($_GET["user_type"])) && ($_GET["q"] != "" || $_GET["user_type"] != "")) {
+
 									$sql = "SELECT * from user where ";
 
-									if($_GET["q"]!=""){
+									if ($_GET["q"] != "") {
 										$sql .= " (user_dni='$_GET[q]' or id='$_GET[q]' or email like '%$_GET[q]%' or code_info like '%$q_info%' or name like '%$_GET[q]%' or lastname like '%$_GET[q]%' or username like '%$_GET[q]%' or region like '%$_GET[q]%' or rol like '%$_GET[q]%') ";
 									}
 
-									if($_GET["user_type"]!="" && intval($_GET["user_type"]) > 1){
-		
-										if($_GET["q"]!=""){
+									if ($_GET["user_type"] != "" && intval($_GET["user_type"]) > 1) {
+
+										if ($_GET["q"] != "") {
 											$sql .= " and ";
 										}
-										$sql .= " user_type ='".$user_type."'";
-								
+										$sql .= " user_type ='" . $user_type . "'";
 									}
-									
-									if ($_GET["user_type"]!="" && intval($_GET["user_type"]) == 1) {
-										$sql .= " user_type <= ".intval($user_type);
+
+									if ($_GET["user_type"] != "" && intval($_GET["user_type"]) == 1) {
+										$sql .= " user_type <= " . intval($user_type);
 									}
 
 
 
 									// filtra por region de facilitador, coordinador y jefe estadal
 									if ($_SESSION["user_type"] == 3 || $_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 8) {
-										$sql .= " and user_type!='6' AND user_type!='7' AND region ='".$_SESSION["user_region"]."'";
-									
-									}else if($_SESSION["user_type"] == 0 || $_SESSION["user_type"] == 1 || $_SESSION["user_type"] == 2 || $_SESSION["user_type"] == 3 || $_SESSION["user_type"] == 4){
-										$sql .= " and id ='".$_SESSION["user_id"]."'";
-
+										$sql .= " and user_type!='6' AND user_type!='7' AND region ='" . $_SESSION["user_region"] . "'";
+									} else if ($_SESSION["user_type"] == 0 || $_SESSION["user_type"] == 1 || $_SESSION["user_type"] == 2 || $_SESSION["user_type"] == 3 || $_SESSION["user_type"] == 4) {
+										$sql .= " and id ='" . $_SESSION["user_id"] . "'";
 									}
 
 									// Busca el total de registros segun parametros de consulta
-									$users = UserData::getBySQL($sql." order by id desc LIMIT ".(($compag-1)*$CantidadMostrar)." , ".$CantidadMostrar);
-									
+									$users = UserData::getBySQL($sql . " order by id desc LIMIT " . (($compag - 1) * $CantidadMostrar) . " , " . $CantidadMostrar);
+
 									$total = UserData::getBySQL($sql);
 									$TotalReg = count($total);
 									$Total_q = $TotalReg;
 
-									$param_csv = $sql." order by id desc";
+									$param_csv = $sql . " order by id desc";
 									$param_sql = "true";
-									$DB_name = "usuarios_tipo_".$_GET["user_type"]."_sistema_infoapp";
+									$DB_name = "usuarios_tipo_" . $_GET["user_type"] . "_sistema_infoapp";
 
 									// Asigna url de paginacion
-									$url_pag = "<a href=\"?view=users&q=".$_GET["q"]."&user_type=".$user_type."&pag=";
-
-									
-									
-
-
-								}else{
+									$url_pag = "<a href=\"?view=users&q=" . $_GET["q"] . "&user_type=" . $user_type . "&pag=";
+								} else {
 									if ($_SESSION["user_type"] == 8) {
-										
-										$sql = "SELECT * from user where user_type!='6' AND user_type!='7' AND region='".$_SESSION["user_region"]."' order by id desc LIMIT ".(($compag-1)*$CantidadMostrar)." , ".$CantidadMostrar;
+
+										$sql = "SELECT * from user where user_type!='6' AND user_type!='7' AND region='" . $_SESSION["user_region"] . "' order by id desc LIMIT " . (($compag - 1) * $CantidadMostrar) . " , " . $CantidadMostrar;
 										$users = UserData::getBySQL($sql);
 
-										$query = "SELECT * from user where user_type!='6' AND user_type!='7' AND region='".$_SESSION["user_region"]."' ";
+										$query = "SELECT * from user where user_type!='6' AND user_type!='7' AND region='" . $_SESSION["user_region"] . "' ";
 										$total_q = UserData::getBySQL($query);
 										$Total_q = $total_q;
-									
-									}else if($_SESSION["user_type"] == 3 && $_SESSION["user_rol"] == 'Políticas públicas'){
-										$sql = "SELECT * from user where region='".$_SESSION["user_region"]."' order by id desc LIMIT ".(($compag-1)*$CantidadMostrar)." , ".$CantidadMostrar;
+									} else if ($_SESSION["user_type"] == 3 && $_SESSION["user_rol"] == 'Políticas públicas') {
+										$sql = "SELECT * from user where region='" . $_SESSION["user_region"] . "' order by id desc LIMIT " . (($compag - 1) * $CantidadMostrar) . " , " . $CantidadMostrar;
 										$users = UserData::getBySQL($sql);
 
-										$query = "SELECT * from user where region='".$_SESSION["user_region"]."' ";
+										$query = "SELECT * from user where region='" . $_SESSION["user_region"] . "' ";
 										$total_q = UserData::getBySQL($query);
 										$Total_q = $total_q;
-									
-									}else if($_SESSION["user_type"] == 0 ||  $_SESSION["user_type"] == 1 || $_SESSION["user_type"] == 2 || $_SESSION["user_type"] == 3 || $_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 10){
-										$sql = "SELECT * from user where id='".$_SESSION["user_id"]."' order by id desc LIMIT ".(($compag-1)*$CantidadMostrar)." , ".$CantidadMostrar;
+									} else if ($_SESSION["user_type"] == 0 ||  $_SESSION["user_type"] == 1 || $_SESSION["user_type"] == 2 || $_SESSION["user_type"] == 3 || $_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 10) {
+										$sql = "SELECT * from user where id='" . $_SESSION["user_id"] . "' order by id desc LIMIT " . (($compag - 1) * $CantidadMostrar) . " , " . $CantidadMostrar;
 										$users = UserData::getBySQL($sql);
 
-										$query = "SELECT * from user where id='".$_SESSION["user_id"]."' ";
+										$query = "SELECT * from user where id='" . $_SESSION["user_id"] . "' ";
 										$total_q = UserData::getBySQL($query);
 										$Total_q = $total_q;
-
-									}else {
-										$sql = "SELECT * from user order by id desc LIMIT ".(($compag-1)*$CantidadMostrar)." , ".$CantidadMostrar;
+									} else {
+										$sql = "SELECT * from user order by id desc LIMIT " . (($compag - 1) * $CantidadMostrar) . " , " . $CantidadMostrar;
 										$users = UserData::getBySQL($sql);
 										$total_q = UserData::getAll();
 										$query = "SELECT * from user order by id desc";
@@ -280,261 +308,275 @@ function del_item(url) {
 
 									$param_csv = $query;
 									$param_sql = "true";
-									$DB_name = "usuarios_tipo_".$user_type."_sistema_infoapp";
+									$DB_name = "usuarios_tipo_" . $user_type . "_sistema_infoapp";
 
 									$url_pag = "<a href=\"?view=users&pag=";
-									
-
 								}
 
-								$TotalRegistro  =ceil($TotalReg/$CantidadMostrar);
+								$TotalRegistro  = ceil($TotalReg / $CantidadMostrar);
 								?>
 
 
-								<?php 
-									if(count($users)>0){ 
-					
+								<?php
+								if (count($users) > 0) {
 
-									?>
+
+								?>
 
 									<div class="col-md-12">
-	
+
 										<div class="form-group text_label">
-											<?php echo "<span class='text_label'> <i class='fa fa-bullhorn icon_label' ></i> <b> Hay ".$TotalReg. " Registros </b>. La cantidad se dividió a ".$TotalRegistro." páginas para mostrar de ".$CantidadMostrar. " en ".$CantidadMostrar. "</span>" . "<br><br>"; ?>
+											<?php echo "<span class='text_label'> <i class='fa fa-bullhorn icon_label' ></i> <b> Hay " . $TotalReg . " Registros </b>. La cantidad se dividió a " . $TotalRegistro . " páginas para mostrar de " . $CantidadMostrar . " en " . $CantidadMostrar . "</span>" . "<br><br>"; ?>
 										</div>
-								
-										<a class="btn btn-success" href="../core/app/view/exportxlsxmysql.php?param=<?php echo $param_csv.'&param_sql=true&filename='.$DB_name; ?>" name="Descargar"><i class="fa fa-file-excel-o"></i> XLSX</a>
-			
+
+										<a class="btn btn-success" href="../core/app/view/exportxlsxmysql.php?param=<?php echo $param_csv . '&param_sql=true&filename=' . $DB_name; ?>" name="Descargar"><i class="fa fa-file-excel-o"></i> XLSX</a>
+
 									</div>
 
 									<br>
 
-									
 
-									
+
+
 
 									<table class="table table-hover">
-									<thead>
-									<th>User ID</th>
-									<th>Nombre o Alias</th>
-									<th>Usuario</th>
-									<?php if ($_SESSION["user_type"] != 0) { ?>
-									<th>Código info</th>
-									<?php }?>
-									<th>Activo</th>
-									<th>Región</th>
-									<?php if ($_SESSION["user_type"] != 0) { ?>
-									<th>Rol</th>
-									<th>Privilegios</th>
-									<?php }?>
-									<th style="width: 250px;"> Acciones</th>
-									</thead>
-									<?php
-									foreach($users as $user){
+										<thead>
+											<th>User ID</th>
+											<th>Nombre o Alias</th>
+											<th>Usuario</th>
+											<?php if ($_SESSION["user_type"] != 0) { ?>
+												<th>Código info</th>
+											<?php } ?>
+											<th>Activo</th>
+											<th>Región</th>
+											<?php if ($_SESSION["user_type"] != 0) { ?>
+												<th>Rol</th>
+												<th>Privilegios</th>
+											<?php } ?>
+											<th style="width: 250px;"> Acciones</th>
+										</thead>
+										<?php
+										foreach ($users as $user) {
 										?>
 
-										<!-- USUARIO CON PRIVILEGIO MAYOR O IGUAL A 7 -->
-										<?php if ($_SESSION["user_type"] == 7){ ?>
+											<!-- USUARIO CON PRIVILEGIO MAYOR O IGUAL A 7 -->
+											<?php if ($_SESSION["user_type"] == 7) { ?>
 
-											<tr>
-												<td><?php echo $user->id; ?></td>
-												<td><?php echo $user->name." ".$user->lastname; ?></td>
-												<td><?php echo $user->username; ?></td>
-												<td><?php echo $user->code_info; ?></td>
-												<td>
-													<?php if($user->is_active):?>
-														<i class="fa fa-check"></i>
-													<?php endif; ?>
-												</td>
-												<td><?php echo $user->region; ?></td>
-												<td><?php echo $user->rol; ?></td>
-												<td><?php echo $user->user_type; ?></td>
+												<tr>
+													<td><?php echo $user->id; ?></td>
+													<td><?php echo $user->name . " " . $user->lastname; ?></td>
+													<td><?php echo $user->username; ?></td>
+													<td><?php echo $user->code_info; ?></td>
+													<td>
+														<?php if ($user->is_active): ?>
+															<i class="fa fa-check"></i>
+														<?php endif; ?>
+													</td>
+													<td><?php echo $user->region; ?></td>
+													<td><?php echo $user->rol; ?></td>
+													<td><?php echo $user->user_type; ?></td>
 
-												<td style="width:30px;"><a href="index.php?view=edituser&id=<?php echo $user->id;?>" class="btn btn-warning btn-sm">Editar</a>
-												<?php $URL = "./?action=ajax&function=del_user&id=".$user->id;?>
-												<button type="button" onclick="del_item('<?php echo $URL;?>')" title="Eliminar" class="btn btn-danger btn-sm"><i class="material-icons">close</i></button></a>
-											
-											</tr>
+													<td style="width:30px;"><a href="index.php?view=edituser&id=<?php echo $user->id; ?>" class="btn btn-warning btn-sm">Editar</a>
+														<a onclick="del_item('<?php echo $user->id; ?>')" href="javascript:void(0);">
+															<button type="button" class="btn btn-danger btn-sm"><i>
+																	<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24">
+																		<path fill="currentColor" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z" />
+																	</svg></i>
+															</button>
+														</a>
+												</tr>
 
-										<!-- USUARIOS 6 NO VISUALIZA EL 7 -->
-										<?php }elseif ($_SESSION["user_type"] == 6) { ?>
-											<tr>
-												<td><?php echo $user->id; ?></td>
-												<td><?php echo $user->name." ".$user->lastname; ?></td>
-												<td><?php echo $user->username; ?></td>
-												<td><?php echo $user->code_info; ?></td>
-												<td>
-													<?php if($user->is_active):?>
-														<i class="fa fa-check"></i>
-													<?php endif; ?>
-												</td>
-												<td><?php echo $user->region; ?></td>
-												<td><?php echo $user->rol; ?></td>
-												<td><?php echo $user->user_type; ?></td>
+												<!-- USUARIOS 6 NO VISUALIZA EL 7 -->
+											<?php } elseif ($_SESSION["user_type"] == 6) { ?>
+												<tr>
+													<td><?php echo $user->id; ?></td>
+													<td><?php echo $user->name . " " . $user->lastname; ?></td>
+													<td><?php echo $user->username; ?></td>
+													<td><?php echo $user->code_info; ?></td>
+													<td>
+														<?php if ($user->is_active): ?>
+															<i class="fa fa-check"></i>
+														<?php endif; ?>
+													</td>
+													<td><?php echo $user->region; ?></td>
+													<td><?php echo $user->rol; ?></td>
+													<td><?php echo $user->user_type; ?></td>
 
-												<!-- SI NO TIENE PRIVILEGIO 7 NO PUEDE EDITAR EL USURIO ADMIN -->
-												<?php if ($_SESSION["user_type"] != 7 && $user->user_type != 7){ ?>
-													<td style="width:30px;"><a href="index.php?view=edituser&id=<?php echo $user->id;?>" class="btn btn-warning btn-sm">Editar</a>
-													<?php $URL = "./?action=ajax&function=del_user&id=".$user->id;?>
-													<button type="button" onclick="del_item('<?php echo $URL;?>')" title="Eliminar" class="btn btn-danger btn-sm"><i class="material-icons">close</i></button></a>
+													<!-- SI NO TIENE PRIVILEGIO 7 NO PUEDE EDITAR EL USURIO ADMIN -->
+													<?php if ($_SESSION["user_type"] != 7 && $user->user_type != 7) { ?>
+														<td style="width:30px;"><a href="index.php?view=edituser&id=<?php echo $user->id; ?>" class="btn btn-warning btn-sm">Editar</a>
+															<a onclick="del_item('<?php echo $user->id; ?>')" href="javascript:void(0);">
+																<button type="button" class="btn btn-danger btn-sm"><i>
+																		<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24">
+																			<path fill="currentColor" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z" />
+																		</svg></i>
+																</button>
+															</a>
+
+														<?php } ?>
+
+
+												</tr>
+
+												<!-- Gerencia RNI ve y crea todas las gerencias centrales -->
+											<?php } elseif ($_SESSION["user_type"] == 5 && ($user->user_type == 2 || $user->user_type == 3 || $user->user_type == 4 || $user->user_type == 8)) { ?>
+												<tr>
+													<td><?php echo $user->id; ?></td>
+													<td><?php echo $user->name . " " . $user->lastname; ?></td>
+													<td><?php echo $user->username; ?></td>
+													<td><?php echo $user->code_info; ?></td>
+													<td>
+														<?php if ($user->is_active): ?>
+															<i class="fa fa-check"></i>
+														<?php endif; ?>
+													</td>
+													<td><?php echo $user->region; ?></td>
+													<td><?php echo $user->rol; ?></td>
+													<td><?php echo $user->user_type; ?></td>
+													<td style="width:30px;"><a href="index.php?view=edituser&id=<?php echo $user->id; ?>" class="btn btn-warning btn-sm">Editar</a>
+														<!-- <a href="./?action=ajax&function=del_user&id=<!?php echo $user->id;?>" class="btn btn-danger btn-sm">Eliminar</a></td> -->
+												</tr>
+
+												<!-- Gerencias ADMIN ve todas las gerencias -->
+											<?php } elseif ($_SESSION["user_type"] == 9) { ?>
+												<!-- SOLO PRIVILEGIOS MENOR O IGUAL -->
+												<?php if ($user->user_type == 4 || $user->user_type == 5 || $user->user_type == 9) { ?>
+													<tr>
+														<td><?php echo $user->id; ?></td>
+														<td><?php echo $user->name . " " . $user->lastname; ?></td>
+														<td><?php echo $user->username; ?></td>
+														<td><?php echo $user->code_info; ?></td>
+														<td>
+															<?php if ($user->is_active): ?>
+																<i class="fa fa-check"></i>
+															<?php endif; ?>
+														</td>
+														<td><?php echo $user->region; ?></td>
+														<td><?php echo $user->rol; ?></td>
+														<td><?php echo $user->user_type; ?></td>
+														<td style="width:30px;"><a href="index.php?view=edituser&id=<?php echo $user->id; ?>" class="btn btn-warning btn-sm">Editar</a>
+															<!-- <a href="./?action=ajax&function=del_user&id=<!?php echo $user->id;?>" class="btn btn-danger btn-sm">Eliminar</a></td> -->
+													</tr>
 												<?php } ?>
 
-												
-											</tr>
 
-										<!-- Gerencia RNI ve y crea todas las gerencias centrales -->
-										<?php }elseif ($_SESSION["user_type"] == 5 && ($user->user_type == 2 || $user->user_type == 3 || $user->user_type == 4 || $user->user_type == 8) ) { ?>
+												<!-- Gerencia sustantiva | Coordinaciones CCS -->
+											<?php } elseif ($_SESSION["user_type"] == 4) { ?>
 												<tr>
 													<td><?php echo $user->id; ?></td>
-													<td><?php echo $user->name." ".$user->lastname; ?></td>
+													<td><?php echo $user->name . " " . $user->lastname; ?></td>
 													<td><?php echo $user->username; ?></td>
 													<td><?php echo $user->code_info; ?></td>
 													<td>
-														<?php if($user->is_active):?>
+														<?php if ($user->is_active): ?>
 															<i class="fa fa-check"></i>
 														<?php endif; ?>
 													</td>
 													<td><?php echo $user->region; ?></td>
 													<td><?php echo $user->rol; ?></td>
 													<td><?php echo $user->user_type; ?></td>
-													<td style="width:30px;"><a href="index.php?view=edituser&id=<?php echo $user->id;?>" class="btn btn-warning btn-sm">Editar</a>
-													<!-- <a href="./?action=ajax&function=del_user&id=<!?php echo $user->id;?>" class="btn btn-danger btn-sm">Eliminar</a></td> -->
+													<td style="width:30px;"><a href="index.php?view=edituser&id=<?php echo $user->id; ?>" class="btn btn-warning btn-sm">Editar</a>
+														<!-- <a href="./?action=ajax&function=del_user&id=<!?php echo $user->id;?>" class="btn btn-danger btn-sm">Eliminar</a></td> -->
 												</tr>
 
-										<!-- Gerencias ADMIN ve todas las gerencias -->
-										<?php }elseif ($_SESSION["user_type"] == 9) { ?>
-											<!-- SOLO PRIVILEGIOS MENOR O IGUAL -->
-											<?php if ($user->user_type == 4 || $user->user_type == 5 || $user->user_type == 9){ ?>
+												<!-- Jefe estadal | solo visualiza sustantivas de su region | esta en la consulta SQL -->
+											<?php } elseif ($_SESSION["user_type"] == 8) { ?>
+												<!-- SOLO DE SU ESTADO -->
 												<tr>
 													<td><?php echo $user->id; ?></td>
-													<td><?php echo $user->name." ".$user->lastname; ?></td>
+													<td><?php echo $user->name . " " . $user->lastname; ?></td>
 													<td><?php echo $user->username; ?></td>
 													<td><?php echo $user->code_info; ?></td>
 													<td>
-														<?php if($user->is_active):?>
+														<?php if ($user->is_active): ?>
 															<i class="fa fa-check"></i>
 														<?php endif; ?>
 													</td>
 													<td><?php echo $user->region; ?></td>
 													<td><?php echo $user->rol; ?></td>
 													<td><?php echo $user->user_type; ?></td>
-													<td style="width:30px;"><a href="index.php?view=edituser&id=<?php echo $user->id;?>" class="btn btn-warning btn-sm">Editar</a>
-													<!-- <a href="./?action=ajax&function=del_user&id=<!?php echo $user->id;?>" class="btn btn-danger btn-sm">Eliminar</a></td> -->
-												</tr>
-											<?php } ?>
+													<td style="width:30px;"><a href="index.php?view=edituser&id=<?php echo $user->id; ?>" class="btn btn-warning btn-sm">Editar</a>
+														<a onclick="del_item('<?php echo $user->id; ?>')" href="javascript:void(0);">
+															<button type="button" class="btn btn-danger btn-sm"><i>
+																	<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24">
+																		<path fill="currentColor" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z" />
+																	</svg></i>
+															</button>
+														</a>
 
-
-										<!-- Gerencia sustantiva | Coordinaciones CCS -->
-										<?php }elseif ( $_SESSION["user_type"] == 4) { ?>
-												<tr>
-													<td><?php echo $user->id; ?></td>
-													<td><?php echo $user->name." ".$user->lastname; ?></td>
-													<td><?php echo $user->username; ?></td>
-													<td><?php echo $user->code_info; ?></td>
-													<td>
-														<?php if($user->is_active):?>
-															<i class="fa fa-check"></i>
-														<?php endif; ?>
-													</td>
-													<td><?php echo $user->region; ?></td>
-													<td><?php echo $user->rol; ?></td>
-													<td><?php echo $user->user_type; ?></td>
-													<td style="width:30px;"><a href="index.php?view=edituser&id=<?php echo $user->id;?>" class="btn btn-warning btn-sm">Editar</a>
-													<!-- <a href="./?action=ajax&function=del_user&id=<!?php echo $user->id;?>" class="btn btn-danger btn-sm">Eliminar</a></td> -->
 												</tr>
 
-										<!-- Jefe estadal | solo visualiza sustantivas de su region | esta en la consulta SQL -->
-										<?php }elseif ( $_SESSION["user_type"] == 8 ) { ?>
-											<!-- SOLO DE SU ESTADO -->
+												<!-- COORD ESTADAL | SOLO SU COORDINACION | esta en la consulta SQL -->
+											<?php } elseif ($_SESSION["user_type"] == 3) { ?>
+												<!-- SOLO DE SU ESTADO -->
 												<tr>
 													<td><?php echo $user->id; ?></td>
-													<td><?php echo $user->name." ".$user->lastname; ?></td>
+													<td><?php echo $user->name . " " . $user->lastname; ?></td>
 													<td><?php echo $user->username; ?></td>
 													<td><?php echo $user->code_info; ?></td>
 													<td>
-														<?php if($user->is_active):?>
+														<?php if ($user->is_active): ?>
 															<i class="fa fa-check"></i>
 														<?php endif; ?>
 													</td>
 													<td><?php echo $user->region; ?></td>
 													<td><?php echo $user->rol; ?></td>
 													<td><?php echo $user->user_type; ?></td>
-													<td style="width:30px;"><a href="index.php?view=edituser&id=<?php echo $user->id;?>" class="btn btn-warning btn-sm">Editar</a>
-													<?php $URL = "./?action=ajax&function=del_user&id=".$user->id;?>
-													<button type="button" onclick="del_item('<?php echo $URL;?>')" title="Eliminar" class="btn btn-danger btn-sm"><i class="material-icons">close</i></button></a>
-												</tr>
-
-										<!-- COORD ESTADAL | SOLO SU COORDINACION | esta en la consulta SQL -->
-										<?php }elseif ( $_SESSION["user_type"] == 3) { ?>
-											<!-- SOLO DE SU ESTADO -->
-												<tr>
-													<td><?php echo $user->id; ?></td>
-													<td><?php echo $user->name." ".$user->lastname; ?></td>
-													<td><?php echo $user->username; ?></td>
-													<td><?php echo $user->code_info; ?></td>
-													<td>
-														<?php if($user->is_active):?>
-															<i class="fa fa-check"></i>
-														<?php endif; ?>
-													</td>
-													<td><?php echo $user->region; ?></td>
-													<td><?php echo $user->rol; ?></td>
-													<td><?php echo $user->user_type; ?></td>
-													<td	style="width:30px;">
-													<?php if ($_SESSION["user_id"] == $user->id){ ?>
-														<a href="index.php?view=edituser&id=<?php echo $user->id;?>" class="btn btn-warning btn-sm">Editar</a>
+													<td style="width:30px;">
+														<?php if ($_SESSION["user_id"] == $user->id) { ?>
+															<a href="index.php?view=edituser&id=<?php echo $user->id; ?>" class="btn btn-warning btn-sm">Editar</a>
 														<?php } ?>
 													</td>
 												</tr>
 
-										<!-- FACILITADOR Y USUARIOS | VE SOLO SU USUARIO -->
-										<?php }elseif ( ($_SESSION["user_type"] == 1  || $_SESSION["user_type"] == 10 || $_SESSION["user_type"] == 2) && $user->username == $_SESSION["user_username"]) { ?>
+												<!-- FACILITADOR Y USUARIOS | VE SOLO SU USUARIO -->
+											<?php } elseif (($_SESSION["user_type"] == 1  || $_SESSION["user_type"] == 10 || $_SESSION["user_type"] == 2) && $user->username == $_SESSION["user_username"]) { ?>
 
-											<!-- SOLO DE SU ESTADO -->
+												<!-- SOLO DE SU ESTADO -->
 												<tr>
 													<td><?php echo $user->id; ?></td>
-													<td><?php echo $user->name." ".$user->lastname; ?></td>
+													<td><?php echo $user->name . " " . $user->lastname; ?></td>
 													<td><?php echo $user->username; ?></td>
 													<td><?php echo $user->code_info; ?></td>
 													<td>
-														<?php if($user->is_active):?>
+														<?php if ($user->is_active): ?>
 															<i class="fa fa-check"></i>
 														<?php endif; ?>
 													</td>
 													<td><?php echo $user->region; ?></td>
 													<td><?php echo $user->rol; ?></td>
 													<td><?php echo $user->user_type; ?></td>
-													<td style="width:30px;"><a href="index.php?view=edituser&id=<?php echo $user->id;?>" class="btn btn-warning btn-sm">Editar</a>
-													<!-- <a href="./?action=ajax&function=del_user&id=<!?php echo $user->id;?>" class="btn btn-danger btn-sm">Eliminar</a></td> -->
+													<td style="width:30px;"><a href="index.php?view=edituser&id=<?php echo $user->id; ?>" class="btn btn-warning btn-sm">Editar</a>
+														<!-- <a href="./?action=ajax&function=del_user&id=<!?php echo $user->id;?>" class="btn btn-danger btn-sm">Eliminar</a></td> -->
 												</tr>
 
-										<!-- USUARIO FINAL -->
-										<?php }elseif ( ($_SESSION["user_type"] == 0) && $user->id == $_SESSION["user_id"]) { ?>
+												<!-- USUARIO FINAL -->
+											<?php } elseif (($_SESSION["user_type"] == 0) && $user->id == $_SESSION["user_id"]) { ?>
 
-										<!-- SOLO DE SU ESTADO -->
-											<tr>
-												<td><?php echo $user->id; ?></td>
-												<td><?php echo $user->name." ".$user->lastname; ?></td>
-												<td><?php echo $user->username; ?></td>
-												<td>
-													<?php if($user->is_active):?>
-														<i class="fa fa-check"></i>
-													<?php endif; ?>
-												</td>
-									
-												<td><?php echo $user->region; ?></td>
-												<td style="width:30px;"><a href="index.php?view=edituser&id=<?php echo $user->id;?>" class="btn btn-warning btn-sm">Editar</a>
-												<!-- <a href="./?action=ajax&function=del_user&id=<!?php echo $user->id;?>" class="btn btn-danger btn-sm">Eliminar</a></td> -->
-											</tr>
-										<?php } ?>
+												<!-- SOLO DE SU ESTADO -->
+												<tr>
+													<td><?php echo $user->id; ?></td>
+													<td><?php echo $user->name . " " . $user->lastname; ?></td>
+													<td><?php echo $user->username; ?></td>
+													<td>
+														<?php if ($user->is_active): ?>
+															<i class="fa fa-check"></i>
+														<?php endif; ?>
+													</td>
 
-									<?php
-									}
-									?>
+													<td><?php echo $user->region; ?></td>
+													<td style="width:30px;"><a href="index.php?view=edituser&id=<?php echo $user->id; ?>" class="btn btn-warning btn-sm">Editar</a>
+														<!-- <a href="./?action=ajax&function=del_user&id=<!?php echo $user->id;?>" class="btn btn-danger btn-sm">Eliminar</a></td> -->
+												</tr>
+											<?php } ?>
+
+										<?php
+										}
+										?>
 									</table>
-										
+
 								<?php
-								}else{
+								} else {
 									// no hay usuarios
 									echo "<p class='alert alert-danger'>No hay registros</p>";
 								}
@@ -555,40 +597,39 @@ function del_item(url) {
 	<?php
 
 	/*Sector de Paginacion */
-	if(count($users)>1){
+	if (count($users) > 1) {
 
-	//Operacion matematica para boton siguiente y atras 
-	$IncrimentNum =(($compag +1)<=$TotalRegistro)?($compag +1):1;
-	$DecrementNum =(($compag -1))<1?1:($compag -1);
+		//Operacion matematica para boton siguiente y atras 
+		$IncrimentNum = (($compag + 1) <= $TotalRegistro) ? ($compag + 1) : 1;
+		$DecrementNum = (($compag - 1)) < 1 ? 1 : ($compag - 1);
 
-	echo $url_pag.$DecrementNum."\" class=\"btn btn-info btn-sm\"> <i class=\"fa fa-arrow-left\"></i> </a>";
+		echo $url_pag . $DecrementNum . "\" class=\"btn btn-info btn-sm\"> <i class=\"fa fa-arrow-left\"></i> </a>";
 
-	//Se resta y suma con el numero de pag actual con el cantidad de 
-	//numeros  a mostrar
-	$Desde=$compag-(ceil($CantidadMostrar/2)-1);
-	$Hasta=$compag+(ceil($CantidadMostrar/2)-1);
-		
-	//Se valida
-	$Desde=($Desde<1)?1: $Desde;
-	$Hasta=($Hasta<$CantidadMostrar)?$CantidadMostrar:$Hasta;
-	//Se muestra los numeros de paginas
-	for($i=$Desde; $i<=$Hasta;$i++){
-		//Se valida la paginacion total
-		//de registros
-		if($i<=$TotalRegistro){
-			//Validamos la pag activo
-			if($i==$compag){
-				echo $url_pag.$i."\" class=\"btn btn-primary btn-sm\"active\">".$i."  </a>";
-			}else {
-				echo $url_pag.$i."\" class=\"btn btn-info btn-sm\">".$i."  </a>";
-			}     		
+		//Se resta y suma con el numero de pag actual con el cantidad de 
+		//numeros  a mostrar
+		$Desde = $compag - (ceil($CantidadMostrar / 2) - 1);
+		$Hasta = $compag + (ceil($CantidadMostrar / 2) - 1);
+
+		//Se valida
+		$Desde = ($Desde < 1) ? 1 : $Desde;
+		$Hasta = ($Hasta < $CantidadMostrar) ? $CantidadMostrar : $Hasta;
+		//Se muestra los numeros de paginas
+		for ($i = $Desde; $i <= $Hasta; $i++) {
+			//Se valida la paginacion total
+			//de registros
+			if ($i <= $TotalRegistro) {
+				//Validamos la pag activo
+				if ($i == $compag) {
+					echo $url_pag . $i . "\" class=\"btn btn-primary btn-sm\"active\">" . $i . "  </a>";
+				} else {
+					echo $url_pag . $i . "\" class=\"btn btn-info btn-sm\">" . $i . "  </a>";
+				}
+			}
 		}
-	}
-		
-	// echo "<a href=\"?view=tickets&pag=".$IncrimentNum."\" class=\"btn btn-info btn-sm\"> <i class=\"fa fa-arrow-right\"></i> </a>";
-	echo $url_pag.$IncrimentNum."\" class=\"btn btn-info btn-sm\"> <i class=\"fa fa-arrow-right\"></i> </a>";
 
+		// echo "<a href=\"?view=tickets&pag=".$IncrimentNum."\" class=\"btn btn-info btn-sm\"> <i class=\"fa fa-arrow-right\"></i> </a>";
+		echo $url_pag . $IncrimentNum . "\" class=\"btn btn-info btn-sm\"> <i class=\"fa fa-arrow-right\"></i> </a>";
 	}
 	?>
 
-	</center>
+</center>

@@ -148,7 +148,7 @@ $products_cat = ProductsType::getBySQL("select * from categoria_productos");
 							<div class="row">
 
 
-								<div class="col-md-12">
+								<div class="col-md-6">
 									<div class="form-group">
 										<label for="categoria" class="control-label">Categoría del producto*</label>
 										<select name="categoria" class="form-control" id="categoria" required>
@@ -162,17 +162,27 @@ $products_cat = ProductsType::getBySQL("select * from categoria_productos");
 
 								<div class="col-md-6">
 									<div class="form-group">
-										<label for="tipo" class="control-label">Tipo de producto</label>
-										<input type="text" name="tipo" id="tipo" required class="form-control" placeholder="">
+										<label for="codigo" class="control-label">Formato</label>
+										<select name="categoria" class="form-control" id="categoria" required>
+											<option value=""><?php echo "-SELECCIONE-" ?></option>
+											<option value="formulario">Formulario</option>
+											<option value="imagen">Imagen</option>
+											<!-- <option value="video">Video</option> -->
+											<option value="calc">Hoja de cálculo</option>
+											<option value="writer">Documento de texto</option>
+											<option value="rrss">Redes Sociales</option>
+										</select>
 									</div>
 								</div>
 
 								<div class="col-md-6">
 									<div class="form-group">
-										<label for="codigo" class="control-label">Código del producto</label>
-										<input type="text" name="codigo" id="codigo" required class="form-control" placeholder="">
+										<label for="tipo" class="control-label">Nombre del producto</label>
+										<input type="text" name="tipo" id="tipo" required class="form-control" placeholder="">
 									</div>
 								</div>
+
+								
 
 
 								<div class="col-md-6">
@@ -225,7 +235,7 @@ $products_cat = ProductsType::getBySQL("select * from categoria_productos");
 										<thead>
 											<th>Categoría</th>
 											<th>Producto</th>
-											<th>Código</th>
+											<th>Formato</th>
 											<th></th>
 										</thead>
 

@@ -141,5 +141,6 @@ if ($func_get == "delete") {
     }
     $param = FacilitatorsData::getByIdPg($_GET["id"]);
     $param->del();
+    $_SESSION['alert'] = "Registro borrado con éxito";
     Core::redir("./index.php?view=facilitators&swal=Registro borrado");
 }

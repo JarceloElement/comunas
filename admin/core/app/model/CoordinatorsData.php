@@ -370,7 +370,7 @@ class CoordinatorsData
 
 		// if (is_string($this->f_state)){
 
-		if ((int)$this->f_state >= 1){
+		if (is_numeric($this->f_state)){
 			$estado_n = EstadoData::getById($this->f_state);
 			foreach($estado_n as $p):
 				$this->estado_name = $p['estado'];
@@ -378,7 +378,7 @@ class CoordinatorsData
 		}else{$this->estado_name = $this->f_state;}	
 
 
-		if ((int)$this->municipality >= 1){
+		if (is_numeric($this->municipality)){
 			$municipio_n = MunicipioData::getById($this->municipality);
 			foreach($municipio_n as $p):
 				$this->municipio_name = $p['municipio'];
@@ -386,7 +386,7 @@ class CoordinatorsData
 		}else{$this->municipio_name = $this->municipality;}	
 
 
-		if ((int)$this->parish >= 1){
+		if (is_numeric($this->parish)){
 			$parroquia_n = ParroquiaData::getById($this->parish);
 			foreach($parroquia_n as $p):
 				$this->parroquia_name = $p['parroquia'];

@@ -421,7 +421,7 @@ if ($func_post == "add_user_type") {
     $param = new UserTypeData();
     $param->user_type = $_POST["user_type"];
     $param->user_type_name = $_POST["user_type_name"];
-    
+
     try {
         $result = $param->add();
 
@@ -1837,7 +1837,7 @@ if ($func_get == "del_user_type") {
         return;
     }
     $param = UserTypeData::getById($_GET["id"]);
-     try {
+    try {
         $result = $param->del();
         $_SESSION['alert'] = '¡Eliminado!';
         $array = array(
@@ -1867,16 +1867,26 @@ if ($func_get == "del_user") {
         return;
     }
     $param = UserData::getById($_GET["id"]);
-    $param->del();
-    // Core::alert("Eliminado exitosamente!");
 
-
-    $PHP_SELFx = "index.php?view=users&swal=Usuario eliminado";
-    echo "<script language=\"JavaScript\">
-        <!-- 
-        document.location=\"$PHP_SELFx\";
-        //-->
-        </script>";
+    try {
+        $result = $param->del();
+        $_SESSION['alert'] = '¡Eliminado con éxito!';
+        $array = array(
+            "error"  => "false",
+            "data"  => "Result: " . $result,
+            "alert" => "Eliminado con éxito",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "error"  => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+    }
+    echo json_encode($array);
+    return;
 }
 
 // del_participant
@@ -2229,15 +2239,25 @@ if ($func_get == "active_report") {
 // getrepeatededit
 if ($func_post == "get_repeateduser") {
 
+    // $r_username = UserData::getRepeatedUser($_POST["username"]);
+    // $rx_email = UserData::getRepeatedEmail($_POST["email"]);
+    // $rx_dni = UserData::getRepeatedDni($_POST["dni"]);
 
+    try {
+        $r_username = UserData::getRepeatedUser($_POST["username"]);
+        $rx_email = UserData::getRepeatedEmail($_POST["email"]);
+        $rx_dni = UserData::getRepeatedDni($_POST["dni"]);
+    } catch (Exception $e) {
+        $array = array(
+            "err"  => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+        echo json_encode($array);
+        return;
+    }
 
-    $r_username = UserData::getRepeatedUser($_POST["username"]);
-    $rx_email = UserData::getRepeatedEmail($_POST["email"]);
-    $rx_dni = UserData::getRepeatedDni($_POST["dni"]);
-
-
-    // echo "DNI: ".$dni;
-    // echo "EMAIL: ".$email;
 
 
     if (isset($r_username->username)) {
@@ -2275,6 +2295,7 @@ if ($func_post == "get_repeateduser") {
         );
         $res = json_encode($array);
         echo $res;
+        return;
     } else if ($email != "null") {
         $array = array(
             "err"  => 'true',
@@ -2299,31 +2320,54 @@ if ($func_post == "get_repeateduser") {
 // get_repeated_info
 if ($func_post == "get_repeated_info") {
 
-    $rx = InfoData::getByCode($_POST["cod"]);
 
-    if (isset($rx->cod)) {
-        $code = $rx->cod != "" ? $rx->cod : "null";
-    } else {
-        $code = 'null';
-    }
+    $code = 'null';
+
+    try {
+        $rx = InfoData::getByCode($_POST["cod"]);
+
+        if (isset($rx->cod)) {
+            $code = $rx->cod != "" ? $rx->cod : "null";
+        } else {
+            $code = 'null';
+        }
 
 
-    if ($code != "null") {
+        if ($code != "null") {
+            $array = array(
+                "error"  => 'true',
+                "param"  => "Código: " . $code,
+                "text"  => '¡AVISO! ya existe un infocentro con el mismo código. Por favor, búscalo y verifica que sea el mismo'
+            );
+            $res = json_encode($array);
+            echo $res;
+        } else {
+            $array = array(
+                "error"  => 'false',
+                "param"  => "Código: " . $code,
+                "text"  => '¡AVISO! '
+            );
+            $res = json_encode($array);
+            echo $res;
+        }
+
+
+        // $_SESSION['alert'] = '¡Eliminado con éxito!';
+        // $array = array(
+        //     "error"  => "false",
+        //     "data"  => "Result: " . $result,
+        //     "alert" => "Eliminado con éxito",
+        //     "alert_type" => "dashboard"
+        // );
+    } catch (Exception $e) {
         $array = array(
-            "err"  => 'true',
-            "param"  => "Código: " . $code,
-            "text"  => '¡AVISO! ya existe un infocentro con el mismo código. Por favor, búscalo y verifica que sea el mismo'
+            "error"  => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
         );
-        $res = json_encode($array);
-        echo $res;
-    } else {
-        $array = array(
-            "err"  => 'false',
-            "param"  => "Código: " . $code,
-            "text"  => '¡AVISO! '
-        );
-        $res = json_encode($array);
-        echo $res;
+        echo json_encode($array);
+        return;
     }
 }
 

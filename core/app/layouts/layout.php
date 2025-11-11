@@ -6,10 +6,10 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-  <meta name="description" content="Infocentro en un clic | Promoviendo la inclusión digital">
+  <meta name="description" content="Comunas en Red Digital">
   <meta name="author" content="infocentro.gob.ve">
   <meta name="keyword" content="Infocentro, Amazonas, Venezuela">
-  <title>InfoApp</title>
+  <title>Comunas en Red Digital</title>
   <link rel="icon" type="image/png" href="uploads/icon_info.png" />
 
   <!-- Main styles for this application-->
@@ -141,14 +141,14 @@ $user_username = isset($_SESSION['user_username']) ? $_SESSION['user_username'] 
           <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
             <?php
             // usuarios activos
-            echo $active_session = isset($_SESSION['active_session']) ? $_SESSION['active_session'] : "";
+            // echo $active_session = isset($_SESSION['active_session']) ? $_SESSION['active_session'] : "";
             ?>
             <?php if ($_SESSION["user_type"] == 2 || $_SESSION["user_type"] == 3 || $_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 8) { ?>
-              <a class="navbar-brand mdc-icon-button d-inline-flex mdc-top-app-bar__action-item--unbounded" href="#"><svg
+              <!-- <a class="navbar-brand mdc-icon-button d-inline-flex mdc-top-app-bar__action-item--unbounded" href="#"><svg
                   xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <path fill="currentColor"
                     d="M11 21v-2h8v-7.1q0-2.925-2.037-4.962T12 4.9T7.038 6.938T5 11.9V18H4q-.825 0-1.412-.587T2 16v-2q0-.525.263-.987T3 12.275l.075-1.325q.2-1.7.988-3.15t1.975-2.525T8.762 3.6T12 3t3.225.6t2.725 1.663t1.975 2.512t1 3.15l.075 1.3q.475.225.738.675t.262.95v2.3q0 .5-.262.95t-.738.675V19q0 .825-.587 1.413T19 21zm-2-7q-.425 0-.712-.288T8 13t.288-.712T9 12t.713.288T10 13t-.288.713T9 14m6 0q-.425 0-.712-.288T14 13t.288-.712T15 12t.713.288T16 13t-.288.713T15 14m-8.975-1.55Q5.85 9.8 7.625 7.9T12.05 6q2.225 0 3.913 1.412T18 11.026Q15.725 11 13.813 9.8t-2.938-3.25q-.4 2-1.687 3.563T6.025 12.45" />
-                </svg></a>
+                </svg></a> -->
               <a class="navbar-brand mdc-icon-button d-inline-flex mdc-top-app-bar__action-item--unbounded"
                 href="./index.php?view=doc"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                   viewBox="0 0 24 24">
@@ -214,8 +214,8 @@ $user_username = isset($_SESSION['user_username']) ? $_SESSION['user_username'] 
 
             <!-- panel admin -->
             <?php if ($_SESSION["user_type"] == 2 || $_SESSION["user_type"] == 3 || $_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 8 || $_SESSION["user_type"] == 9 || $_SESSION["user_type"] == 10) { ?>
-              <a class="nav-link nav-primary report" id="report" style="color: #089617;"
-                href="./admin/index.php?view=report" role="button"><svg class="mr-3" xmlns="http://www.w3.org/2000/svg"
+              <a class="nav-link nav-primary home" id="home" style="color: #089617;"
+                href="./admin/index.php?view=home" role="button"><svg class="mr-3" xmlns="http://www.w3.org/2000/svg"
                   width="24" height="24" viewBox="0 0 24 24">
                   <path fill="currentColor"
                     d="M17 22q-2.075 0-3.537-1.463T12 17t1.463-3.537T17 12t3.538 1.463T22 17t-1.463 3.538T17 22m-5 0q-3.475-.875-5.738-3.988T4 11.1V5l8-3l8 3v5.675q-.65-.325-1.463-.5T17 10q-2.9 0-4.95 2.05T10 17q0 1.55.588 2.8t1.487 2.175q-.025 0-.037.013T12 22m5-5q.625 0 1.063-.437T18.5 15.5t-.437-1.062T17 14t-1.062.438T15.5 15.5t.438 1.063T17 17m0 3q.775 0 1.425-.363t1.05-.962q-.55-.325-1.175-.5T17 18t-1.3.175t-1.175.5q.4.6 1.05.963T17 20" />
@@ -229,13 +229,13 @@ $user_username = isset($_SESSION['user_username']) ? $_SESSION['user_username'] 
             <!-- collapse2 mapa social-->
             <?php if ($_SESSION["user_type"] == 2 || $_SESSION["user_type"] == 3 || $_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 8 || $_SESSION["user_type"] == 9 || $_SESSION["user_type"] == 10) { ?>
 
-              <a class="nav-link nav-primary services" id="services" type="button" data-toggle="collapse"
+              <!-- <a class="nav-link nav-primary services" id="services" type="button" data-toggle="collapse"
                 data-target="#socialmap1" aria-expanded="true" aria-controls="collapseOne">
                 <svg class="mr-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <path fill="currentColor"
                     d="M12 22q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m-1-2.05V18q-.825 0-1.412-.587T9 16v-1l-4.8-4.8q-.075.45-.137.9T4 12q0 3.025 1.988 5.3T11 19.95m6.9-2.55q.5-.55.9-1.187t.662-1.325t.4-1.413T20 12q0-2.45-1.363-4.475T15 4.6V5q0 .825-.587 1.413T13 7h-2v2q0 .425-.288.713T10 10H8v2h6q.425 0 .713.288T15 13v3h1q.65 0 1.175.388T17.9 17.4" />
                 </svg>Mapa social
-              </a>
+              </a> -->
 
               <div id="socialmap1" class="collapse visible" data-parent="#accordion1">
                 <ul class="navdrawer-nav">
@@ -282,13 +282,13 @@ $user_username = isset($_SESSION['user_username']) ? $_SESSION['user_username'] 
             <!-- collapse encuesta tecnologica-->
             <?php if ($_SESSION["user_type"] == 2 || $_SESSION["user_type"] == 3 || $_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 8 || $_SESSION["user_type"] == 9 || $_SESSION["user_type"] == 10) { ?>
 
-              <a class="nav-link nav-primary" type="button" data-toggle="collapse" data-target="#encuesta"
+              <!-- <a class="nav-link nav-primary" type="button" data-toggle="collapse" data-target="#encuesta"
                 aria-expanded="true" aria-controls="collapseOne">
                 <svg class="mr-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <path fill="currentColor"
                     d="M6 20q-.825 0-1.412-.587T4 18t.588-1.412T6 16t1.413.588T8 18t-.587 1.413T6 20m0-6q-.825 0-1.412-.587T4 12t.588-1.412T6 10t1.413.588T8 12t-.587 1.413T6 14m0-6q-.825 0-1.412-.587T4 6t.588-1.412T6 4t1.413.588T8 6t-.587 1.413T6 8m6 0q-.825 0-1.412-.587T10 6t.588-1.412T12 4t1.413.588T14 6t-.587 1.413T12 8m6 0q-.825 0-1.412-.587T16 6t.588-1.412T18 4t1.413.588T20 6t-.587 1.413T18 8m-6 6q-.825 0-1.412-.587T10 12t.588-1.412T12 10t1.413.588T14 12t-.587 1.413T12 14m1 6v-3.075l5.525-5.5q.225-.225.5-.325t.55-.1q.3 0 .575.113t.5.337l.925.925q.2.225.313.5t.112.55t-.1.563t-.325.512l-5.5 5.5zm6.575-5.6l.925-.975l-.925-.925l-.95.95z" />
                 </svg>Encuestas
-              </a>
+              </a> -->
 
               <div id="encuesta" class="collapse visible" data-parent="#accordion1">
                 <ul class="navdrawer-nav">
@@ -359,12 +359,12 @@ $user_username = isset($_SESSION['user_username']) ? $_SESSION['user_username'] 
                       d="M12 4.25q.325 0 .538-.213t.212-.537t-.213-.537T12 2.75t-.537.213t-.213.537t.213.538t.537.212M18 23q-2.075 0-3.537-1.463T13 18t1.463-3.537T18 13t3.538 1.463T23 18t-1.463 3.538T18 23m-.5-2h1v-2.5H21v-1h-2.5V15h-1v2.5H15v1h2.5zM7 9h10V7H7zm4.675 12H5q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h4.2q.325-.9 1.088-1.45T12 1t1.713.55T14.8 3H19q.825 0 1.413.588T21 5v6.7q-.725-.35-1.463-.525T18 11q-.275 0-.513.012t-.487.063V11H7v2h6.125q-.45.425-.812.925T11.675 15H7v2h4.075q-.05.25-.062.488T11 18q0 .825.15 1.538T11.675 21" />
                   </svg>Actividades
                 </a>
-                <a class="nav-link services" id="services" type="reports" href="./admin/index.php?view=services"><svg
+                <!-- <a class="nav-link services" id="services" type="reports" href="./admin/index.php?view=services"><svg
                     class="mr-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <path fill="currentColor"
                       d="M11 21v-2h8v-7.1q0-2.925-2.037-4.962T12 4.9T7.038 6.938T5 11.9V18H4q-.825 0-1.412-.587T2 16v-2q0-.525.263-.987T3 12.275l.075-1.325q.2-1.7.988-3.15t1.975-2.525T8.762 3.6T12 3t3.225.6t2.725 1.663t1.975 2.512t1 3.15l.075 1.3q.475.225.738.675t.262.95v2.3q0 .5-.262.95t-.738.675V19q0 .825-.587 1.413T19 21zm-2-7q-.425 0-.712-.288T8 13t.288-.712T9 12t.713.288T10 13t-.288.713T9 14m6 0q-.425 0-.712-.288T14 13t.288-.712T15 12t.713.288T16 13t-.288.713T15 14m-8.975-1.55Q5.85 9.8 7.625 7.9T12.05 6q2.225 0 3.913 1.412T18 11.026Q15.725 11 13.813 9.8t-2.938-3.25q-.4 2-1.687 3.563T6.025 12.45" />
                   </svg> Servicios
-                </a>
+                </a> -->
                 <a class="nav-link participants" id="participants" type="reports"
                   href="./admin/index.php?view=participants"><svg class="mr-3" xmlns="http://www.w3.org/2000/svg" width="24"
                     height="24" viewBox="0 0 24 24">
@@ -402,7 +402,7 @@ $user_username = isset($_SESSION['user_username']) ? $_SESSION['user_username'] 
                   </a>
                 </ul>
 
-                <ul class="navdrawer-nav">
+                <!-- <ul class="navdrawer-nav">
                   <a class="nav-link inventory" id="inventory" type="inventory" href="./admin/index.php?view=inventory"><svg
                       class="mr-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                       <path fill="currentColor" d="M4 21V9l8-6l8 6v12h-6v-7h-4v7z" />
@@ -416,7 +416,7 @@ $user_username = isset($_SESSION['user_username']) ? $_SESSION['user_username'] 
                       <path fill="currentColor" d="M4 21V9l8-6l8 6v12h-6v-7h-4v7z" />
                     </svg> Procesos
                   </a>
-                </ul>
+                </ul> -->
 
               </div>
 
@@ -426,13 +426,13 @@ $user_username = isset($_SESSION['user_username']) ? $_SESSION['user_username'] 
 
             <?php if ($_SESSION["user_type"] == 2 || $_SESSION["user_type"] == 3 || $_SESSION["user_type"] == 7) { ?>
               <!-- collapse2 -->
-              <a class="nav-link nav-primary" type="button" data-toggle="collapse" data-target="#brigadas"
+              <!-- <a class="nav-link nav-primary" type="button" data-toggle="collapse" data-target="#brigadas"
                 aria-expanded="true" aria-controls="collapseOne">
                 <svg class="mr-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <path fill="currentColor"
                     d="M0 18v-1.575q0-1.075 1.1-1.75T4 14q.325 0 .625.013t.575.062q-.35.525-.525 1.1t-.175 1.2V18zm6 0v-1.625q0-.8.438-1.463t1.237-1.162T9.588 13T12 12.75q1.325 0 2.438.25t1.912.75t1.225 1.163t.425 1.462V18zm13.5 0v-1.625q0-.65-.162-1.225t-.488-1.075q.275-.05.563-.062T20 14q1.8 0 2.9.663t1.1 1.762V18zM4 13q-.825 0-1.412-.587T2 11q0-.85.588-1.425T4 9q.85 0 1.425.575T6 11q0 .825-.575 1.413T4 13m16 0q-.825 0-1.412-.587T18 11q0-.85.588-1.425T20 9q.85 0 1.425.575T22 11q0 .825-.575 1.413T20 13m-8-1q-1.25 0-2.125-.875T9 9q0-1.275.875-2.137T12 6q1.275 0 2.138.863T15 9q0 1.25-.862 2.125T12 12" />
                 </svg>Brigadas
-              </a>
+              </a> -->
 
               <div id="brigadas" class="collapse visible" data-parent="#accordion1">
                 <ul class="navdrawer-nav">
@@ -563,17 +563,17 @@ $user_username = isset($_SESSION['user_username']) ? $_SESSION['user_username'] 
           Copyright &copy;
           <script>
             document.write(new Date().getFullYear());
-          </script> | Fundación Infocentro
+          </script> | Comunas en Red Digital
         </ul>
       </div>
-      <div class="row justify-content-center">
+      <!-- <div class="row justify-content-center">
         <ul>
           Con <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <path fill="currentColor"
               d="m12 21l-1.45-1.3q-2.525-2.275-4.175-3.925T3.75 12.812T2.388 10.4T2 8.15Q2 5.8 3.575 4.225T7.5 2.65q1.3 0 2.475.55T12 4.75q.85-1 2.025-1.55t2.475-.55q2.35 0 3.925 1.575T22 8.15q0 1.15-.387 2.25t-1.363 2.412t-2.625 2.963T13.45 19.7z" />
           </svg> y Software Libre
         </ul>
-      </div>
+      </div> -->
     </div>
   </footer>
 

@@ -17,9 +17,14 @@ $alert = isset($_GET["alert"]) ? $_GET["alert"] : '';
     document.getElementById("validar").addEventListener('submit', validarFormulario);
   });
 
-  function validarFormulario(evento) {
+  async function validarFormulario(evento) {
     event.preventDefault();
 
+    var formData = new FormData();
+    formData.append('function', 'get_repeateduser'); // Agrega la función a llamar
+    formData.append('username', $("#username").val());
+    formData.append('dni', $("#user_dni").val());
+    formData.append('email', $("#email").val());
 
     var formObj = document.getElementById('validar');
     var dni = document.getElementById('user_dni').value;
@@ -34,52 +39,44 @@ $alert = isset($_GET["alert"]) ? $_GET["alert"] : '';
 
     $('#cover-spin').show(0);
 
-    $.ajax({
-        type: "POST",
-        url: "./?action=ajax",
-        data: {
-          function: "get_repeateduser", // funcion que llama
-          username: $("#username").val(),
-          dni: $("#user_dni").val(),
-          email: $("#email").val()
-        }
-      })
-      .done(function(msg) {
+    try {
+      const res = await fetch("./?action=ajax", {
+        method: 'POST',
+        body: formData
+      });
+
+      if (res.ok) {
+        // console.log(res);
+        const result_await = await res.text();
+        // console.log(result_await);
+        var array = JSON.parse(result_await);
+        console.log(array);
         $('#cover-spin').hide(0);
 
-        console.log(msg);
-        var array = JSON.parse(msg);
-
-        if (array['err'] == 'true') {
-          console.log(array['text']);
-
+        if (array.err == 'true') {
           if (getOS() == "Android") {
             alert(array['text']);
           } else {
-            toastify(array['text'], true, 15000, "dashboard");
+            toastify(array['text'], true, 15000, "warning");
           }
-
+          return;
         } else {
           formObj.submit()
         }
 
 
 
-      })
-      .fail(function() {
-        if (getOS() == "Android") {
-          alert("Hubo un error, intenta nuevamente");
-        } else {
-          toastify('Hubo un error, intenta nuevamente', true, 5000, "warning");
-        }
+      } else {
         $('#cover-spin').hide(0);
-        return false;
-      });
-    // .always(function() {
-    //     toastify('Finished',true,1000,"warning");
-    // });
+        toastify(res.statusText, true, 12000, "error");
+        throw res.statusText;
+      }
 
-    // this.submit();
+    } catch (error) {
+      $('#cover-spin').hide(0);
+      toastify(error, true, 12000, "error");
+      throw error;
+    }
 
   };
 </script>
@@ -102,12 +99,12 @@ $alert = isset($_GET["alert"]) ? $_GET["alert"] : '';
           <div class="card-body">
 
             <!-- ALERT -->
-            <div class="card-body">
-              <?php if ($alert != "") {
+            <!-- <div class="card-body">
+              <!?php if ($alert != "") {
                 View::Error("<p class='alert alert-warning'>$alert </p>");
               }
               ?>
-            </div>
+            </div> -->
             <!-- END ALERT -->
 
             <form id="validar" class="form-horizontal" method="post" action="index.php?view=adduser" role="form">
@@ -126,7 +123,7 @@ $alert = isset($_GET["alert"]) ? $_GET["alert"] : '';
                 </div>
 
                 <div class="col-md-4 mui-textfield mui-textfield--float-label">
-                  <input type="number" name="user_dni" id="user_dni" minlength="7" maxlength="8" list="list_dni" placeholder="" required oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                  <input type="number" name="user_dni" id="user_dni" min="1" minlength="7" maxlength="8" list="list_dni" placeholder="" required oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                   <label><i class="fa fa-user"></i> Documento de identidad</label>
                 </div>
 
@@ -145,7 +142,7 @@ $alert = isset($_GET["alert"]) ? $_GET["alert"] : '';
                   <label><i class="fa fa-email"></i> Correo electrónico*</label>
                 </div>
 
-                <div class="col-md-4 mui-select" id="user_rol">
+                <div class="col-md-4 mui-select" id="user_gender">
                   <select name="gender" id="gender" required>
                     <option value="">--GÉNERO--</option>
                     <option value="Hombre">Hombre</option>
@@ -159,8 +156,8 @@ $alert = isset($_GET["alert"]) ? $_GET["alert"] : '';
 
 
                 <!--  SOLO ADMIN VISIBLE -->
-                <div class="col-md-4 mui-select" id="tipo_de_usuario">
-                  <select name="user_type" id="user_type" required>
+                <div class="col-md-4 mui-select">
+                  <select name="user_type" id="tipo_de_usuario" required>
                     <!-- busca el nombre por el ID -->
                     <option value="">--TIPO--</option>
 
@@ -170,7 +167,7 @@ $alert = isset($_GET["alert"]) ? $_GET["alert"] : '';
                       <?php if ($_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 6) { ?>
                         <?php if ($p->user_type != 7) { ?>
                           <option value="<?php echo $p->user_type; ?>" data="<?php echo $p->user_type_name; ?>"> <?php echo $p->user_type_name; ?></option>
-                          <?php } ?>
+                        <?php } ?>
 
                         <!-- Politicas Admin -->
                       <?php } elseif ($_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6) { ?>
@@ -226,7 +223,7 @@ $alert = isset($_GET["alert"]) ? $_GET["alert"] : '';
               </div>
 
 
-              <div class="form-check" id="is_organization">
+              <!-- <div class="form-check" id="is_organization">
                 <label class="form-check-label">
                   <input type="checkbox" id="checkbox_organization" name="is_organization" class="form-check-input" value="">
                   Pertenece a una organización comunitaria
@@ -239,7 +236,7 @@ $alert = isset($_GET["alert"]) ? $_GET["alert"] : '';
               <div class="col-md-12 mui-textfield mui-textfield--float-label" id="organization_name" style="display: none;">
                 <input type="text" name="organization_name" id="organization" value="" placeholder="">
                 <label><i class="fa fa-user"></i> Nombre de la organización</label>
-              </div>
+              </div> -->
 
               <br>
               <div class="form-group">
@@ -293,9 +290,9 @@ $alert = isset($_GET["alert"]) ? $_GET["alert"] : '';
     });
 
 
-    $("#user_type").change(function() {
-
+    $("#tipo_de_usuario").change(function() {
       data = $(this).val();
+      console.log(data);
 
       // limpiar el select
       const $select = document.querySelector("#rol");
@@ -311,7 +308,7 @@ $alert = isset($_GET["alert"]) ? $_GET["alert"] : '';
         <?php if ($_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7) { ?>
           $('#rol').append($('<option>').val('').text('-SELECCIONE-'));
           $('#rol').append($('<option>').val('Facilitador').text('Facilitador'));
-          $('#rol').append($('<option>').val('Analista').text('Analista'));
+          $('#rol').append($('<option>').val('Promotor').text('Promotor'));
         <?php } else { ?>
           $('#rol').append($('<option>').val('Facilitador').text('Facilitador'));
         <?php } ?>
@@ -350,8 +347,7 @@ $alert = isset($_GET["alert"]) ? $_GET["alert"] : '';
           // <!-- Gerencia principal -->
           $('#rol').append($('<option>').val('').text('-SELECCIONE-'));
           $('#rol').append($('<option>').val('Políticas públicas').text('Políticas públicas'));
-          $('#rol').append($('<option>').val('Gerencias ADMIN').text('Gerencias ADMIN'));
-          $('#rol').append($('<option>').val('Gerencia RNI').text('Gerencia RNI'));
+          $('#rol').append($('<option>').val('Gerencias ADMIN').text('Gerencia comunal'));
         <?php } ?>
       }
 
@@ -361,9 +357,8 @@ $alert = isset($_GET["alert"]) ? $_GET["alert"] : '';
           $('#rol').append($('<option>').val('').text('-SELECCIONE-'));
           // <!-- Gerencia principal -->
           $('#rol').append($('<option>').val('Políticas públicas').text('Políticas públicas'));
-          $('#rol').append($('<option>').val('Gerencias ADMIN').text('Gerencias ADMIN'));
-          $('#rol').append($('<option>').val('Gerencia RNI').text('Gerencia RNI'));
-    
+          $('#rol').append($('<option>').val('Gerencias ADMIN').text('Gerencia comunal'));
+
         <?php } ?>
 
       }
@@ -378,6 +373,7 @@ $alert = isset($_GET["alert"]) ? $_GET["alert"] : '';
 
       if (data == '8') {
         $('#rol').append($('<option>').val('Jefe estadal').text('Jefe estadal'));
+        $('#rol').append($('<option>').val('Sala unificada').text('Sala unificada'));
       }
 
       if (data == '10') {

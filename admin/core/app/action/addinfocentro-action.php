@@ -57,7 +57,7 @@ if ($rx == 'null') {
     $r->observacion = $_POST["observacion"];
     $r->add();
 
-Core::redir('./index.php?view=infocentros&swal=Infocentro creado');
+Core::redir($_SESSION["location"]);
 
 } else {
     Core::alert("¡Error al guardar, ya existe un Infocentro con el código: (".$_POST["cod"].")!");

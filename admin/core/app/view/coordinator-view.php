@@ -11,19 +11,22 @@ $coordinations = CoordTypeData::getAll();
 <!-- <script src="assets/js/jquery.min.js" type="text/javascript"></script> -->
 <script>
 	$(function() {
-		if ('<?php echo $_GET['swal']; ?>' != "") {
-			Swal.fire({
-				position: 'top-center',
-				icon: 'success',
-				title: '<?php echo $_GET['swal']; ?>',
-				showConfirmButton: false,
-				timer: 1500
-			})
-		};
-		// cambiar el parametro de alert
-		const url = new URL(window.location);
-		url.searchParams.set('swal', '');
-		window.history.pushState({}, '', url);
+		<?php if (isset($_SESSION['alert']) && $_SESSION['alert'] != "") : ?>
+      if (getOS() != "Android") {
+        Swal.fire({
+          icon: 'success',
+        //   title: 'Aviso!',
+          text: '<?php echo $_SESSION['alert']; ?>',
+          showConfirmButton: true,
+          timer: 50000
+
+        })
+      } else {
+        alert("<?php echo $_SESSION['alert']; ?>");
+      }
+
+      <?php $_SESSION['alert'] = ""; ?>
+    <?php endif; ?>
 
 	});
 

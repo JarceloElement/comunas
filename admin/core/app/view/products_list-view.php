@@ -614,6 +614,10 @@ $social_medias = SocialMediasData::getBySQL("SELECT * FROM social_medias;")[0];
 											</div>
 										</div>
 									</div>
+									
+									
+									
+								
 
 
 									<!-- input file tipo documento -->
@@ -953,6 +957,8 @@ $DB_name = "products_list";
 						document.getElementById("userfile_imagen").required = false;
 						document.getElementById("formulario_url_v").style.display = "none";
 						document.getElementById("formulario_url").required = false;
+						document.getElementById("red_creada_v").style.display = "none";
+						document.getElementById("red_creada").required = false;
 					} else {
 						document.getElementById("userfile_f").style.display = "none";
 						document.getElementById("userfile").required = false;
@@ -966,6 +972,8 @@ $DB_name = "products_list";
 						document.getElementById("userfile_f").required = false;
 						document.getElementById("formulario_url_v").style.display = "none";
 						document.getElementById("formulario_url").required = false;
+						document.getElementById("red_creada_v").style.display = "none";
+						document.getElementById("red_creada").required = false;
 					} else {
 						document.getElementById("userfile_img").style.display = "none";
 						document.getElementById("userfile_imagen").required = false;
@@ -979,9 +987,26 @@ $DB_name = "products_list";
 						document.getElementById("userfile_f").required = false;
 						document.getElementById("userfile_img").style.display = "none";
 						document.getElementById("userfile_imagen").required = false;
+						document.getElementById("red_creada_v").style.display = "none";
+						document.getElementById("red_creada").required = false;
 					} else {
 						document.getElementById("formulario_url_v").style.display = "none";
 						document.getElementById("formulario_url").required = false;
+					}
+
+					if (cod == "rrss") {
+						document.getElementById("red_creada_v").style.display = "block";
+						document.getElementById("red_creada").required = true;
+
+						document.getElementById("userfile_f").style.display = "none";
+						document.getElementById("userfile_f").required = false;
+						document.getElementById("userfile_img").style.display = "none";
+						document.getElementById("userfile_imagen").required = false;
+						document.getElementById("formulario_url_v").style.display = "none";
+						document.getElementById("formulario_url").required = false;
+					} else {
+						document.getElementById("red_creada_v").style.display = "none";
+						document.getElementById("red_creada").required = false;
 					}
 
 					// falta en campo de red_creada_v

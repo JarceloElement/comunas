@@ -53,6 +53,8 @@ if ($func_get == "add") {
 
         $r->addPg();
 
+        $_SESSION["alert"] = "Registro creado con éxito";
+        $_SESSION["alert_type"] = "dashboard";
         $array = array(
             "data"  => $r,
             "alert" => "Registro creado con éxito",
@@ -106,6 +108,9 @@ if ($func_get == "update") {
         $result = $r->updatePg();
 
 
+        $_SESSION["alert"] = "Registro actualizado con éxito";
+        $_SESSION["alert_type"] = "dashboard";
+
         $array = array(
             "data"  => $result,
             "alert" => "Registro actualizado con éxito",
@@ -136,6 +141,8 @@ if ($func_get == "delete") {
     $param = CoordinatorsData::getByIdPg($_GET["id"]);
     if ($param != "null") {
         $param->del();
+        $_SESSION["alert"] = "Registro borrado con éxito";
+        $_SESSION["alert_type"] = "dashboard";
         Core::redir("./index.php?view=coordinator&swal=Registro borrado");
     }
 }
