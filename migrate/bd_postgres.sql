@@ -509,8 +509,9 @@ GRANT ALL ON TABLE public.products_list TO lanubede WITH GRANT OPTION;
 --
 
 
+-- GRANT ALL PRIVILEGES ON TABLE public.info_process TO lanubepl;
 
--- CREATE SEQUENCE IF NOT EXISTS public.products_list_id_seq START WITH 1 INCREMENT BY 1 NO MINVALUE NO MAXVALUE CACHE 1;
--- ALTER TABLE public.products_list OWNER TO lanubepl;
--- ALTER SEQUENCE public.products_list_id_seq OWNED BY public.products_list.id;
--- ALTER TABLE ONLY public.products_list ALTER COLUMN id SET DEFAULT nextval('public.products_list_id_seq'::regclass);
+-- CREATE SEQUENCE IF NOT EXISTS public.info_process_id_seq START WITH 1 INCREMENT BY 1 NO MINVALUE NO MAXVALUE CACHE 1;
+-- ALTER TABLE public.info_process OWNER TO lanubepl;
+-- ALTER SEQUENCE public.info_process_id_seq OWNED BY public.info_process.id;
+-- ALTER TABLE ONLY public.info_process ALTER COLUMN id SET DEFAULT nextval('public.info_process_id_seq'::regclass);
