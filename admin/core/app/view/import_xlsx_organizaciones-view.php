@@ -109,9 +109,9 @@ if (isset($_FILES['datafile'])) {
 
             if (!empty($param)) {
 
-                $r = OrganizacionesData::getByNRegistro($param);
+                $r = OrganizacionesData::codigo_organizacion($param);
 
-                if ($rx == 'null') {
+                if ($r == 'null') {
                     // echo "<span style='color:orange;'>Nuevo:</span> " . $param . "<br>";
 
                     // $info = InfoData::getById($fields[1]);
@@ -185,22 +185,22 @@ if (isset($_FILES['datafile'])) {
 
                             if ($val_field != $r->$data_field) {
 
-                                // if ($data_field != "id" && $data_field != "k_info") {
+                                if ($data_field != "codigo_organizacion") {
 
-                                // if ($data_field == "code_info") {
-                                //     $val_field = str_replace(["\r\n", "\n", "\r"], '', $fields[$i]);
-                                //     $val_field = strtoupper($val_field);
-                                // }
+                                    // if ($data_field == "code_info") {
+                                    //     $val_field = str_replace(["\r\n", "\n", "\r"], '', $fields[$i]);
+                                    //     $val_field = strtoupper($val_field);
+                                    // }
 
-                                $data_q = $r->$data_field;
+                                    $data_q = $r->$data_field;
 
-                                // solo algunos
-                                // if ($data_field == "user_info_cod"){echo "<span style='color:green;'>Actualizado:</span> $param > $data_field : ".$r->$data_field." -|POR|- $val_field <br>";$r->$data_field=$val_field;}
+                                    // solo algunos
+                                    // if ($data_field == "user_info_cod"){echo "<span style='color:green;'>Actualizado:</span> $param > $data_field : ".$r->$data_field." -|POR|- $val_field <br>";$r->$data_field=$val_field;}
 
-                                // todos
-                                echo "<span style='color:green;'>Actualizado:</span><span style='color:blue;'>$param</span> > $data_field : ($data_q) -POR- ($val_field) <br>";
-                                $r->$data_field = $val_field;
-                                // }
+                                    // todos
+                                    echo "<span style='color:green;'>Actualizado:</span><span style='color:blue;'>$param</span> > $data_field : ($data_q) -POR- ($val_field) <br>";
+                                    $r->$data_field = $val_field;
+                                }
                             }
                         }
                     }

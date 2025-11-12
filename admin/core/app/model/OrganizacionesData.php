@@ -202,7 +202,7 @@ class OrganizacionesData
 		}
 	}
 
-	public static function getByNRegistro($param)
+	public static function codigo_organizacion($param)
 	{
 		$sql = "select * from ".self::$tablename." where codigo_organizacion='$param'";
 		$query = ExecutorPg::doit($sql);
