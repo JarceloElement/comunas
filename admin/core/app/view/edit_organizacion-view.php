@@ -53,6 +53,8 @@
 </script>
 
 
+<div id="cover-spin"></div>
+
 <?php $line = OrganizacionesData::getByIdPg($_GET["id"]); ?>
 
 
