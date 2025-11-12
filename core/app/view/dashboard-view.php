@@ -224,11 +224,16 @@ if (isset($_SESSION["user_genero"]) && $_SESSION["user_genero"] == "Mujer") {
                 $date_pub = str_replace("/", "-", $date_pub);
                 $newDate = date("d-m-Y", strtotime($date_pub));
                 $date_pub = strftime("%a %d de %b", strtotime($newDate));
+                // $formatter = new IntlDateFormatter('es_ES', IntlDateFormatter::SHORT, IntlDateFormatter::NONE, date_default_timezone_get(), IntlDateFormatter::GREGORIAN, "EEE d 'de' MMM");
+                // $date_pub = $formatter->format(new DateTime($newDate));
+              
               } else {
                 $date_pub = date("d/m/Y", strtotime($user["date_pub"]));
                 $date_pub = str_replace("/", "-", $date_pub);
                 $newDate = date("d-m-Y", strtotime($date_pub));
                 $date_pub = strftime("%a %d de %b", strtotime($newDate));
+                // $formatter = new IntlDateFormatter('es_ES', IntlDateFormatter::SHORT, IntlDateFormatter::NONE, date_default_timezone_get(), IntlDateFormatter::GREGORIAN, "EEE d 'de' MMM");
+                // $date_pub = $formatter->format(new DateTime($newDate));
               }
 
             ?>

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="assets/material/assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="uploads/icon.png" />
+  <link rel="icon" type="image/png" href="uploads/comunas.jpeg" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>Comunas en Red Digital</title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
@@ -155,7 +155,7 @@ $view = $_GET["view"];
       -->
 
         <div class="logo">
-          <a href="./../index.php" class="simple-text"><img src="uploads/logo_info_p.png" style="max-width: 90px; min-height: 10px;" /></a>
+          <a href="./../index.php" class="simple-text"><img src="uploads/comunas.jpeg" style="max-width: 90px; min-height: 10px;" /></a>
         </div>
         <div class="sidebar-wrapper">
           <ul class="nav">
@@ -667,6 +667,15 @@ $view = $_GET["view"];
                     <p>Redes sociales</p>
                   </a>
                 </li> -->
+
+                <li class="nav-item organizaciones" id="organizaciones" type="collapse_data">
+                  <a class="nav-link" href="./?view=organizaciones">
+                    <i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="m18.525 9l-1.1-2.4l-2.4-1.1l2.4-1.1l1.1-2.4l1.1 2.4l2.4 1.1l-2.4 1.1l-1.1 2.4Zm2 7l-.8-1.7l-1.7-.8l1.7-.8l.8-1.7l.8 1.7l1.7.8l-1.7.8l-.8 1.7Zm-13 6l-.3-2.35q-.2-.075-.387-.2t-.313-.25l-2.2.95l-2.5-4.35l1.9-1.4v-.8l-1.9-1.4l2.5-4.35l2.2.95q.125-.125.313-.25t.387-.2l.3-2.35h5l.3 2.35q.2.075.388.2t.312.25l2.2-.95l2.5 4.35l-1.9 1.4v.8l1.9 1.4l-2.5 4.35l-2.2-.95q-.125.125-.312.25t-.388.2l-.3 2.35h-5Zm2.5-5q1.25 0 2.125-.875T13.025 14q0-1.25-.875-2.125T10.025 11q-1.25 0-2.125.875T7.025 14q0 1.25.875 2.125t2.125.875Z" />
+                      </svg></i>
+                    <p>Organizaciones</p>
+                  </a>
+                </li>
 
                 <li class="nav-item action_line" id="action_line" type="collapse_data">
                   <a class="nav-link" href="./?view=action_line&swal=">

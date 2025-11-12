@@ -129,6 +129,44 @@ if ($func_post == "edit_action_line") {
 }
 
 
+// edit_organizacion
+if ($func_post == "edit_organizacion") {
+    if (!isset( # valido los parametros recibidos
+        $_POST['id']
+    )) {
+        Core::alert("Error: Los datos enviados no son válidos");
+        return;
+    }
+
+    $id = $_POST["id"];
+    $code_info = strtoupper($_POST["code_info"]);
+    $codigo_organizacion = strtoupper($_POST["codigo_organizacion"]);
+    $nombre_organizacion = $_POST["nombre_organizacion"];
+
+    $sql = "UPDATE organizaciones set code_info='$code_info', codigo_organizacion='$codigo_organizacion', nombre_organizacion='$nombre_organizacion' where id=$id";
+    
+    try {
+        $result = ExecutorPg::doit($sql);
+        $_SESSION['alert'] = '¡Actualizado con éxito!';
+        $array = array(
+            "error"  => "false",
+            "data"  => "Result: " . $result,
+            "alert" => "¡Actualizado con éxito",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "error"  => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+    }
+    echo json_encode($array);
+    return;
+}
+
+
 
 // add_strategic_action
 if ($func_post == "add_strategic_action") {
@@ -1711,6 +1749,28 @@ if ($func_get == "del_action_line") {
     $param = ActionsLineData::getByIdPg($_GET["id"]);
     $param->delPg();
     // Core::alert("Eliminado exitosamente!");
+    $_SESSION['alert'] = 'Eliminado exitosamente!';
+
+    $array = array(
+        "err"  => 'false',
+        "alert_type"  => "dashboard",
+        "alert"  => '¡Eliminado!'
+    );
+    $res = json_encode($array);
+    echo $res;
+    exit;
+}
+
+// del_organizacion
+if ($func_get == "del_organizacion") {
+    if (!isset( # valido los parametros recibidos
+        $_GET['id']
+    )) {
+        Core::alert("Error: Falta el id a eliminar");
+        return;
+    }
+    $param = OrganizacionesData::getByIdPg($_GET["id"]);
+    $param->delPg();
     $_SESSION['alert'] = 'Eliminado exitosamente!';
 
     $array = array(

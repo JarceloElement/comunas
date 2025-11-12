@@ -296,7 +296,7 @@ $fecha_end = "2025-01-01";
 
                 <?php
                 $sql = "SELECT * from strategic_action order by line_action desc";
-				$param = StrategicActionData::getObj($sql);
+                $param = StrategicActionData::getObj($sql);
                 ?>
 
                 <div class="card-content table-responsive">
@@ -494,7 +494,7 @@ $fecha_end = "2025-01-01";
                                     </div>
                                 </div> -->
 
-                                <div class="col-lg-12" id="circuito_comunal_v" style="display: none;">
+                                <div class="col-lg-12" id="circuito_comunal_v" style="display: block;">
                                     <div class="form-group">
                                         <label for="circuito_comunal" class=" control-label"><i class="fa fa-users"></i> Nombre de la Comuna o Circuito Comunal</label>
                                         <select name="circuito_comunal" class="form-control" id="circuito_comunal">
@@ -915,7 +915,7 @@ $fecha_end = "2025-01-01";
                         $("#tipo_taller_f").hide();
 
                         // $("#institucion_formacion_v").hide();
-                        $("#circuito_comunal_v").hide();
+                        // $("#circuito_comunal_v").hide();
                         // $("#institucion_formacion").find('option').remove();
 
                         $('#cover-spin').hide(0);
@@ -936,7 +936,7 @@ $fecha_end = "2025-01-01";
                     document.getElementsByName('tipo_taller')[0].options[0].value = "No aplica";
 
                     // $("#institucion_formacion_v").hide();
-                    $("#circuito_comunal_v").hide();
+                    // $("#circuito_comunal_v").hide();
                     // document.getElementById("institucion_formacion").required = false;
                     // document.getElementsByName('institucion_formacion')[0].options[0].value = "No aplica";
 
@@ -1011,7 +1011,7 @@ $fecha_end = "2025-01-01";
                     categoria: categoria,
                     code_info: code_info
                 }, function(data) {
-                    console.log('Data: ',data);
+                    // console.log('Data: ', data);
                     var array = JSON.parse(data);
                     // console.log(array["total"]);
                     $("#tipo_taller").html(array["html"]);
@@ -1033,12 +1033,15 @@ $fecha_end = "2025-01-01";
                         $('#cover-spin').hide(0);
                         // $("#institucion_formacion_v").show();
 
-                        if ($("#linea_accion").val() == "Comunas en Red Digital") {
-                            $("#circuito_comunal_v").show();
-                            document.getElementById("circuito_comunal").required = true;
-                        } else {
-                            document.getElementById("circuito_comunal").required = false;
-                        }
+                        $("#circuito_comunal_v").show();
+                        document.getElementById("circuito_comunal").required = true;
+
+                        // if ($("#linea_accion").val() == "Comunas en Red Digital") {
+                        //     $("#circuito_comunal_v").show();
+                        //     document.getElementById("circuito_comunal").required = true;
+                        // } else {
+                        //     document.getElementById("circuito_comunal").required = false;
+                        // }
                     });
                 }
                 // carga las instituciones del mapa social
@@ -1050,17 +1053,21 @@ $fecha_end = "2025-01-01";
                     }, function(data) {
                         // console.log(data);
                         var array = JSON.parse(data);
+                        // console.log(array);
                         // $("#institucion_formacion").html(array["html"]);
                         $("#circuito_comunal").html(array["html"]);
                         $('#cover-spin').hide(0);
                         // $("#institucion_formacion_v").show();
 
-                        if ($("#linea_accion").val() == "Comunas en Red Digital") {
-                            $("#circuito_comunal_v").show();
-                            document.getElementById("circuito_comunal").required = true;
-                        } else {
-                            document.getElementById("circuito_comunal").required = false;
-                        }
+                        $("#circuito_comunal_v").show();
+                        document.getElementById("circuito_comunal").required = true;
+
+                        // if ($("#linea_accion").val() == "Comunas en Red Digital") {
+                        //     $("#circuito_comunal_v").show();
+                        //     document.getElementById("circuito_comunal").required = true;
+                        // } else {
+                        //     document.getElementById("circuito_comunal").required = false;
+                        // }
                     });
                 }
 
