@@ -177,15 +177,14 @@ $user_username = isset($_SESSION['user_username']) ? $_SESSION['user_username'] 
       <div class="navdrawer-content">
         <div class="navdrawer-header">
           <div class="mdc-top-app-bar__row">
-
             <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
               <span class="mdc-top-app-bar__title"> </span>
             </section>
 
             <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-              <div class="logo">
+              <div class="logo" style="margin-top: 50px; margin-bottom: 20px;">
                 <a href="./../index.php" class="simple-text"><img src="uploads/comunas.png"
-                    style="max-width: 90px; min-height: 10px;" /></a>
+                    style="max-width: 60px; min-height: 10px;" /></a>
               </div>
             </section>
 

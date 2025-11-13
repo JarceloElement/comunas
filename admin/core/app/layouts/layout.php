@@ -155,7 +155,7 @@ $view = $_GET["view"];
       -->
 
         <div class="logo">
-          <a href="./../index.php" class="simple-text"><img src="uploads/comunas.jpeg" style="max-width: 90px; min-height: 10px;" /></a>
+          <a href="./../index.php" class="simple-text"><img src="uploads/comunas.png" style="max-width: 80px; min-height: 10px;" /></a>
         </div>
         <div class="sidebar-wrapper">
           <ul class="nav">
