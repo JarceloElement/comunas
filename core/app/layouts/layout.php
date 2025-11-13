@@ -10,7 +10,7 @@
   <meta name="author" content="infocentro.gob.ve">
   <meta name="keyword" content="Infocentro, Amazonas, Venezuela">
   <title>Comunas en Red Digital</title>
-  <link rel="icon" type="image/png" href="uploads/comunas.jpeg" />
+  <link rel="icon" type="image/png" href="uploads/comunas.png" />
 
   <!-- Main styles for this application-->
   <link href="assets/node_modules/pace-progress/css/pace.min.css" rel="stylesheet">
@@ -184,7 +184,7 @@ $user_username = isset($_SESSION['user_username']) ? $_SESSION['user_username'] 
 
             <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
               <div class="logo">
-                <a href="./../index.php" class="simple-text"><img src="uploads/comunas.jpeg"
+                <a href="./../index.php" class="simple-text"><img src="uploads/comunas.png"
                     style="max-width: 90px; min-height: 10px;" /></a>
               </div>
             </section>
