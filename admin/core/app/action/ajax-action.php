@@ -144,7 +144,7 @@ if ($func_post == "edit_organizacion") {
     $nombre_organizacion = $_POST["nombre_organizacion"];
 
     $sql = "UPDATE organizaciones set code_info='$code_info', codigo_organizacion='$codigo_organizacion', nombre_organizacion='$nombre_organizacion' where id=$id";
-    
+
     try {
         $result = ExecutorPg::doit($sql);
         $_SESSION['alert'] = '¡Actualizado con éxito!';
@@ -373,9 +373,10 @@ if ($func_post == "add_tipo_taller") {
 
     $sql = "INSERT into tipo_taller (name_training_type, nombre_taller, descripcion_taller, duracion_horas, nivel, modalidad, permisos, orden_taller, codigo_taller) 
     VALUES ('$line_action','$nombre_taller','$descripcion_taller','$duracion_horas', '$nivel', '$modalidad', '$permisos', '$orden_taller', '$codigo_taller')";
-    
+
     try {
         $result = ExecutorPg::doit($sql);
+        $_SESSION['alert'] = 'Agregado con éxito';
         $array = array(
             "error" => "false",
             "data"  => "ID: " . $result,
