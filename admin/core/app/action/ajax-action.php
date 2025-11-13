@@ -114,6 +114,8 @@ if ($func_post == "edit_action_line") {
 
     $permisos = $_POST["permisos"] = "" ? "TODOS" : $_POST["permisos"];
     $permisos = strtoupper($permisos);
+    $permisos = str_replace(" ", ",", $permisos);
+
 
     $line_id = $_POST["line_id"];
     $line_name = $_POST["name"];
