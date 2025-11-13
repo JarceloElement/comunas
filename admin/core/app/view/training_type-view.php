@@ -120,22 +120,17 @@
                 });
 
                 if (res.ok) {
-                    console.log(res);
+                    // console.log(res);
                     const result_await = await res.text();
                     // console.log(result_await);
                     var array = JSON.parse(result_await);
                     // console.log(array);
+                    toastify(array.alert, true, 13000, array.alert_type);
                     $('#cover-spin').hide(0);
-                    if (array.error == 'true') {
-                        console.log(array.text);
-                        if (getOS() == "Android") {
-                            alert(array.text);
-                        } else {
-                            toastify(array.text, true, 15000, "error");
-                        }
-
-                    } else {
-                        formObj.submit()
+                    if (array.err == 'false') {
+                        window.timer = setTimeout(function() {
+                            location.reload();
+                        }, 800);
                     }
 
                 } else {
@@ -502,7 +497,7 @@ $action_line = ActionsLineData::getAll();
                                                 <tr>
                                                     <!-- <td><!?php echo $user->name_line_action; ?></td> -->
                                                     <!-- <td><!?php echo $user->name_strategic_action; ?></td> -->
-                                                    <td ><?php echo $user->name_specific_action; ?></td>
+                                                    <td><?php echo $user->name_specific_action; ?></td>
                                                     <td><?php echo $user->name_training_type; ?></td>
                                                     <td><?php echo $user->duracion_horas; ?></td>
                                                     <td><?php echo $user->nivel_curso; ?></td>
