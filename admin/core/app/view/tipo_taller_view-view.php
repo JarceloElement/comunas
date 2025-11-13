@@ -403,7 +403,7 @@ $TotalRegistro  = ceil($TotalReg / $CantidadMostrar);
                                                 <td><?php echo $user->modalidad; ?></td>
                                                 <td><?php echo $user->orden_taller; ?></td>
                                                 <td><?php echo $user->codigo_taller; ?></td>
-                                                <td><label style="font-size: 12px; width:100px; color:black;"><?php echo $user->permisos; ?></label></td>
+                                                <td><label style="font-size: 12px; width:400px; color:black;"><?php echo $user->permisos; ?></label></td>
 
                                                 <td style="width:180px;">
                                                     <a href="./?view=edit_tipo_taller&id=<?php echo $user->id; ?>" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a>
