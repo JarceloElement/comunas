@@ -1032,17 +1032,27 @@ if ($func_post == "update_tipo_formacion") {
         $restringir_categoria,
         (int)$_POST["id"]
     ];
-    ExecutorPg::update($sql, $values);
+    
 
-    $array = array(
-        "error"  => $_POST["nombre_curso"]
-    );
-    $res = json_encode($array);
-    echo $res;
-
-    $_SESSION['alert'] = "Actualizado";
-    echo "Guardado exitosamente!";
-    // print "<script>window.location='index.php?view=training_type';</script>";
+    try {
+        $result = ExecutorPg::update($sql, $values);
+        $_SESSION['alert'] = '¡Registro actualizado con éxito!';
+        $array = array(
+            "error" => "false",
+            "data"  => "ID: " . $result,
+            "alert" => "¡Registro actualizado con éxito!",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "error" => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+    }
+    echo json_encode($array);
+    return;
 }
 
 
