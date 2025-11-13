@@ -403,6 +403,7 @@ $fecha_end = "2025-01-01";
                             <input type="hidden" name="id_institucion" id="id_institucion" value="No aplica">
                             <input type="hidden" name="isnt_type" id="isnt_type" value="No aplica">
                             <input type="hidden" name="institucion_formacion" value="No aplica">
+                            <input type="hidden" name="orden_taller" id="orden_taller" value="0">
 
 
 
@@ -1102,6 +1103,7 @@ $fecha_end = "2025-01-01";
                     $("#modalidad_formacion").val(array["modalidad"]);
                     $("#duracion_horas").val(array["duracion"]);
                     $("#nivel_formacion").val(array["nivel"]);
+                    $("#orden_taller").val(array["orden_taller"]);
 
                 });
 

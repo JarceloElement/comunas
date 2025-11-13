@@ -311,7 +311,7 @@ function charlimit_title($string, $limit)
 						// enviar notificacion con ajax
 						if (notific != '' && notific_data != notific) {
 							url = "http://infoapp2.infocentro.gob.ve/admin/index.php?view=editplanning&user_id=" + user_id + "&id=" + id_status + "&code_info=" + code_info + "&estado=" + estado + "&participantes=&start_at=&finish_at=&pag=1";
-                            message = "🔥 REVISIÓN INFOAPP PARA: <b>" + code_info + "</b>\n\n<b>Región:</b> " + estado + "\n<b>Nombre:</b> " + responsible_name + "\n<b>UID:</b> " + user_id + "\n<b>Rol:</b> " + responsible_type + "\n<b>Revisado por:</b> " + user_username + "\n\n<b>Actividad PLANIFICADA:</b>\n\n -" + activity_title + "\n\n<b>Observación:</b>\n\n" + notific + "\n\nPor favor revisar las observaciones.";
+							message = "🔥 REVISIÓN INFOAPP PARA: <b>" + code_info + "</b>\n\n<b>Región:</b> " + estado + "\n<b>Nombre:</b> " + responsible_name + "\n<b>UID:</b> " + user_id + "\n<b>Rol:</b> " + responsible_type + "\n<b>Revisado por:</b> " + user_username + "\n\n<b>Actividad PLANIFICADA:</b>\n\n -" + activity_title + "\n\n<b>Observación:</b>\n\n" + notific + "\n\nPor favor revisar las observaciones.";
 							sendMessage(event, message, url);
 						} else {
 							location.reload();
@@ -1149,6 +1149,7 @@ reports.specific_action,
 reports.training_type, 
 reports.tipo_taller, 
 reports.training_level, 
+reports.orden_taller, 
 reports.activity_title, 
 reports.responsible_name, 
 reports.responsible_phone, 
@@ -1377,6 +1378,7 @@ if ((isset($_GET["q"]) || isset($_GET["estado"]) || isset($_GET["start_at"]) || 
 		reports.person_ma, 
 		reports.specific_action, 
 		reports.training_type, 
+		reports.orden_taller, 
 		reports.tipo_taller, 
 		reports.training_level, 
 		reports.activity_title, 
@@ -1424,6 +1426,7 @@ if ((isset($_GET["q"]) || isset($_GET["estado"]) || isset($_GET["start_at"]) || 
 		reports.line_action, 
 		reports.report_type, 
 		reports.tipo_taller, 
+		reports.orden_taller, 
 		reports.activity_title, 
 		reports.responsible_name, 
 		reports.responsible_phone, 
@@ -1469,6 +1472,7 @@ if ((isset($_GET["q"]) || isset($_GET["estado"]) || isset($_GET["start_at"]) || 
 		reports.line_action, 
 		reports.report_type, 
 		reports.tipo_taller, 
+		reports.orden_taller, 
 		reports.activity_title, 
 		reports.responsible_name, 
 		reports.responsible_phone, 
@@ -1513,6 +1517,7 @@ if ((isset($_GET["q"]) || isset($_GET["estado"]) || isset($_GET["start_at"]) || 
 		reports.line_action, 
 		reports.report_type, 
 		reports.tipo_taller, 
+		reports.orden_taller, 
 		reports.activity_title, 
 		reports.responsible_name, 
 		reports.responsible_phone, 
@@ -1681,6 +1686,7 @@ $DB_name = "reports";
 							<th class="text_label text-center" style="width: 150px;"> <i class="fa fa-newspaper-o icon_table"></i></th>
 							<th class="text_label text-center"> <i class="fa fa-user-plus icon_table"></i></th>
 							<th class="text_label text-center"> <i class="fa fa-flask icon_table"></i></th>
+							<th class="text_label text-center"> <i class="fa fa-chart icon_table"></i></th>
 							<th class="text_label text-center"> <i class="fa fa-image icon_table"></i></th>
 							<th class="text_label text-center"> <i class="fa fa-cog icon_table"></i></th>
 						</thead>
@@ -1696,6 +1702,7 @@ $DB_name = "reports";
 							<th class="text-center"> <label>Título</label></th>
 							<th class="text-center"> <label>Participantes</label></th>
 							<th class="text-center"> <label>Productos</label></th>
+							<th class="text-center"> <label>N°taller</label></th>
 							<th class="text-center"><label>Imág</label></th>
 							<th class="text-center"><label>Acciones</label></th>
 						</thead>
@@ -1922,7 +1929,7 @@ $DB_name = "reports";
 								<!-- participantes -->
 								<?php if ($total_part > 0) { ?>
 									<td>
-										<a href='index.php?view=participants_list&user_id=<?php echo $user["user_id"]; ?>&line_action=<?php echo $user["line_action"]; ?>&report_type=<?php echo $user["report_type"]; ?>&code_info=<?php echo $user["code_info"]; ?>&estate=<?php echo $user["estate"]; ?>&id_activity=<?php echo $user["id"]; ?>&date_activity=<?php echo $user["date_pub"]; ?>&activity=<?php echo $user["activity_title"]; ?>' class="btn btn-info btn-sm 
+										<a href='index.php?view=participants_list&user_id=<?php echo $user["user_id"]; ?>&line_action=<?php echo $user["line_action"]; ?>&report_type=<?php echo $user["report_type"]; ?>&code_info=<?php echo $user["code_info"]; ?>&estate=<?php echo $user["estate"]; ?>&id_activity=<?php echo $user["id"]; ?>&date_activity=<?php echo $user["date_pub"]; ?>&activity=<?php echo $user["activity_title"]; ?>&n_taller=<?php echo $user["orden_taller"]; ?>' class="btn btn-info btn-sm 
 											<?php
 											if ($user["user_id"] != $_SESSION["user_id"] && $user["estate"] != $_SESSION["user_region"] && ($_SESSION["user_type"] != 6 && $_SESSION["user_type"] != 7 && $_SESSION["user_type"] != 8)) {
 												echo 'disabled';
@@ -1936,7 +1943,7 @@ $DB_name = "reports";
 
 								<?php if ($total_part == 0) { ?>
 									<td>
-										<a href='index.php?view=participants_list&user_id=<?php echo $user["user_id"]; ?>&line_action=<?php echo $user["line_action"]; ?>&report_type=<?php echo $user["report_type"]; ?>&code_info=<?php echo $user["code_info"]; ?>&estate=<?php echo $user["estate"]; ?>&id_activity=<?php echo $user["id"]; ?>&date_activity=<?php echo $user["date_pub"]; ?>&activity=<?php echo $user["activity_title"]; ?>' class="btn btn-danger btn-sm 
+										<a href='index.php?view=participants_list&user_id=<?php echo $user["user_id"]; ?>&line_action=<?php echo $user["line_action"]; ?>&report_type=<?php echo $user["report_type"]; ?>&code_info=<?php echo $user["code_info"]; ?>&estate=<?php echo $user["estate"]; ?>&id_activity=<?php echo $user["id"]; ?>&date_activity=<?php echo $user["date_pub"]; ?>&activity=<?php echo $user["activity_title"]; ?>&n_taller=<?php echo $user["orden_taller"]; ?>' class="btn btn-danger btn-sm 
 											<?php
 											if ($user["user_id"] != $_SESSION["user_id"] && $user["estate"] != $_SESSION["user_region"] && ($_SESSION["user_type"] != 6 && $_SESSION["user_type"] != 7 && $_SESSION["user_type"] != 8)) {
 												echo 'disabled';
@@ -1973,12 +1980,16 @@ $DB_name = "reports";
 									?>"> <?php echo $user["total_products"] ?></a></td>
 								<?php } ?>
 
+								<!-- orden taller -->
+								<td>
+									<div class="btn btn-primary btn-sm">
+										<?php echo $user["orden_taller"] ?>
+									</div>
+								</td>
+
 								<!-- imagenes -->
 								<td><a href='index.php?view=image_edit&id=<?php echo $user["id"]; ?>&code_info=<?php echo $user["code_info"]; ?>&user_id=<?php echo $user["user_id"]; ?>&estate=<?php echo $user["estate"]; ?>&title=<?php echo $user["activity_title"]; ?>' class="btn btn-default btn-sm"><i class="material-icons">image</i></a></td>
-
 								<td>
-
-
 									<?php if ($_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7) { ?>
 										<div class="btn-group btn-group-xs">
 

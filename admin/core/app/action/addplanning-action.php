@@ -109,6 +109,7 @@ $param->personal_type = $personal_type;
 $param->date_pub = $_POST["fecha"];
 $param->date_ini = date('Y-m-d', strtotime(explode('/', $_POST["fecha"])[0]));
 $param->date_end = date('Y-m-d', strtotime(explode('/', $_POST["fecha"])[1]));
+$param->orden_taller = $_POST["orden_taller"];
 
 // atencion al usuario
 if ($_POST["tipo_reporte"] == "Atención al usuario") {

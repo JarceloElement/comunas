@@ -318,10 +318,11 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
                                 <input type="hidden" name="contenido_des" id="contenido_des" value="No aplica">
                                 <input type="hidden" name="modalidad_formacion" id="modalidad_formacion" value="No aplica">
                                 <input type="hidden" name="duracion_horas" id="duracion_horas" value="">
-                                <input type="hidden" name="nivel_formacion" id="nivel_formacion" value="No aplica">
+                                <input type="hidden" name="nivel_formacion" id="nivel_formacion" value="<?php echo $activity["training_level"]; ?>">
                                 <input type="hidden" name="id_institucion" id="id_institucion" value="<?php echo $activity["id_institucion"]; ?>">
                                 <input type="hidden" name="isnt_type" id="isnt_type" value="<?php echo $activity["isnt_type"]; ?>">
                                 <input type="hidden" name="institucion_formacion" value="No aplica">
+                                <input type="hidden" name="orden_taller" id="orden_taller" value="<?php echo $activity["orden_taller"]; ?>">
 
 
                                 <div class="form-row">
@@ -1035,11 +1036,12 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
 
                     }, function(data) {
                         var array = JSON.parse(data);
-                        // console.log(array);
+                        console.log(array);
                         $("#contenido_des").val(array["contenido"]);
                         $("#modalidad_formacion").val(array["modalidad"]);
                         $("#duracion_horas").val(array["duracion"]);
                         $("#nivel_formacion").val(array["nivel"]);
+                        $("#orden_taller").val(array["orden_taller"]);
 
                     });
 

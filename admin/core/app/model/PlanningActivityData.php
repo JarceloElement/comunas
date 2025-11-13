@@ -73,6 +73,7 @@ class PlanningActivityData
 		$this->datetime = null;
 		$this->profile_image = null;
 		$this->circuito_comunal = null;
+		$this->orden_taller = null;
 	}
 
 
@@ -270,9 +271,11 @@ class PlanningActivityData
 		 image,
 		 file,
 		 profile_image,
-		 circuito_comunal
+		 circuito_comunal,
+		 orden_taller
 			)";
 		$sql .= " VALUES (
+			?,
 			?,
 			?,
 			?,
@@ -363,6 +366,7 @@ class PlanningActivityData
             $this->file_name,
             $this->profile_image,
             $this->circuito_comunal,
+            $this->orden_taller,
 		];
 
 		// echo implode(",",$values);
