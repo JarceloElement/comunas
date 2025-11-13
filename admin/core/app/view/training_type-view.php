@@ -482,7 +482,7 @@ $action_line = ActionsLineData::getAll();
                                             <thead>
                                                 <!-- <th>Línea de acción</th> -->
                                                 <!-- <th>Acción estratégica</th> -->
-                                                <th>Acción específica</th>
+                                                <th><label for="" style="width:400px;">Acción específica</label></th>
                                                 <th>Categoría de formación</th>
                                                 <th>Duración</th>
                                                 <th>Nivel</th>
@@ -494,7 +494,7 @@ $action_line = ActionsLineData::getAll();
                                                 <th>Habilitar descripción</th>
                                                 <th>Activar infocentro como inst.</th>
                                                 <th>Código</th>
-                                                <th>Permisos</th>
+                                                <th><label for="" style="width:200;">Permisos</label></th>
                                                 <th>Acciones</th>
                                             </thead>
 
@@ -502,7 +502,7 @@ $action_line = ActionsLineData::getAll();
                                                 <tr>
                                                     <!-- <td><!?php echo $user->name_line_action; ?></td> -->
                                                     <!-- <td><!?php echo $user->name_strategic_action; ?></td> -->
-                                                    <td><?php echo $user->name_specific_action; ?></td>
+                                                    <td ><?php echo $user->name_specific_action; ?></td>
                                                     <td><?php echo $user->name_training_type; ?></td>
                                                     <td><?php echo $user->duracion_horas; ?></td>
                                                     <td><?php echo $user->nivel_curso; ?></td>
@@ -514,7 +514,7 @@ $action_line = ActionsLineData::getAll();
                                                     <td><?php echo $user->habilitar_descripcion; ?></td>
                                                     <td><?php echo $user->habilitar_institucion; ?></td>
                                                     <td><?php echo $user->codigo_curso; ?></td>
-                                                    <td style="font-size:10px;"><?php echo $user->restringir_categoria; ?></td>
+                                                    <td><?php echo $user->restringir_categoria; ?></td>
                                                     <td style="width:180px;">
                                                         <a href="./?view=edit_training_type&id=<?php echo $user->id; ?>" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a>
                                                         <!-- <a href="./?action=ajax&function=del_training_type&id=<!?php echo $user->id; ?>" class="btn btn-danger btn-sm"><i class="material-icons">close</i></a> -->
