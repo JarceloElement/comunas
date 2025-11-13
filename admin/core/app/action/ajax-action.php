@@ -368,9 +368,11 @@ if ($func_post == "add_tipo_taller") {
     $nivel = $_POST["nivel"];
     $modalidad = $_POST["modalidad"];
     $permisos = $permisos;
+    $orden_taller = $_POST["orden_taller"];
+    $codigo_taller = $_POST["codigo_taller"];
 
-    $sql = "INSERT into tipo_taller (name_training_type, nombre_taller, descripcion_taller, duracion_horas, nivel, modalidad, permisos) 
-    VALUES ('$line_action','$nombre_taller','$descripcion_taller','$duracion_horas', '$nivel', '$modalidad', '$permisos')";
+    $sql = "INSERT into tipo_taller (name_training_type, nombre_taller, descripcion_taller, duracion_horas, nivel, modalidad, permisos, orden_taller, codigo_taller) 
+    VALUES ('$line_action','$nombre_taller','$descripcion_taller','$duracion_horas', '$nivel', '$modalidad', '$permisos', '$orden_taller', '$codigo_taller')";
     ExecutorPg::doit($sql);
     $_SESSION['alert'] = "Registro creado";
 

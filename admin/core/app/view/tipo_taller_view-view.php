@@ -109,7 +109,9 @@
                     nombre_taller: $("#nombre_taller").val(),
                     descripcion_taller: $("#descripcion_taller").val(),
                     duracion_horas: $("#duracion_horas").val(),
-                    permisos: $("#permisos").val()
+                    permisos: $("#permisos").val(),
+                    orden_taller: $("#orden_taller").val(),
+                    codigo_taller: $("#codigo_taller").val()
                 }
             })
             .done(function(msg) {
@@ -230,10 +232,17 @@ $training_type = TrainingTypeData::getAll();
                                     </div>
                                 </div>
 
-                                <div class="col-md-12">
+                                <div class="col-md-8">
                                     <div class="form-group">
                                         <label for="nombre_taller" class="control-label"><i class="fa fa-cogs"></i> Nombre taller</label>
                                         <input type="text" name="nombre_taller" id="nombre_taller" required class="form-control" placeholder="Descripción"></input>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="codigo_taller" class="control-label"><i class="fa fa-cogs"></i> Código taller (No obligatorio)</label>
+                                        <input type="text" name="codigo_taller" id="codigo_taller" class="form-control" placeholder="Descripción"></input>
                                     </div>
                                 </div>
 
@@ -245,10 +254,17 @@ $training_type = TrainingTypeData::getAll();
                                     </div>
                                 </div>
 
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="duracion_horas" class="control-label"><i class="fa fa-cogs"></i> Duración (Horas)</label>
-                                        <input type="number" name="duracion_horas" id="duracion_horas" required class="form-control" placeholder="Descripción"></input>
+                                        <input type="number" name="duracion_horas" id="duracion_horas" required class="form-control" min="1" placeholder="1"></input>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="orden_taller" class="control-label"><i class="fa fa-cogs"></i> Orden de prelación</label>
+                                        <input type="number" name="orden_taller" id="orden_taller" required class="form-control" min="1" placeholder="1"></input>
                                     </div>
                                 </div>
 
@@ -291,10 +307,10 @@ $compag = (int)(!isset($_GET['pag'])) ? 1 : $_GET['pag'];
 
 
 // pg
-$total = TrainingTypeData::getAllPg("SELECT * from tipo_taller order by id desc");
+$total = TrainingTypeData::getAllPg("SELECT * from tipo_taller order by orden_taller asc");
 $TotalReg = $total[1];
 
-$sql = "SELECT * from tipo_taller order by id desc";
+$sql = "SELECT * from tipo_taller order by orden_taller asc";
 
 $param_csv = mb_convert_encoding($sql, 'UTF-8', 'UTF-8');
 // $param_sql = mb_convert_encoding($sql, 'UTF-8', 'UTF-8');
@@ -358,6 +374,8 @@ $TotalRegistro  = ceil($TotalReg / $CantidadMostrar);
                                             <th>Duración</th>
                                             <th>Nivel</th>
                                             <th>Modalidad</th>
+                                            <th>Orden taller</th>
+                                            <th>Código taller</th>
                                             <th>Permisos</th>
                                             <th>Acciones</th>
                                         </thead>
@@ -376,7 +394,9 @@ $TotalRegistro  = ceil($TotalReg / $CantidadMostrar);
                                                 <td><?php echo $user->duracion_horas; ?></td>
                                                 <td><?php echo $user->nivel; ?></td>
                                                 <td><?php echo $user->modalidad; ?></td>
-                                                <td><label style="font-size: 12px; width:200px; color:black;"><?php echo $user->permisos; ?></label></td>
+                                                <td><?php echo $user->orden_taller; ?></td>
+                                                <td><?php echo $user->codigo_taller; ?></td>
+                                                <td><label style="font-size: 12px; width:100px; color:black;"><?php echo $user->permisos; ?></label></td>
 
                                                 <td style="width:180px;">
                                                     <a href="./?view=edit_tipo_taller&id=<?php echo $user->id; ?>" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a>

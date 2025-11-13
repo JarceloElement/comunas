@@ -49,6 +49,7 @@ function alter_db()
     // ExecutorPg::doit('CREATE INDEX IF NOT EXISTS idx_training_type_cod ON public.training_type(codigo_curso);');
     // ExecutorPg::doit('CREATE UNIQUE INDEX IF NOT EXISTS idx_training_type_code ON training_type(codigo_curso);');
     // ExecutorPg::doit('ALTER TABLE IF EXISTS public.tipo_taller ADD COLUMN IF NOT EXISTS orden_taller VARCHAR(20);');
+    // ExecutorPg::doit('ALTER TABLE IF EXISTS public.tipo_taller ADD COLUMN IF NOT EXISTS codigo_taller VARCHAR(20);');
 
         // =============================================
     // CREATE INDEX IF NOT EXISTS idx_facilitators_code ON public.facilitators(info_cod)
