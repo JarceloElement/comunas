@@ -3,37 +3,54 @@
 <script language="javascript">
 	$(document).ready(function() {
 
-		$('#add_submit').click(function(event) {
+		$('#add_submit').click(async function(event) {
+				$('#cover-spin').show(0);
 
 			event.preventDefault();
-
-			// console.log($("#line_id").val());
 			if ($("#action_line_name").val() != "") { // valida la informacion
-				$.ajax({
-						type: "POST",
-						url: "./?action=ajax",
-						// headers: {
-						//     "X-CSRFToken": getCookie("csrftoken")
-						// },
-						data: {
-							function: "edit_action_line", // funcion que llama
-							line_id: $("#line_id").val(),
-							name: $("#action_line_name").val(),
-							permisos: $("#permisos").val()
-						}
-					})
-					.done(function(msg) {
-						toastify(msg, true, 1000, "dashboard");
-						window.location.href = "./?view=action_line"; // redirecciona a la vista de líneas de acción
-						// location.reload();
 
-					})
-					.fail(function() {
-						toastify('Hubo un error al guardar', true, 5000, "warning");
+				try {
+					const res = await fetch("./?action=ajax", {
+						method: 'POST',
+						body: formData = new URLSearchParams({
+							'function': "edit_action_line", // funcion que llama
+							'line_id': $("#line_id").val(),
+							'name': $("#action_line_name").val(),
+							'permisos': $("#permisos").val()
+						})
 					});
-				// .always(function() {
-				//     toastify('Finished',true,1000,"warning");
-				// });
+
+					if (res.ok) {
+						// console.log(res);
+						const result_await = await res.text();
+						// console.log(result_await);
+						var array = JSON.parse(result_await);
+						console.log(array);
+						$('#cover-spin').hide(0);
+						if (array.error == 'true') {
+							if (getOS() == "Android") {
+								alert(array.text);
+							} else {
+								toastify(array.text, true, 15000, "error");
+							}
+
+						}else{
+							history.back();
+						}
+
+					} else {
+						$('#cover-spin').hide(0);
+						toastify(res.statusText, true, 12000, "error");
+						throw res.statusText;
+					}
+
+				} catch (error) {
+					$('#cover-spin').hide(0);
+					toastify(error, true, 12000, "error");
+					throw error;
+				}
+
+
 			};
 
 		});
@@ -43,7 +60,7 @@
 
 <?php $line = ActionsLineData::getByIdPg($_GET["line_id"]); ?>
 
-
+<div id="cover-spin"></div>
 
 <div class="content">
 	<div class="container-fluid">

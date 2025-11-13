@@ -75,7 +75,7 @@ if ($func_post == "add_action_line") {
         Core::alert("Error: Los datos enviados no son válidos");
         return;
     }
-    $permisos = str_replace(" ", ",", $_POST["permisos"]);
+    $permisos = str_replace(" ", ", ", $_POST["permisos"]);
     $param = new ActionsLineData();
     $param->line_name = $_POST["name"];
     $param->permisos = $permisos;
@@ -114,22 +114,34 @@ if ($func_post == "edit_action_line") {
 
     $permisos = $_POST["permisos"] = "" ? "TODOS" : $_POST["permisos"];
     $permisos = strtoupper($permisos);
-    $permisos = str_replace(" ", ",", $permisos);
+    $permisos = str_replace(" ", ", ", $permisos);
 
 
     $line_id = $_POST["line_id"];
     $line_name = $_POST["name"];
 
     $sql = "UPDATE actions_line set line_name='$line_name', permisos='$permisos' where line_id=$line_id";
-    ExecutorPg::doit($sql);
-
-    // $sql = "UPDATE reports	set person_ma = ? where id = ?;";
-    // $values = [(int)$total_person, (int)$id_activity];
-    // ExecutorPg::update($sql, $values);
 
 
-    $_SESSION['alert'] = 'Actualizado con éxito!';
-    echo "Actualizado con éxito!";
+    try {
+        $result = ExecutorPg::doit($sql);
+        $_SESSION['alert'] = 'Actualizado con éxito';
+        $array = array(
+            "error" => "false",
+            "data"  => "ID: " . $result,
+            "alert" => "Actualizado con éxito.",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "error" => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+    }
+    echo json_encode($array);
+    return;
 }
 
 
@@ -409,7 +421,7 @@ if ($func_post == "add_tipo_formacion") {
 
     $sql = "INSERT into training_type (name_line_action, name_strategic_action, name_specific_action, name_training_type,duracion_horas,nivel_curso,modalidad_curso,ejes_actuacion,tipo_certificacion,contenido_curso,descripcion_actividad,habilitar_descripcion,habilitar_institucion,codigo_curso,restringir_categoria) 
     VALUES ('$line_action','$tipo_reporte','$accion_especifica', '$nombre_curso', '$duracion_horas', '$nivel_curso', '$modalidad_curso', '$ejes_actuacion', '$tipo_certificacion', '$contenido_curso', '$descripcion_actividad',$habilitar_descripcion,'$habilitar_institucion','$codigo_curso', '$restringir_categoria')";
-    
+
     try {
         $result = ExecutorPg::doit($sql);
         $_SESSION['alert'] = 'Agregado con éxito';
@@ -1035,7 +1047,7 @@ if ($func_post == "update_tipo_formacion") {
         $restringir_categoria,
         (int)$_POST["id"]
     ];
-    
+
 
     try {
         $result = ExecutorPg::update($sql, $values);
