@@ -489,7 +489,7 @@ $action_line = ActionsLineData::getAll();
                                                 <th>Habilitar descripción</th>
                                                 <th>Activar infocentro como inst.</th>
                                                 <th>Código</th>
-                                                <th><label for="" style="width:200;">Permisos</label></th>
+                                                <th><label for="" style="width:400;">Permisos</label></th>
                                                 <th>Acciones</th>
                                             </thead>
 
