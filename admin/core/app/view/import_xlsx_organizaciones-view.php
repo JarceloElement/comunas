@@ -126,10 +126,10 @@ if (isset($_FILES['datafile'])) {
                         $data_var = (isset($fields[$i]) ? $fields[$i] : "");
                         empty($data_var) ? $data_var = "NULL" : $data_var;
 
-                        // if ($data_field == "code_info") {
-                        //     $data_var = str_replace(["\r\n", "\n", "\r"], '', $data_var);
-                        //     $data_var = strtoupper($data_var);
-                        // }
+                        if ($data_field == "code_info") {
+                            $data_var = str_replace(["\r\n", "\n", "\r"], '', $data_var);
+                            $data_var = strtoupper($data_var);
+                        }
 
                         $array_fields[] = $data_var;
                     }
@@ -158,6 +158,7 @@ if (isset($_FILES['datafile'])) {
 
                     if ($pass == 0) {
                         echo "<span style='color:blue;'>NUEVO REGISTRO:</span>: " . $array_fields[1] . "<br>";
+                        // echo $stmt_insert->queryString."<br>";
                         $stmt_insert->execute();
                     } else {
                         echo "No existe el infocentro: " . $param . " <br>";
@@ -187,10 +188,10 @@ if (isset($_FILES['datafile'])) {
 
                                 if ($data_field != "codigo_organizacion") {
 
-                                    // if ($data_field == "code_info") {
-                                    //     $val_field = str_replace(["\r\n", "\n", "\r"], '', $fields[$i]);
-                                    //     $val_field = strtoupper($val_field);
-                                    // }
+                                    if ($data_field == "code_info") {
+                                        $val_field = str_replace(["\r\n", "\n", "\r"], '', $fields[$i]);
+                                        $val_field = strtoupper($val_field);
+                                    }
 
                                     $data_q = $r->$data_field;
 

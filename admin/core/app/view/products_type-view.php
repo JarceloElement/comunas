@@ -163,7 +163,7 @@ $products_cat = ProductsType::getBySQL("select * from categoria_productos");
 								<div class="col-md-6">
 									<div class="form-group">
 										<label for="codigo" class="control-label">Formato</label>
-										<select name="categoria" class="form-control" id="categoria" required>
+										<select name="codigo" class="form-control" id="codigo" required>
 											<option value=""><?php echo "-SELECCIONE-" ?></option>
 											<option value="formulario">Formulario</option>
 											<option value="imagen">Imagen</option>
