@@ -172,7 +172,7 @@ class InfoData {
 
 
 	public function update(){
-		if ($this->estado >= 1 and $this->estado <= 100){
+		if (!is_string($this->estado)){
 			$estado_n = EstadoData::getById($this->estado);
 			foreach($estado_n as $p):
 				$this->estado_name = $p['estado'];
@@ -180,7 +180,7 @@ class InfoData {
 		}else{$this->estado_name = $this->estado;}	
 		  
 
-		if ($this->municipio >= 1 and $this->municipio <= 1000){
+		if (!is_string($this->municipio)){
 			$municipio_n = MunicipioData::getById($this->municipio);
 			foreach($municipio_n as $p):
 				$this->municipio_name = $p['municipio'];
@@ -188,7 +188,7 @@ class InfoData {
 		}else{$this->municipio_name = $this->municipio;}	
 		
 
-		if ($this->parroquia >= 1 and $this->parroquia <= 1000){
+		if (!is_string($this->parroquia)){
 			$parroquia_n = ParroquiaData::getById($this->parroquia);
 			foreach($parroquia_n as $p):
 				$this->parroquia_name = $p['parroquia'];
@@ -196,7 +196,7 @@ class InfoData {
 		}else{$this->parroquia_name = $this->parroquia;}	
 		
 		
-		if ($this->ciudad >= 1 and $this->ciudad <= 1000){
+		if (!is_string($this->ciudad)){
 			$ciudad_n = CiudadData::getById($this->ciudad);
 			foreach($ciudad_n as $p):
 				$this->ciudad_name = $p['ciudad'];

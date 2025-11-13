@@ -101,6 +101,7 @@ if ($func_post == "add_action_line") {
 }
 
 
+
 // edit_action_line
 if ($func_post == "edit_action_line") {
     if (!isset( # valido los parametros recibidos
@@ -127,6 +128,67 @@ if ($func_post == "edit_action_line") {
     $_SESSION['alert'] = 'Actualizado con éxito!';
     echo "Actualizado con éxito!";
 }
+
+
+
+
+
+
+// add_organizacion
+if ($func_post == "add_organizacion") {
+
+    $nombre_organizacion = $_POST["nombre_organizacion"];
+    $codigo_organizacion = $_POST["codigo_organizacion"];
+    $codigo_organizacion = $_POST["codigo_organizacion"];
+    $code_info = strtoupper($_POST["code_info"]);
+    $nombre_infocentro = $_POST["nombre_infocentro"];
+    $estado = $_POST["estado"];
+    $municipio = $_POST["municipio"];
+    $parroquia = $_POST["parroquia"];
+    $direccion = $_POST["direccion"];
+    $update_by = $_SESSION["user_id"];
+
+    $estado_n = EstadoData::getById($estado);
+    foreach ($estado_n as $p):
+        $estado = $p['estado'];
+    endforeach;
+
+    $municipio_n = MunicipioData::getById($municipio);
+    foreach ($municipio_n as $p):
+        $municipio = $p['municipio'];
+    endforeach;
+
+    $parroquia_n = ParroquiaData::getById($parroquia);
+    foreach ($parroquia_n as $p):
+        $parroquia = $p['parroquia'];
+    endforeach;
+
+
+
+    $sql = "INSERT into organizaciones (code_info, codigo_organizacion, nombre_organizacion, nombre_infocentro, estado_organizacion, municipio_organizacion, parroquia_organizacion, direccion, update_by) 
+    VALUES ('$code_info', '$codigo_organizacion', '$nombre_organizacion', '$nombre_infocentro', '$estado', '$municipio', '$parroquia', '$direccion', '$update_by')";
+
+    try {
+        $result = ExecutorPg::doit($sql);
+        $_SESSION['alert'] = 'Agregado con éxito';
+        $array = array(
+            "error" => "false",
+            "data"  => "ID: " . $result,
+            "alert" => "Registro creado con éxito.",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "error" => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+    }
+    echo json_encode($array);
+    return;
+}
+
 
 
 // edit_organizacion
@@ -344,15 +406,26 @@ if ($func_post == "add_tipo_formacion") {
 
     $sql = "INSERT into training_type (name_line_action, name_strategic_action, name_specific_action, name_training_type,duracion_horas,nivel_curso,modalidad_curso,ejes_actuacion,tipo_certificacion,contenido_curso,descripcion_actividad,habilitar_descripcion,habilitar_institucion,codigo_curso,restringir_categoria) 
     VALUES ('$line_action','$tipo_reporte','$accion_especifica', '$nombre_curso', '$duracion_horas', '$nivel_curso', '$modalidad_curso', '$ejes_actuacion', '$tipo_certificacion', '$contenido_curso', '$descripcion_actividad',$habilitar_descripcion,'$habilitar_institucion','$codigo_curso', '$restringir_categoria')";
-
-    ExecutorPg::doit($sql);
-    $_SESSION['alert'] = "Registro creado";
-
-    $array = array(
-        "error"  => $_POST["nombre_curso"]
-    );
-    $res = json_encode($array);
-    echo $res;
+    
+    try {
+        $result = ExecutorPg::doit($sql);
+        $_SESSION['alert'] = 'Agregado con éxito';
+        $array = array(
+            "error" => "false",
+            "data"  => "ID: " . $result,
+            "alert" => "Registro creado con éxito.",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "error" => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+    }
+    echo json_encode($array);
+    return;
 }
 
 

@@ -2,6 +2,10 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+$estado = EstadoData::getAll();
+$municipio = MunicipioData::getAll();
+$ciudad = CiudadData::getAll();
+$parroquia = ParroquiaData::getAll();
 ?>
 
 
@@ -67,7 +71,7 @@ error_reporting(E_ALL);
 
 
 	document.addEventListener("DOMContentLoaded", function() {
-		document.getElementById("addline").addEventListener('submit', validarFormulario);
+		document.getElementById("add_organizacion").addEventListener('submit', validarFormulario);
 	});
 
 	async function validarFormulario(event) {
@@ -78,7 +82,7 @@ error_reporting(E_ALL);
 			let url = "./?action=ajax";
 
 			var formData = new FormData(event.target);
-			formData.append('function', 'add_action_line'); // Agrega la función a llamar
+			formData.append('function', 'add_organizacion'); // Agrega la función a llamar
 			// console.log(formData);
 
 			$('#cover-spin').show(0);
@@ -203,22 +207,77 @@ error_reporting(E_ALL);
 
 						<br><br>
 
-						<!-- <form method="post" id="addline" role="form">
+						<form method="post" id="add_organizacion" role="form">
 							<div class="row">
 								<div class="col-md-12">
 									<div class="form-group">
-										<label for="action_line_name" class="control-label">Nueva línea de acción</label>
-										<input type="text" name="name" id="action_line_name" required class="form-control" placeholder="Nombre">
+										<label for="nombre_organizacion" class="control-label">Nueva organización</label>
+										<input type="text" name="nombre_organizacion" id="nombre_organizacion" required class="form-control" placeholder="Nombre">
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="codigo_organizacion" class="control-label">Código organización</label>
+										<input type="text" name="codigo_organizacion" id="codigo_organizacion" required class="form-control" placeholder="Nombre">
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="code_info" class="control-label">Código infocentro vinculado</label>
+										<input type="text" name="code_info" id="code_info" required class="form-control" placeholder="Nombre">
 									</div>
 								</div>
 
 								<div class="col-md-12">
 									<div class="form-group">
-										<label for="permisos" class="control-label"><i class="fa fa-cogs"></i> Habilitar solo a los infocentros marcados</label>
-										<textarea type="text" name="permisos" id="permisos" class="form-control" placeholder="AMA01, AMA02"></textarea>
-										<span><label style="color:blueviolet;"> Ésta categoría solo será visible a éstos códigos. Escriba los códigos separarados por comas. (En blanco se muestra a todos)</label></span>
+										<label for="nombre_infocentro" class="control-label">Nombre infocentro vinculado</label>
+										<input type="text" name="nombre_infocentro" id="nombre_infocentro" required class="form-control" placeholder="Nombre">
 									</div>
 								</div>
+
+
+								<div class="col-lg-6">
+									<div class="form-group">
+										<label for="estado" class=" control-label"><i class="fa fa-map"></i> Estado</label>
+										<select name="estado" class="form-control" id="estados_1" required>
+											<option value="">-- ESTADO --</option>
+											<?php foreach ($estado as $p): ?>
+												<option value="<?php echo $p->id_estado; ?>"> <?php echo $p->estado; ?></option>
+											<?php endforeach; ?>
+										</select>
+									</div>
+								</div>
+
+
+								<div class="col-lg-6">
+									<div class="form-group" id='recargar_munic'>
+										<label for="municipio" class=" control-label"><i class="fa fa-map-marker"></i> Municipio</label>
+										<select name="municipio" class="form-control" id="municipios_1" required>
+											<option value="0">-- MUNICIPIOS --</option>
+
+										</select>
+									</div>
+								</div>
+
+
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label for="parroquia" class=" control-label"><i class="fa fa-map-pin"></i> Parroquia</label>
+										<select name="parroquia" class="form-control" id="parroquias_1">
+											<option value="">-- PARROQUIA --</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="col-md-12">
+									<div class="form-group">
+										<label for="direccion" class="control-label">Dirección de la organización</label>
+										<input type="text" name="direccion" id="direccion" required class="form-control" placeholder="Nombre">
+									</div>
+								</div>
+
 
 								<div class="col-md-6">
 									<div class="form-group">
@@ -226,7 +285,7 @@ error_reporting(E_ALL);
 									</div>
 								</div>
 							</div>
-						</form> -->
+						</form>
 
 						<!-- Obtengo los datos para la paginacion -->
 						<?php
@@ -350,3 +409,45 @@ error_reporting(E_ALL);
 		</div>
 	</div>
 </div>
+
+
+
+<script language="javascript">
+	$(document).ready(function() {
+		$("#estados_1").change(function() {
+
+			$('#municipios_1').find('option').remove().end().append('<option value=""></option>').val('0');
+			$('#ciudades').find('option').remove().end().append('<option value=""></option>').val('0');
+
+			$("#estados_1 option:selected").each(function() {
+				id_estado = $(this).val();
+
+				// alert(id_estado);
+				// alert($("#municipios").val());
+
+				$.post("core/app/view/getMunicipio.php", {
+					id_estado: id_estado
+				}, function(data) {
+					$("#municipios_1").html(data);
+				});
+			
+			});
+		})
+	});
+
+
+	$(document).ready(function() {
+		$("#municipios_1").change(function() {
+			$("#municipios_1 option:selected").each(function() {
+				id_municipio = $(this).val();
+				// alert(id_municipio);
+
+				$.post("core/app/view/getParroquia.php", {
+					id_municipio: id_municipio
+				}, function(data) {
+					$("#parroquias_1").html(data);
+				});
+			});
+		})
+	});
+</script>

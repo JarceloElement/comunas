@@ -82,51 +82,73 @@
 
 
     document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById("nueva_formación").addEventListener('submit', validarFormulario);
+        document.getElementById("nueva_formacion").addEventListener('submit', validarFormulario);
     });
 
-    function validarFormulario(event) {
+    async function validarFormulario(event) {
         event.preventDefault();
 
         $('#cover-spin').show(0);
 
+        var formObj = document.getElementById('nueva_formacion');
         var tipo_reporte = $("#tipo_reporte").val().split(",");
         var line_action = $("#line_action").val().split(",");
         var accion_especifica = $("#accion_especifica").val().split(",");
         if ($("#nombre_curso").val() != "" && $("#accion_especifica").val() != "") {
 
-            $.ajax({
-                    type: "POST",
-                    url: "./?action=ajax",
-                    data: {
-                        function: "add_tipo_formacion", // funcion que llama
-                        line_action: line_action[0],
-                        tipo_reporte: tipo_reporte[0],
-                        accion_especifica: accion_especifica[0],
-                        nivel_curso: $("#nivel_curso").val(),
-                        modalidad_curso: $("#modalidad_curso").val(),
-                        ejes_actuacion: $("#ejes_actuacion").val(),
-                        tipo_certificacion: $("#tipo_certificacion").val(),
-                        codigo_curso: $("#codigo_curso").val(),
-                        duracion_horas: $("#duracion_horas").val(),
-                        contenido_curso: $("#contenido_curso").val(),
-                        descripcion_actividad: $("#descripcion_actividad").val(),
-                        habilitar_descripcion: $("#habilitar_descripcion").val(),
-                        habilitar_institucion: $("#habilitar_institucion").val(),
-                        nombre_curso: $("#nombre_curso").val(),
-                        restringir_categoria: $("#restringir_categoria").val()
-                    }
-                })
-                .done(function(msg) {
-                    // console.log(msg);
-                    location.reload();
-                })
-                .fail(function() {
-                    toastify('Hubo un error al guardar', true, 5000, "warning");
+            try {
+                const res = await fetch("./?action=ajax", {
+                    method: 'POST',
+                    body: formData = new URLSearchParams({
+                        'function': "add_tipo_formacion", // funcion que llama
+                        'line_action': line_action[0],
+                        'tipo_reporte': tipo_reporte[0],
+                        'accion_especifica': accion_especifica[0],
+                        'nivel_curso': $("#nivel_curso").val(),
+                        'modalidad_curso': $("#modalidad_curso").val(),
+                        'ejes_actuacion': $("#ejes_actuacion").val(),
+                        'tipo_certificacion': $("#tipo_certificacion").val(),
+                        'codigo_curso': $("#codigo_curso").val(),
+                        'duracion_horas': $("#duracion_horas").val(),
+                        'contenido_curso': $("#contenido_curso").val(),
+                        'descripcion_actividad': $("#descripcion_actividad").val(),
+                        'habilitar_descripcion': $("#habilitar_descripcion").val(),
+                        'habilitar_institucion': $("#habilitar_institucion").val(),
+                        'nombre_curso': $("#nombre_curso").val(),
+                        'restringir_categoria': $("#restringir_categoria").val()
+                    })
                 });
-            // .always(function() {
-            //     toastify('Finished',true,1000,"warning");
-            // });
+
+                if (res.ok) {
+                    // console.log(res);
+                    const result_await = await res.text();
+                    // console.log(result_await);
+                    var array = JSON.parse(result_await);
+                    // console.log(array);
+                    $('#cover-spin').hide(0);
+                    if (array.error == 'true') {
+                        console.log(array.text);
+                        if (getOS() == "Android") {
+                            alert(array.text);
+                        } else {
+                            toastify(array.text, true, 15000, "error");
+                        }
+
+                    } else {
+                        formObj.submit()
+                    }
+
+                } else {
+                    $('#cover-spin').hide(0);
+                    toastify(res.statusText, true, 12000, "error");
+                    throw res.statusText;
+                }
+
+            } catch (error) {
+                $('#cover-spin').hide(0);
+                toastify(error, true, 12000, "error");
+                throw error;
+            }
 
         };
 
@@ -198,7 +220,7 @@ $action_line = ActionsLineData::getAll();
 
                         <br>
 
-                        <form method="post" id="nueva_formación" role="form">
+                        <form method="post" id="nueva_formacion" role="form">
 
 
                             <div class="row">
