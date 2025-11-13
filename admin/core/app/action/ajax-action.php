@@ -75,7 +75,7 @@ if ($func_post == "add_action_line") {
         Core::alert("Error: Los datos enviados no son válidos");
         return;
     }
-    $permisos = str_replace(" ", ", ", $_POST["permisos"]);
+    $permisos = str_replace(",", ", ", $_POST["permisos"]);
     $param = new ActionsLineData();
     $param->line_name = $_POST["name"];
     $param->permisos = $permisos;
@@ -114,7 +114,7 @@ if ($func_post == "edit_action_line") {
 
     $permisos = $_POST["permisos"] = "" ? "TODOS" : $_POST["permisos"];
     $permisos = strtoupper($permisos);
-    $permisos = str_replace(" ", ", ", $permisos);
+    $permisos = str_replace(",", ", ", $permisos);
 
 
     $line_id = $_POST["line_id"];
