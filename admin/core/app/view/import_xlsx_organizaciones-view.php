@@ -159,6 +159,7 @@ if (isset($_FILES['datafile'])) {
                     if ($pass == 0) {
                         echo "<span style='color:blue;'>NUEVO REGISTRO:</span>: " . $array_fields[1] . "<br>";
                         // echo $stmt_insert->queryString."<br>";
+                        var_dump($array_fields);
                         $stmt_insert->execute();
                     } else {
                         echo "No existe el infocentro: " . $param . " <br>";
