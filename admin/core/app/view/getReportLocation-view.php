@@ -2,9 +2,9 @@
 
 
 <?php
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 
 $code_info = trim(strtoupper($_POST['code_info']));
@@ -15,19 +15,23 @@ $conn = DatabasePg::connectPg();
 
 $row = $conn->prepare("SELECT * FROM infocentros WHERE cod='$code_info'");
 $row->execute();
-$data = $row->fetch(PDO::FETCH_ASSOC);
+$data = $row->fetchAll(PDO::FETCH_ASSOC);
 
-if ($data["id"] == "") {
+// print_r($data);
+// echo count($data);
+
+
+if (count($data) == 0) {
     $array = array(
         "error" => "true",
         "param"  => "Aviso",
         "name"  => "No se encontró el infocentro",
     );
-    echo json_encode($array);
+    echo json_encode($array, JSON_FORCE_OBJECT);
     return;
 }
 
-if ($data["id"] != "") {
+if (count($data) > 0) {
     $array = array(
         "error" => "false",
         "info_id"  => $data['id'],
@@ -38,7 +42,7 @@ if ($data["id"] != "") {
         "ciudad"  => $data['ciudad'],
         "direccion"  => $data['direccion'],
     );
-    echo json_encode($array);
+    echo json_encode($array, JSON_FORCE_OBJECT);
 }
 
 ?>
