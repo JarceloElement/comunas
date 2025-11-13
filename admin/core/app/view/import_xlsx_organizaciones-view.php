@@ -95,8 +95,8 @@ if (isset($_FILES['datafile'])) {
                 continue; // skip first row
             }
 
-            // param where | line_name
-            $param = (isset($fields[1]) ? $fields[1] : '');
+            // param where | codigo_organizacion
+            $param = (isset($fields[2]) ? $fields[2] : '');
             // $param = str_replace(["\r\n", "\n", "\r"], '', $param);
             // $param = strtoupper($param);
             $dim = $xlsx->dimension();
@@ -134,32 +134,36 @@ if (isset($_FILES['datafile'])) {
                         $array_fields[] = $data_var;
                     }
 
-                    $stmt_insert->bindParam(1, $array_fields[0], PDO::PARAM_INT);
-                    $stmt_insert->bindParam(2, $array_fields[1], PDO::PARAM_STR);
-                    $stmt_insert->bindParam(3, $array_fields[2], PDO::PARAM_STR);
-                    $stmt_insert->bindParam(4, $array_fields[3], PDO::PARAM_STR);
-                    $stmt_insert->bindParam(5, $array_fields[4], PDO::PARAM_STR);
-                    $stmt_insert->bindParam(6, $array_fields[5], PDO::PARAM_STR);
-                    $stmt_insert->bindParam(7, $array_fields[6], PDO::PARAM_STR);
-                    $stmt_insert->bindParam(8, $array_fields[7], PDO::PARAM_STR);
-                    $stmt_insert->bindParam(9, $array_fields[8], PDO::PARAM_STR);
-                    $stmt_insert->bindParam(10, $array_fields[9], PDO::PARAM_STR);
-                    $stmt_insert->bindParam(11, $array_fields[10], PDO::PARAM_STR);
-                    $stmt_insert->bindParam(12, $array_fields[11], PDO::PARAM_STR);
-                    $stmt_insert->bindParam(13, $array_fields[12], PDO::PARAM_STR);
-                    $stmt_insert->bindParam(14, $array_fields[13], PDO::PARAM_STR);
-                    $stmt_insert->bindParam(15, $array_fields[14], PDO::PARAM_STR);
-                    $stmt_insert->bindParam(16, $array_fields[15], PDO::PARAM_STR);
-                    $stmt_insert->bindParam(17, $array_fields[16], PDO::PARAM_STR);
-                    $stmt_insert->bindParam(18, $array_fields[17], PDO::PARAM_STR);
-                    $stmt_insert->bindParam(19, $array_fields[18], PDO::PARAM_STR);
-                    $stmt_insert->bindParam(20, $array_fields[19], PDO::PARAM_STR);
+                    $stmt_insert->bindParam(1, $array_fields[1], PDO::PARAM_INT);
+                    $stmt_insert->bindParam(2, $array_fields[2], PDO::PARAM_STR);
+                    $stmt_insert->bindParam(3, $array_fields[3], PDO::PARAM_STR);
+                    $stmt_insert->bindParam(4, $array_fields[4], PDO::PARAM_STR);
+                    $stmt_insert->bindParam(5, $array_fields[5], PDO::PARAM_STR);
+                    $stmt_insert->bindParam(6, $array_fields[6], PDO::PARAM_STR);
+                    $stmt_insert->bindParam(7, $array_fields[7], PDO::PARAM_STR);
+                    $stmt_insert->bindParam(8, $array_fields[8], PDO::PARAM_STR);
+                    $stmt_insert->bindParam(9, $array_fields[9], PDO::PARAM_STR);
+                    $stmt_insert->bindParam(10, $array_fields[10], PDO::PARAM_STR);
+                    $stmt_insert->bindParam(11, $array_fields[11], PDO::PARAM_STR);
+                    $stmt_insert->bindParam(12, $array_fields[12], PDO::PARAM_STR);
+                    $stmt_insert->bindParam(13, $array_fields[13], PDO::PARAM_STR);
+                    $stmt_insert->bindParam(14, $array_fields[14], PDO::PARAM_STR);
+                    $stmt_insert->bindParam(15, $array_fields[15], PDO::PARAM_STR);
+                    $stmt_insert->bindParam(16, $array_fields[16], PDO::PARAM_STR);
+                    $stmt_insert->bindParam(17, $array_fields[17], PDO::PARAM_STR);
+                    $stmt_insert->bindParam(18, $array_fields[18], PDO::PARAM_STR);
+                    $stmt_insert->bindParam(19, $array_fields[19], PDO::PARAM_STR);
+                    $stmt_insert->bindParam(20, $array_fields[20], PDO::PARAM_STR);
+      
+           
 
 
                     if ($pass == 0) {
                         echo "<span style='color:blue;'>NUEVO REGISTRO:</span>: " . $array_fields[1] . "<br>";
-                        // echo $stmt_insert->queryString."<br>";
-                        var_dump($array_fields);
+                        // // echo $stmt_insert->queryString . "<br>";
+                        // echo "<br>";
+                        // var_dump($array_fields);
+                        // echo "<br>";
                         $stmt_insert->execute();
                     } else {
                         echo "No existe el infocentro: " . $param . " <br>";
@@ -187,7 +191,7 @@ if (isset($_FILES['datafile'])) {
 
                             if ($val_field != $r->$data_field) {
 
-                                if ($data_field != "codigo_organizacion") {
+                                if ($data_field != "codigo_organizacion" && $data_field != "id" && $data_field != "created_at" && $data_field != "update_at") {
 
                                     if ($data_field == "code_info") {
                                         $val_field = str_replace(["\r\n", "\n", "\r"], '', $fields[$i]);
@@ -200,7 +204,7 @@ if (isset($_FILES['datafile'])) {
                                     // if ($data_field == "user_info_cod"){echo "<span style='color:green;'>Actualizado:</span> $param > $data_field : ".$r->$data_field." -|POR|- $val_field <br>";$r->$data_field=$val_field;}
 
                                     // todos
-                                    echo "<span style='color:green;'>Actualizado:</span><span style='color:blue;'>$param</span> > $data_field : ($data_q) -POR- ($val_field) <br>";
+                                    echo "<span style='color:green;'>Actualizado:</span><span style='color:blue;'>$param</span> > $fields[1]-$data_field : ($data_q) -POR- ($val_field) <br>";
                                     $r->$data_field = $val_field;
                                 }
                             }
