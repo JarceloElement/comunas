@@ -1321,7 +1321,7 @@ $fecha_end = "2025-01-01";
             $.post("core/app/view/getReportLocation-view.php", {
                 code_info: code
             }, function(data) {
-                // console.log(data);
+                console.log(data);
                 var array = JSON.parse(data);
 
                 if (array["error"] == "true") {
