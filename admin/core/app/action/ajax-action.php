@@ -292,10 +292,12 @@ if ($func_post == "edit_tipo_taller") {
     $nombre_taller = $_POST["nombre_taller"];
     $descripcion_taller = $_POST["descripcion_taller"];
     $duracion_horas = $_POST["duracion_horas"];
+    $orden_taller = $_POST["orden_taller"];
+    $codigo_taller = $_POST["codigo_taller"];
     $permisos = $_POST["permisos"] = "" ? "Todos" : $_POST["permisos"];
     $permisos = strtoupper($permisos);
 
-    $sql = "UPDATE tipo_taller set name_training_type='$line_action', nombre_taller='$nombre_taller', descripcion_taller='$descripcion_taller', duracion_horas='$duracion_horas', nivel='$nivel', modalidad='$modalidad', permisos='$permisos' where id=$id";
+    $sql = "UPDATE tipo_taller set name_training_type='$line_action', nombre_taller='$nombre_taller', descripcion_taller='$descripcion_taller', duracion_horas='$duracion_horas', nivel='$nivel', modalidad='$modalidad', permisos='$permisos', orden_taller='$orden_taller', codigo_taller='$codigo_taller' where id=$id";
     try {
         $result = ExecutorPg::doit($sql);
         $_SESSION['alert'] = '¡Actualizado con éxito!';

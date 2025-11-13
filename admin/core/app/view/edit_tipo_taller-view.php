@@ -68,8 +68,10 @@
                     modalidad: $("#modalidad").val(),
                     nombre_taller: $("#nombre_taller").val(),
                     descripcion_taller: $("#descripcion_taller").val(),
+                    codigo_taller: $("#codigo_taller").val(),
                     duracion_horas: $("#duracion_horas").val(),
-                    permisos: $("#permisos").val()
+                    permisos: $("#permisos").val(),
+                    orden_taller: $("#orden_taller").val()
                 }
             })
             .done(function(msg) {
@@ -156,10 +158,17 @@ $data = TipoTallerData::getByIdPg($id);
                                     </div>
                                 </div>
 
-                                <div class="col-md-12">
+                                <div class="col-md-8">
                                     <div class="form-group">
                                         <label for="nombre_taller" class="control-label"><i class="fa fa-cogs"></i> Nombre del taller</label>
                                         <input type="text" name="nombre_taller" id="nombre_taller" value="<?php echo $data->nombre_taller; ?>" class="form-control" placeholder="AMA01, AMA02"></input>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="codigo_taller" class="control-label"><i class="fa fa-cogs"></i> Código taller (No obligatorio)</label>
+                                        <input type="text" name="codigo_taller" id="codigo_taller" value="<?php echo $data->codigo_taller; ?>" class="form-control" placeholder="C-01"></input>
                                     </div>
                                 </div>
                                 
@@ -172,10 +181,17 @@ $data = TipoTallerData::getByIdPg($id);
                                 </div>
 
 
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="duracion_horas" class="control-label"><i class="fa fa-cogs"></i> Duración (Horas)</label>
-                                        <input type="number" name="duracion_horas" id="duracion_horas" value="<?php echo $data->duracion_horas; ?>" class="form-control" placeholder="AMA01, AMA02"></input>
+                                        <input type="number" name="duracion_horas" id="duracion_horas" min="1" value="<?php echo $data->duracion_horas; ?>" class="form-control" placeholder="1"></input>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="orden_taller" class="control-label"><i class="fa fa-cogs"></i> Orden de prelación</label>
+                                        <input type="number" name="orden_taller" id="orden_taller" min="1" value="<?php echo $data->orden_taller; ?>" class="form-control" placeholder="1"></input>
                                     </div>
                                 </div>
 
