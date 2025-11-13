@@ -373,15 +373,25 @@ if ($func_post == "add_tipo_taller") {
 
     $sql = "INSERT into tipo_taller (name_training_type, nombre_taller, descripcion_taller, duracion_horas, nivel, modalidad, permisos, orden_taller, codigo_taller) 
     VALUES ('$line_action','$nombre_taller','$descripcion_taller','$duracion_horas', '$nivel', '$modalidad', '$permisos', '$orden_taller', '$codigo_taller')";
-    ExecutorPg::doit($sql);
-    $_SESSION['alert'] = "Registro creado";
-
-    $array = array(
-        "error"  => $_POST["nombre_taller"]
-    );
-    $res = json_encode($array);
-    echo $res;
-    $_SESSION['alert'] = 'Agregado con éxito';
+    
+    try {
+        $result = ExecutorPg::doit($sql);
+        $array = array(
+            "error" => "false",
+            "data"  => "ID: " . $result,
+            "alert" => "Registro creado con éxito.",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "error" => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+    }
+    echo json_encode($array);
+    return;
 }
 
 

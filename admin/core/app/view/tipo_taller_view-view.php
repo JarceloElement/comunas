@@ -90,42 +90,49 @@
         document.getElementById("add_tipo_taller").addEventListener('submit', validarFormulario);
     });
 
-    function validarFormulario(event) {
+    async function validarFormulario(event) {
         event.preventDefault();
 
         $('#cover-spin').show(0);
 
-        $.ajax({
-                type: "POST",
-                url: "./?action=ajax",
-                // headers: {
-                //     "X-CSRFToken": getCookie("csrftoken")
-                // },
-                data: {
-                    function: "add_tipo_taller", // funcion que llama
-                    line_action: $("#line_action").val(),
-                    nivel: $("#nivel").val(),
-                    modalidad: $("#modalidad").val(),
-                    nombre_taller: $("#nombre_taller").val(),
-                    descripcion_taller: $("#descripcion_taller").val(),
-                    duracion_horas: $("#duracion_horas").val(),
-                    permisos: $("#permisos").val(),
-                    orden_taller: $("#orden_taller").val(),
-                    codigo_taller: $("#codigo_taller").val()
-                }
-            })
-            .done(function(msg) {
-                // toastify('Guardado', true, 1000, "dashboard");
-                location.reload();
-                // $('#content').reload('#content');
+        let url = "./?action=ajax";
 
-            })
-            .fail(function() {
-                toastify('Hubo un error al guardar', true, 5000, "warning");
+        var formData = new FormData(event.target);
+        formData.append('function', 'add_tipo_taller'); // Agrega la función a llamar
+        // console.log(formData);
+
+        $('#cover-spin').show(0);
+
+        try {
+            const res = await fetch(url, {
+                method: 'POST',
+                body: formData
             });
-        // .always(function() {
-        //     toastify('Finished',true,1000,"warning");
-        // });
+
+            if (res.ok) {
+                // console.log(res);
+                const result_await = await res.text();
+                var array = JSON.parse(result_await);
+                // console.log(array);
+                toastify(array.alert, true, 13000, array.alert_type);
+                $('#cover-spin').hide(0);
+                if (array.error == 'false') {
+                    window.timer = setTimeout(function() {
+                        location.reload();
+                    }, 800);
+                }
+            } else {
+                $('#cover-spin').hide(0);
+                toastify(res.statusText, true, 12000, "error");
+                throw res.statusText;
+            }
+
+        } catch (error) {
+            $('#cover-spin').hide(0);
+            toastify(error, true, 12000, "error");
+            throw error;
+        }
+
 
     };
 
