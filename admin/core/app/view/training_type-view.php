@@ -120,7 +120,7 @@
                 });
 
                 if (res.ok) {
-                    // console.log(res);
+                    console.log(res);
                     const result_await = await res.text();
                     // console.log(result_await);
                     var array = JSON.parse(result_await);
