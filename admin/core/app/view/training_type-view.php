@@ -127,7 +127,7 @@
                     // console.log(array);
                     toastify(array.alert, true, 13000, array.alert_type);
                     $('#cover-spin').hide(0);
-                    if (array.err == 'false') {
+                    if (array.error == 'false') {
                         window.timer = setTimeout(function() {
                             location.reload();
                         }, 800);
