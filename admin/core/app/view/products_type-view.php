@@ -171,7 +171,7 @@ $products_cat = ProductsType::getBySQL("select * from categoria_productos");
 											<option value="calc">Hoja de cálculo</option>
 											<option value="writer">Documento de texto</option>
 											<option value="rrss">Redes Sociales</option>
-											<option value="rrss">Video</option>
+											<option value="video">Video</option>
 										</select>
 									</div>
 								</div>
