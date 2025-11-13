@@ -208,7 +208,7 @@ $products_cat = ProductsType::getBySQL("select * from categoria_productos");
 						$products_cat = ProductsType::getBySQL("select * from products_type");
 						$TotalReg = count($products_cat);
 
-						$sql = "SELECT * from products_type order by tipo_categoria asc LIMIT " . (($compag - 1) * $CantidadMostrar) . " , " . $CantidadMostrar;
+						$sql = "SELECT * from products_type order by id asc LIMIT " . (($compag - 1) * $CantidadMostrar) . " , " . $CantidadMostrar;
 						$param = ProductsType::getBySQL($sql);
 
 						$url_pag = "<a href=\"?view=products_type&pag=";

@@ -31,7 +31,7 @@
                     if (array.error == "false") {
                         window.timer = setTimeout(function() {
                             history.back();
-                        }, 800);
+                        }, 400);
                     }
 
 
