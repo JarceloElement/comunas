@@ -75,9 +75,10 @@ if ($func_post == "add_action_line") {
         Core::alert("Error: Los datos enviados no son válidos");
         return;
     }
+    $permisos = str_replace(" ", ",", $_POST["permisos"]);
     $param = new ActionsLineData();
     $param->line_name = $_POST["name"];
-    $param->permisos = $_POST["permisos"];
+    $param->permisos = $permisos;
 
     try {
         $result = $param->addPg();
