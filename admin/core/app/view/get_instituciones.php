@@ -62,7 +62,7 @@ $html .= "<option value='' disabled>----ORGANIZACIONES----</option>";
 if (count($res) > 0) {
 	if (count($res[0]) > 0) {
 		foreach ($res[0] as $row) {
-			$html .= "<option data-e_address='" . $row->direccion . "' data-id_institucion='" . $row->id . "' value='" . $row->nombre_organizacion . "'>" . $row->nombre_organizacion . " </option>";
+			$html .= "<option data-e_address='" . $row->direccion . "' data-id_institucion='" . $row->id . "' value='" . $row->nombre_organizacion . "'>" . $row->code_info . "-" . $row->nombre_organizacion . " </option>";
 		}
 		$array = array(
 			"html"  => $html,

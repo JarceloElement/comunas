@@ -15,7 +15,7 @@ $conn = DatabasePg::connectPg();
 
 $row = $conn->prepare("SELECT * FROM infocentros WHERE cod='$code_info'");
 $row->execute();
-$data = $row->fetchAll(PDO::FETCH_ASSOC);
+$data = $row->fetch(PDO::FETCH_ASSOC);
 
 // print_r($data);
 // echo count($data);

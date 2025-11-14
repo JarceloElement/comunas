@@ -615,6 +615,29 @@ $social_medias = SocialMediasData::getBySQL("SELECT * FROM social_medias;")[0];
 										</div>
 									</div>
 
+									<!-- enlace a video -->
+									<div class="col-md-12" id="video_url_v" style="display:none">
+										<div class="form-group">
+											<div class="row">
+												<div class="col">
+													<div class="form-group col-mg-4">
+														<div class="mui-textfield mui-textfield--float-label">
+															<input type="url" data-is-link=false id="video_url" name="video_url_v" value="" />
+															<label>
+																<i>
+																	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -30 256 256">
+																		<path fill="#B6B6B6FF" d="M208 32H48a16 16 0 0 0-16 16v160a16 16 0 0 0 16 16h160a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16m-92.3 160.49a43.31 43.31 0 0 1-55-66.43l25.37-25.37a43.35 43.35 0 0 1 61.25 0a42.9 42.9 0 0 1 9.95 15.43a8 8 0 1 1-15 5.6a27.33 27.33 0 0 0-44.9-9.72L72 137.37a27.32 27.32 0 0 0 34.68 41.91a8 8 0 1 1 9 13.21Zm79.61-62.55l-25.37 25.37A43 43 0 0 1 139.32 168a43.35 43.35 0 0 1-40.53-28.12a8 8 0 1 1 15-5.6A27.35 27.35 0 0 0 139.28 152a27.14 27.14 0 0 0 19.32-8l25.4-25.37a27.32 27.32 0 0 0-34.68-41.91a8 8 0 1 1-9-13.21a43.32 43.32 0 0 1 55 66.43Z" />
+																	</svg>
+																</i>
+																Enlace del video publicado (url)
+															</label>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
 
 
 
@@ -836,6 +859,10 @@ $DB_name = "products_list";
 											case "RRSS":
 												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="#fffdfd" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 5a2 2 0 1 0 4 0a2 2 0 1 0-4 0M3 19a2 2 0 1 0 4 0a2 2 0 1 0-4 0m14 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0m-8-5a3 3 0 1 0 6 0a3 3 0 1 0-6 0m3-7v4m-5.3 6.8l2.8-2m7.8 2l-2.8-2"/></svg>';
 												$background_icon_color = "#FF005DFF";
+												break;			
+												case "VIDEO":
+												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"/><path fill="#fffdfd" d="M4 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm4.625 5.63a1.235 1.235 0 0 1 1.715-.992c.504.216 1.568.702 2.916 1.48a28 28 0 0 1 2.74 1.786a1.234 1.234 0 0 1 0 1.98a28 28 0 0 1-2.74 1.784a28 28 0 0 1-2.916 1.482a1.234 1.234 0 0 1-1.715-.992a29 29 0 0 1-.176-3.264c0-1.551.112-2.719.176-3.264"/></g></svg>';
+												$background_icon_color = "#BA0000FF";
 												break;
 										}
 										?>
@@ -844,6 +871,10 @@ $DB_name = "products_list";
 
 										<?php } else if ($types['format'] == "rrss") { ?>
 											<a href="<?php echo $types['red_creada'] ?>" target="_blank" style="background:<?php echo $background_icon_color; ?>;" class=" btn btn-info btn-sm"><?php echo $svg_icon; ?> </a>
+
+
+										<?php } else if ($types['format'] == "video") { ?>
+											<a href="<?php echo $types['video_url'] ?>" target="_blank" style="background:<?php echo $background_icon_color; ?>;" class=" btn btn-info btn-sm"><?php echo $svg_icon; ?> </a>
 
 
 										<?php } else { ?>
@@ -968,6 +999,8 @@ $DB_name = "products_list";
 						document.getElementById("formulario_url").required = false;
 						document.getElementById("red_creada_v").style.display = "none";
 						document.getElementById("red_creada").required = false;
+						document.getElementById("video_url_v").style.display = "none";
+						document.getElementById("video_url").required = false;
 					} else {
 						document.getElementById("userfile_f").style.display = "none";
 						document.getElementById("userfile").required = false;
@@ -983,6 +1016,8 @@ $DB_name = "products_list";
 						document.getElementById("formulario_url").required = false;
 						document.getElementById("red_creada_v").style.display = "none";
 						document.getElementById("red_creada").required = false;
+						document.getElementById("video_url_v").style.display = "none";
+						document.getElementById("video_url").required = false;
 					} else {
 						document.getElementById("userfile_img").style.display = "none";
 						document.getElementById("userfile_imagen").required = false;
@@ -998,6 +1033,8 @@ $DB_name = "products_list";
 						document.getElementById("userfile_imagen").required = false;
 						document.getElementById("red_creada_v").style.display = "none";
 						document.getElementById("red_creada").required = false;
+						document.getElementById("video_url_v").style.display = "none";
+						document.getElementById("video_url").required = false;
 					} else {
 						document.getElementById("formulario_url_v").style.display = "none";
 						document.getElementById("formulario_url").required = false;
@@ -1013,9 +1050,28 @@ $DB_name = "products_list";
 						document.getElementById("userfile_imagen").required = false;
 						document.getElementById("formulario_url_v").style.display = "none";
 						document.getElementById("formulario_url").required = false;
+						document.getElementById("video_url_v").style.display = "none";
+						document.getElementById("video_url").required = false;
 					} else {
 						document.getElementById("red_creada_v").style.display = "none";
 						document.getElementById("red_creada").required = false;
+					}
+
+					if (cod == "video") {
+						document.getElementById("video_url_v").style.display = "block";
+						document.getElementById("video_url").required = true;
+
+						document.getElementById("userfile_f").style.display = "none";
+						document.getElementById("userfile_f").required = false;
+						document.getElementById("userfile_img").style.display = "none";
+						document.getElementById("userfile_imagen").required = false;
+						document.getElementById("formulario_url_v").style.display = "none";
+						document.getElementById("formulario_url").required = false;
+						document.getElementById("red_creada_v").style.display = "none";
+						document.getElementById("red_creada").required = false;
+					} else {
+						document.getElementById("video_url_v").style.display = "none";
+						document.getElementById("video_url").required = false;
 					}
 
 					// falta en campo de red_creada_v
