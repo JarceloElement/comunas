@@ -1306,9 +1306,11 @@ if ($func_post == "add_product") {
         doc_tipo,
         web_link,
         red_creada,
-        formulario_url
+        formulario_url,
+        video_url
 			)";
     $sql .= " VALUES (
+			?,
 			?,
 			?,
 			?,
@@ -1342,7 +1344,8 @@ if ($func_post == "add_product") {
         $extension,
         $_POST["web_link"],
         $_POST["red_creada"],
-        $_POST["formulario_url"]
+        $_POST["formulario_url"],
+        $_POST["video_url"]
     ];
 
 

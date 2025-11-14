@@ -622,7 +622,7 @@ $social_medias = SocialMediasData::getBySQL("SELECT * FROM social_medias;")[0];
 												<div class="col">
 													<div class="form-group col-mg-4">
 														<div class="mui-textfield mui-textfield--float-label">
-															<input type="url" data-is-link=false id="video_url" name="video_url_v" value="" />
+															<input type="url" data-is-link=false id="video_url" name="video_url" value="" />
 															<label>
 																<i>
 																	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -30 256 256">
@@ -649,7 +649,7 @@ $social_medias = SocialMediasData::getBySQL("SELECT * FROM social_medias;")[0];
 										<span class="btn btn-raised btn-round btn-default btn-file">
 											<span class="fileinput-new">Selecc</span>
 											<span class="fileinput-exists">Cambiar</span>
-											<input type="file" name="userfile" id="userfile" class="file-input__input" accept=".pdf,.xlsx,.ods,.doc,.odt" />
+											<input type="file" name="userfile" id="userfile" class="file-input__input" accept=".pdf,.xlsx,.ods,.doc,.odt,odp,.ppt,.pptx" />
 										</span>
 									</div>
 
@@ -706,6 +706,7 @@ $sql = "SELECT
 	products_list.red_creada,
 	products_list.doc_name,
 	products_list.formulario_url,
+	products_list.video_url,
 	products_list.activity_title as activity_title,
 	products_list.format as format, 
 	products_list.format_detail as format_detail, 
@@ -815,14 +816,27 @@ $DB_name = "products_list";
 											case "JPEG";
 												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16"><g fill="#FFFFFFFF"><path d="M6.002 5.5a1.5 1.5 0 1 1-3 0a1.5 1.5 0 0 1 3 0"/><path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71l-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z"/></g></svg>';
 												$background_icon_color = "#3E88FFFF";
-											case "DRIVE";
+											case "VIDEO";
 												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect width="24" height="24" fill="none"/><path fill="#FFFFFFFF" d="M12.003 21q-1.866 0-3.51-.708q-1.643-.709-2.859-1.924t-1.925-2.856T3 12.003t.709-3.51Q4.417 6.85 5.63 5.634t2.857-1.925T11.997 3t3.51.709q1.643.708 2.859 1.922t1.925 2.857t.709 3.509t-.708 3.51t-1.924 2.859t-2.856 1.925t-3.509.709M12 20q3.35 0 5.675-2.325T20 12q0-.175-.003-.353t-.022-.341q-.067.667-.53 1.104q-.464.436-1.137.436h-2.539q-.698 0-1.195-.496t-.497-1.193v-.845h-3.385v-1.69q0-.697.498-1.198q.497-.501 1.195-.501h.846v-.77q0-.728.476-1.146t1.137-.482q-.673-.26-1.38-.392T12 4Q8.65 4 6.325 6.325T4 12v.289q0 .134.02.288H8.5q1.42 0 2.402.983q.983.982.983 2.393v.855H9.346v2.73q.616.222 1.286.342T12 20"/></svg>';
 												$background_icon_color = "#4AB1FFFF";
 												break;
-											case "FACEBOOK_GRUPO";
+											case "IMPRESS";
 												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#036ED1FF" d="M12 2.04c-5.5 0-10 4.49-10 10.02c0 5 3.66 9.15 8.44 9.9v-7H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.89 3.78-3.89c1.09 0 2.23.19 2.23.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v7a10 10 0 0 0 8.44-9.9c0-5.53-4.5-10.02-10-10.02"/></svg>';
-												$background_icon_color = "#FFFFFFFF";
+												$background_icon_color = "#F1690FFF";
 												break;
+											case "PPTX";
+												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48"><defs><mask id="SVGRBPVS6Hj"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path stroke="#fff" d="M4 8h40"/><path fill="#fff" fill-rule="evenodd" stroke="#fff" d="M8 8h32v26H8z" clip-rule="evenodd"/><path stroke="#000" d="m22 16l5 5l-5 5"/><path stroke="#fff" d="m16 42l8-8l8 8"/></g></mask></defs><path fill="#fffdfd" d="M0 0h48v48H0z" mask="url(#SVGRBPVS6Hj)"/></svg>';
+												$background_icon_color = "#F1690FFF";
+												break;
+											case "PPT";
+												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48"><defs><mask id="SVGRBPVS6Hj"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path stroke="#fff" d="M4 8h40"/><path fill="#fff" fill-rule="evenodd" stroke="#fff" d="M8 8h32v26H8z" clip-rule="evenodd"/><path stroke="#000" d="m22 16l5 5l-5 5"/><path stroke="#fff" d="m16 42l8-8l8 8"/></g></mask></defs><path fill="#fffdfd" d="M0 0h48v48H0z" mask="url(#SVGRBPVS6Hj)"/></svg>';
+												$background_icon_color = "#F1690FFF";
+												break;
+											case "ODP";
+												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48"><defs><mask id="SVGRBPVS6Hj"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path stroke="#fff" d="M4 8h40"/><path fill="#fff" fill-rule="evenodd" stroke="#fff" d="M8 8h32v26H8z" clip-rule="evenodd"/><path stroke="#000" d="m22 16l5 5l-5 5"/><path stroke="#fff" d="m16 42l8-8l8 8"/></g></mask></defs><path fill="#fffdfd" d="M0 0h48v48H0z" mask="url(#SVGRBPVS6Hj)"/></svg>';
+												$background_icon_color = "#F1690FFF";
+												break;
+
 											case "TELEGRAM";
 												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 												<path fill="#1576C1FF" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19c-.14.75-.42 1-.68 1.03c-.58.05-1.02-.38-1.58-.75c-.88-.58-1.38-.94-2.23-1.5c-.99-.65-.35-1.01.22-1.59c.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02c-.09.02-1.49.95-4.22 2.79c-.4.27-.76.41-1.08.4c-.36-.01-1.04-.2-1.55-.37c-.63-.2-1.12-.31-1.08-.66c.02-.18.27-.36.74-.55c2.92-1.27 4.86-2.11 5.83-2.51c2.78-1.16 3.35-1.36 3.73-1.36c.08 0 .27.02.39.12c.1.08.13.19.14.27c-.01.06.01.24 0 .38" />
@@ -859,8 +873,8 @@ $DB_name = "products_list";
 											case "RRSS":
 												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="#fffdfd" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 5a2 2 0 1 0 4 0a2 2 0 1 0-4 0M3 19a2 2 0 1 0 4 0a2 2 0 1 0-4 0m14 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0m-8-5a3 3 0 1 0 6 0a3 3 0 1 0-6 0m3-7v4m-5.3 6.8l2.8-2m7.8 2l-2.8-2"/></svg>';
 												$background_icon_color = "#FF005DFF";
-												break;			
-												case "VIDEO":
+												break;
+											case "VIDEO":
 												$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"/><path fill="#fffdfd" d="M4 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm4.625 5.63a1.235 1.235 0 0 1 1.715-.992c.504.216 1.568.702 2.916 1.48a28 28 0 0 1 2.74 1.786a1.234 1.234 0 0 1 0 1.98a28 28 0 0 1-2.74 1.784a28 28 0 0 1-2.916 1.482a1.234 1.234 0 0 1-1.715-.992a29 29 0 0 1-.176-3.264c0-1.551.112-2.719.176-3.264"/></g></svg>';
 												$background_icon_color = "#BA0000FF";
 												break;
@@ -888,9 +902,9 @@ $DB_name = "products_list";
 
 									<?php if ($_SESSION["user_id"] == $_GET['user_id']) { ?>
 
-										<a href="index.php?view=editproduct&id=<?php echo $types["id"]; ?>" class="btn btn-warning btn-sm"><i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+										<!-- <a href="index.php?view=editproduct&id=<?php echo $types["id"]; ?>" class="btn btn-warning btn-sm"><i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 													<path fill="currentColor" d="M3 21v-4.25L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.438.65T21 6.4q0 .4-.137.763t-.438.662L7.25 21zM17.6 7.8L19 6.4L17.6 5l-1.4 1.4z" />
-												</svg></i></a>
+												</svg></i></a> -->
 
 										<?php $url = "./?action=ajax&function=del_products&user_id=" . $_GET['user_id'] . "&id=" . $types["id"] . "&id_activity=" . $_GET["id_activity"] . "&activity_title=" . $_GET["activity_title"] . "&estate=" . $_GET["estate"] . "&date_activity=" . $_GET["date_activity"] . "&code_info=" . $_GET["code_info"]; ?>
 
@@ -910,9 +924,9 @@ $DB_name = "products_list";
 
 									<?php } elseif ($_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 9 || (($_SESSION["user_type"] == 8 || $_SESSION["user_rol"] == 'Políticas públicas') && $_SESSION["user_region"] == $_GET["estate"])) { ?>
 
-										<a href="index.php?view=editproduct&id=<?php echo $types["id"]; ?>" class="btn btn-warning btn-sm"><i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+										<!-- <a href="index.php?view=editproduct&id=<?php echo $types["id"]; ?>" class="btn btn-warning btn-sm"><i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 													<path fill="currentColor" d="M3 21v-4.25L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.438.65T21 6.4q0 .4-.137.763t-.438.662L7.25 21zM17.6 7.8L19 6.4L17.6 5l-1.4 1.4z" />
-												</svg></i></a>
+												</svg></i></a> -->
 
 										<?php $url = "./?action=ajax&function=del_products&user_id=" . $_GET['user_id'] . "&id=" . $types["id"] . "&id_activity=" . $_GET["id_activity"] . "&activity_title=" . $_GET["activity_title"] . "&estate=" . $_GET["estate"] . "&date_activity=" . $_GET["date_activity"] . "&code_info=" . $_GET["code_info"]; ?>
 
@@ -989,7 +1003,7 @@ $DB_name = "products_list";
 					console.log(cod);
 					$("#action_performed").val(cod);
 
-					if (cod == "writer" || cod == "calc" || cod == "doc" || cod == "documento") {
+					if (cod == "writer" || cod == "calc" || cod == "doc" || cod == "documento" || cod == "impress") {
 						document.getElementById("userfile_f").style.display = "block";
 						document.getElementById("userfile").required = true;
 
