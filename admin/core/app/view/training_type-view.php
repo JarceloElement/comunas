@@ -505,7 +505,7 @@ $action_line = ActionsLineData::getAll();
                                                     <td><?php echo $user->ejes_actuacion; ?></td>
                                                     <td><?php echo $user->tipo_certificacion; ?></td>
                                                     <td><?php echo $user->contenido_curso; ?></td>
-                                                    <td><?php echo $user->descripcion_actividad; ?></td>
+                                                    <td><label for="" style="width:300px;"><?php echo $user->descripcion_actividad; ?></label></td>
                                                     <td><?php echo $user->habilitar_descripcion; ?></td>
                                                     <td><?php echo $user->habilitar_institucion; ?></td>
                                                     <td><?php echo $user->codigo_curso; ?></td>
