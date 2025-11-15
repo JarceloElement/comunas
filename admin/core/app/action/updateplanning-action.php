@@ -85,7 +85,9 @@ if (count($_POST) > 0) {
 		address = ?, 
 		profile_image = ?, 
 		circuito_comunal = ?, 
-		orden_taller = ? 
+		orden_taller = ?, 
+		cod_curso = ?, 
+		codigo_taller = ? 
 		where id = ?;";
     $values = [
         strtoupper($_POST["code_info"]),
@@ -126,6 +128,8 @@ if (count($_POST) > 0) {
         $profile_image,
         $_POST["circuito_comunal"],
         $_POST["orden_taller"],
+        $_POST["cod_curso"],
+        $_POST["codigo_taller"],
         (int)$_POST["id"]
     ];
     $resul = ExecutorPg::update($sql, $values);

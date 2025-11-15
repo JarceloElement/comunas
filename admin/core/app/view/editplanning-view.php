@@ -323,6 +323,8 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
                                 <input type="hidden" name="isnt_type" id="isnt_type" value="<?php echo $activity["isnt_type"]; ?>">
                                 <input type="hidden" name="institucion_formacion" value="No aplica">
                                 <input type="hidden" name="orden_taller" id="orden_taller" value="<?php echo $activity["orden_taller"]; ?>">
+                                <input type="hidden" name="cod_curso" id="cod_curso" value="">
+                                <input type="hidden" name="codigo_taller" id="codigo_taller" value="">
 
 
                                 <div class="form-row">
@@ -930,6 +932,8 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
                     // carga la descripcion de la actividad
                     set_description = $(this).data('set_description');
                     set_institucion = $(this).data('set_institucion');
+                    document.getElementById("cod_curso").value = $(this).data('cod_curso');
+                    console.log($(this).data('cod_curso'));
                     // console.log(set_institucion);
 
                     if (set_description == "1" || dat_description == "") {
@@ -1042,6 +1046,7 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
                         $("#duracion_horas").val(array["duracion"]);
                         $("#nivel_formacion").val(array["nivel"]);
                         $("#orden_taller").val(array["orden_taller"]);
+                        $("#codigo_taller").val(array["codigo_taller"]);
 
                     });
 

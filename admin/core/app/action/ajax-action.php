@@ -670,6 +670,11 @@ if ($func_post == "add_participant") {
         return false;
     }
 
+
+
+
+
+
     $fecha_actual = date("Y", time());
     $age = $fecha_actual - date("Y", strtotime($_POST["user_f_nacimiento"]));
 
@@ -680,6 +685,7 @@ if ($func_post == "add_participant") {
         $info_id = isset($res["id"]) ? $res["id"] : "0";
     }
 
+    $array = array();
 
     $parent_ref = "";
     $document_id = "";
@@ -700,83 +706,215 @@ if ($func_post == "add_participant") {
     // if($_POST["is_new"] == "true"){
     $rx = 0;
     $id_uf = "";
-    $rx = FinalUsersData::getRepeatedFromAjax($_POST["document_id"], $_POST["parent_ref"], $_POST["id_final_user"], $_POST["name"], $_POST["lastname"], $_POST["user_has_document"], $_POST["user_f_nacimiento"]);
 
-    // echo isset($rx[0]["id"]);
-    // print_r($rx);
-    // return;
-    if (count($rx) < 1) {
-        // if (!isset($rx[0]["id"])) {
+    try {
+        $rx = FinalUsersData::getRepeatedFromAjax($_POST["document_id"], $_POST["parent_ref"], $_POST["id_final_user"], $_POST["name"], $_POST["lastname"], $_POST["user_has_document"], $_POST["user_f_nacimiento"]);
 
-        $r = new FinalUsersData();
-        $r->user_id = null;
-        $r->user_nombres = ucwords(mb_strtolower($_POST["name"]));
-        $r->user_nombre_2 = ucwords(mb_strtolower($_POST["name_2"]));
-        $r->user_apellidos = ucwords(mb_strtolower($_POST["lastname"]));
-        $r->user_apellido_2 = ucwords(mb_strtolower($_POST["lastname_2"]));
-        $r->user_nationality = $_POST["user_nationality"];
-        $r->user_has_document = $_POST["user_has_document"];
-        $r->user_dni = $document_id;
-        $r->parent_dni = $_POST["parent_dni"];
-        $r->child_number = $_POST["child_number"];
-        $r->parent_ref = $_POST["parent_ref"];
-        $r->user_correo = $_POST["email"];
-        $r->user_genero = $_POST["gender"];
-        $r->user_comunity_type = $_POST["user_comunity_type"];
-        $r->user_etnia = $_POST["etnia"];
-        $r->disability_type = $_POST["disability_type"];
-        $r->user_telefono = $_POST["phone"];
-        $r->user_f_nacimiento = $_POST["user_f_nacimiento"];
-        $r->user_edad = $age;
-        $r->user_pertenece_organizacion = $_POST["user_pertenece_organizacion"];
-        $r->user_estado = $_POST["estate"];
-        $r->user_profesion = $_POST["user_profesion"];
-        $r->user_ocupacion = $_POST["user_ocupacion"];
-        $r->user_equipo_sala_comunal = $_POST["equipo_sala_comunal"];
-        $id_user_final = $r->add()[0]["id"];
-        // return $id_user_final;
-        // echo $last_id;
-        echo "Nuevo usuario:";
-        // print_r($last_id);
-    } else if (count($rx[0]) > 0 && isset($rx[0]["id"])) {
-        // actualiza el usuario final
+        // echo isset($rx[0]["id"]);
+        // print_r($rx);
+        // return;
+        if (count($rx) < 1) {
+            // if (!isset($rx[0]["id"])) {
 
-        $user_correo = $_POST["email"] != "" ? $_POST["email"] : (isset($rx[0]["user_correo"]) ? $rx[0]["user_correo"] : "");
-        $user_telefono = $_POST["phone"] != "" ? $_POST["phone"] : (isset($rx[0]["user_telefono"]) ? $rx[0]["user_telefono"] : "");
-        $parent_dni = $_POST["parent_dni"] != "Falta" ? $_POST["parent_dni"] : (($rx[0]["parent_dni"] != "") ? $rx[0]["parent_dni"] : "");
-        $parent_ref = $_POST["parent_ref"] != "Falta" ? $_POST["parent_ref"] : $rx[0]["id"];
-        $user_id = $rx[0]["id"];
+            $r = new FinalUsersData();
+            $r->user_id = null;
+            $r->user_nombres = ucwords(mb_strtolower($_POST["name"]));
+            $r->user_nombre_2 = ucwords(mb_strtolower($_POST["name_2"]));
+            $r->user_apellidos = ucwords(mb_strtolower($_POST["lastname"]));
+            $r->user_apellido_2 = ucwords(mb_strtolower($_POST["lastname_2"]));
+            $r->user_nationality = $_POST["user_nationality"];
+            $r->user_has_document = $_POST["user_has_document"];
+            $r->user_dni = $document_id;
+            $r->parent_dni = $_POST["parent_dni"];
+            $r->child_number = $_POST["child_number"];
+            $r->parent_ref = $_POST["parent_ref"];
+            $r->user_correo = $_POST["email"];
+            $r->user_genero = $_POST["gender"];
+            $r->user_comunity_type = $_POST["user_comunity_type"];
+            $r->user_etnia = $_POST["user_etnia"];
+            $r->disability_type = $_POST["disability_type"];
+            $r->user_telefono = $_POST["phone"];
+            $r->user_f_nacimiento = $_POST["user_f_nacimiento"];
+            $r->user_edad = $age;
+            $r->user_pertenece_organizacion = $_POST["user_pertenece_organizacion"];
+            $r->user_estado = $_POST["estate"];
+            $r->user_profesion = $_POST["user_profesion"];
+            $r->user_ocupacion = $_POST["user_ocupacion"];
+            $r->user_equipo_sala_comunal = $_POST["equipo_sala_comunal"];
+            $id_user_final = $r->add()[0]["id"];
+            // return $id_user_final;
+            // echo $last_id;
+            // echo "Nuevo usuario:";
+            // print_r($last_id);
 
-        $r = FinalUsersData::getByIdPg($user_id);
-        // $r = new FinalUsersData();
-        // $r->id = $rx[0]["id"];
-        $r->user_nombres = ucwords(mb_strtolower($_POST["name"]));
-        $r->user_nombre_2 = ucwords(mb_strtolower($_POST["name_2"]));
-        $r->user_apellidos = ucwords(mb_strtolower($_POST["lastname"]));
-        $r->user_apellido_2 = ucwords(mb_strtolower($_POST["lastname_2"]));
-        $r->user_nationality = $_POST["user_nationality"];
-        $r->user_has_document = $_POST["user_has_document"];
-        $r->user_dni = $document_id;
-        $r->parent_dni = $parent_dni;
-        $r->child_number = $_POST["child_number"];
-        $r->parent_ref = $parent_ref;
-        $r->user_correo = $user_correo;
-        $r->user_genero = $_POST["gender"];
-        $r->user_comunity_type = $_POST["user_comunity_type"];
-        $r->user_etnia = $_POST["etnia"];
-        $r->disability_type = $_POST["disability_type"];
-        $r->user_telefono = $user_telefono;
-        $r->user_f_nacimiento = $_POST["user_f_nacimiento"];
-        $r->user_edad = $age;
-        $r->user_pertenece_organizacion = $_POST["user_pertenece_organizacion"];
-        $r->user_estado = $_POST["estate"];
-        $r->user_profesion = $_POST["user_profesion"];
-        $r->user_ocupacion = $_POST["user_ocupacion"];
-        $r->user_equipo_sala_comunal = $_POST["equipo_sala_comunal"];
-        $r->update();
-        $id_user_final = $rx[0]["id"];
-        echo "Usuario actualizado";
+        } else if (count($rx[0]) > 0 && isset($rx[0]["id"])) {
+            // actualiza el usuario final
+
+            try {
+                // buscar prelacion de cursos
+                $usuario_id = $rx[0]["id"];
+                $usuario_dni_existente = $rx[0]["user_dni"];
+                $id_activity = $_POST["id_activity"];
+                $orden_taller = $_POST["orden_taller"];
+                $cod_curso = $_POST["cod_curso"];
+                $tipo_taller = $_POST["tipo_taller"];
+                $codigo_taller = $_POST["codigo_taller"] ? $_POST["codigo_taller"] : $tipo_taller;
+
+
+                // saber si ya esta registrado en el taller
+                $sql = "SELECT * from formaciones where user_dni='$usuario_dni_existente' and cod_taller='$codigo_taller' and orden_taller='$orden_taller' and cod_curso='$cod_curso';";
+                $res = ExecutorPg::get($sql)[0][0];
+                $taller_completado = isset($res["completado"]) ? $res["completado"] : "null";
+
+                // buscar el taller anterior y verifica que este completado
+                $taller_anterior = $orden_taller - 1;
+                $sql = "SELECT * from formaciones where orden_taller='$taller_anterior' and cod_curso='$cod_curso' and user_dni='$usuario_dni_existente';";
+                $res_2 = ExecutorPg::get($sql)[0][0];
+                $prelacion = isset($res_2["completado"]) ? $res_2["completado"] : "null";
+
+                if ($taller_completado == "false" && $_SESSION["user_id"] != $res["update_by"]) {
+                    throw new Exception("El usuario ya está registrado en el mismo taller por otro facilitador.");
+                }
+                if ($taller_completado == "false" && $_SESSION["user_id"] == $res["update_by"] && $id_activity == $res["id_activity"]) {
+                    throw new Exception("El usuario ya lo tienes registrado en este taller.");
+                }
+                if ($taller_completado == "false" && $_SESSION["user_id"] == $res["update_by"] && $id_activity != $res["id_activity"]) {
+                    throw new Exception("El usuario ya lo tienes registrado en el mismo taller pero en otra actividad.");
+                }
+
+                // prelacion
+                if ( $prelacion == "false" && $orden_taller != 1) {
+                    throw new Exception("El usuario no ha completado el taller anterior. Ya está inscrito en el taller N° $taller_anterior, de este curso, debe completarlo primero antes de inscribirse en el curso siguiente.");
+                }
+                if ( $prelacion == "null" && $orden_taller != 1) {
+                    throw new Exception("El usuario no puede realizar éste taller todavía. Antes debe completar el taller N° $taller_anterior de este curso");
+                }
+
+                // $_SESSION['alert'] = '¡Retorno!';
+                // $array = array(
+                //     "error"  => "false",
+                //     "data"  => "¡Retorno: " . $taller_completado . "-" . $prelacion,
+                //     "alert" => "¡Retorno.",
+                //     "alert_type" => "dashboard"
+                // );
+                // echo json_encode($array);
+                // return;
+
+                $sql = "INSERT into formaciones (
+		        usuario_id, 
+                taller_id, 
+                completado, 
+                fecha_completado,
+                update_by,
+                created_at,
+                update_at,
+                cod_curso,
+                cod_taller,
+                orden_taller,
+                id_activity,
+                user_dni
+                )";
+                $sql .= " VALUES (
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?
+                );";
+                $values = [
+                    $usuario_id,
+                    $_POST["id_taller"],
+                    $taller_completado === "true" ? "true" : "false",
+                    $taller_completado === "true" ? date("Y-m-d H:i:s") : null,
+                    $_SESSION["user_id"],
+                    date("Y-m-d H:i:s"),
+                    date("Y-m-d H:i:s"),
+                    $cod_curso,
+                    $codigo_taller,
+                    $orden_taller,
+                    $id_activity,
+                    $usuario_dni_existente
+
+                ];
+                $product_id = ExecutorPg::insert($sql, $values)[0];
+            } catch (Exception $e) {
+                $array = array(
+                    "error"  => "true",
+                    "data"  => "",
+                    "alert" => "¡Error: " . $e->getMessage() . "!",
+                    "alert_type" => "error"
+                );
+                echo json_encode($array);
+                return;
+            }
+
+            echo json_encode($array);
+            return;
+
+
+            $user_correo = $_POST["email"] != "" ? $_POST["email"] : (isset($rx[0]["user_correo"]) ? $rx[0]["user_correo"] : "");
+            $user_telefono = $_POST["phone"] != "" ? $_POST["phone"] : (isset($rx[0]["user_telefono"]) ? $rx[0]["user_telefono"] : "");
+            $parent_dni = $_POST["parent_dni"] != "Falta" ? $_POST["parent_dni"] : (($rx[0]["parent_dni"] != "") ? $rx[0]["parent_dni"] : "");
+            $parent_ref = $_POST["parent_ref"] != "Falta" ? $_POST["parent_ref"] : $rx[0]["id"];
+            $user_id = $rx[0]["id"];
+
+            $r = FinalUsersData::getByIdPg($user_id);
+            // $r = new FinalUsersData();
+            // $r->id = $rx[0]["id"];
+            $r->user_nombres = ucwords(mb_strtolower($_POST["name"]));
+            $r->user_nombre_2 = ucwords(mb_strtolower($_POST["name_2"]));
+            $r->user_apellidos = ucwords(mb_strtolower($_POST["lastname"]));
+            $r->user_apellido_2 = ucwords(mb_strtolower($_POST["lastname_2"]));
+            $r->user_nationality = $_POST["user_nationality"];
+            $r->user_has_document = $_POST["user_has_document"];
+            $r->user_dni = $document_id;
+            $r->parent_dni = $parent_dni;
+            $r->child_number = $_POST["child_number"];
+            $r->parent_ref = $parent_ref;
+            $r->user_correo = $user_correo;
+            $r->user_genero = $_POST["gender"];
+            $r->user_comunity_type = $_POST["user_comunity_type"];
+            $r->user_etnia = $_POST["etnia"];
+            $r->disability_type = $_POST["disability_type"];
+            $r->user_telefono = $user_telefono;
+            $r->user_f_nacimiento = $_POST["user_f_nacimiento"];
+            $r->user_edad = $age;
+            $r->user_pertenece_organizacion = $_POST["user_pertenece_organizacion"];
+            $r->user_estado = $_POST["estate"];
+            $r->user_profesion = $_POST["user_profesion"];
+            $r->user_ocupacion = $_POST["user_ocupacion"];
+            $r->user_equipo_sala_comunal = $_POST["equipo_sala_comunal"];
+            $r->update();
+            $id_user_final = $rx[0]["id"];
+            // echo "Usuario actualizado";
+        }
+
+        $array = array(
+            "error"  => "false",
+            "data"  => "ID: ",
+            "alert" => "Registro creado con éxito.",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "error"  => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+        echo json_encode($array);
+        return;
     }
+
+
+
 
 
     if ($_POST["parent_ref"] != "Falta") {
@@ -817,15 +955,34 @@ if ($func_post == "add_participant") {
     $param->disability_type = $_POST["disability_type"];
     $param->uid_fac = $_POST["uid_fac"];
     $param->equipo_sala_comunal = $_POST["equipo_sala_comunal"];
-    $resul = $param->add_Pg();
+    // $resul = $param->add_Pg();
     // print_r($resul[0]);
 
+    try {
+        $resul = $param->add_Pg();
+        $_SESSION['alert'] = '¡Usuario actualizado!';
+        $array = array(
+            "error"  => "false",
+            "data"  => "ID: " . $resul,
+            "alert" => "Usuario actualizado.",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "error"  => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+        echo json_encode($array);
+        return;
+    }
 
     // actualiza el total de participantes en los reportes
     $conn = DatabasePg::connectPg();
-    $update_person = new ReportActivityData();
-    $update_person->perso_gender = $_POST["gender"];
-    $update_person->id_activity = $_POST["id_activity"];
+    // $update_person = new ReportActivityData();
+    // $update_person->perso_gender = $_POST["gender"];
+    // $update_person->id_activity = $_POST["id_activity"];
     $id_activity = $_POST["id_activity"];
 
     if ($_POST["gender"] == "Hombre" || $_POST["gender"] == "M" || $_POST["gender"] == "m") {
@@ -834,31 +991,75 @@ if ($func_post == "add_participant") {
         $row->execute();
         $total_data = $row->fetchAll(PDO::FETCH_ASSOC);
         $total_person = $total_data[0]["total"];
-        echo $total_person;
+        // echo $total_person;
 
         $sql = "UPDATE reports	set person_ma = ? where id = ?;";
         $values = [(int)$total_person, (int)$id_activity];
-        ExecutorPg::update($sql, $values);
+        // ExecutorPg::update($sql, $values);
+        try {
+            $resul = ExecutorPg::update($sql, $values);
+            $_SESSION['alert'] = '¡Usuario actualizado!';
+            $array = array(
+                "error"  => "false",
+                "data"  => "ID: " . $resul,
+                "alert" => "Usuario actualizado.",
+                "alert_type" => "dashboard"
+            );
+        } catch (Exception $e) {
+            $array = array(
+                "error"  => "true",
+                "data"  => "",
+                "alert" => "¡Error: " . $e->getMessage() . "!",
+                "alert_type" => "error"
+            );
+            echo json_encode($array);
+            return;
+        }
     }
     if ($_POST["gender"] == "Mujer" || $_POST["gender"] == "F" || $_POST["gender"] == "f") {
         $row = $conn->prepare("SELECT COUNT(*) as total from participants_list where gender='Mujer' and id_activity='$id_activity'");
         $row->execute();
         $total_data = $row->fetchAll(PDO::FETCH_ASSOC);
         $total_person = $total_data[0]["total"];
-        echo $total_person;
+        // echo $total_person;
 
         $sql = "UPDATE reports set person_fe = ? where id = ?;";
         $values = [(int)$total_person, (int)$id_activity];
-        ExecutorPg::update($sql, $values);
+        // ExecutorPg::update($sql, $values);
+        try {
+            $resul = ExecutorPg::update($sql, $values);
+            $_SESSION['alert'] = '¡Usuario actualizado!';
+            $array = array(
+                "error"  => "false",
+                "data"  => "ID: " . $resul,
+                "alert" => "Usuario actualizado.",
+                "alert_type" => "dashboard"
+            );
+        } catch (Exception $e) {
+            $array = array(
+                "error"  => "true",
+                "data"  => "",
+                "alert" => "¡Error: " . $e->getMessage() . "!",
+                "alert_type" => "error"
+            );
+            echo json_encode($array);
+            return;
+        }
     }
 
+    $array = array(
+        "error"  => "false",
+        "data"  => "ID: " . $resul,
+        "alert" => "Usuario agregado.",
+        "alert_type" => "dashboard"
+    );
+    echo json_encode($array);
 
 
-
-    echo "id_user_final- " . $id_user_final;
-    echo "¡Agregado!";
-    $PHP_SELFx = "index.php?view=participants_list&swal=Agregado correctamente&id_activity=" . $_POST["id_activity"] . "&activity=" . $_POST["activity"] . "&code_info=" . $_POST['code_info'] . "&estate=" . $_POST['estate'] . "&date_activity=" . $_POST['date_activity'] . "&line_action=" . $_POST['line_action'] . "&report_type=" . $_POST['report_type'];
-    echo $PHP_SELFx;
+    // echo "id_user_final- " . $id_user_final;
+    // echo "¡Agregado!";
+    // $PHP_SELFx = "index.php?view=participants_list&swal=Agregado correctamente&id_activity=" . $_POST["id_activity"] . "&activity=" . $_POST["activity"] . "&code_info=" . $_POST['code_info'] . "&estate=" . $_POST['estate'] . "&date_activity=" . $_POST['date_activity'] . "&line_action=" . $_POST['line_action'] . "&report_type=" . $_POST['report_type'];
+    // echo $PHP_SELFx;
 }
 
 

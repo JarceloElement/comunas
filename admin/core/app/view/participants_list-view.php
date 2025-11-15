@@ -14,30 +14,19 @@
 
 		// <!-- MODAL SWEET ALERT -->
 		$(function() {
-			<?php if (isset($_GET['swal']) && $_GET['swal'] != "") : ?>
+			<?php if (isset($_SESSION['alert']) && $_SESSION['alert'] != "") : ?>
 				if (getOS() != "Android") {
 					Swal.fire({
-						// position: 'top-center',
 						icon: 'success',
-						title: '<?php echo $_GET['swal']; ?>',
-						<?php if (isset($_GET['ConfirmButton']) && $_GET['ConfirmButton'] == "true") : ?>
-							showConfirmButton: true,
-						<?php endif; ?>
-						<?php if (!isset($_GET['ConfirmButton']) || $_GET['ConfirmButton'] == "false") : ?>
-							showConfirmButton: false,
-							timer: 1000
-						<?php endif; ?>
-
+						title: '<?php echo $_SESSION['alert']; ?>',
+						showConfirmButton: false,
+						timer: 1000
 					})
 				} else {
-
-					alert("<?php echo $_GET['swal']; ?>");
+					alert("<?php echo $_SESSION['alert']; ?>");
 				}
 
-				// cambiar el parametro de alert
-				const url = new URL(window.location);
-				url.searchParams.set('swal', '');
-				window.history.pushState({}, '', url);
+				<?php echo $_SESSION['alert'] = ""; ?>
 
 			<?php endif; ?>
 		});
@@ -78,7 +67,7 @@
 		document.getElementById("validar").addEventListener('submit', validarFormulario);
 	});
 
-	function validarFormulario(event) {
+	async function validarFormulario(event) {
 		event.preventDefault();
 
 		// Using test we can check if the text match the pattern
@@ -173,82 +162,51 @@
 			document.getElementById('child_number').value = null;
 		}
 
+		$('#cover-spin').show(0);
 
+		let url = "./?action=ajax";
 
+		var formData = new FormData(document.getElementById("validar"));
+		formData.append('function', 'add_participant'); // Agrega la función a llamar
+		// console.log(formData);
 
 		$('#cover-spin').show(0);
 
-		$.ajax({
-				type: "POST",
-				url: "./?action=ajax",
-				// headers: {
-				//     "X-CSRFToken": getCookie("csrftoken")
-				// },
-				data: {
-					function: "add_participant", // funcion que llama
-					is_new: $("#is_new").val(), // si el usuario aun no existe
-					id_activity: $("#id_activity").val(), // parametros
-					id_final_user: $("#id_final_user").val(),
-					activity: $("#activity").val(),
-					date_activity: $("#date_activity").val(),
-					estate: $("#estate").val(),
-					code_info: $("#code_info").val(),
-					name: $("#name").val(),
-					name_2: $("#name_2").val(),
-					lastname: $("#lastname").val(),
-					lastname_2: $("#lastname_2").val(),
-					user_nationality: $("#user_nationality").val(),
-					user_has_document: $("#user_has_document").val(),
-					document_id: $("#document_id").val(),
-					parent_dni: $("#parent_dni").val(),
-					child_number: $("#child_number").val(),
-					user_f_nacimiento: $("#user_f_nacimiento").val(),
-					gender: $("#gender").val(),
-					user_comunity_type: $("#user_comunity_type").val(),
-					user_pertenece_organizacion: $("#user_pertenece_organizacion").val(),
-					phone: $("#phone").val(),
-					email: $("#email").val(),
-					etnia: $("#user_etnia").val(),
-					line_action: $("#line_action").val(),
-					report_type: $("#report_type").val(),
-					disability_type: $("#disability_type").val(),
-					uid_fac: $("#uid_fac").val(),
-					parent_ref: $("#parent_ref").val(),
-					user_profesion: $("#user_profesion").val(),
-					user_ocupacion: $("#user_ocupacion").val(),
-					equipo_sala_comunal: $("#equipo_sala_comunal").val()
-
-				}
-			})
-			.done(function(msg) {
-				console.log(msg);
-				$('#cover-spin').hide(0);
-
-				if (getOS() == "Android") {
-					alert("Registro guardado");
-				} else {
-					toastify('Registro guardado', true, 5000, "dashboard");
-				}
-				// console.log(msg);
-				// window.document.location=msg;
-				// return;
-				location.reload();
-				// $('#content').reload('#content');
-			})
-			.fail(function() {
-				if (getOS() == "Android") {
-					alert("Hubo un error al guardar, intenta nuevamente");
-				} else {
-					toastify('Hubo un error al guardar, intenta nuevamente', true, 5000, "warning");
-				}
-				$('#cover-spin').hide(0);
-				return false;
+		try {
+			const res = await fetch(url, {
+				method: 'POST',
+				body: formData
 			});
-		// .always(function() {
-		//     toastify('Finished',true,1000,"warning");
-		// });
 
-		// this.submit();
+			if (res.ok) {
+				console.log(res);
+				const result_await = await res.text();
+				// console.log(result_await);
+				var array = JSON.parse(result_await);
+				console.log(array);
+				$('#cover-spin').hide(0);
+				if (array.error == 'true') {
+					if (getOS() == "Android") {
+						alert(array.alert);
+					} else {
+						toastify(array.alert, true, 15000, "error");
+					}
+
+				} else {
+					// location.reload();
+				}
+
+			} else {
+				$('#cover-spin').hide(0);
+				toastify(res.statusText, true, 12000, "error");
+				throw res.statusText;
+			}
+
+		} catch (error) {
+			$('#cover-spin').hide(0);
+			toastify(error, true, 12000, "error");
+			throw error;
+		}
 
 	};
 </script>
@@ -324,6 +282,10 @@ $occupations = $con->query("SELECT * from occupations order by p_name");
 								<input type="hidden" name="parent_ref" id="parent_ref" value="No aplica">
 								<input type="hidden" name="is_new" id="is_new" value="">
 								<input type="hidden" name="id_final_user" id="id_final_user" value="0">
+								<input type="hidden" name="orden_taller" id="orden_taller" value="<?php echo $_GET['orden_taller']; ?>">
+								<input type="hidden" name="cod_curso" id="cod_curso" value="<?php echo $_GET['cod_curso']; ?>">
+								<input type="hidden" name="codigo_taller" id="codigo_taller" value="<?php echo $_GET['codigo_taller']; ?>">
+								<input type="hidden" name="tipo_taller" id="tipo_taller" value="<?php echo $_GET['tipo_taller']; ?>">
 
 								<div class="form-row">
 									<label><i class="fa fa-search"></i> Buscar por DNI, código, nombre o correo</label>
@@ -428,7 +390,7 @@ $occupations = $con->query("SELECT * from occupations order by p_name");
 
 
 									<div class="col-md-6 mui-select">
-										<select name="user_genero" id="gender" required>
+										<select name="gender" id="gender" required>
 											<option value="">-GÉNERO-</option>
 											<option value="<?php echo "Hombre"; ?>"><?php echo "Hombre"; ?></option>
 											<option value="<?php echo "Mujer"; ?>"><?php echo "Mujer"; ?></option>
@@ -804,6 +766,7 @@ $DB_name = "participants_list";
 				$("#user_f_nacimiento").val(array["user_f_nacimiento"]);
 				$("#age").val(array["age"]);
 				$("#gender").val(array["gender"]);
+				console.log(array["gender"]);
 				$("#user_comunity_type").val(array["user_comunity_type"]);
 				$("#user_pertenece_organizacion").val(array["user_pertenece_organizacion"]);
 				$("#phone").val(array["phone"]);

@@ -448,7 +448,7 @@ error_reporting(E_ALL);
 $estado = EstadoData::getAll();
 $municipio = MunicipioData::getAll();
 // $products_type = ProductsType::getAll();
-$products_cat = ProductsType::getBySQL("select * from categoria_productos");
+$products_cat = ProductsType::getBySQL("SELECT * from categoria_productos order by nombre_categoria ASC;");
 $social_medias = SocialMediasData::getBySQL("SELECT * FROM social_medias;")[0];
 ?>
 

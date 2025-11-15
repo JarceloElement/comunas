@@ -13,7 +13,7 @@ $tipo_taller = $_POST['tipo_taller'];
 // $res = $statement_1->fetchAll();
 
 require('../../../core/controller/DatabasePg_admin.php');
-$sql = "SELECT tipo_taller.orden_taller, tipo_taller.nombre_taller,tipo_taller.nivel,tipo_taller.modalidad,tipo_taller.duracion_horas,training_type.contenido_curso FROM tipo_taller INNER JOIN training_type ON (tipo_taller.name_training_type = training_type.name_training_type) where training_type.name_training_type='$area_formativa' and tipo_taller.nombre_taller='$tipo_taller' ORDER BY tipo_taller.id";
+$sql = "SELECT tipo_taller.codigo_taller, tipo_taller.orden_taller, tipo_taller.nombre_taller,tipo_taller.nivel,tipo_taller.modalidad,tipo_taller.duracion_horas,training_type.contenido_curso FROM tipo_taller INNER JOIN training_type ON (tipo_taller.name_training_type = training_type.name_training_type) where training_type.name_training_type='$area_formativa' and tipo_taller.nombre_taller='$tipo_taller' ORDER BY tipo_taller.id";
 $conn = DatabasePg::connectPg();
 $stmt = $conn->prepare($sql);
 $stmt->execute();
@@ -35,8 +35,10 @@ if (count($res) > 0) {
 				"nivel"  => $row->nivel,
 				"modalidad"  => $row->modalidad,
 				"duracion"  => $row->duracion_horas,
+				"nombre_taller"  => $row->nombre_taller,
 				"contenido"  => $row->contenido_curso,
 				"orden_taller"  => $row->orden_taller,
+				"codigo_taller"  => $row->codigo_taller,
 			);
 		}
 	}

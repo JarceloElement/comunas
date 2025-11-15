@@ -404,6 +404,8 @@ $fecha_end = "2025-01-01";
                             <input type="hidden" name="isnt_type" id="isnt_type" value="No aplica">
                             <input type="hidden" name="institucion_formacion" value="No aplica">
                             <input type="hidden" name="orden_taller" id="orden_taller" value="0">
+                            <input type="hidden" name="cod_curso" id="cod_curso" value="">
+                            <input type="hidden" name="codigo_taller" id="codigo_taller" value="">
 
 
 
@@ -981,6 +983,8 @@ $fecha_end = "2025-01-01";
                 // carga la descripcion de la actividad
                 set_description = $(this).data('set_description');
                 set_institucion = $(this).data('set_institucion');
+                document.getElementById("cod_curso").value = $(this).data('cod_curso');
+                console.log($(this).data('cod_curso'));
                 // console.log(set_institucion);
 
                 if (set_description == "1" || dat_description == "") {
@@ -1104,6 +1108,7 @@ $fecha_end = "2025-01-01";
                     $("#duracion_horas").val(array["duracion"]);
                     $("#nivel_formacion").val(array["nivel"]);
                     $("#orden_taller").val(array["orden_taller"]);
+                    $("#codigo_taller").val(array["codigo_taller"]);
 
                 });
 

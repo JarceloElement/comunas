@@ -516,3 +516,8 @@ GRANT ALL ON TABLE public.products_list TO lanubede WITH GRANT OPTION;
 -- ALTER SEQUENCE public.info_inventory_id_seq OWNED BY public.info_inventory.id;
 -- ALTER TABLE ONLY public.info_inventory ALTER COLUMN id SET DEFAULT nextval('public.info_inventory_id_seq'::regclass);
 -- ALTER TABLE ONLY public.infocentros ALTER COLUMN id SET DEFAULT nextval('public.infocentros_id_seq'::regclass);
+
+-- CREATE SEQUENCE public.final_users_id_seq START WITH 1 INCREMENT BY 1 NO MINVALUE NO MAXVALUE CACHE 1;
+-- ALTER TABLE public.final_users OWNER TO lanubepl;
+-- ALTER SEQUENCE public.info_inventory_id_seq OWNED BY public.info_inventory.id;
+-- ALTER TABLE ONLY public.final_users ALTER COLUMN id SET DEFAULT nextval('public.final_users_id_seq'::regclass);

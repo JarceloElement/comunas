@@ -141,8 +141,8 @@ $personal_type = PersonalTypeData::getAll();
 
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label for="birthdate" class=" control-label"><i class="fa fa-calendar"></i> Fecha nacimiento</label>
-                    <input type="date" name="birthdate" required class="form-control" id="birthdate" placeholder="Fecha de nacimiento">
+                    <label for="birthdate" class=" control-label"><i class="fa fa-calendar"></i> Fecha nacimiento (Opcional)</label>
+                    <input type="date" name="birthdate" class="form-control" id="birthdate" placeholder="Fecha de nacimiento">
                   </div>
                 </div>
 

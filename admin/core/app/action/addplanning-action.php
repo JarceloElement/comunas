@@ -110,6 +110,8 @@ $param->date_pub = $_POST["fecha"];
 $param->date_ini = date('Y-m-d', strtotime(explode('/', $_POST["fecha"])[0]));
 $param->date_end = date('Y-m-d', strtotime(explode('/', $_POST["fecha"])[1]));
 $param->orden_taller = $_POST["orden_taller"];
+$param->cod_curso = $_POST["cod_curso"];
+$param->codigo_taller = $_POST["codigo_taller"];
 
 // atencion al usuario
 if ($_POST["tipo_reporte"] == "Atención al usuario") {
