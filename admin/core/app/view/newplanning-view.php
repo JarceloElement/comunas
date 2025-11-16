@@ -885,6 +885,11 @@ $fecha_end = "2025-01-01";
                         $("#accion_especifica").append('<option value="">Aún no hay cargas en esta sección</option>');
                         // $("#accion_especifica").options[0].selected = true;
                         $("#accion_especifica").prop('disabled', true);
+
+                        $("#tipo_taller").find('option').remove();
+                        $("#tipo_taller_f").hide();
+                        $("#area_formativa_f").hide();
+                        $("#area_formativa").find('option').remove();
                     }
                     // console.log(data);
 
