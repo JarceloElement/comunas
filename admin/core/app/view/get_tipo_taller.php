@@ -21,7 +21,7 @@ $stmt->execute();
 
 
 $array = array(
-	"html"  => "",
+	"html"  => "<option value=''>Aún no hay talleres en este curso</option>",
 	"total" => "0",
 );
 
