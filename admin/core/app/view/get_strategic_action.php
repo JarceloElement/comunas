@@ -30,10 +30,13 @@ if ($stmt->rowCount() == 0) {
 // print_r($res);
 $html = "<option value=''>- SELECCIONAR ACCIÓN -</option>";
 
-if (count($res) > 0) {
-	if (count($res[0]) > 0) {
-		foreach ($res[0] as $row) {
-			$html .= "<option value='" . $row->name_action . "," . $row->id . "'>" . $row->name_action . "</option>";
+if (isset($res) && $stmt->rowCount() != 0) {
+
+	if (count($res) > 0) {
+		if (count($res[0]) > 0) {
+			foreach ($res[0] as $row) {
+				$html .= "<option value='" . $row->name_action . "," . $row->id . "'>" . $row->name_action . "</option>";
+			}
 		}
 	}
 }
