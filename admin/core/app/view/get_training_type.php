@@ -35,12 +35,14 @@ if ($stmt->rowCount() == 0) {
 	}
 }
 // print_r($res);
+if (isset($res)) {
 
-if (count($res[0]) > 1) {
-	$html = "<option value=''>- SELECCIONE -</option>";
-}
-if (count($res[0]) == 0) {
-	$html = "<option value='No aplica'>No aplica</option>";
+	if (count($res[0]) > 1) {
+		$html = "<option value=''>- SELECCIONE -</option>";
+	}
+	if (count($res[0]) == 0) {
+		$html = "<option value='No aplica'>No aplica</option>";
+	}
 }
 
 
@@ -61,5 +63,3 @@ if (count($res) > 0) {
 	}
 }
 echo json_encode($array, JSON_FORCE_OBJECT);
-
-?>
