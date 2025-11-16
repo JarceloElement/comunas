@@ -208,7 +208,7 @@ $action_line = ActionsLineData::getAll();
                         <div class="panel-heading">
                             <h4 class="title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-                                    <span class='text_label'> <i class='fa fa-cogs icon_label'></i> <b> Agregar categoría de formación </b> </span>
+                                    <span class='text_label'> <i class='fa fa-cogs icon_label'></i> <b> Agregar tipo de curso </b> </span>
                                 </a>
                             </h4>
                         </div>
@@ -478,7 +478,7 @@ $action_line = ActionsLineData::getAll();
                                                 <!-- <th>Línea de acción</th> -->
                                                 <!-- <th>Acción estratégica</th> -->
                                                 <th><label for="" style="width:400px;">Acción específica</label></th>
-                                                <th>Categoría de formación</th>
+                                                <th>Tipo de curso</th>
                                                 <th>Duración</th>
                                                 <th>Nivel</th>
                                                 <th>Modalidad</th>

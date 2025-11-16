@@ -472,9 +472,9 @@ $fecha_end = "2025-01-01";
 
                                 <div class="col-lg-6" id="area_formativa_f" style="display: none;">
                                     <div class="form-group">
-                                        <label for="area_formativa" class=" control-label"><i class="fa fa-graduation-cap"></i> Área formativa</label>
+                                        <label for="area_formativa" class=" control-label"><i class="fa fa-graduation-cap"></i> Tipo de curso</label>
                                         <select name="area_formativa" class="form-control" id="area_formativa">
-                                            <option value="">-- AREA FORMATIVA --</option>
+                                            <option value="">-- CURSO --</option>
                                         </select>
                                     </div>
                                 </div>
@@ -848,6 +848,7 @@ $fecha_end = "2025-01-01";
                 }, function(data) {
                     // console.log(data);
                     var array = JSON.parse(data);
+                    // console.log(array);
                     $("#tipo_reporte").html(array["html"]);
 
                     if (array["total"] == 1) {
@@ -872,7 +873,14 @@ $fecha_end = "2025-01-01";
                     code_info: code_info
                 }, function(data) {
                     var array = JSON.parse(data);
-                    $("#accion_especifica").html(array["html"]);
+                    if (array["total"] > 0) {
+                        $("#accion_especifica").html(array["html"]);
+                    } else {
+                        $("#accion_especifica").empty();
+                        $("#accion_especifica").append('<option value="">Aún no hay cargas en esta sección</option>');
+                        $("#accion_especifica").options[0].selected = true;
+                        $("#accion_especifica").prop('disabled', true);
+                    }
                     // console.log(data);
 
                     if (array["total"] == 1) {
@@ -912,8 +920,16 @@ $fecha_end = "2025-01-01";
                     }, function(data) {
                         // console.log(data);
                         var array = JSON.parse(data);
+                        // console.log(array);
                         // console.log(array["name_training_type"]);
-                        $("#area_formativa").html(array["html"]);
+                        if (array["total"] > 0) {
+                            $("#area_formativa").html(array["html"]);
+                        } else {
+                            $("#area_formativa").empty();
+                            $("#area_formativa").append('<option value="">Aún no hay cargas en esta sección</option>');
+                            $("#area_formativa").options[0].selected = true;
+                            $("#area_formativa").prop('disabled', true);
+                        }
                         $("#tipo_taller").find('option').remove();
                         $("#tipo_taller_f").hide();
 
@@ -993,10 +1009,10 @@ $fecha_end = "2025-01-01";
                     document.getElementById("nombre_act").value = "";
                     // las func estan en demo.js
                     if (getOS() == "Android") {
-                        toastify("Se ha habilitado la descripción de la actividad para ésta área formativa", true, 10000, "warning");
-                        // alert("Se ha habilitado la descripción de la actividad para ésta área formativa");
+                        toastify("Se ha habilitado la edición de la descripción de la actividad", true, 10000, "warning");
+                        // alert("Se ha habilitado la edición de la descripción de la actividad");
                     } else {
-                        toastify("Se ha habilitado la descripción de la actividad para ésta área formativa", true, 10000, "warning");
+                        toastify("Se ha habilitado la edición de la descripción de la actividad", true, 10000, "warning");
                     }
                     document.getElementById('textLength').innerHTML = 'Describa de manera resumida solo la descripción. Restan ' + maxLength + ' carácteres.';
                     $("#descripcion_act_1").show();
@@ -1018,9 +1034,13 @@ $fecha_end = "2025-01-01";
                 }, function(data) {
                     // console.log('Data: ', data);
                     var array = JSON.parse(data);
-                    // console.log(array["total"]);
+                    // console.log(array);
                     $("#tipo_taller").html(array["html"]);
                     $('#cover-spin').hide(0);
+
+                    if (array["total"] == 1) {
+                        $("#tipo_taller").trigger("change");
+                    }
 
                 });
 
@@ -1102,7 +1122,7 @@ $fecha_end = "2025-01-01";
                 }, function(data) {
                     // console.log(data);
                     var array = JSON.parse(data);
-                    // console.log(array);
+                    console.log(array);
                     $("#contenido_des").val(array["contenido"]);
                     $("#modalidad_formacion").val(array["modalidad"]);
                     $("#duracion_horas").val(array["duracion"]);

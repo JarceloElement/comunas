@@ -22,7 +22,7 @@ $stmt->execute();
 
 
 $html = "";
-
+$total = 0;
 $res = array();
 if ($stmt->rowCount() == 0) {
 	$res = array();
@@ -34,7 +34,7 @@ if ($stmt->rowCount() == 0) {
 // print_r($res);
 
 if (count($res[0]) > 1) {
-	$html = "<option value=''>- SELECCIONE -</option>";
+	$html = "<option value='0'>- SELECCIONE -</option>";
 }
 
 if (count($res) > 0) {
@@ -44,11 +44,12 @@ if (count($res) > 0) {
 				$html .= "<option data-formation='" . $row->has_formation . "' data-description='" . $row->activity_description . "' value='" . $row->name_specific_action . "' style='display:none' >" . $row->name_specific_action . "</option>";
 			} else {
 				$html .= "<option data-formation='" . $row->has_formation . "' data-description='" . $row->activity_description . "' value='" . $row->name_specific_action . "'>" . $row->name_specific_action . "</option>";
+				$total++;
 			}
 		}
 		$array = array(
 			"html"  => $html,
-			"total" => count($res[0]),
+			"total" => $total,
 		);
 	}
 }

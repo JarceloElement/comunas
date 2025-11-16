@@ -34,8 +34,8 @@ if ($stmt->rowCount() == 0) {
 }
 
 
-if (count($res) > 1) {
-	$html = "<option value=''>- TIPO DE ACCIÓN -</option>";
+if (count($res[0]) > 1) {
+	$html = "<option value=''>- SELECCIONE UNA ETAPA -</option>";
 }
 
 
@@ -50,7 +50,7 @@ if (count($res) > 0) {
 		}
 		$array = array(
 			"html"  => $html,
-			"total" => count($res),
+			"total" => count($res[0]),
 		);
 	}
 }

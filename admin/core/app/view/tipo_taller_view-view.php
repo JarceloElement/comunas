@@ -114,16 +114,22 @@
                 const result_await = await res.text();
                 var array = JSON.parse(result_await);
                 // console.log(array);
-                toastify(array.alert, true, 13000, array.alert_type);
                 $('#cover-spin').hide(0);
-                if (array.error == 'false') {
+                if (array.error == 'true') {
+                    if (getOS() == "Android") {
+                        alert(array.alert);
+                    } else {
+                        toastify(array.alert, true, 15000, array.alert_type);
+                    }
+
+                } else {
                     window.timer = setTimeout(function() {
                         location.reload();
                     }, 800);
                 }
             } else {
                 $('#cover-spin').hide(0);
-                toastify(res.statusText, true, 12000, "error");
+                toastify(res.statusText, true, 12000, array.alert_type);
                 throw res.statusText;
             }
 
@@ -147,6 +153,7 @@ $training_type = TrainingTypeData::getAll();
 
 ?>
 
+<div id="cover-spin"></div>
 
 <?php if ($_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 9) { ?>
 
@@ -205,7 +212,7 @@ $training_type = TrainingTypeData::getAll();
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="line_action" class=" control-label"><i class="fa fa-cogs"></i> Categoría de formación</label>
+                                        <label for="line_action" class=" control-label"><i class="fa fa-cogs"></i> Curso al que pertenece el nuevo taller</label>
                                         <select name="line_action" class="form-control" id="line_action" required>
                                             <option value="">-SELECCIONE-</option>
                                             <?php foreach ($training_type as $p): ?>
@@ -375,7 +382,7 @@ $TotalRegistro  = ceil($TotalReg / $CantidadMostrar);
                                     <table class="table table-bordered table-hover">
                                         <thead>
                                             <th>N°</th>
-                                            <th>Categoría de formación</th>
+                                            <th>Tipo de curso</th>
                                             <th>Nombre del taller</th>
                                             <th>Descripción del taller</th>
                                             <th>Duración</th>

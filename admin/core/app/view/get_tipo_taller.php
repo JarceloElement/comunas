@@ -19,6 +19,7 @@ $conn = DatabasePg::connectPg();
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 
+$total = 0;
 $res = array();
 if ($stmt->rowCount() == 0) {
 	$res = array();
@@ -29,7 +30,7 @@ if ($stmt->rowCount() == 0) {
 }
 // print_r($res);
 
-if (count($res) >= 1) {
+if (count($res[0]) > 1) {
 	$html = "<option value=''>- SELECCIONE -</option>";
 }
 
@@ -41,11 +42,12 @@ if (count($res) > 0) {
 				$html .= "<option data-descripcion_taller='" . $row->descripcion_taller . "' value='" . $row->nombre_taller . "' style='display:none' >" . $row->nombre_taller . " </option>";
 			} else {
 				$html .= "<option data-descripcion_taller='" . $row->descripcion_taller . "' value='" . $row->nombre_taller . "'>" . $row->nombre_taller . " </option>";
+				$total++;
 			}
 		}
 		$array = array(
 			"html"  => $html,
-			"total" => count($res[0]),
+			"total" => $total,
 		);
 	}
 }

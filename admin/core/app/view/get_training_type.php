@@ -25,7 +25,7 @@ $stmt->execute();
 
 $html = "";
 
-
+$total = 0;
 $res = array();
 if ($stmt->rowCount() == 0) {
 	$res = array();
@@ -51,11 +51,12 @@ if (count($res) > 0) {
 				$html .= "<option data-set_institucion='" . $row->habilitar_institucion . "' data-set_description='" . $row->habilitar_descripcion . "' data-description='" . $row->descripcion_actividad . "' data-cod_curso='" . $row->codigo_curso . "' value='" . $row->name_training_type . "' style='display:none' >" . $row->name_training_type . "</option>";
 			} else {
 				$html .= "<option data-set_institucion='" . $row->habilitar_institucion . "' data-set_description='" . $row->habilitar_descripcion . "' data-description='" . $row->descripcion_actividad . "' data-cod_curso='" . $row->codigo_curso . "' value='" . $row->name_training_type . "'>" . $row->name_training_type . "</option>";
+				$total++;
 			}
 		}
 		$array = array(
 			"html"  => $html,
-			"total" => count($res[0]),
+			"total" => $total,
 		);
 	}
 }

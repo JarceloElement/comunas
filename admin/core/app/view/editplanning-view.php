@@ -825,8 +825,14 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
                         code_info: code_info
                     }, function(data) {
                         var array = JSON.parse(data);
-                        $("#accion_especifica").html(array["html"]);
-                        // console.log(data);
+                        if (array["total"] > 0) {
+                            $("#accion_especifica").html(array["html"]);
+                        } else {
+                            $("#accion_especifica").empty();
+                            $("#accion_especifica").append('<option value="">Aún no hay cargas en esta sección</option>');
+                            $("#accion_especifica").options[0].selected = true;
+                            $("#accion_especifica").prop('disabled', true);
+                        }
 
                         if (array["total"] == 1) {
                             $("#accion_especifica").trigger("change");
@@ -866,7 +872,14 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
                             // console.log(data);
                             var array = JSON.parse(data);
                             // console.log(array["name_training_type"]);
-                            $("#area_formativa").html(array["html"]);
+                            if (array["total"] > 0) {
+                                $("#area_formativa").html(array["html"]);
+                            } else {
+                                $("#area_formativa").empty();
+                                $("#area_formativa").append('<option value="">Aún no hay cargas en esta sección</option>');
+                                $("#area_formativa").options[0].selected = true;
+                                $("#area_formativa").prop('disabled', true);
+                            }
                             $("#tipo_taller").find('option').remove();
                             $("#tipo_taller_f").hide();
 
@@ -969,6 +982,10 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
                         // console.log(array["total"]);
                         $("#tipo_taller").html(array["html"]);
                         $('#cover-spin').hide(0);
+
+                        if (array["total"] == 1) {
+                            $("#tipo_taller").trigger("change");
+                        }
 
                     });
 

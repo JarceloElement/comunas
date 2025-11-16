@@ -461,6 +461,31 @@ if ($func_post == "add_tipo_taller") {
     $orden_taller = $_POST["orden_taller"];
     $codigo_taller = $_POST["codigo_taller"];
 
+    // verificar si el codigo existe
+    $sql = "SELECT * from tipo_taller where codigo_taller='$codigo_taller';";
+    $res = ExecutorPg::get($sql)[0][0];
+    if (isset($res["codigo_taller"]) && $res["nombre_taller"] == $nombre_taller) {
+        $array = array(
+            "error" => "true",
+            "data"  => "",
+            "alert" => "Ya existe un taller con nombre y código similar",
+            "alert_type" => "warning"
+        );
+        echo json_encode($array);
+        return;
+    } else if (isset($res["codigo_taller"]) && $res["nombre_taller"] != $nombre_taller) {
+        $array = array(
+            "error" => "true",
+            "data"  => "",
+            "alert" => "Un código similar ya existe en otro taller. Verifica que el código no esté vacío o duplicado.",
+            "alert_type" => "warning"
+        );
+        echo json_encode($array);
+        return;
+    }
+    
+
+
     $sql = "INSERT into tipo_taller (name_training_type, nombre_taller, descripcion_taller, duracion_horas, nivel, modalidad, permisos, orden_taller, codigo_taller) 
     VALUES ('$line_action','$nombre_taller','$descripcion_taller','$duracion_horas', '$nivel', '$modalidad', '$permisos', '$orden_taller', '$codigo_taller')";
 
@@ -783,10 +808,10 @@ if ($func_post == "add_participant") {
                 }
 
                 // prelacion
-                if ( $prelacion == "false" && $orden_taller != 1) {
+                if ($prelacion == "false" && $orden_taller != 1) {
                     throw new Exception("El usuario no ha completado el taller anterior. Ya está inscrito en el taller N° $taller_anterior, de este curso, debe completarlo primero antes de inscribirse en el curso siguiente.");
                 }
-                if ( $prelacion == "null" && $orden_taller != 1) {
+                if ($prelacion == "null" && $orden_taller != 1) {
                     throw new Exception("El usuario no puede realizar éste taller todavía. Antes debe completar el taller N° $taller_anterior de este curso");
                 }
 
