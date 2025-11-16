@@ -872,6 +872,7 @@ $fecha_end = "2025-01-01";
                     line_acc: line_acc,
                     code_info: code_info
                 }, function(data) {
+                    console.log(data);
                     var array = JSON.parse(data);
                     if (array["total"] > 0) {
                         $("#accion_especifica").html(array["html"]);
