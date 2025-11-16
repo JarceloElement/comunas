@@ -880,7 +880,7 @@ $fecha_end = "2025-01-01";
                     } else {
                         $("#accion_especifica").empty();
                         $("#accion_especifica").append('<option value="">Aún no hay cargas en esta sección</option>');
-                        $("#accion_especifica").options[0].selected = true;
+                        // $("#accion_especifica").options[0].selected = true;
                         $("#accion_especifica").prop('disabled', true);
                     }
                     // console.log(data);
@@ -932,7 +932,7 @@ $fecha_end = "2025-01-01";
                         } else {
                             $("#area_formativa").empty();
                             $("#area_formativa").append('<option value="">Aún no hay cargas en esta sección</option>');
-                            $("#area_formativa").options[0].selected = true;
+                            // $("#area_formativa").options[0].selected = true;
                             $("#area_formativa").prop('disabled', true);
                         }
                         $("#tipo_taller").find('option').remove();
