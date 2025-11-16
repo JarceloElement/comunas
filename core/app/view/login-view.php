@@ -175,12 +175,12 @@ if (Session::getUID() != "") {
 					<div class="mui-container-fluid">
 
 						<div class="row justify-content-center">
-							<img decoding="async" src="uploads/logo_info.webp" title="LOGO" alt="LOGO" loading="lazy">
+							<img decoding="async" style="width: 80px;" src="uploads/comunas.png" title="LOGO" alt="LOGO" loading="lazy">
 						</div>
 
 						<!-- <div class="row justify-content-center" material-icons.md-36> <span class="material-icons md-48 orange600">person_pin</span></div>   -->
 						<div class="row justify-content-center">
-							<h6 class="title">Ingresar a Infocentrox</h6>
+							<h6 class="title">Ingresar al sistema</h6>
 						</div>
 
 						<div class="card-content table-responsive">
@@ -209,11 +209,11 @@ if (Session::getUID() != "") {
 						</div>
 					</div>
 
-					<li class="row justify-content-center">
+					<!-- <li class="row justify-content-center">
 						<a class="nav-link" href="index.php?view=signup">
 							<h6 class="title">Crear una cuenta</h6>
 						</a>
-					</li>
+					</li> -->
 
 				</div>
 			</div>
