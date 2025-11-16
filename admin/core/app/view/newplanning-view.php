@@ -876,6 +876,7 @@ $fecha_end = "2025-01-01";
                     var array = JSON.parse(data);
                     if (array["total"] > 0) {
                         $("#accion_especifica").html(array["html"]);
+                        $("#tipo_taller").prop('disabled', false);
                     } else {
                         $("#accion_especifica").empty();
                         $("#accion_especifica").append('<option value="">Aún no hay cargas en esta sección</option>');
@@ -927,6 +928,7 @@ $fecha_end = "2025-01-01";
                         // console.log(array["name_training_type"]);
                         if (array["total"] > 0) {
                             $("#area_formativa").html(array["html"]);
+                            $("#tipo_taller").prop('disabled', false);
                         } else {
                             $("#area_formativa").empty();
                             $("#area_formativa").append('<option value="">Aún no hay cargas en esta sección</option>');
@@ -1040,6 +1042,7 @@ $fecha_end = "2025-01-01";
                     // console.log(array);
                     if (array["total"] > 0) {
                         $("#tipo_taller").html(array["html"]);
+                        $("#tipo_taller").prop('disabled', false);
                     } else {
                         $("#tipo_taller").empty();
                         $("#tipo_taller").append('<option value="">Aún no hay cargas en esta sección</option>');
