@@ -9,19 +9,14 @@ error_reporting(E_ALL);
 
 $code_info = trim(strtoupper($_POST['code_info']));
 
-// include('../../controller/DatabasePg.php');
 require_once('../../controller/DatabasePg_admin.php');
 $conn = DatabasePg::connectPg();
 
-$row = $conn->prepare("SELECT * FROM infocentros WHERE cod='$code_info'");
-$row->execute();
-$data = $row->fetch(PDO::FETCH_ASSOC);
+$sql = "SELECT * FROM infocentros WHERE cod='$code_info'";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
 
-// print_r($data);
-// echo count($data);
-
-
-if (count($data) == 0) {
+if ($stmt->rowCount() == 0) {
     $array = array(
         "error" => "true",
         "param"  => "Aviso",
@@ -30,6 +25,12 @@ if (count($data) == 0) {
     echo json_encode($array, JSON_FORCE_OBJECT);
     return;
 }
+
+
+// print_r($data);
+// echo count($data);
+
+$data = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (count($data) > 0) {
     $array = array(
