@@ -33,7 +33,7 @@ if ($stmt->rowCount() == 0) {
 }
 // print_r($res);
 
-$html = "<option value=''>Aún no hay talleres en este curso</option>";
+$html = "";
 $array = array(
 	"html"  => $html,
 	"total" => "0",
