@@ -1040,7 +1040,7 @@ $fecha_end = "2025-01-01";
                     } else {
                         $("#tipo_taller").empty();
                         $("#tipo_taller").append('<option value="">Aún no hay cargas en esta sección</option>');
-                        // $("#tipo_taller").options[0].selected = true;
+                        $("#tipo_taller").options[0].selected = true;
                         $("#tipo_taller").prop('disabled', true);
                     }
                     $('#cover-spin').hide(0);
