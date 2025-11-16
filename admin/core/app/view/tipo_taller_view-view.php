@@ -248,8 +248,8 @@ $training_type = TrainingTypeData::getAll();
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="codigo_taller" class="control-label"><i class="fa fa-cogs"></i> Código taller (No obligatorio)</label>
-                                        <input type="text" name="codigo_taller" id="codigo_taller" class="form-control" placeholder="Descripción"></input>
+                                        <label for="codigo_taller" class="control-label"><i class="fa fa-cogs"></i> Código taller</label>
+                                        <input type="text" name="codigo_taller" id="codigo_taller" require class="form-control" placeholder="Descripción"></input>
                                     </div>
                                 </div>
 
@@ -314,10 +314,10 @@ $compag = (int)(!isset($_GET['pag'])) ? 1 : $_GET['pag'];
 
 
 // pg
-$total = TrainingTypeData::getAllPg("SELECT * from tipo_taller order by orden_taller asc");
+$total = TrainingTypeData::getAllPg("SELECT * from tipo_taller order by orden_taller::INTEGER asc");
 $TotalReg = $total[1];
 
-$sql = "SELECT * from tipo_taller order by orden_taller asc";
+$sql = "SELECT * from tipo_taller order by orden_taller::INTEGER asc";
 
 $param_csv = mb_convert_encoding($sql, 'UTF-8', 'UTF-8');
 // $param_sql = mb_convert_encoding($sql, 'UTF-8', 'UTF-8');

@@ -319,7 +319,7 @@ $action_line = ActionsLineData::getAll();
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="duracion_horas" class="control-label"><i class="fa fa-cogs"></i> Duración del curso</label>
+                                        <label for="duracion_horas" class="control-label"><i class="fa fa-cogs"></i> Duración del curso (Horas)</label>
                                         <input type="number" name="duracion_horas" id="duracion_horas" min="0" required class="form-control" placeholder=""></input>
                                     </div>
                                 </div>
