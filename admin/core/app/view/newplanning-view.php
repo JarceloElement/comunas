@@ -1065,6 +1065,9 @@ $fecha_end = "2025-01-01";
                         $("#tipo_taller").trigger("change");
                     }
 
+                    $("#tipo_taller_f").show();
+                    $("#area_formativa_f").show();
+
                 });
 
                 // instituciones
