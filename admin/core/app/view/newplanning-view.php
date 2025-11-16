@@ -854,6 +854,11 @@ $fecha_end = "2025-01-01";
                     if (array["total"] == 1) {
                         $("#tipo_reporte").trigger("change");
                     }
+                    $("#tipo_taller").find('option').remove();
+                    $("#tipo_taller_f").hide();
+                    $("#area_formativa").find('option').remove();
+                    $("#area_formativa_f").hide();
+
                     $('#cover-spin').hide(0);
                 });
 
@@ -888,6 +893,11 @@ $fecha_end = "2025-01-01";
                     if (array["total"] == 1) {
                         $("#accion_especifica").trigger("change");
                     }
+
+                    $("#tipo_taller").find('option').remove();
+                    $("#tipo_taller_f").hide();
+                    $("#area_formativa").find('option').remove();
+                    $("#area_formativa_f").hide();
 
                     $('#cover-spin').hide(0);
                 });
