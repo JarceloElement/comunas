@@ -39,7 +39,7 @@ $array = array(
 	"total" => "0",
 );
 
-if (count($res[0]) > 1) {
+if (count($res) > 1) {
 	$html = "<option value=''>- SELECCIONE -</option>";
 }
 
