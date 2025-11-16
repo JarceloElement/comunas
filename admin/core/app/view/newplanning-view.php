@@ -877,6 +877,9 @@ $fecha_end = "2025-01-01";
                     if (array["total"] > 0) {
                         $("#accion_especifica").html(array["html"]);
                         $("#accion_especifica").prop('disabled', false);
+
+
+
                     } else {
                         $("#accion_especifica").empty();
                         $("#accion_especifica").append('<option value="">Aún no hay cargas en esta sección</option>');
@@ -937,6 +940,8 @@ $fecha_end = "2025-01-01";
                         }
                         $("#tipo_taller").find('option').remove();
                         $("#tipo_taller_f").hide();
+
+                        // $("#area_formativa_f").hide();
 
                         // $("#institucion_formacion_v").hide();
                         // $("#circuito_comunal_v").hide();
