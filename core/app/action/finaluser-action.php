@@ -144,7 +144,7 @@ if ($func_get == "add_new") {
     $r->profile_image = $images;
     $result = $r->add();
     $id = $result[0]["id"];
-    Core::redir("./admin/index.php?view=services&swal=Usuario registrado con éxito. ID:" . $id);
+    Core::redir("./admin/index.php?view=home&swal=Usuario registrado con éxito. ID:" . $id);
 }
 
 // auto-registro
