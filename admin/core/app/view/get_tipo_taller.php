@@ -39,11 +39,7 @@ $array = array(
 	"total" => "0",
 );
 
-if (isset($res) && $stmt->rowCount() != 0) {
-	if (count($res[0]) > 1) {
-		$html = "<option value=''>- SELECCIONE -</option>";
-	}
-}
+
 
 
 if (count($res) > 0) {
@@ -55,6 +51,9 @@ if (count($res) > 0) {
 				$html .= "<option data-descripcion_taller='" . $row->descripcion_taller . "' value='" . $row->nombre_taller . "'>" . $row->nombre_taller . " </option>";
 				$total++;
 			}
+		}
+		if ($total > 1) {
+			$html .= "<option value=''>- SELECCIONE -</option>";
 		}
 		$array = array(
 			"html"  => $html,

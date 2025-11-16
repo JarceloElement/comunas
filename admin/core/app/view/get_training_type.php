@@ -37,9 +37,6 @@ if ($stmt->rowCount() == 0) {
 // print_r($res);
 if (isset($res) && $stmt->rowCount() != 0) {
 
-	if (count($res[0]) > 1) {
-		$html = "<option value=''>- SELECCIONE -</option>";
-	}
 	if (count($res[0]) == 0) {
 		$html = "<option value='No aplica'>No aplica</option>";
 	}
@@ -55,6 +52,9 @@ if (count($res) > 0) {
 				$html .= "<option data-set_institucion='" . $row->habilitar_institucion . "' data-set_description='" . $row->habilitar_descripcion . "' data-description='" . $row->descripcion_actividad . "' data-cod_curso='" . $row->codigo_curso . "' value='" . $row->name_training_type . "'>" . $row->name_training_type . "</option>";
 				$total++;
 			}
+		}
+		if ($total > 1) {
+			$html .= "<option value=''>- SELECCIONE -</option>";
 		}
 		$array = array(
 			"html"  => $html,

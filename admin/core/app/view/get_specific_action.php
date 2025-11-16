@@ -32,11 +32,7 @@ if ($stmt->rowCount() == 0) {
 	}
 }
 // print_r($res);
-if (isset($res)) {
-	if (count($res[0]) > 1) {
-		$html = "<option value='0'>- SELECCIONE -</option>";
-	}
-}
+
 
 if (count($res) > 0) {
 	if (count($res[0]) > 0) {
@@ -47,6 +43,9 @@ if (count($res) > 0) {
 				$html .= "<option data-formation='" . $row->has_formation . "' data-description='" . $row->activity_description . "' value='" . $row->name_specific_action . "'>" . $row->name_specific_action . "</option>";
 				$total++;
 			}
+		}
+		if ($total > 1) {
+			$html .= "<option value=''>- SELECCIONE -</option>";
 		}
 		$array = array(
 			"html"  => $html,
