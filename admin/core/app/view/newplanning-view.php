@@ -900,6 +900,7 @@ $fecha_end = "2025-01-01";
             $("#accion_especifica option:selected").each(function() {
                 line_acc = $(this).val();
                 has_formation = $(this).data('formation');
+                name_strategic = $(this).data('etapa');
                 activity_description = $(this).data('description');
                 document.getElementById("nombre_act").value = activity_description;
                 // console.log(activity_description);
@@ -917,6 +918,7 @@ $fecha_end = "2025-01-01";
 
                     $.post("core/app/view/get_training_type.php", {
                         line_acc: line_acc,
+                        name_strategic: name_strategic,
                         code_info: code_info
                     }, function(data) {
                         // console.log(data);

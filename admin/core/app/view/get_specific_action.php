@@ -43,9 +43,9 @@ if (isset($res) && $stmt->rowCount() != 0) {
 		if (count($res[0]) > 0) {
 			foreach ($res[0] as $row) {
 				if (!in_array($code_info, explode(",", str_replace(" ", "", $row->permisos))) && $row->permisos != "" && $row->permisos != "TODOS" && $row->permisos != "Todos") {
-					$html .= "<option data-formation='" . $row->has_formation . "' data-description='" . $row->activity_description . "' value='" . $row->name_specific_action . "' style='display:none' >" . $row->name_specific_action . "</option>";
+					$html .= "<option data-etapa='" . $row->name_strategic . "' data-formation='" . $row->has_formation . "' data-description='" . $row->activity_description . "' value='" . $row->name_specific_action . "' style='display:none' >" . $row->name_specific_action . "</option>";
 				} else {
-					$html .= "<option data-formation='" . $row->has_formation . "' data-description='" . $row->activity_description . "' value='" . $row->name_specific_action . "'>" . $row->name_specific_action . "</option>";
+					$html .= "<option data-etapa='" . $row->name_strategic . "' data-formation='" . $row->has_formation . "' data-description='" . $row->activity_description . "' value='" . $row->name_specific_action . "'>" . $row->name_specific_action . "</option>";
 					$total++;
 				}
 			}

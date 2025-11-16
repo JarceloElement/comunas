@@ -8,6 +8,7 @@ error_reporting(E_ALL);
 // $db = $base->connectPDO();
 
 $line_acc = $_POST['line_acc'];
+$name_strategic = $_POST['name_strategic'];
 $code_info = strtoupper($_POST['code_info']);
 
 // $sql = "SELECT * FROM training_type WHERE name_specific_action = '$line_acc' ORDER BY name_training_type";
@@ -17,7 +18,7 @@ $code_info = strtoupper($_POST['code_info']);
 
 
 require('../../../core/controller/DatabasePg_admin.php');
-$sql = "SELECT * FROM training_type WHERE name_specific_action = '$line_acc' ORDER BY name_training_type";
+$sql = "SELECT * FROM training_type WHERE name_strategic_action = '$name_strategic' ORDER BY name_training_type";
 $conn = DatabasePg::connectPg();
 $stmt = $conn->prepare($sql);
 $stmt->execute();
