@@ -154,7 +154,7 @@ if (Session::getUID() != "") {
 <!-- <div id="toastjs"></div> -->
 
 
-<!-- background -->
+<!-- background three-->
 <!-- <link rel="stylesheet" href="/assets/background_login/style.css"> -->
 <div id="net">
 
@@ -293,10 +293,10 @@ body, html {
 } */
 	</style>
 
-	<!-- partial -->
-	<script src='/assets/background_login/js_r121_three.min.js'></script>
+	<!-- librerias para el fondo three -->
+	<!-- <script src='/assets/background_login/js_r121_three.min.js'></script>
 	<script src='/assets/background_login/latest_dist_vanta.net.min.js'></script>
-	<script src="/assets/background_login/script.js"></script>
+	<script src="/assets/background_login/script.js"></script> -->
 
 
 	<script>
