@@ -180,6 +180,7 @@ $action_line = ActionsLineData::getAll();
 ?>
 
 
+<div id="cover-spin"></div>
 
 <?php if ($_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 9) { ?>
 
@@ -224,7 +225,7 @@ $action_line = ActionsLineData::getAll();
 						<div class="panel-heading">
 							<h4 class="title">
 								<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-									<span class='text_label'> <i class='fa fa-cogs icon_label'></i> <b> Acciones estratégicas de las líneas de acción </b> </span>
+									<span class='text_label'> <i class='fa fa-cogs icon_label'></i> <b> Etapas de formación </b> </span>
 								</a>
 							</h4>
 						</div>
@@ -250,7 +251,7 @@ $action_line = ActionsLineData::getAll();
 
 								<div class="col-md-12">
 									<div class="form-group">
-										<label for="name_action" class="control-label"><i class="fa fa-cogs"></i> Accione Estratégica</label>
+										<label for="name_action" class="control-label"><i class="fa fa-cogs"></i> Nombre de la etapa</label>
 										<textarea type="text" name="name_action" id="name_action" required class="form-control" placeholder="Descripción"></textarea>
 									</div>
 								</div>
@@ -347,7 +348,7 @@ $action_line = ActionsLineData::getAll();
 									<table class="table table-bordered table-hover">
 										<thead>
 											<th>Línea de acción</th>
-											<th>Acción estratégica</th>
+											<th>Etapa</th>
 											<th>Permisos</th>
 											<th>Acciones</th>
 										</thead>
