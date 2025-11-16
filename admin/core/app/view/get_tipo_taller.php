@@ -40,7 +40,7 @@ $array = array(
 );
 
 if (isset($res)) {
-	if (count($res) > 1) {
+	if (count($res[0]) > 1) {
 		$html = "<option value=''>- SELECCIONE -</option>";
 	}
 }
