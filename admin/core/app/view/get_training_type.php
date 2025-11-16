@@ -36,10 +36,10 @@ if ($stmt->rowCount() == 0) {
 }
 // print_r($res);
 
-if (count($res) > 1) {
+if (count($res[0]) > 1) {
 	$html = "<option value=''>- SELECCIONE -</option>";
 }
-if (count($res) == 0) {
+if (count($res[0]) == 0) {
 	$html = "<option value='No aplica'>No aplica</option>";
 }
 
