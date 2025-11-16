@@ -477,7 +477,7 @@ $action_line = ActionsLineData::getAll();
                                             <thead>
                                                 <!-- <th>Línea de acción</th> -->
                                                 <!-- <th>Acción estratégica</th> -->
-                                                <th><label for="" style="width:400px;">Acción específica</label></th>
+                                                <th><label for="" style="width:200px;">Etapas</label></th>
                                                 <th>Tipo de curso</th>
                                                 <th>Duración</th>
                                                 <th>Nivel</th>
@@ -497,7 +497,7 @@ $action_line = ActionsLineData::getAll();
                                                 <tr>
                                                     <!-- <td><!?php echo $user->name_line_action; ?></td> -->
                                                     <!-- <td><!?php echo $user->name_strategic_action; ?></td> -->
-                                                    <td><?php echo $user->name_specific_action; ?></td>
+                                                    <td><?php echo $user->name_strategic_action; ?></td>
                                                     <td><?php echo $user->name_training_type; ?></td>
                                                     <td><?php echo $user->duracion_horas; ?></td>
                                                     <td><?php echo $user->nivel_curso; ?></td>
