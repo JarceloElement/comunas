@@ -155,7 +155,7 @@ if (Session::getUID() != "") {
 
 
 <!-- background -->
-<link rel="stylesheet" href="/assets/background_login/style.css">
+<!-- <link rel="stylesheet" href="/assets/background_login/style.css"> -->
 <div id="net">
 
 
