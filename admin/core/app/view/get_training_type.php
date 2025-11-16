@@ -43,7 +43,7 @@ if (isset($res) && $stmt->rowCount() != 0) {
 }
 
 
-if (count($res) > 0) {
+if (count($res) > 0 && $stmt->rowCount() != 0) {
 	if (count($res[0]) > 0) {
 		foreach ($res[0] as $row) {
 			if (!in_array($code_info, explode(",", str_replace(" ", "", $row->restringir_categoria))) && $row->restringir_categoria != "" && $row->restringir_categoria != "TODOS" && $row->restringir_categoria != "Todos") {

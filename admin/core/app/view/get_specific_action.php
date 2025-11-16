@@ -32,9 +32,12 @@ if ($stmt->rowCount() == 0) {
 	}
 }
 // print_r($res);
+$array = array(
+	"html"  => $html,
+	"total" => "0",
+);
 
-
-if (count($res) > 0) {
+if (count($res) > 0 && $stmt->rowCount() != 0) {
 	if (count($res[0]) > 0) {
 		foreach ($res[0] as $row) {
 			if (!in_array($code_info, explode(",", str_replace(" ", "", $row->permisos))) && $row->permisos != "" && $row->permisos != "TODOS" && $row->permisos != "Todos") {
