@@ -1120,7 +1120,7 @@ $fecha_end = "2025-01-01";
                     tipo_taller: tipo_taller
 
                 }, function(data) {
-                    // console.log(data);
+                    console.log(data);
                     var array = JSON.parse(data);
                     console.log(array);
                     $("#contenido_des").val(array["contenido"]);
