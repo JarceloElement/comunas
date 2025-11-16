@@ -35,7 +35,7 @@ if ($stmt->rowCount() == 0) {
 	}
 }
 // print_r($res);
-if (isset($res)) {
+if (isset($res) && $stmt->rowCount() != 0) {
 
 	if (count($res[0]) > 1) {
 		$html = "<option value=''>- SELECCIONE -</option>";
