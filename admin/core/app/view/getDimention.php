@@ -38,20 +38,22 @@ if (count($res[0]) > 1) {
 	$html = "<option value=''>- SELECCIONE UNA ETAPA -</option>";
 }
 
+if (isset($res) && $stmt->rowCount() != 0) {
 
-if (count($res) > 0) {
-	if (count($res[0]) > 0) {
-		foreach ($res[0] as $row) {
-			if (!in_array($code_info, explode(",", str_replace(" ", "", $row->permisos))) && $row->permisos != "" && $row->permisos != "TODOS" && $row->permisos != "Todos") {
-				$html .= "<option value='" . $row->name_action . "' style='display:none' >" . $row->name_action . "</option>";
-			} else {
-				$html .= "<option value='" . $row->name_action . "'>" . $row->name_action . "</option>";
+	if (count($res) > 0) {
+		if (count($res[0]) > 0) {
+			foreach ($res[0] as $row) {
+				if (!in_array($code_info, explode(",", str_replace(" ", "", $row->permisos))) && $row->permisos != "" && $row->permisos != "TODOS" && $row->permisos != "Todos") {
+					$html .= "<option value='" . $row->name_action . "' style='display:none' >" . $row->name_action . "</option>";
+				} else {
+					$html .= "<option value='" . $row->name_action . "'>" . $row->name_action . "</option>";
+				}
 			}
+			$array = array(
+				"html"  => $html,
+				"total" => count($res[0]),
+			);
 		}
-		$array = array(
-			"html"  => $html,
-			"total" => count($res[0]),
-		);
 	}
 }
 echo json_encode($array, JSON_FORCE_OBJECT);
