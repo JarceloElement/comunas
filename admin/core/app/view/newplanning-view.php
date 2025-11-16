@@ -920,7 +920,7 @@ $fecha_end = "2025-01-01";
                     }, function(data) {
                         // console.log(data);
                         var array = JSON.parse(data);
-                        // console.log(array);
+                        console.log(array);
                         // console.log(array["name_training_type"]);
                         if (array["total"] > 0) {
                             $("#area_formativa").html(array["html"]);
@@ -1032,7 +1032,7 @@ $fecha_end = "2025-01-01";
                     categoria: categoria,
                     code_info: code_info
                 }, function(data) {
-                    // console.log('Data: ', data);
+                    console.log('Data: ', data);
                     var array = JSON.parse(data);
                     // console.log(array);
                     $("#tipo_taller").html(array["html"]);
