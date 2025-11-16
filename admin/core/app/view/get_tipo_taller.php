@@ -19,6 +19,13 @@ $conn = DatabasePg::connectPg();
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 
+
+$array = array(
+	"html"  => "",
+	"total" => "0",
+);
+
+
 $total = 0;
 $res = array();
 if ($stmt->rowCount() == 0) {
@@ -28,7 +35,7 @@ if ($stmt->rowCount() == 0) {
 		$res[] = $r;
 	}
 }
-print_r($res);
+// print_r($res);
 
 if (count($res) > 1) {
 	$html = "<option value=''>- SELECCIONE -</option>";
@@ -52,5 +59,3 @@ if (count($res) > 0) {
 	}
 }
 echo json_encode($array, JSON_FORCE_OBJECT);
-
-?>
