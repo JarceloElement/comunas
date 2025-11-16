@@ -45,7 +45,7 @@ if (count($res) > 0) {
 			}
 		}
 		if ($total > 1) {
-			$html .= "<option value=''>- SELECCIONE -</option>";
+			$html = "<option value=''>- SELECCIONE -</option>" . $html;
 		}
 		$array = array(
 			"html"  => $html,
