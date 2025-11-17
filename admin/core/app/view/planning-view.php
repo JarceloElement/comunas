@@ -365,19 +365,19 @@ date_default_timezone_set("America/La_Paz");
                 }
 
                 // if (planning_line_action === "Formación a la medida"){
-                if ((planning_line_action == "Formación a la medida" || planning_line_action == "Comunidades de aprendizaje" || planning_line_action == "Comunas en Red Digital") && admin_edit == 1) {
-                    $("#contenido").show();
-                    $("#modalidad").show();
-                    $("#div_duracion_dias").show();
-                    $("#div_duracion_horas").show();
-                    // $("#contenido_des").prop("required", true);
+                // if ((planning_line_action == "Formación a la medida" || planning_line_action == "Comunidades de aprendizaje" || planning_line_action == "Comunas en Red Digital") && admin_edit == 1) {
+                $("#contenido").show();
+                $("#modalidad").show();
+                $("#div_duracion_dias").show();
+                $("#div_duracion_horas").show();
+                // $("#contenido_des").prop("required", true);
 
-                } else {
-                    $("#contenido").hide();
-                    $("#modalidad").hide();
-                    $("#div_duracion_dias").hide();
-                    $("#div_duracion_horas").hide();
-                }
+                // } else {
+                //     $("#contenido").hide();
+                //     $("#modalidad").hide();
+                //     $("#div_duracion_dias").hide();
+                //     $("#div_duracion_horas").hide();
+                // }
 
                 document.getElementById("user_id").value = user_id;
                 document.getElementById("responsible_dni").value = responsible_dni;
