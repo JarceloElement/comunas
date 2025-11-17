@@ -378,7 +378,7 @@ if ((isset($_GET["q"]) && isset($_GET["user_estado"]) && isset($_GET["user_munic
 	$param_sql = "true";
 	// 
 	// echo $users[0]["id"];
-	echo $sql;
+	// echo $sql;
 	// print_r($users);
 
 }
