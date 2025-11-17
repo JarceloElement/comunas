@@ -381,7 +381,7 @@ $user_username = isset($_SESSION['user_username']) ? $_SESSION['user_username'] 
               <!-- end collapse1 -->
             <?php } ?>
 
-            <?php if ($_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 8 || $_SESSION["user_type"] == 9) { ?>
+            <?php if ( $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 8 || $_SESSION["user_type"] == 9) { ?>
               <!-- collapse2 -->
               <a class="nav-link nav-primary" type="button" data-toggle="collapse" data-target="#infocentros"
                 aria-expanded="true" aria-controls="collapseOne">
