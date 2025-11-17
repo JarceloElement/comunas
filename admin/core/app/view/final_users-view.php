@@ -342,7 +342,7 @@ if ((isset($_GET["q"]) && isset($_GET["user_estado"]) && isset($_GET["user_munic
 		$sql = "SELECT * from final_users WHERE user_estado ='" . $user_region . "' order by id desc";
 		$sql_dw = "SELECT * from final_users WHERE user_estado ='" . $user_region . "' order by id desc";
 		$sql_rrss = $sql_rrss . " where user_estado ='" . $user_region . "' and (red_x!='' or red_facebook!='' or red_instagram!='' or red_linkedin!='' or red_youtube!='' or red_tiktok!='' or red_whatsapp!='' or red_telegram!='' or red_snapchat!='') GROUP BY user_dni order by user_estado desc";
-	} else if ($_SESSION["user_type"] == 6 && $_SESSION["user_type"] == 7) {
+	} else if ($_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7) {
 		$sql = "SELECT * from final_users order by id desc";
 		$sql_dw = "SELECT * from final_users order by id desc";
 		$sql_rrss = $sql_rrss . " where (red_x!='' or red_facebook!='' or red_instagram!='' or red_linkedin!='' or red_youtube!='' or red_tiktok!='' or red_whatsapp!='' or red_telegram!='' or red_snapchat!='') GROUP BY user_dni order by user_estado desc";
