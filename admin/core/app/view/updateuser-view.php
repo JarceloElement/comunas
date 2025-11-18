@@ -1,5 +1,8 @@
 <?php
 // session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 $base = new Database();
 $con = $base->connect();
@@ -10,12 +13,20 @@ if (count($_POST) > 0) {
 	// if(isset($_POST["is_admin"])){$is_admin=1;}
 	$is_active = 0;
 	$is_organization = 0;
+	$puede_cargar = 0;
+	
 	if (isset($_POST["is_active"])) {
 		$is_active = 1;
 	}
 	if (isset($_POST["is_organization"])) {
 		$is_organization = 1;
 	}
+	if (isset($_POST["puede_cargar"])) {
+		$puede_cargar = 1;
+	}
+
+	// echo $puede_cargar;
+
 	$user_dni = $_POST["user_dni"];
 
 	$user = UserData::getById($_POST["user_id"]);
@@ -29,10 +40,12 @@ if (count($_POST) > 0) {
 	$user->region = $_POST["region"];
 	$user->code_info = $_POST["code_info"];
 	$user->rol = $_POST["rol"];
+	$user->puede_cargar = $puede_cargar;
 	$user->is_active = $is_active;
 	$user->is_organization = $is_organization;
 	$user->organization_name = $_POST["organization_name"];
-	$user->update();
+	echo $user->update();
+
 
 	if ($_POST["password"] != "") {
 		$user->password = sha1(md5($_POST["password"]));

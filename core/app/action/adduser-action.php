@@ -35,7 +35,9 @@ if($get_email==null && $get_user==null){
 		// $is_admin=0;
 		// if(isset($_POST["is_admin"])){$is_admin=1;}
 		$is_organization=0;
+		$puede_cargar=0;
 		if(isset($_POST["is_organization"])){$is_organization=1;}
+		if(isset($_POST["puede_cargar"])){$puede_cargar=1;}
 		$user = new UserData();
 		$user->name = $_POST["name"];
 		$user->lastname = $_POST["lastname"];
@@ -46,6 +48,7 @@ if($get_email==null && $get_user==null){
 		$user->region = $_POST["region"];
 		$user->code_info = $_POST["code_info"];
 		$user->rol = $_POST["rol"];
+		$user->puede_cargar = $puede_cargar;
 		$user->is_organization=$is_organization;
 		$user->organization_name = $_POST["organization_name"];
 		$user->password = sha1(md5($_POST["password"]));
@@ -67,9 +70,9 @@ if($get_email==null && $get_user==null){
 		$mail->Username   = "jarcelo";           // GMAIL username
 		$mail->Password   = "pqnqnpjmjjefjyvx";                              
 
-		$mail->setFrom('jarcelo@gmail.com', 'Infocentro');
+		$mail->setFrom('jarcelo@gmail.com', 'Comunasinfocentro');
 		// $mail->setFrom('infoapp@domain.com', 'Infocentro');
-		$mail->addReplyTo('mariolysgonzalez@gmail.com', 'Infoapp | Nuevo usuario registrado');
+		$mail->addReplyTo('mariolysgonzalez@gmail.com', 'Comunas | Nuevo usuario registrado');
 
 		$mail->addAddress($email, $name);     // Add a recipient
 		$mail->isHTML(true); // Set email format to HTML

@@ -15,6 +15,7 @@ class UserData {
 		$this->region = "";
 		$this->code_info = "";
 		$this->rol = "";
+		$this->puede_cargar = "";
 		$this->is_organization = "0";
 		$this->organization_name = "";
 		$this->created_at = "NOW()";
@@ -35,7 +36,8 @@ class UserData {
 		code_info,
 		is_organization,
 		organization_name,
-		rol) ";
+		rol,
+		puede_cargar) ";
 		$sql .= "value (\"$this->name\",
 		\"$this->lastname\",
 		\"$this->username\",
@@ -49,7 +51,9 @@ class UserData {
 		\"$this->code_info\",
 		\"$this->is_organization\",
 		\"$this->organization_name\",
-		\"$this->rol\")";
+		\"$this->rol\",
+		\"$this->puede_cargar\"
+		)";
 		Executor::doit($sql);
 	}
 
@@ -77,7 +81,8 @@ class UserData {
 		code_info=\"$this->code_info\",
 		is_organization=\"$this->is_organization\",
 		organization_name=\"$this->organization_name\",
-		rol=\"$this->rol\" 
+		rol=\"$this->rol\", 
+		puede_cargar=\"$this->puede_cargar\" 
 		where id=$this->id";
 		Executor::doit($sql);
 	}

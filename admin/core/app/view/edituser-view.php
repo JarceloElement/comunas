@@ -301,6 +301,18 @@
                 </div>
                 <!-- SOLO ADMIN -->
 
+                <div class="col-md-4 form-check" id="puede_cargar">
+                  <label class="form-check-label">
+                    <input type="checkbox" id="checkbox_puede_cargar" name="puede_cargar" class="form-check-input" value="<?php echo $user->puede_cargar; ?>" <?php if ($user->puede_cargar) {
+                                                                                                                                                                echo "checked";
+                                                                                                                                                              } ?>>
+                    Puede cargar productos (Solo para usuarios finales)
+                    <span class="form-check-sign">
+                      <span class="check"></span>
+                    </span>
+                  </label>
+                </div>
+
                 <div class="col-md-4 form-check" id="is_organization">
                   <label class="form-check-label">
                     <input type="checkbox" id="checkbox_organization" name="is_organization" class="form-check-input" value="<?php echo $user->is_organization; ?>" <?php if ($user->is_organization) {
@@ -312,7 +324,6 @@
                     </span>
                   </label>
                 </div>
-
 
                 <div class="col-md-12 mui-textfield mui-textfield--float-label" id="organization_name" style="display: none;">
                   <input type="text" name="organization_name" id="organization" value="<?php echo $user->organization_name; ?>" placeholder="">
@@ -370,6 +381,7 @@
     var $div_user_active = $('#user_active');
     var $code_info = $('#code_info');
     var $user_rol = $('#rol');
+    var $puede_cargar = $('#puede_cargar');
 
 
     var checkbox = $("#checkbox_organization").is(":checked");
@@ -379,6 +391,13 @@
     } else {
       $($organization_name).hide();
       $("#organization").val("");
+    }
+    var checkbox = $("#checkbox_puede_cargar").is(":checked");
+    var $organization_name = $('#puede_cargar');
+    if (checkbox == true) {
+      $($organization_name).show();
+    } else {
+      $($organization_name).hide();
     }
 
     // var user_type2 = document.getElementById("session_user_type").value;
@@ -390,6 +409,7 @@
       $($div_user_rol).show();
       $($user_region).show();
       $($div_user_active).show();
+      $($puede_cargar).show();
       $($code_info).show();
       // $('option:not(.' + value + ')', $tabla).hide();
     } else {
@@ -397,6 +417,7 @@
       $($div_user_rol).hide();
       $($user_region).hide();
       $($div_user_active).hide();
+      $($puede_cargar).hide();
       $($code_info).hide();
     }
     if (user_type == 0) {
@@ -433,7 +454,7 @@
 
       data = $(this).val();
       console.log(data);
-      toastify("Privilegio: "+data, true, 2000, "warning");
+      toastify("Privilegio: " + data, true, 2000, "warning");
 
       // limpiar el select
       const $select = document.querySelector("#rol");
@@ -510,7 +531,7 @@
           $('#rol').append($('<option>').val('Administración').text('Administración'));
           $('#rol').append($('<option>').val('Políticas públicas').text('Políticas públicas'));
           $('#rol').append($('<option>').val('Analista').text('Analista'));
-          <?php } ?>
+        <?php } ?>
 
       }
 

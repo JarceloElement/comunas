@@ -14,6 +14,7 @@ class UserData {
 		$this->region = "";
 		$this->code_info = "";
 		$this->rol = "";
+		$this->puede_cargar = "0";
 		$this->created_at = "NOW()";
 	}
 
@@ -29,6 +30,7 @@ class UserData {
 		user_type,
 		region,
 		code_info,
+		puede_cargar,
 		rol) ";
 		$sql .= "value (\"$this->name\",
 		\"$this->lastname\",
@@ -40,6 +42,7 @@ class UserData {
 		\"$this->user_type\",
 		\"$this->region\",
 		\"$this->code_info\",
+		\"$this->puede_cargar\",
 		\"$this->rol\")";
 		Executor::doit($sql);
 	}
@@ -65,9 +68,11 @@ class UserData {
 		user_type=\"$this->user_type\",
 		region=\"$this->region\",
 		code_info=\"$this->code_info\",
+		puede_cargar=\"$this->puede_cargar\",
 		rol=\"$this->rol\" 
 		where id=$this->id";
 		Executor::doit($sql);
+		 
 	}
 
 	public function update_passwd(){

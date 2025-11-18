@@ -352,6 +352,7 @@ $alert = isset($_GET['swal']) ? $_GET['swal'] : "";
 											<?php if ($_SESSION["user_type"] != 0) { ?>
 												<th>Rol</th>
 												<th>Privilegios</th>
+												<th>Puede cargar</th>
 											<?php } ?>
 											<th style="width: 250px;"> Acciones</th>
 										</thead>
@@ -375,6 +376,7 @@ $alert = isset($_GET['swal']) ? $_GET['swal'] : "";
 													<td><?php echo $user->region; ?></td>
 													<td><?php echo $user->rol; ?></td>
 													<td><?php echo $user->user_type; ?></td>
+													<td><?php echo $user->puede_cargar; ?></td>
 
 													<td style="width:30px;"><a href="index.php?view=edituser&id=<?php echo $user->id; ?>" class="btn btn-warning btn-sm">Editar</a>
 														<a onclick="del_item('<?php echo $user->id; ?>')" href="javascript:void(0);">

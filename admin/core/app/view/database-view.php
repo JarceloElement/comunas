@@ -335,6 +335,11 @@ function alter_db()
     // };
 
 
+    // user
+    if ($con->query("SHOW COLUMNS FROM user WHERE Field = 'puede_cargar' ")->num_rows != 1) {
+        Executor::doit('ALTER TABLE user add column puede_cargar VARCHAR(50) DEFAULT "0" AFTER rol;');
+    };
+
     // mapa social
     if ($con->query("SHOW COLUMNS FROM info_social_map_organizations WHERE Field = 'organization_address' ")->num_rows != 1) {
         Executor::doit('ALTER TABLE info_social_map_organizations add column organization_address VARCHAR(200) DEFAULT "null" AFTER organization_limit_area;');
@@ -360,7 +365,7 @@ function alter_db()
 
     // actions_line
     // if ($con->query("SHOW COLUMNS FROM actions_line WHERE Field = 'permisos' ")->num_rows != 1) {
-        // Executor::doit('ALTER TABLE actions_line add column permisos VARCHAR(1000) DEFAULT "TODOS" AFTER line_name;');
+    // Executor::doit('ALTER TABLE actions_line add column permisos VARCHAR(1000) DEFAULT "TODOS" AFTER line_name;');
     // };
 
     // Executor::doit('UPDATE user set id=1587 where id=1925 ');
@@ -409,7 +414,7 @@ function alter_db()
     // Executor::doit('ALTER TABLE info_social_map_organizations ADD CONSTRAINT `info_map_organizations_ibfk` FOREIGN KEY (code_info) REFERENCES `user` (code_info) ON UPDATE CASCADE;');
 
 
-    
+
     // EL CODIGO DEL USUARIO TIENE CONSTRAINTS CON:
     // info_social_map, info_social_map_educations, info_social_map_organizations
 

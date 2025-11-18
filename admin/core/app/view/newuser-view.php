@@ -222,6 +222,15 @@ $alert = isset($_GET["alert"]) ? $_GET["alert"] : '';
                 </div>
               </div>
 
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" id="puede_cargar" name="puede_cargar" class="form-check-input" value="">
+                  Puede cargar productos (Solo para usuarios finales)
+                  <span class="form-check-sign">
+                    <span class="check"></span>
+                  </span>
+                </label>
+              </div>
 
               <!-- <div class="form-check" id="is_organization">
                 <label class="form-check-label">
