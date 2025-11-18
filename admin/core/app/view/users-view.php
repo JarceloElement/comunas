@@ -1,6 +1,7 @@
 <!-- <script src="assets/js/jquery-3.1.1.min.js"></script> -->
 <?php
 $user_type = UserTypeData::getAll();
+
 $alert = isset($_GET['swal']) ? $_GET['swal'] : "";
 ?>
 
@@ -133,26 +134,11 @@ $alert = isset($_GET['swal']) ? $_GET['swal'] : "";
 
 					PERMISOS
 					<br>
-					(1) Sala de Autogobierno u Organización
-					<br>
-					(2) Facilitador o Promotor
-					<br>
-					(3) Coordinador estadal
-					<br>
-					<!-- (4) Gerencias sustantivas CCS: Puede editar datos de usuarios de su unidad 	
-					<br>
-					(5) Gerencia RNI: Puede crear y editar usuarios y roles CCS
-					<br> -->
-					(6) Dirección de Políticas Públicas de Min Comunas
-					<!-- <br>
-					(7) Administración del sistema -->
-					<br>
-					(8) Jefe de Estado o Responsable de Sala Unificada
-					<!-- <br>
-					(9) Gerencias ADMIN: Puede crear y editar las unidades sustantivas CCS
-					<br>
-					(10) Lector: Solo puede ver y descargar reporte (no edita ni elimina) -->
 
+					<?php foreach ($user_type as $p): ?>
+
+						<label for=""><?php echo "(" . $p->user_type . ") " . $p->user_type_name; ?></label><br>
+					<?php endforeach; ?>
 
 				<?php } ?>
 
