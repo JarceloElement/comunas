@@ -54,6 +54,13 @@ $fecha_end = "2025-01-01";
         $("#nivel_formacion_f").hide();
 
 
+        // impedir enter en el campo de codigo
+        const campoTexto = document.getElementById('code_info');
+        campoTexto.addEventListener('input', function(event) {
+            console.log(this.value);
+            this.value = this.value.replace(/[\r\n]/g, '');
+        });
+
 
 
         // restringir copy paste
