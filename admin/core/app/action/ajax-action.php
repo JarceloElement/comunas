@@ -161,6 +161,9 @@ if ($func_post == "add_organizacion") {
     $municipio = $_POST["municipio"];
     $parroquia = $_POST["parroquia"];
     $direccion = $_POST["direccion"];
+    $nombre_responsable = $_POST["nombre_responsable"];
+    $apellido_responsable = $_POST["apellido_responsable"];
+    $telefono_responsable = $_POST["telefono_responsable"];
     $update_by = $_SESSION["user_id"];
 
     $estado_n = EstadoData::getById($estado);
@@ -180,8 +183,8 @@ if ($func_post == "add_organizacion") {
 
 
 
-    $sql = "INSERT into organizaciones (code_info, codigo_organizacion, nombre_organizacion, nombre_infocentro, estado_organizacion, municipio_organizacion, parroquia_organizacion, direccion, update_by) 
-    VALUES ('$code_info', '$codigo_organizacion', '$nombre_organizacion', '$nombre_infocentro', '$estado', '$municipio', '$parroquia', '$direccion', '$update_by')";
+    $sql = "INSERT into organizaciones (nombre_responsable,apellido_responsable,telefono_responsable, code_info, codigo_organizacion, nombre_organizacion, nombre_infocentro, estado_organizacion, municipio_organizacion, parroquia_organizacion, direccion, update_by) 
+    VALUES ('$nombre_responsable','$apellido_responsable','$telefono_responsable','$code_info','$codigo_organizacion', '$nombre_organizacion', '$nombre_infocentro', '$estado', '$municipio', '$parroquia', '$direccion', '$update_by')";
 
     try {
         $result = ExecutorPg::doit($sql);
@@ -219,8 +222,11 @@ if ($func_post == "edit_organizacion") {
     $code_info = strtoupper($_POST["code_info"]);
     $codigo_organizacion = strtoupper($_POST["codigo_organizacion"]);
     $nombre_organizacion = $_POST["nombre_organizacion"];
+    $nombre_responsable = $_POST["nombre_responsable"];
+    $apellido_responsable = $_POST["apellido_responsable"];
+    $telefono_responsable = $_POST["telefono_responsable"];
 
-    $sql = "UPDATE organizaciones set code_info='$code_info', codigo_organizacion='$codigo_organizacion', nombre_organizacion='$nombre_organizacion' where id=$id";
+    $sql = "UPDATE organizaciones set nombre_responsable='$nombre_responsable',apellido_responsable='$apellido_responsable',telefono_responsable='$telefono_responsable',code_info='$code_info', codigo_organizacion='$codigo_organizacion', nombre_organizacion='$nombre_organizacion' where id=$id";
 
     try {
         $result = ExecutorPg::doit($sql);

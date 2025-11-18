@@ -547,8 +547,9 @@ $compag = (int)(!isset($_GET['pag'])) ? 1 : $_GET['pag'];
 $total = ParticipantsData::getBySQL("SELECT * from participants_list where id_activity=" . $_GET['id_activity'] . " order by id asc ");
 $TotalReg = $total[1];
 
-$param_csv = "SELECT * from participants_list where id_activity=" . $_GET['id_activity'] . " order by id desc ";
+
 $sql = "SELECT * from participants_list where id_activity=" . $_GET['id_activity'] . " order by id desc";
+$param_csv = $sql;
 $sql .= " LIMIT " . $CantidadMostrar . " OFFSET " . (($compag - 1) * $CantidadMostrar);
 $param = ParticipantsData::getBySQL($sql);
 

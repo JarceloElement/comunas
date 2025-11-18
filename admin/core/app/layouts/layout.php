@@ -300,9 +300,11 @@ $view = $_GET["view"];
                 </ul>
               </div class="collapse_report">
               <!-- fin accordion planificacion -->
+              <?php } ?>
 
 
 
+            <?php if ($_SESSION["user_type"] == 1 || $_SESSION["user_type"] == 2 || $_SESSION["user_type"] == 3 || $_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 8 || $_SESSION["user_type"] == 9 || $_SESSION["user_type"] == 10) { ?>
 
               <!-- accordion reportes-->
               <li class="nav-item ">

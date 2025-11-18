@@ -341,6 +341,11 @@ $user_username = isset($_SESSION['user_username']) ? $_SESSION['user_username'] 
               </div>
               <!-- end collapse planning -->
 
+              <?php } ?>
+
+
+            <?php if ($_SESSION["user_type"] == 1 || $_SESSION["user_type"] == 2 || $_SESSION["user_type"] == 3 || $_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 8 || $_SESSION["user_type"] == 9 || $_SESSION["user_type"] == 10) { ?>
+
               <!-- collapse1 -->
               <a class="nav-link nav-primary" type="button" data-toggle="collapse" data-target="#reports"
                 aria-expanded="true" aria-controls="collapseOne">

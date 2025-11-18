@@ -101,6 +101,27 @@
                                 </div>
 
 
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="code_info" class="control-label">Nombres Persona de contacto</label>
+                                        <input type="text" name="nombre_responsable" id="nombre_responsable" class="form-control" placeholder="Nombres">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="code_info" class="control-label">Apellidos Persona de contacto</label>
+                                        <input type="text" name="apellido_responsable" id="apellido_responsable" class="form-control" placeholder="Apellidos">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="nombre_infocentro" class="control-label">Teléfono de contacto</label>
+                                        <input type="text" name="telefono_responsable" id="telefono_responsable" class="form-control" placeholder="04261234567">
+                                    </div>
+                                </div>
+
 
                                 <div class="col-md-6">
                                     <div class="form-group">

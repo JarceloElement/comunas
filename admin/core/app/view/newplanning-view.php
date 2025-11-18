@@ -1101,7 +1101,7 @@ $fecha_end = "2025-01-01";
                     }, function(data) {
                         // console.log(data);
                         var array = JSON.parse(data);
-                        // console.log(array);
+                        console.log(array);
                         // $("#institucion_formacion").html(array["html"]);
                         $("#circuito_comunal").html(array["html"]);
                         $('#cover-spin').hide(0);

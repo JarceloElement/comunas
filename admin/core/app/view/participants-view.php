@@ -521,10 +521,12 @@ if ((isset($_GET["q"]) || isset($_GET["start_at_1"]) || isset($_GET["finish_at_1
 	final_users.user_institucion, 
 	participants_list.date_reg, 
 	participants_list.equipo_sala_comunal, 
+	formaciones.orden_taller, 
 	reports.id as idact 
 	from participants_list 
 	INNER JOIN reports on (participants_list.id_activity)::int = (reports.id)::int 
-	LEFT JOIN final_users on (participants_list.id_user_final)::int = (final_users.id)::int 
+	LEFT JOIN final_users on participants_list.document_id = final_users.user_dni 
+	LEFT JOIN formaciones on reports.id = formaciones.id_activity::INT 
 	where";
 
 	if ($q != "") {
@@ -702,10 +704,12 @@ if ((isset($_GET["q"]) || isset($_GET["start_at_1"]) || isset($_GET["finish_at_1
 		reports.training_type, 
 		reports.tipo_taller, 
 		reports.training_level, 
-		reports.training_modality 
+		reports.training_modality, 
+		formaciones.orden_taller 
 		from participants_list 
 		INNER JOIN reports on participants_list.id_activity = reports.id 
-		LEFT JOIN final_users on (participants_list.id_user_final)::int  = final_users.id 
+		LEFT JOIN final_users on participants_list.document_id = final_users.user_dni 
+		LEFT JOIN formaciones on reports.id = formaciones.id_activity::INT
 		where (split_part(participants_list.date_activity, '/',1)>='01-01-2023') 
 		order by participants_list.date_reg desc";
 	} else {
@@ -746,17 +750,18 @@ if ((isset($_GET["q"]) || isset($_GET["start_at_1"]) || isset($_GET["finish_at_1
 		reports.training_type, 
 		reports.tipo_taller, 
 		reports.training_level, 
-		reports.training_modality
+		reports.training_modality,
+		formaciones.orden_taller 
 		from participants_list 
 		INNER JOIN reports on participants_list.id_activity = reports.id 
-		LEFT JOIN final_users on (participants_list.id_user_final)::int  = final_users.id 
+		LEFT JOIN final_users on participants_list.document_id = final_users.user_dni 
+		LEFT JOIN formaciones on reports.id = formaciones.id_activity::INT
 		where reports.estate='" . $_SESSION["user_region"] . "' and (split_part(participants_list.date_activity, '/',1)>='01-01-2023') 
 		order by participants_list.date_reg desc";
 	}
 
 
 	$total_sql .= " LIMIT " . $CantidadMostrar . " OFFSET " . (($compag - 1) * $CantidadMostrar);
-	// echo $total_sql;
 	$users = ParticipantsData::getBySQL($total_sql);
 	$TotalReg = $users[1];
 
@@ -837,7 +842,7 @@ $DB_name = "participants_list";
 							<th class="text_label "> <i class="fa fa-calendar-check-o icon_table"></i></th>
 							<th class="text_label "> <i class="fa fa-map-marker icon_table"></i></th>
 							<th class="text_label "> <i class="fa fa-building icon_table"></i></th>
-							<th class="text_label "> <i class="fa fa-cog icon_table"></i></th>
+							<!-- <th class="text_label "> <i class="fa fa-cog icon_table"></i></th> -->
 							<th class="text_label "> <i class="fa fa-list icon_table"></i></th>
 							<th class="text_label "> <i class="fa fa-user icon_table"></i></th>
 							<!-- <th class="text_label " style="width: 200px;"> <i class="fa fa-user icon_table" ></i></th> -->
@@ -846,6 +851,7 @@ $DB_name = "participants_list";
 							<th class="text_label "> <i class="fa fa-calendar icon_table"></i></th>
 							<th class="text_label "> <i class="fa fa-male icon_table"></i></th>
 							<th class="text_label "> <i class="fa fa-phone icon_table"></i></th>
+							<th class="text_label "> <i class="fa fa-cog icon_table"></i></th>
 							<th class="text_label "> <i class="fa fa-cog icon_table"></i></th>
 						</thead>
 
@@ -858,7 +864,7 @@ $DB_name = "participants_list";
 							<th> Fecha carga</th>
 							<th> Estado</th>
 							<th> Código-Info</th>
-							<th> Línea de A.</th>
+							<!-- <th> Línea de A.</th> -->
 							<th> Actividad</th>
 							<th> Participante</th>
 							<th> Documento ID</th>
@@ -866,6 +872,7 @@ $DB_name = "participants_list";
 							<th> Edad</th>
 							<th> Género</th>
 							<th> Teléfono</th>
+							<th> N° Curso</th>
 							<th> Acciones</th>
 						</thead>
 
@@ -897,7 +904,7 @@ $DB_name = "participants_list";
 
 								<td><?php echo $user["estate"]; ?></td>
 								<td><?php echo $user["code_info"]; ?></td>
-								<td><?php echo $user["training_type"]; ?></td>
+								<!-- <td><?php echo $user["training_type"]; ?></td> -->
 								<td><?php echo $user["name_activity"]; ?></td>
 
 								<td><?php echo $user["name"] . " " . $user["lastname"]; ?></td>
@@ -906,6 +913,7 @@ $DB_name = "participants_list";
 								<td><?php echo $user["age"]; ?></td>
 								<td><?php echo $user["gender"]; ?></td>
 								<td><?php echo $user["phone"]; ?></td>
+								<td><?php echo $user["orden_taller"]; ?></td>
 
 
 								<td style="width:80px;">

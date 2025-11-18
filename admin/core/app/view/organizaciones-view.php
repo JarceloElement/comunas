@@ -271,13 +271,36 @@ $parroquia = ParroquiaData::getAll();
 									</div>
 								</div>
 
-								<div class="col-md-12">
+								
+								<div class="col-md-4">
 									<div class="form-group">
-										<label for="direccion" class="control-label">Dirección de la organización</label>
-										<input type="text" name="direccion" id="direccion" required class="form-control" placeholder="Nombre">
+										<label for="code_info" class="control-label">Nombres Persona de contacto</label>
+										<input type="text" name="nombre_responsable" id="nombre_responsable" class="form-control" placeholder="Nombres">
 									</div>
 								</div>
 
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="code_info" class="control-label">Apellidos Persona de contacto</label>
+										<input type="text" name="apellido_responsable" id="apellido_responsable" class="form-control" placeholder="Apellidos">
+									</div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="nombre_infocentro" class="control-label">Teléfono de contacto</label>
+										<input type="text" name="telefono_responsable" id="telefono_responsable" class="form-control" placeholder="04261234567">
+									</div>
+								</div>
+
+
+
+								<div class="col-md-12" style="visibility: hidden;">
+									<div class="form-group">
+										<label for="direccion" class="control-label">Dirección de la organización</label>
+										<input type="text" name="direccion" id="direccion" class="form-control" placeholder="Nombre">
+									</div>
+								</div>
 
 								<div class="col-md-6">
 									<div class="form-group">
@@ -360,6 +383,8 @@ $parroquia = ParroquiaData::getAll();
 											<th>Cod Infocentro</th>
 											<th>Cod Organización</th>
 											<th>Nombre Organización</th>
+											<th>Persona de contacto</th>
+											<th>Teléfono de contacto</th>
 											<th></th>
 										</thead>
 
@@ -369,6 +394,8 @@ $parroquia = ParroquiaData::getAll();
 												<td><?php echo $types["code_info"]; ?></td>
 												<td><?php echo $types["codigo_organizacion"]; ?></td>
 												<td><?php echo $types["nombre_organizacion"]; ?></td>
+												<td><?php echo $types["nombre_responsable"]." ".$types["apellido_responsable"]; ?></td>
+												<td><?php echo $types["telefono_responsable"]; ?></td>
 												<td style="width:180px;">
 													<a href="./?view=edit_organizacion&id=<?php echo $types["id"]; ?>" class="btn btn-warning btn-lm"><i class="material-icons">edit</i></a>
 													<a onclick="del_item('<?php echo $types['id']; ?>')" title="Eliminar">
@@ -430,7 +457,7 @@ $parroquia = ParroquiaData::getAll();
 				}, function(data) {
 					$("#municipios_1").html(data);
 				});
-			
+
 			});
 		})
 	});
