@@ -886,8 +886,8 @@ if ($func_post == "add_participant") {
                 return;
             }
 
-            echo json_encode($array);
-            return;
+            // echo json_encode($array);
+            // return;
 
 
             $user_correo = $_POST["email"] != "" ? $_POST["email"] : (isset($rx[0]["user_correo"]) ? $rx[0]["user_correo"] : "");
@@ -1078,12 +1078,12 @@ if ($func_post == "add_participant") {
         }
     }
 
-    $array = array(
-        "error"  => "false",
-        "data"  => "ID: " . $resul,
-        "alert" => "Usuario agregado.",
-        "alert_type" => "dashboard"
-    );
+    // $array = array(
+    //     "error"  => "false",
+    //     "data"  => "ID: " . $resul,
+    //     "alert" => "Usuario agregado.",
+    //     "alert_type" => "dashboard"
+    // );
     echo json_encode($array);
 
 

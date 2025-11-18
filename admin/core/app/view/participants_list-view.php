@@ -183,7 +183,7 @@
 				const result_await = await res.text();
 				// console.log(result_await);
 				var array = JSON.parse(result_await);
-				console.log(array);
+				// console.log(array);
 				$('#cover-spin').hide(0);
 				if (array.error == 'true') {
 					if (getOS() == "Android") {
@@ -193,7 +193,7 @@
 					}
 
 				} else {
-					// location.reload();
+					location.reload();
 				}
 
 			} else {
