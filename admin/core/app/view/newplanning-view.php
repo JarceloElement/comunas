@@ -1368,7 +1368,6 @@ $fecha_end = "2025-01-01";
     // CARGA DATOS DEL INFOCENTRO CON AJAX
     $(function() {
 
-
         $("#code_info").change(function() {
             code = $(this).val();
             // alert(code);

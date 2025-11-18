@@ -850,6 +850,7 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
                 $("#accion_especifica option:selected").each(function() {
                     line_acc = $(this).val();
                     has_formation = $(this).data('formation');
+                    name_strategic = $(this).data('etapa');
                     activity_description = $(this).data('description');
                     document.getElementById("nombre_act").value = activity_description;
                     // console.log(activity_description);
@@ -867,6 +868,7 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
 
                         $.post("core/app/view/get_training_type.php", {
                             line_acc: line_acc,
+                            name_strategic: name_strategic,
                             code_info: code_info
                         }, function(data) {
                             // console.log(data);
