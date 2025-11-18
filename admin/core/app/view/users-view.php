@@ -135,10 +135,11 @@ $alert = isset($_GET['swal']) ? $_GET['swal'] : "";
 					PERMISOS
 					<br>
 
-					<?php foreach ($user_type as $p): ?>
-
+					<?php foreach ($user_type as $p): 
+						if($p->user_type != 7){
+						?>
 						<label for=""><?php echo "(" . $p->user_type . ") " . $p->user_type_name; ?></label><br>
-					<?php endforeach; ?>
+					<?php } endforeach; ?>
 
 				<?php } ?>
 
