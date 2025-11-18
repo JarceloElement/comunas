@@ -247,9 +247,9 @@ $occupations = $con->query("SELECT * from occupations order by p_name");
 	</div>
 <?php } ?>
 
+puede_cargar
 
-
-<?php if ($_SESSION["user_id"] == $_GET['user_id'] || $_SESSION['user_type'] == 7 || (($_SESSION["user_type"] == 8 || $_SESSION["user_rol"] == 'Políticas públicas') && $_SESSION["user_region"] == $_GET["estate"])) { ?>
+<?php if ($_SESSION['puede_cargar'] == "1" || $_SESSION["user_id"] == $_GET['user_id'] || $_SESSION['user_type'] == 7 || (($_SESSION["user_type"] == 8 || $_SESSION["user_rol"] == 'Políticas públicas') && $_SESSION["user_region"] == $_GET["estate"])) { ?>
 
 
 	<div class="content">

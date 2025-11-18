@@ -476,7 +476,7 @@ $social_medias = SocialMediasData::getBySQL("SELECT * FROM social_medias;")[0];
 	</div>
 </div>
 
-<?php if ($_SESSION["user_id"] == $_GET['user_id'] || $_SESSION['user_type'] == 7 || (($_SESSION["user_type"] == 8 || $_SESSION["user_rol"] == 'Políticas públicas') && $_SESSION["user_region"] == $_GET["estate"])) { ?>
+<?php if ($_SESSION['puede_cargar'] == "1" || $_SESSION["user_id"] == $_GET['user_id'] || $_SESSION['user_type'] == 7 || (($_SESSION["user_type"] == 8 || $_SESSION["user_rol"] == 'Políticas públicas') && $_SESSION["user_region"] == $_GET["estate"])) { ?>
 
 
 	<div class="card-body">

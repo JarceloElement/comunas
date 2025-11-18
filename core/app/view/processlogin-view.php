@@ -120,6 +120,7 @@ if (Session::getUID() == "") {
 			$_SESSION['user_region'] = $r['region'];
 			$_SESSION['user_code_info'] = $r['code_info'];
 			$_SESSION['user_rol'] = $r['rol'];
+			$_SESSION['puede_cargar'] = $r['puede_cargar'];
 			$_SESSION['is_organization'] = $r['is_organization'];
 			$_SESSION['organization_name'] = $r['organization_name'];
 		}
