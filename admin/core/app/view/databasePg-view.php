@@ -55,7 +55,7 @@ function alter_db()
         // =============================================
     // CREATE INDEX IF NOT EXISTS idx_facilitators_code ON public.facilitators(info_cod)
 
-    // CREATE UNIQUE INDEX IF NOT EXISTS idx_tipo_taller ON public.tipo_taller(id)
+    // CREATE UNIQUE INDEX IF NOT EXISTS idx_tipo_taller ON public.participants_list(document_id)
 
     // hacer id auto incrementable version v7 y v9
     // ExecutorPg::doit('ALTER TABLE ONLY public.certificados ALTER COLUMN id SET DEFAULT nextval('public.certificados_id_seq'::regclass);;');
@@ -65,6 +65,10 @@ function alter_db()
     // ExecutorPg::doit('ALTER TABLE IF EXISTS public.organizaciones ADD COLUMN IF NOT EXISTS n_participantes VARCHAR(100);');
     // ExecutorPg::doit('ALTER TABLE IF EXISTS public.organizaciones ADD COLUMN IF NOT EXISTS nombre_infocentro VARCHAR(200);');
 
+    // CREATE INDEX IF NOT EXISTS idx_participant_dni ON public.participants_list(document_id)
+    // ExecutorPg::doit('ALTER TABLE formaciones ADD CONSTRAINT fk_participants_list_id FOREIGN KEY(participant_id) REFERENCES participants_list(id) ON DELETE CASCADE ON UPDATE CASCADE NOT VALID;');
+
+    // ExecutorPg::doit('ALTER TABLE IF EXISTS public.formaciones ADD COLUMN IF NOT EXISTS participant_id BIGINT;');
 
     // ===========================================
 

@@ -489,7 +489,7 @@ if ($func_post == "add_tipo_taller") {
         echo json_encode($array);
         return;
     }
-    
+
 
 
     $sql = "INSERT into tipo_taller (name_training_type, nombre_taller, descripcion_taller, duracion_horas, nivel, modalidad, permisos, orden_taller, codigo_taller) 
@@ -702,10 +702,6 @@ if ($func_post == "add_participant") {
     }
 
 
-
-
-
-
     $fecha_actual = date("Y", time());
     $age = $fecha_actual - date("Y", strtotime($_POST["user_f_nacimiento"]));
 
@@ -831,50 +827,7 @@ if ($func_post == "add_participant") {
                 // echo json_encode($array);
                 // return;
 
-                $sql = "INSERT into formaciones (
-		        usuario_id, 
-                taller_id, 
-                completado, 
-                fecha_completado,
-                update_by,
-                created_at,
-                update_at,
-                cod_curso,
-                cod_taller,
-                orden_taller,
-                id_activity,
-                user_dni
-                )";
-                $sql .= " VALUES (
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?
-                );";
-                $values = [
-                    $usuario_id,
-                    $_POST["id_taller"],
-                    $taller_completado === "true" ? "true" : "false",
-                    $taller_completado === "true" ? date("Y-m-d H:i:s") : null,
-                    $_SESSION["user_id"],
-                    date("Y-m-d H:i:s"),
-                    date("Y-m-d H:i:s"),
-                    $cod_curso,
-                    $codigo_taller,
-                    $orden_taller,
-                    $id_activity,
-                    $usuario_dni_existente
 
-                ];
-                $product_id = ExecutorPg::insert($sql, $values)[0];
             } catch (Exception $e) {
                 $array = array(
                     "error"  => "true",
@@ -912,7 +865,7 @@ if ($func_post == "add_participant") {
             $r->user_correo = $user_correo;
             $r->user_genero = $_POST["gender"];
             $r->user_comunity_type = $_POST["user_comunity_type"];
-            $r->user_etnia = $_POST["etnia"];
+            $r->user_etnia = $_POST["user_etnia"];
             $r->disability_type = $_POST["disability_type"];
             $r->user_telefono = $user_telefono;
             $r->user_f_nacimiento = $_POST["user_f_nacimiento"];
@@ -947,54 +900,173 @@ if ($func_post == "add_participant") {
 
 
 
-
-    if ($_POST["parent_ref"] != "Falta") {
-        $parent_ref = $_POST["parent_ref"];
-    } else {
-        $parent_ref = $id_user_final;
-    }
-
-
-    // registro el participante
-    $param = new ParticipantsData();
-    $param->id_user_final = $id_user_final;
-    $param->id_activity = $_POST["id_activity"];
-    $param->date_activity = $_POST["date_activity"];
-    $param->estate = $_POST["estate"];
-    $param->info_id = $info_id;
-    $param->code_info = $_POST["code_info"];
-    $param->name = ucwords(mb_strtolower($_POST["name"]));
-    $param->name_2 = ucwords(mb_strtolower($_POST["name_2"]));
-    $param->lastname = ucwords(mb_strtolower($_POST["lastname"]));
-    $param->lastname_2 = ucwords(mb_strtolower($_POST["lastname_2"]));
-    $param->user_nationality = $_POST["user_nationality"];
-    $param->user_has_document = $_POST["user_has_document"];
-    $param->document_id = $document_id;
-    $param->parent_dni = $parent_dni;
-    $param->child_number = $_POST["child_number"];
-    $param->parent_ref = $parent_ref;
-    $param->user_f_nacimiento = $_POST["user_f_nacimiento"];
-    $param->age = $age;
-    $param->gender = $_POST["gender"];
-    $param->user_comunity_type = $_POST["user_comunity_type"];
-    $param->user_pertenece_organizacion = $_POST["user_pertenece_organizacion"];
-    $param->phone = $user_telefono;
-    $param->email = $user_correo;
-    $param->etnia = $_POST["etnia"];
-    $param->line_action = $_POST["line_action"];
-    $param->report_type = $_POST["report_type"];
-    $param->disability_type = $_POST["disability_type"];
-    $param->uid_fac = $_POST["uid_fac"];
-    $param->equipo_sala_comunal = $_POST["equipo_sala_comunal"];
-    // $resul = $param->add_Pg();
-    // print_r($resul[0]);
-
     try {
-        $resul = $param->add_Pg();
+
+        if ($_POST["parent_ref"] != "Falta") {
+            $parent_ref = $_POST["parent_ref"];
+        } else {
+            $parent_ref = $id_user_final;
+        }
+
+
+        $activity = ReportActivityData::getByIdPg((int)$_POST["id_activity"]);
+
+        $sql = "INSERT into participants_list (
+			id_user_final, 
+			id_activity, 
+			uid_fac, 
+			line_action, 
+			report_type, 
+			name_activity, 
+			date_activity, 
+			estate, 
+			info_id, 
+			code_info, 
+			name, 
+			name_2, 
+			lastname, 
+			lastname_2, 
+			user_nationality, 
+			user_has_document, 
+			document_id, 
+			parent_dni, 
+			child_number, 
+			parent_ref, 
+			user_f_nacimiento, 
+			age, 
+			gender, 
+			user_comunity_type, 
+			user_pertenece_organizacion, 
+			phone, 
+			email, 
+			etnia, 
+			disability_type,
+			equipo_sala_comunal
+			)";
+        $sql .= " VALUES (
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?
+			) RETURNING id;";
+        $values = [
+            $id_user_final,
+            (int)$_POST["id_activity"],
+            $_POST["uid_fac"],
+            $_POST["line_action"],
+            $_POST["report_type"],
+            $activity["activity_title"],
+            $_POST["date_activity"],
+            $_POST["estate"],
+            (int)$info_id,
+            $_POST["code_info"],
+            ucwords(mb_strtolower($_POST["name"])),
+            ucwords(mb_strtolower($_POST["name_2"])),
+            ucwords(mb_strtolower($_POST["lastname"])),
+            ucwords(mb_strtolower($_POST["lastname_2"])),
+            $_POST["user_nationality"],
+            $_POST["user_has_document"],
+            $document_id,
+            $parent_dni,
+            (int)$_POST["child_number"],
+            $parent_ref,
+            $_POST["user_f_nacimiento"],
+            $age,
+            $_POST["gender"],
+            $_POST["user_comunity_type"],
+            $_POST["user_pertenece_organizacion"],
+            $user_telefono,
+            $user_correo,
+            $_POST["user_etnia"],
+            $_POST["disability_type"],
+            $_POST["equipo_sala_comunal"]
+        ];
+
+        // echo implode(",",$values);
+        $id_participant = ExecutorPg::insert($sql, $values)[0]['id'];
+
+
+        // $resul = $param->add_Pg();
+
+        $sql = "INSERT into formaciones (
+                usuario_id, 
+                taller_id, 
+                completado, 
+                fecha_completado,
+                update_by,
+                created_at,
+                update_at,
+                cod_curso,
+                cod_taller,
+                orden_taller,
+                id_activity,
+                user_dni,
+                participant_id
+                )";
+        $sql .= " VALUES (
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?
+                );";
+        $values = [
+            $usuario_id,
+            $_POST["id_taller"],
+            $taller_completado === "true" ? "true" : "false",
+            $taller_completado === "true" ? date("Y-m-d H:i:s") : null,
+            $_SESSION["user_id"],
+            date("Y-m-d H:i:s"),
+            date("Y-m-d H:i:s"),
+            $cod_curso,
+            $codigo_taller,
+            $orden_taller,
+            $id_activity,
+            $usuario_dni_existente,
+            $id_participant
+
+        ];
+        $formacion = ExecutorPg::insert($sql, $values)[0];
+
+
         $_SESSION['alert'] = '¡Usuario actualizado!';
         $array = array(
             "error"  => "false",
-            "data"  => "ID: " . $resul,
+            "data"  => "ID: " . $id_participant,
             "alert" => "Usuario actualizado.",
             "alert_type" => "dashboard"
         );
@@ -1078,12 +1150,12 @@ if ($func_post == "add_participant") {
         }
     }
 
-    // $array = array(
-    //     "error"  => "false",
-    //     "data"  => "ID: " . $resul,
-    //     "alert" => "Usuario agregado.",
-    //     "alert_type" => "dashboard"
-    // );
+    $array = array(
+        "error"  => "false",
+        "data"  => "ID: " . $id_participant,
+        "alert" => "Usuario agregado.",
+        "alert_type" => "dashboard"
+    );
     echo json_encode($array);
 
 
@@ -2305,46 +2377,60 @@ if ($func_get == "del_participant") {
         Core::alert("Error: Falta el id a eliminar");
         return;
     }
-    $param = ParticipantsData::delByIdPg($_GET["id"]);
 
-    $conn = DatabasePg::connectPg();
-    $update_person = new ReportActivityData();
-    $update_person->update_type = "del";
-    $update_person->perso_gender = $_GET["gender"];
-    $update_person->id_activity = $_GET["id_activity"];
-    $id_activity = $_GET["id_activity"];
+    try {
 
-    if ($_GET["gender"] == "Hombre" || $_GET["gender"] == "M" || $_GET["gender"] == "m") {
-        // print_r($update_person->update_participant_ma_add());
-        $row = $conn->prepare("SELECT COUNT(*) as total from participants_list where gender='Hombre' and id_activity='$id_activity'");
-        $row->execute();
-        $total_data = $row->fetchAll(PDO::FETCH_ASSOC);
-        $total_person = $total_data[0]["total"];
-        echo $total_person;
 
-        $sql = "UPDATE reports	set person_ma = ? where id = ?;";
-        $values = [(int)$total_person, (int)$id_activity];
-        ExecutorPg::update($sql, $values);
+        $param = ParticipantsData::delByIdPg($_GET["id"]);
+
+        $conn = DatabasePg::connectPg();
+        $update_person = new ReportActivityData();
+        $update_person->update_type = "del";
+        $update_person->perso_gender = $_GET["gender"];
+        $update_person->id_activity = $_GET["id_activity"];
+        $id_activity = $_GET["id_activity"];
+
+        if ($_GET["gender"] == "Hombre" || $_GET["gender"] == "M" || $_GET["gender"] == "m") {
+            // print_r($update_person->update_participant_ma_add());
+            $row = $conn->prepare("SELECT COUNT(*) as total from participants_list where gender='Hombre' and id_activity='$id_activity'");
+            $row->execute();
+            $total_data = $row->fetchAll(PDO::FETCH_ASSOC);
+            $total_person = $total_data[0]["total"];
+            // echo $total_person;
+
+            $sql = "UPDATE reports	set person_ma = ? where id = ?;";
+            $values = [(int)$total_person, (int)$id_activity];
+            ExecutorPg::update($sql, $values);
+        }
+        if ($_GET["gender"] == "Mujer" || $_GET["gender"] == "F" || $_GET["gender"] == "f") {
+            $row = $conn->prepare("SELECT COUNT(*) as total from participants_list where gender='Mujer' and id_activity='$id_activity'");
+            $row->execute();
+            $total_data = $row->fetchAll(PDO::FETCH_ASSOC);
+            $total_person = $total_data[0]["total"];
+            // echo $total_person;
+
+            $sql = "UPDATE reports set person_fe = ? where id = ?;";
+            $values = [(int)$total_person, (int)$id_activity];
+            ExecutorPg::update($sql, $values);
+        }
+
+        $_SESSION['alert'] = '¡Eliminado!';
+        $array = array(
+            "error"  => "false",
+            "data"  => "Result: ",
+            "alert" => "¡Eliminado con éxito!",
+            "alert_type" => "dashboard"
+        );
+    } catch (Exception $e) {
+        $array = array(
+            "error"  => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
     }
-    if ($_GET["gender"] == "Mujer" || $_GET["gender"] == "F" || $_GET["gender"] == "f") {
-        $row = $conn->prepare("SELECT COUNT(*) as total from participants_list where gender='Mujer' and id_activity='$id_activity'");
-        $row->execute();
-        $total_data = $row->fetchAll(PDO::FETCH_ASSOC);
-        $total_person = $total_data[0]["total"];
-        echo $total_person;
-
-        $sql = "UPDATE reports set person_fe = ? where id = ?;";
-        $values = [(int)$total_person, (int)$id_activity];
-        ExecutorPg::update($sql, $values);
-    }
-
-
-    $PHP_SELFx = "index.php?view=participants_list&swal=Eliminado&id_activity=" . $_GET["id_activity"] . "&activity=" . $_GET["activity"] . "&code_info=" . $_GET['code_info'] . "&date_activity=" . $_GET['date_activity'] . "&estate=" . $_GET['estate'] . "&line_action=" . $_GET['line_action'] . "&report_type=" . $_GET['report_type'] . "&user_id=" . $_GET['user_id'];
-    echo "<script language=\"JavaScript\">
-        <!-- 
-        document.location=\"$PHP_SELFx\";
-        //-->
-        </script>";
+    echo json_encode($array);
+    return;
 }
 
 
@@ -2519,6 +2605,9 @@ if ($func_get == "del_training_type") {
     echo json_encode($array);
     return;
 }
+
+
+
 
 
 // del_tipo_taller

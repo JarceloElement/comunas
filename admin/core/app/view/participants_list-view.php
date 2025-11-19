@@ -1,5 +1,67 @@
 <!-- <script src="assets/js/jquery-3.1.1.min.js"></script> -->
 <script language="javascript">
+	async function del_item(id,gender,id_activity) {
+		Swal.fire({
+			title: "¿Desea eliminar?",
+			text: "¡Esto es irreversible!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "¡Sí, eliminar!",
+			cancelButtonText: "Cancelar",
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+
+				$('#cover-spin').show(0);
+
+				// 1. Datos para la URL
+				const datos = {
+					function: "del_participant",
+					id: id,
+					gender: gender,
+					id_activity: id_activity
+				};
+				// 2. Construir la URL con los parámetros de búsqueda
+				const params = new URLSearchParams(datos);
+				const url = `./?action=ajax&${params.toString()}`;
+
+				try {
+					// 3. Realizar la solicitud GET, sin 'method' ni 'body'
+					const res = await fetch(url);
+
+					if (res.ok) {
+						console.log(res);
+						const array = await res.json();
+						console.log(array);
+						toastify(array.alert, true, 13000, array.alert_type);
+						$('#cover-spin').hide(0);
+						if (array.error == 'false') {
+							window.timer = setTimeout(function() {
+								location.reload();
+							}, 800);
+						}
+
+					} else {
+						// Leer la respuesta como texto para depurar
+						const errorText = await res.text();
+						$('#cover-spin').hide(0);
+						// Mostrar el texto de error real del servidor
+						toastify(`Error del servidor: ${errorText}`, true, 12000, "error");
+						throw new Error(`Error de red: ${res.statusText}`);
+					}
+
+				} catch (error) {
+					$('#cover-spin').hide(0);
+					toastify(`Error inesperado: ${error.message}`, true, 12000, "error");
+					console.error("Detalle del error:", error);
+				}
+			}
+		});
+	};
+
+
+
 	var Name_OS = "Unknown OS";
 
 
@@ -107,7 +169,7 @@
 		var user_f_nacimiento = moment(document.getElementById("user_f_nacimiento").value);
 		let fechaActual = moment();
 		var diferencia = fechaActual.diff(user_f_nacimiento, 'years');
-		console.log(diferencia);
+		// console.log(diferencia);
 		if (diferencia <= 1) {
 			if (getOS() == "Android") {
 				alert("El usuario tiene " + diferencia + " años. Por favor verifica que tenga más de un año de edad");
@@ -179,11 +241,12 @@
 			});
 
 			if (res.ok) {
-				console.log(res);
+				// console.log(res);
 				const result_await = await res.text();
 				// console.log(result_await);
 				var array = JSON.parse(result_await);
-				// console.log(array);
+				console.log(array);
+				// toastify(array.alert, true, 13000, array.alert_type);
 				$('#cover-spin').hide(0);
 				if (array.error == 'true') {
 					if (getOS() == "Android") {
@@ -639,18 +702,28 @@ $DB_name = "participants_list";
 										<a href='index.php?view=editparticipants&id=<?php echo $types["id"]; ?>&code_info=<?php echo $_GET['code_info']; ?>&estate=<?php echo $_GET['estate']; ?>&id_activity=<?php echo $_GET["id_activity"]; ?>&date_activity=<?php echo $_GET["date_activity"]; ?>&activity=<?php echo $_GET["activity"]; ?>&gender=<?php echo $types["gender"]; ?>&line_action=<?php echo $_GET["line_action"]; ?>&report_type=<?php echo $_GET["report_type"]; ?>&pag=<?php echo $pag; ?>' class="btn btn-warning btn-sm"><i><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24">
 													<path fill="currentColor" d="M3 21v-4.25L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.438.65T21 6.4q0 .4-.137.763t-.438.662L7.25 21zM17.6 7.8L19 6.4L17.6 5l-1.4 1.4z" />
 												</svg></i></a>
-										<a href='./?action=ajax&function=del_participant&code_info=<?php echo $_GET['code_info']; ?>&estate=<?php echo $_GET['estate']; ?>&id=<?php echo $types["id"]; ?>&id_activity=<?php echo $_GET["id_activity"]; ?>&date_activity=<?php echo $_GET["date_activity"]; ?>&activity=<?php echo $_GET["activity"]; ?>&gender=<?php echo $types["gender"]; ?>&line_action=<?php echo $_GET["line_action"]; ?>&report_type=<?php echo $_GET["report_type"]; ?>&user_id=<?php echo $_GET["user_id"]; ?>' class="btn btn-danger btn-sm"><i><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24">
-													<path fill="currentColor" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z" />
-												</svg></i></a>
+
+										<a onclick="del_item('<?php echo $types['id']; ?>','<?php echo $types['gender']; ?>','<?php echo $types['id_activity']; ?>')" href="javascript:void(0);">
+											<button type="button" class="btn btn-danger btn-sm"><i>
+													<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+														<path fill="currentColor" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z" />
+													</svg></i>
+											</button>
+										</a>
 
 									<?php } elseif ($_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 9 || (($_SESSION["user_type"] == 8 || $_SESSION["user_rol"] == 'Políticas públicas') && $_SESSION["user_region"] == $_GET["estate"])) { ?>
 
 										<a href='index.php?view=editparticipants&id=<?php echo $types["id"]; ?>&code_info=<?php echo $_GET['code_info']; ?>&estate=<?php echo $_GET['estate']; ?>&id_activity=<?php echo $_GET["id_activity"]; ?>&date_activity=<?php echo $_GET["date_activity"]; ?>&activity=<?php echo $_GET["activity"]; ?>&gender=<?php echo $types["gender"]; ?>&line_action=<?php echo $_GET["line_action"]; ?>&report_type=<?php echo $_GET["report_type"]; ?>&pag=<?php echo $pag; ?>' class="btn btn-warning btn-sm"><i><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24">
 													<path fill="currentColor" d="M3 21v-4.25L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.438.65T21 6.4q0 .4-.137.763t-.438.662L7.25 21zM17.6 7.8L19 6.4L17.6 5l-1.4 1.4z" />
 												</svg></i></a>
-										<a href='./?action=ajax&function=del_participant&code_info=<?php echo $_GET['code_info']; ?>&estate=<?php echo $_GET['estate']; ?>&id=<?php echo $types["id"]; ?>&id_activity=<?php echo $_GET["id_activity"]; ?>&date_activity=<?php echo $_GET["date_activity"]; ?>&activity=<?php echo $_GET["activity"]; ?>&gender=<?php echo $types["gender"]; ?>&line_action=<?php echo $_GET["line_action"]; ?>&report_type=<?php echo $_GET["report_type"]; ?>&user_id=<?php echo $_GET["user_id"]; ?>' class="btn btn-danger btn-sm"><i><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24">
-													<path fill="currentColor" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z" />
-												</svg></i></a>
+
+										<a onclick="del_item('<?php echo $types['id']; ?>','<?php echo $types['gender']; ?>','<?php echo $types['id_activity']; ?>')" href="javascript:void(0);">
+											<button type="button" class="btn btn-danger btn-sm"><i>
+													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+														<path fill="currentColor" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z" />
+													</svg></i>
+											</button>
+										</a>
 
 									<?php } ?>
 

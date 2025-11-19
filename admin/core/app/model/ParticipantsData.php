@@ -193,7 +193,7 @@ class ParticipantsData
 			?,
 			?,
 			?
-			);";
+			) RETURNING id;";
 		$values = [
 			$this->id_user_final,
 			(int)$this->id_activity,
