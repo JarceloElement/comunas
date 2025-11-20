@@ -1013,7 +1013,7 @@ $fecha_end = "2025-01-01";
             $("#area_formativa option:selected").each(function() {
                 $('#cover-spin').show(0);
                 categoria = $(this).val();
-                // console.log(categoria);
+                etapa = $(this).data('etapa');
 
                 dat_description = $(this).data('description');
                 var code_info = document.getElementById("code_info").value;
@@ -1051,6 +1051,7 @@ $fecha_end = "2025-01-01";
 
                 // tipo de taller
                 $.post("core/app/view/get_tipo_taller.php", {
+                    etapa: etapa,
                     categoria: categoria,
                     code_info: code_info
                 }, function(data) {

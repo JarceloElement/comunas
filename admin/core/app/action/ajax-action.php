@@ -466,6 +466,7 @@ if ($func_post == "add_tipo_taller") {
     $permisos = $permisos;
     $orden_taller = $_POST["orden_taller"];
     $codigo_taller = $_POST["codigo_taller"];
+    $etapa = $_POST["etapa"];
 
     // verificar si el codigo existe
     $sql = "SELECT * from tipo_taller where codigo_taller='$codigo_taller';";
@@ -492,15 +493,15 @@ if ($func_post == "add_tipo_taller") {
 
 
 
-    $sql = "INSERT into tipo_taller (name_training_type, nombre_taller, descripcion_taller, duracion_horas, nivel, modalidad, permisos, orden_taller, codigo_taller) 
-    VALUES ('$line_action','$nombre_taller','$descripcion_taller','$duracion_horas', '$nivel', '$modalidad', '$permisos', '$orden_taller', '$codigo_taller')";
+    $sql = "INSERT into tipo_taller (name_training_type, nombre_taller, descripcion_taller, duracion_horas, nivel, modalidad, permisos, orden_taller, codigo_taller, etapa) 
+    VALUES ('$line_action','$nombre_taller','$descripcion_taller','$duracion_horas', '$nivel', '$modalidad', '$permisos', '$orden_taller', '$codigo_taller', '$etapa')";
 
     try {
         $result = ExecutorPg::doit($sql);
         $_SESSION['alert'] = 'Agregado con éxito';
         $array = array(
             "error" => "false",
-            "data"  => "ID: " . $result,
+            "data"  => "ID: " . $etapa,
             "alert" => "Registro creado con éxito.",
             "alert_type" => "dashboard"
         );

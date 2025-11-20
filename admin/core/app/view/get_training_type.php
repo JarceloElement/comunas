@@ -48,9 +48,9 @@ if (count($res) > 0 && $stmt->rowCount() != 0) {
 	if (count($res[0]) > 0) {
 		foreach ($res[0] as $row) {
 			if (!in_array($code_info, explode(",", str_replace(" ", "", $row->restringir_categoria))) && $row->restringir_categoria != "" && $row->restringir_categoria != "TODOS" && $row->restringir_categoria != "Todos") {
-				$html .= "<option data-set_institucion='" . $row->habilitar_institucion . "' data-set_description='" . $row->habilitar_descripcion . "' data-description='" . $row->descripcion_actividad . "' data-cod_curso='" . $row->codigo_curso . "' value='" . $row->name_training_type . "' style='display:none' >" . $row->name_training_type . "</option>";
+				$html .= "<option data-etapa='" . $row->name_strategic_action . "' data-set_institucion='" . $row->habilitar_institucion . "' data-set_description='" . $row->habilitar_descripcion . "' data-description='" . $row->descripcion_actividad . "' data-cod_curso='" . $row->codigo_curso . "' value='" . $row->name_training_type . "' style='display:none' >" . $row->name_training_type . "</option>";
 			} else {
-				$html .= "<option data-set_institucion='" . $row->habilitar_institucion . "' data-set_description='" . $row->habilitar_descripcion . "' data-description='" . $row->descripcion_actividad . "' data-cod_curso='" . $row->codigo_curso . "' value='" . $row->name_training_type . "'>" . $row->name_training_type . "</option>";
+				$html .= "<option data-etapa='" . $row->name_strategic_action . "' data-set_institucion='" . $row->habilitar_institucion . "' data-set_description='" . $row->habilitar_descripcion . "' data-description='" . $row->descripcion_actividad . "' data-cod_curso='" . $row->codigo_curso . "' value='" . $row->name_training_type . "'>" . $row->name_training_type . "</option>";
 				$total++;
 			}
 		}

@@ -206,17 +206,16 @@ $training_type = TrainingTypeData::getAll();
                         <br>
 
                         <form method="post" id="add_tipo_taller" role="form">
-
+                            <input type="hidden" name="etapa" id="etapa" value="">
 
                             <div class="row">
-
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="line_action" class=" control-label"><i class="fa fa-cogs"></i> Curso al que pertenece el nuevo taller</label>
                                         <select name="line_action" class="form-control" id="line_action" required>
                                             <option value="">-SELECCIONE-</option>
                                             <?php foreach ($training_type as $p): ?>
-                                                <option value="<?php echo $p->name_training_type; ?>"> <?php echo $p->name_training_type; ?></option>
+                                                <option data-etapa="<?php echo $p->name_strategic_action; ?>" value="<?php echo $p->name_training_type; ?>"> <?php echo $p->name_training_type; ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -382,6 +381,7 @@ $TotalRegistro  = ceil($TotalReg / $CantidadMostrar);
                                     <table class="table table-bordered table-hover">
                                         <thead>
                                             <th>N°</th>
+                                            <th>Etapa</th>
                                             <th>Tipo de curso</th>
                                             <th>Nombre del taller</th>
                                             <th>Descripción del taller</th>
@@ -402,6 +402,7 @@ $TotalRegistro  = ceil($TotalReg / $CantidadMostrar);
                                         ?>
                                             <tr>
                                                 <td><?php echo $conteo; ?></td>
+                                                <td><?php echo $user->etapa; ?></td>
                                                 <td><?php echo $user->name_training_type; ?></td>
                                                 <td><?php echo $user->nombre_taller; ?></td>
                                                 <td><?php echo $user->descripcion_taller; ?></td>
@@ -461,7 +462,10 @@ $TotalRegistro  = ceil($TotalReg / $CantidadMostrar);
             $('#tipo_reporte').find('option').remove().end().append('<option value=""></option>').val('0');
             $("#line_action option:selected").each(function() {
                 line = $(this).val();
-                console.log($("#tipo_reporte").val());
+                etapa = $(this).data("etapa");
+                console.log(etapa),
+                $("#etapa").val(etapa);
+                // console.log($("#tipo_reporte").val());
                 $.post("core/app/view/get_strategic_action.php", {
                     line: line
                 }, function(data) {
