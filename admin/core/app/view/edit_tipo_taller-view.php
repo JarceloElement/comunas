@@ -77,7 +77,7 @@
             })
             .done(function(msg) {
                 toastify('Guardado', true, 1000, "dashboard");
-                document.location='index.php?view=tipo_taller_view';
+                document.location = 'index.php?view=tipo_taller_view';
                 // $('#content').reload('#content');
 
             })
@@ -113,14 +113,15 @@ $data = TipoTallerData::getByIdPg($id);
                                     <span class='text_label'> <i class='fa fa-cogs icon_label'></i> <b> Editar taller </b> </span>
                                 </a>
                             </h4>
+                            <br>
+                            <label class='text_label' id="titulo_etapa" style="color:#d2f;"> <b> Etapa: </b> </label>
                         </div>
 
-                        <br>
 
                         <form method="post" id="add_tipo_taller" role="form">
                             <input type="hidden" name="id" id="id" value="<?php echo $data->id; ?>"></input>
                             <input type="hidden" name="etapa" id="etapa" value="<?php echo $data->etapa; ?>"></input>
-    
+
 
                             <div class="row">
 
@@ -173,11 +174,11 @@ $data = TipoTallerData::getByIdPg($id);
                                         <input type="text" name="codigo_taller" id="codigo_taller" value="<?php echo $data->codigo_taller; ?>" class="form-control" placeholder="C-01"></input>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="descripcion_taller" class="control-label"><i class="fa fa-cogs"></i> Descripción del taller</label>
-                                        <input type="text" name="descripcion_taller" id="descripcion_taller"  value="<?php echo $data->descripcion_taller; ?>" class="form-control" placeholder="Descripción"></input>
+                                        <input type="text" name="descripcion_taller" id="descripcion_taller" value="<?php echo $data->descripcion_taller; ?>" class="form-control" placeholder="Descripción"></input>
                                         <span><label style="color:blueviolet;"> Si se deja vacío se tomará la descripción del curso</label></span>
                                     </div>
                                 </div>
@@ -237,15 +238,16 @@ $data = TipoTallerData::getByIdPg($id);
                 line = $(this).val();
                 etapa = $(this).data("etapa");
                 $("#etapa").val(etapa);
+                $("#titulo_etapa").text(etapa);
                 console.log(etapa),
 
-                // console.log($("#tipo_reporte").val());
-                $.post("core/app/view/get_strategic_action.php", {
-                    line: line
-                }, function(data) {
-                    $("#tipo_reporte").html(data);
-                    // console.log(data);
-                });
+                    // console.log($("#tipo_reporte").val());
+                    $.post("core/app/view/get_strategic_action.php", {
+                        line: line
+                    }, function(data) {
+                        $("#tipo_reporte").html(data);
+                        // console.log(data);
+                    });
 
             });
         })

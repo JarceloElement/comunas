@@ -201,9 +201,10 @@ $training_type = TrainingTypeData::getAll();
                                     <span class='text_label'> <i class='fa fa-cogs icon_label'></i> <b> Agregar tipos de talleres </b> </span>
                                 </a>
                             </h4>
+                            <br>
+                            <label class='text_label' id="titulo_etapa" style="color:#d2f;"> <b> Etapa: </b> </label>
                         </div>
 
-                        <br>
 
                         <form method="post" id="add_tipo_taller" role="form">
                             <input type="hidden" name="etapa" id="etapa" value="">
@@ -320,10 +321,10 @@ $compag = (int)(!isset($_GET['pag'])) ? 1 : $_GET['pag'];
 
 
 // pg
-$total = TrainingTypeData::getAllPg("SELECT * from tipo_taller order by orden_taller::INTEGER asc");
+$total = TrainingTypeData::getAllPg("SELECT * from tipo_taller order by etapa asc, orden_taller::INTEGER asc");
 $TotalReg = $total[1];
 
-$sql = "SELECT * from tipo_taller order by orden_taller::INTEGER asc";
+$sql = "SELECT * from tipo_taller order by etapa asc, orden_taller::INTEGER asc";
 
 $param_csv = mb_convert_encoding($sql, 'UTF-8', 'UTF-8');
 // $param_sql = mb_convert_encoding($sql, 'UTF-8', 'UTF-8');
@@ -464,14 +465,15 @@ $TotalRegistro  = ceil($TotalReg / $CantidadMostrar);
                 line = $(this).val();
                 etapa = $(this).data("etapa");
                 $("#etapa").val(etapa);
+                $("#titulo_etapa").text(etapa);
                 console.log(etapa),
-                // console.log($("#tipo_reporte").val());
-                $.post("core/app/view/get_strategic_action.php", {
-                    line: line
-                }, function(data) {
-                    $("#tipo_reporte").html(data);
-                    // console.log(data);
-                });
+                    // console.log($("#tipo_reporte").val());
+                    $.post("core/app/view/get_strategic_action.php", {
+                        line: line
+                    }, function(data) {
+                        $("#tipo_reporte").html(data);
+                        // console.log(data);
+                    });
 
             });
         })
