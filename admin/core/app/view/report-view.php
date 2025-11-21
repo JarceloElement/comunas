@@ -1916,7 +1916,7 @@ $DB_name = "reports";
 								</td>
 
 
-								<td><?php echo $user["codigo_taller"]; ?><label style="font-size:12px;"><?php echo charlimit_title($user["activity_title"], 60); ?></label></td>
+								<td><label style="font-size:12px;"><?php echo $user["codigo_taller"]." | "; ?><?php echo charlimit_title($user["activity_title"], 60); ?></label></td>
 
 
 								<?php
