@@ -1,6 +1,6 @@
 <!-- <script src="assets/js/jquery-3.1.1.min.js"></script> -->
 <script language="javascript">
-	async function del_item(id,gender,id_activity) {
+	async function del_item(id, gender, id_activity) {
 		Swal.fire({
 			title: "¿Desea eliminar?",
 			text: "¡Esto es irreversible!",
@@ -60,6 +60,52 @@
 		});
 	};
 
+
+	async function aprobar(participant_id, completado) {
+
+		$('#cover-spin').show(0);
+
+		// 1. Datos para la URL
+		const datos = {
+			function: "aprobar_participante",
+			participant_id: participant_id,
+			completado: completado
+		};
+		// 2. Construir la URL con los parámetros de búsqueda
+		const params = new URLSearchParams(datos);
+		const url = `./?action=ajax&${params.toString()}`;
+
+		try {
+			// 3. Realizar la solicitud GET, sin 'method' ni 'body'
+			const res = await fetch(url);
+
+			if (res.ok) {
+				console.log(res);
+				const array = await res.json();
+				console.log(array);
+				toastify(array.alert, true, 13000, array.alert_type);
+				$('#cover-spin').hide(0);
+				if (array.error == 'false') {
+					window.timer = setTimeout(function() {
+						location.reload();
+					}, 800);
+				}
+
+			} else {
+				// Leer la respuesta como texto para depurar
+				const errorText = await res.text();
+				$('#cover-spin').hide(0);
+				// Mostrar el texto de error real del servidor
+				toastify(`Error del servidor: ${errorText}`, true, 12000, "error");
+				throw new Error(`Error de red: ${res.statusText}`);
+			}
+
+		} catch (error) {
+			$('#cover-spin').hide(0);
+			toastify(`Error inesperado: ${error.message}`, true, 12000, "error");
+			console.error("Detalle del error:", error);
+		}
+	}
 
 
 	var Name_OS = "Unknown OS";
@@ -605,13 +651,31 @@ $pag = isset($_GET['pag']) ? $_GET['pag'] : '';
 $compag = (int)(!isset($_GET['pag'])) ? 1 : $_GET['pag'];
 
 
+$sql = "SELECT 
+participants_list.id,
+participants_list.id_activity,
+participants_list.uid_fac,
+participants_list.id_user_final,
+participants_list.estate,
+participants_list.name,
+participants_list.lastname,
+participants_list.document_id,
+participants_list.parent_ref,
+participants_list.age,
+participants_list.gender,
+participants_list.phone,
+participants_list.id,
+formaciones.completado,
+formaciones.participant_id
+from participants_list 
+INNER JOIN formaciones 
+ON formaciones.id_activity::INT = participants_list.id_activity 
+where participants_list.id_activity=" . $_GET['id_activity'] . " order by id asc ";
 
-
-$total = ParticipantsData::getBySQL("SELECT * from participants_list where id_activity=" . $_GET['id_activity'] . " order by id asc ");
+$total = ParticipantsData::getBySQL($sql);
 $TotalReg = $total[1];
 
 
-$sql = "SELECT * from participants_list where id_activity=" . $_GET['id_activity'] . " order by id desc";
 $param_csv = $sql;
 $sql .= " LIMIT " . $CantidadMostrar . " OFFSET " . (($compag - 1) * $CantidadMostrar);
 $param = ParticipantsData::getBySQL($sql);
@@ -673,6 +737,7 @@ $DB_name = "participants_list";
 							<th>Edad</th>
 							<th>Género</th>
 							<th>Teléfono</th>
+							<th>Estatus aprobación</th>
 							<th>Acciones</th>
 						</thead>
 
@@ -694,6 +759,14 @@ $DB_name = "participants_list";
 								<td><?php echo $types["age"]; ?></td>
 								<td><?php echo $types["gender"]; ?></td>
 								<td><?php echo $types["phone"]; ?></td>
+								<td>
+									<a onclick="aprobar('<?php echo $types['participant_id']; ?>','<?php echo $types['completado']; ?>')" href="javascript:void(0);">
+										<button type="button" class="btn <?php if($types['completado']=='false') echo 'btn-danger'; else echo 'btn-success'; ?> btn-sm">
+											<?php if($types['completado']=='false') echo 'Aprobar'; else echo 'Desaprobar'; ?>
+										</button>
+									</a>
+
+								</td>
 
 
 								<td style="width:180px;">

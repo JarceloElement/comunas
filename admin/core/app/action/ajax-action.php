@@ -404,6 +404,61 @@ if ($func_post == "edit_tipo_taller") {
 }
 
 
+
+// aprobar_participante
+if ($func_get == "aprobar_participante") {
+
+    $participant_id = $_GET["participant_id"];
+    if ($_GET["completado"] == "true") {
+        $completado = "false";
+    } else {
+        $completado = "true";
+    }
+
+    $fecha_completado = date("Y-m-d H:i:s");
+
+
+    if ($completado == 'true') {
+        $sql = "UPDATE formaciones set completado='$completado', fecha_completado='$fecha_completado' where participant_id=$participant_id";
+    }else {
+        $sql = "UPDATE formaciones set completado='$completado', fecha_completado=NULL where participant_id=$participant_id";
+    }
+
+
+    try {
+        $result = ExecutorPg::doit($sql);
+        // $_SESSION['alert'] = '¡Actualizado con éxito!';
+
+        if ($completado == "false") {
+            $array = array(
+                "error"  => "false",
+                "data"  => "Result: " . $completado,
+                "alert" => "El participante ha sido marcado como NO completado.",
+                "alert_type" => "dashboard"
+            );
+        }
+
+        if ($completado == "true") {
+            $array = array(
+                "error"  => "false",
+                "data"  => "Result: " . $completado,
+                "alert" => "El participante ha sido marcado como completado.",
+                "alert_type" => "dashboard"
+            );
+        }
+    } catch (Exception $e) {
+        $array = array(
+            "error"  => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+    }
+    echo json_encode($array);
+    return;
+}
+
+
 // add_tipo_formacion
 if ($func_post == "add_tipo_formacion") {
     $line_action = $_POST["line_action"];
@@ -1049,8 +1104,8 @@ if ($func_post == "add_participant") {
         $values = [
             $usuario_id,
             $_POST["id_taller"],
-            $taller_completado === "true" ? "true" : "false",
-            $taller_completado === "true" ? date("Y-m-d H:i:s") : null,
+            "true",
+            date("Y-m-d H:i:s"),
             $_SESSION["user_id"],
             date("Y-m-d H:i:s"),
             date("Y-m-d H:i:s"),
