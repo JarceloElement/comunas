@@ -870,7 +870,7 @@ if ($func_post == "add_participant") {
                 if ($prelacion == "false" && $orden_taller != 1) {
                     throw new Exception("El usuario no ha completado el taller anterior. Ya está inscrito en el taller N° $taller_anterior, de este curso, debe completarlo primero antes de inscribirse en el curso siguiente.");
                 }
-                if ($prelacion == "null" && $orden_taller != 1) {
+                if ($prelacion == "null" && $orden_taller != 1 && $taller_anterior != 0) {
                     throw new Exception("El usuario no puede realizar éste taller todavía. Antes debe completar el taller N° $taller_anterior de este curso");
                 }
 
