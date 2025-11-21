@@ -1263,6 +1263,7 @@ $DB_name = "reporte_planif";
 
                         foreach ($users as $user) {
                             $planning_line_action  = $user["line_action"];
+                            $report_type  = $user["report_type"];
                             $type = ($user["report_type"] != '') ? $user["report_type"] : '<font color="red">SELECCIONE</font>';
                             $specific = ($user["specific_action"] != '') ? $user["specific_action"] : '<font color="red">SELECCIONE</font>';
                             $training = ($user["training_type"] != '') ? $user["training_type"] : '<font color="red">-</font>';
@@ -1324,11 +1325,11 @@ $DB_name = "reporte_planif";
                                 } ?>
 
                                 <?php if ($user["specific_action"] == "Formación en habilidades digitales") { ?>
-                                    <?php echo $planning_line_action . " | " . $specific . " | " . $training . " <i><svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24'><path fill='currentColor' d='M12 3L1 9l11 6l9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17z'/></svg></i> > " . $taller; ?>
+                                    <?php echo $planning_line_action . " | " . $report_type . " | " . $training . " <i><svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24'><path fill='currentColor' d='M12 3L1 9l11 6l9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17z'/></svg></i> > " . $taller; ?>
                                 <?php } else if ($user["line_action"] == "Comunas en Red Digital") { ?>
-                                    <?php echo $planning_line_action . " | " . $training . " <i><svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24'><path fill='currentColor' d='M12 3L1 9l11 6l9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17z'/></svg></i> > " . $taller; ?>
+                                    <?php echo $planning_line_action . " | " . $report_type . " <i><svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24'><path fill='currentColor' d='M12 3L1 9l11 6l9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17z'/></svg></i> > " . $taller; ?>
                                 <?php } else { ?>
-                                    <?php echo $planning_line_action . " | " . $specific; ?>
+                                    <?php echo $planning_line_action . " | " . $report_type; ?>
                                 <?php } ?>
 
                                 </td>
