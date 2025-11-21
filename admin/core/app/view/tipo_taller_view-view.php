@@ -463,8 +463,8 @@ $TotalRegistro  = ceil($TotalReg / $CantidadMostrar);
             $("#line_action option:selected").each(function() {
                 line = $(this).val();
                 etapa = $(this).data("etapa");
-                console.log(etapa),
                 $("#etapa").val(etapa);
+                console.log(etapa),
                 // console.log($("#tipo_reporte").val());
                 $.post("core/app/view/get_strategic_action.php", {
                     line: line

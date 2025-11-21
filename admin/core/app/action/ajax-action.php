@@ -368,6 +368,7 @@ if ($func_post == "edit_strategic_action") {
 // edit_tipo_taller
 if ($func_post == "edit_tipo_taller") {
 
+    $etapa = $_POST["etapa"];
     $id = $_POST["id"];
     $line_action = $_POST["line_action"];
     $nivel = $_POST["nivel"];
@@ -380,7 +381,7 @@ if ($func_post == "edit_tipo_taller") {
     $permisos = $_POST["permisos"] = "" ? "Todos" : $_POST["permisos"];
     $permisos = strtoupper($permisos);
 
-    $sql = "UPDATE tipo_taller set name_training_type='$line_action', nombre_taller='$nombre_taller', descripcion_taller='$descripcion_taller', duracion_horas='$duracion_horas', nivel='$nivel', modalidad='$modalidad', permisos='$permisos', orden_taller='$orden_taller', codigo_taller='$codigo_taller' where id=$id";
+    $sql = "UPDATE tipo_taller set etapa='$etapa', name_training_type='$line_action', nombre_taller='$nombre_taller', descripcion_taller='$descripcion_taller', duracion_horas='$duracion_horas', nivel='$nivel', modalidad='$modalidad', permisos='$permisos', orden_taller='$orden_taller', codigo_taller='$codigo_taller' where id=$id";
     try {
         $result = ExecutorPg::doit($sql);
         $_SESSION['alert'] = '¡Actualizado con éxito!';

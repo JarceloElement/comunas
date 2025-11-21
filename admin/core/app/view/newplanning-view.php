@@ -1013,10 +1013,9 @@ $fecha_end = "2025-01-01";
             $("#area_formativa option:selected").each(function() {
                 $('#cover-spin').show(0);
                 categoria = $(this).val();
-                etapa = $(this).data('etapa');
-
                 dat_description = $(this).data('description');
                 var code_info = document.getElementById("code_info").value;
+                etapa = $(this).data('etapa');
 
                 // carga la descripcion de la actividad
                 set_description = $(this).data('set_description');
@@ -1055,7 +1054,7 @@ $fecha_end = "2025-01-01";
                     categoria: categoria,
                     code_info: code_info
                 }, function(data) {
-                    console.log('Data: ', data);
+                    // console.log('Data: ', data);
                     var array = JSON.parse(data);
                     // console.log(array);
                     if (array["total"] > 0) {

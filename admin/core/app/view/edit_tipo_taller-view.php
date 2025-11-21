@@ -71,6 +71,7 @@
                     codigo_taller: $("#codigo_taller").val(),
                     duracion_horas: $("#duracion_horas").val(),
                     permisos: $("#permisos").val(),
+                    etapa: $("#etapa").val(),
                     orden_taller: $("#orden_taller").val()
                 }
             })
@@ -118,7 +119,8 @@ $data = TipoTallerData::getByIdPg($id);
 
                         <form method="post" id="add_tipo_taller" role="form">
                             <input type="hidden" name="id" id="id" value="<?php echo $data->id; ?>"></input>
-
+                            <input type="hidden" name="etapa" id="etapa" value="<?php echo $data->etapa; ?>"></input>
+    
 
                             <div class="row">
 
@@ -128,7 +130,7 @@ $data = TipoTallerData::getByIdPg($id);
                                         <select name="line_action" class="form-control" id="line_action" required>
                                             <option value="<?php echo $data->name_training_type; ?>"><?php echo $data->name_training_type; ?></option>
                                             <?php foreach ($training_type as $p): ?>
-                                                <option value="<?php echo $p->name_training_type; ?>"> <?php echo $p->name_training_type; ?></option>
+                                                <option data-etapa="<?php echo $p->name_strategic_action; ?>" value="<?php echo $p->name_training_type; ?>"> <?php echo $p->name_training_type; ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -233,7 +235,11 @@ $data = TipoTallerData::getByIdPg($id);
             $('#tipo_reporte').find('option').remove().end().append('<option value=""></option>').val('0');
             $("#line_action option:selected").each(function() {
                 line = $(this).val();
-                console.log($("#tipo_reporte").val());
+                etapa = $(this).data("etapa");
+                $("#etapa").val(etapa);
+                console.log(etapa),
+
+                // console.log($("#tipo_reporte").val());
                 $.post("core/app/view/get_strategic_action.php", {
                     line: line
                 }, function(data) {

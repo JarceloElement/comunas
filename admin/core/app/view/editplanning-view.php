@@ -943,6 +943,7 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
                     categoria = $(this).val();
                     dat_description = $(this).data('description');
                     var code_info = document.getElementById("code_info").value;
+                    etapa = $(this).data('etapa');
 
                     // carga la descripcion de la actividad
                     set_description = $(this).data('set_description');
@@ -977,6 +978,7 @@ if ($_SESSION['user_id'] == $_GET["user_id"] || ($_SESSION['user_region'] == $_G
 
                     // tipo de taller
                     $.post("core/app/view/get_tipo_taller.php", {
+                        etapa: etapa,
                         categoria: categoria,
                         code_info: code_info
                     }, function(data) {
