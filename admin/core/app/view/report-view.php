@@ -1564,19 +1564,16 @@ if ((isset($_GET["q"]) || isset($_GET["estado"]) || isset($_GET["start_at"]) || 
 	$conn = $base->connectPg();
 
 
-	// if ($_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 6) {
-	// total aproximado con pg_class all
-	$row_table = $conn->prepare("SELECT reltuples::integer FROM pg_class WHERE relname = 'reports'");
-	$row_table->execute();
-	$total_data = $row_table->fetchAll(PDO::FETCH_ASSOC);
-	$TotalReg = $total_data[0]["reltuples"];
-	// $TotalReg = 1000;
-	// } else {
-	// 	// por regiones
-	// 	$total = ReportActivityData::getBySQL($sql);
-	// 	$TotalReg = $total[1];
-	// }
+	// $row_table = $conn->prepare("SELECT reltuples::integer FROM pg_class WHERE relname = 'reports'");
+	// $row_table->execute();
+	// $total_data = $row_table->fetchAll(PDO::FETCH_ASSOC);
+	// $TotalReg = $total_data[0]["reltuples"];
 
+
+	$stmt = $conn->prepare($sql);
+	$stmt->execute();
+	$TotalReg = $stmt->rowCount();
+	
 	$sql .= " LIMIT " . $CantidadMostrar . " OFFSET " . (($compag - 1) * $CantidadMostrar);
 	$stmt = $conn->prepare($sql);
 	$stmt->execute();
