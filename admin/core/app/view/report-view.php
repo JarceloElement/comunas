@@ -1913,7 +1913,7 @@ $DB_name = "reports";
 								</td>
 
 
-								<td><label style="font-size:12px;"><?php echo $user["codigo_taller"]." | "; ?><?php echo charlimit_title($user["activity_title"], 60); ?></label></td>
+								<td><label style="font-size:12px;"><span style="color:#d2f;"><?php echo $user["report_type"]." | "; ?></span><?php echo charlimit_title($user["activity_title"], 60); ?></label></td>
 
 
 								<?php
