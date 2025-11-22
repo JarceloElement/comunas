@@ -117,6 +117,8 @@
 
 	$(document).ready(function() {
 
+		let elementoColapsable = document.getElementById('collapseOne');
+		elementoColapsable.classList.add('hide');
 
 		$('#cover-spin').hide(0);
 
@@ -372,253 +374,285 @@ $occupations = $con->query("SELECT * from occupations order by p_name");
 							<!-- <p class="card-category">Complete your profile</p> -->
 						</div>
 
+						<div class="col-md-12">
+							<br>
+							<br>
+
+							<label><i class="fa fa-search"></i> Buscar participante por DNI, código, nombre o correo</label>
+							<div class="col-md-12 mui-textfield mui-textfield--float-label">
+								<div class="input-group">
+									<input type="text" class="form-control" name="buscar_participante" id="q_participante" value="" placeholder="Buscar">
+									<span class="input-group-btn">
+										<button type="button" onclick="codigoAJAX()" class="btn btn-fab btn-round btn-primary">
+											<i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+													<path fill="currentColor" d="m19.6 21l-6.3-6.3q-.75.6-1.725.95T9.5 16q-2.725 0-4.612-1.888T3 9.5t1.888-4.612T9.5 3t4.613 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l6.3 6.3zM9.5 14q1.875 0 3.188-1.312T14 9.5t-1.312-3.187T9.5 5T6.313 6.313T5 9.5t1.313 3.188T9.5 14" />
+												</svg></i>
+										</button>
+									</span>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="col-md-6">
+							<div class="form-group">
+								<button type="button" onclick="reset_form()" class="btn btn-secundary btn-block">Crear nuevo participante si no existe</button>
+							</div>
+						</div>
+
+
 						<div class="card-body">
 
+							<div class="expansion-panel list-group-item">
+
+								<div aria-labelledby="headingOne" class="collapse" data-parent="#accordionOne" id="collapseOne">
+									<div class="expansion-panel-body">
+
+										<div class="row justify-content-center">
+
+											<div class="col-md-12">
+
+												<form name="validar" id="validar" method="post" role="form">
+													<!-- <form class="form-horizontal" role="form" method="post" action="./?action=ajax&function=add_participant"> -->
+													<input type="hidden" name="id_activity" id="id_activity" value="<?php echo $_GET['id_activity']; ?>">
+													<input type="hidden" name="activity" id="activity" value="<?php echo $_GET['activity']; ?>">
+													<input type="hidden" name="date_activity" id="date_activity" value="<?php echo $_GET['date_activity']; ?>">
+													<input type="hidden" name="estate" id="estate" value="<?php echo $_GET['estate']; ?>">
+													<input type="hidden" name="code_info" id="code_info" value="<?php echo $_GET['code_info']; ?>">
+													<input type="hidden" name="line_action" id="line_action" value="<?php echo $_GET['line_action']; ?>">
+													<input type="hidden" name="report_type" id="report_type" value="<?php echo $_GET['report_type']; ?>">
+													<input type="hidden" name="uid_fac" id="uid_fac" value="<?php echo $_SESSION["user_id"]; ?>">
+													<input type="hidden" name="parent_ref" id="parent_ref" value="No aplica">
+													<input type="hidden" name="is_new" id="is_new" value="">
+													<input type="hidden" name="id_final_user" id="id_final_user" value="0">
+													<input type="hidden" name="orden_taller" id="orden_taller" value="<?php echo $_GET['orden_taller']; ?>">
+													<input type="hidden" name="cod_curso" id="cod_curso" value="<?php echo $_GET['cod_curso']; ?>">
+													<input type="hidden" name="codigo_taller" id="codigo_taller" value="<?php echo $_GET['codigo_taller']; ?>">
+													<input type="hidden" name="tipo_taller" id="tipo_taller" value="<?php echo $_GET['tipo_taller']; ?>">
+
+													<div class="form-row">
 
 
-							<br><br>
+														<div class="col-md-4 mui-select">
+															<select name="user_nationality" id="user_nationality" required>
+																<option value="<?php echo "V"; ?>"><?php echo "V"; ?></option>
+																<option value="<?php echo "E"; ?>"><?php echo "E"; ?></option>
+															</select>
+															<label><i class="fa fa-user"></i> Nacionalidad</label>
+														</div>
 
-							<form name="validar" id="validar" method="post" role="form">
-								<!-- <form class="form-horizontal" role="form" method="post" action="./?action=ajax&function=add_participant"> -->
-								<input type="hidden" name="id_activity" id="id_activity" value="<?php echo $_GET['id_activity']; ?>">
-								<input type="hidden" name="activity" id="activity" value="<?php echo $_GET['activity']; ?>">
-								<input type="hidden" name="date_activity" id="date_activity" value="<?php echo $_GET['date_activity']; ?>">
-								<input type="hidden" name="estate" id="estate" value="<?php echo $_GET['estate']; ?>">
-								<input type="hidden" name="code_info" id="code_info" value="<?php echo $_GET['code_info']; ?>">
-								<input type="hidden" name="line_action" id="line_action" value="<?php echo $_GET['line_action']; ?>">
-								<input type="hidden" name="report_type" id="report_type" value="<?php echo $_GET['report_type']; ?>">
-								<input type="hidden" name="uid_fac" id="uid_fac" value="<?php echo $_SESSION["user_id"]; ?>">
-								<input type="hidden" name="parent_ref" id="parent_ref" value="No aplica">
-								<input type="hidden" name="is_new" id="is_new" value="">
-								<input type="hidden" name="id_final_user" id="id_final_user" value="0">
-								<input type="hidden" name="orden_taller" id="orden_taller" value="<?php echo $_GET['orden_taller']; ?>">
-								<input type="hidden" name="cod_curso" id="cod_curso" value="<?php echo $_GET['cod_curso']; ?>">
-								<input type="hidden" name="codigo_taller" id="codigo_taller" value="<?php echo $_GET['codigo_taller']; ?>">
-								<input type="hidden" name="tipo_taller" id="tipo_taller" value="<?php echo $_GET['tipo_taller']; ?>">
+														<div class="col-md-4 mui-select">
+															<select name="user_has_document" id="user_has_document" required>
+																<option value="">-Elige-</option>
+																<option value="<?php echo "Si"; ?>">Si</option>
+																<option value="<?php echo "No/Sin partida de nacimiento"; ?>">No/Sin partida de nacimiento</option>
+																<option value="<?php echo "No/Menor de edad"; ?>">No/Menor de edad</option>
+																<option value="<?php echo "No/Problemas en documentos"; ?>">No/Problemas en documentos</option>
+																<option value="<?php echo "No/Pueblo originario"; ?>">No/Pueblo originario</option>
+															</select>
+															<label><i class="fa fa-user"></i> ¿Está cedulado?</label>
+														</div>
 
-								<div class="form-row">
-									<label><i class="fa fa-search"></i> Buscar por DNI, código, nombre o correo</label>
-									<div class="col-md-12 mui-textfield mui-textfield--float-label">
-										<div class="input-group">
-											<input type="text" class="form-control" name="buscar_participante" id="q_participante" value="" placeholder="Buscar">
-											<span class="input-group-btn">
-												<button type="button" onclick="codigoAJAX()" class="btn btn-fab btn-round btn-primary">
-													<i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-															<path fill="currentColor" d="m19.6 21l-6.3-6.3q-.75.6-1.725.95T9.5 16q-2.725 0-4.612-1.888T3 9.5t1.888-4.612T9.5 3t4.613 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l6.3 6.3zM9.5 14q1.875 0 3.188-1.312T14 9.5t-1.312-3.187T9.5 5T6.313 6.313T5 9.5t1.313 3.188T9.5 14" />
-														</svg></i>
-												</button>
-											</span>
-										</div>
-										<br>
-									</div>
+														<div class="col-md-4 mui-textfield mui-textfield--float-label" id="document_id_l">
+															<input type="number" name="document_id" id="document_id" required minlength="6" maxlength="8" placeholder="" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+															<label><i class="fa fa-user"></i> Número DNI</label>
+														</div>
 
-									<div class="col-md-4 mui-select">
-										<select name="user_nationality" id="user_nationality" required>
-											<option value="<?php echo "V"; ?>"><?php echo "V"; ?></option>
-											<option value="<?php echo "E"; ?>"><?php echo "E"; ?></option>
-										</select>
-										<label><i class="fa fa-user"></i> Nacionalidad</label>
-									</div>
+														<!-- datos del padre para no cedulados -->
+														<div class="col-md-6" id="parent_dni_div" style="display:none">
+															<div class="form-group">
+																<label for="parent_dni" class=" control-label" style="color:green;"> DNI del representante (Solo no cedulados)</label>
+																<input type="number" class="form-control" name="parent_dni" id="parent_dni" minlength="6" maxlength="8" value="" placeholder="C.I del padre o madre" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+															</div>
+														</div>
 
-									<div class="col-md-4 mui-select">
-										<select name="user_has_document" id="user_has_document" required>
-											<option value="">-Elige-</option>
-											<option value="<?php echo "Si"; ?>">Si</option>
-											<option value="<?php echo "No/Sin partida de nacimiento"; ?>">No/Sin partida de nacimiento</option>
-											<option value="<?php echo "No/Menor de edad"; ?>">No/Menor de edad</option>
-											<option value="<?php echo "No/Problemas en documentos"; ?>">No/Problemas en documentos</option>
-											<option value="<?php echo "No/Pueblo originario"; ?>">No/Pueblo originario</option>
-										</select>
-										<label><i class="fa fa-user"></i> ¿Está cedulado?</label>
-									</div>
+														<div class="col-md-6" id="child_number_div" style="display:none">
+															<div class="form-group">
+																<label for="child_number" class=" control-label" style="color:green;"> ¿Que posición de hijo tiene? (Ejemplo: el 1, 2, 3)</label>
+																<input type="number" class="form-control" name="child_number" id="child_number" minlength="6" maxlength="8" value="1" placeholder="1" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);if (this.value < 0) this.value = 0;if (document.getElementById('parent_dni').value==''){alert('Por favor asigna primero el DNI del representante');document.getElementById('child_number').value='';document.getElementById('parent_dni').focus();};">
+															</div>
+														</div>
 
-									<div class="col-md-4 mui-textfield mui-textfield--float-label" id="document_id_l">
-										<input type="number" name="document_id" id="document_id" required minlength="6" maxlength="8" placeholder="" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
-										<label><i class="fa fa-user"></i> Número DNI</label>
-									</div>
-
-									<!-- datos del padre para no cedulados -->
-									<div class="col-md-6" id="parent_dni_div" style="display:none">
+														<!-- <div class="col-md-4" id="parent_ref_div" style="display:none">
 										<div class="form-group">
-											<label for="parent_dni" class=" control-label" style="color:green;"> DNI del representante (Solo no cedulados)</label>
-											<input type="number" class="form-control" name="parent_dni" id="parent_dni" minlength="6" maxlength="8" value="" placeholder="C.I del padre o madre" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+											<label for="parent_ref" class=" control-label" style="color:red;"> DNI Referencia (Para no cedulados)</label>
+											<input type="text" class="form-control" name="parent_ref" id="parent_ref" readonly placeholder="DNI madre + posición del hijo" minlength="6" maxlength="8" value="<?php echo $part->parent_ref; ?>" >
 										</div>
-									</div>
-
-									<div class="col-md-6" id="child_number_div" style="display:none">
-										<div class="form-group">
-											<label for="child_number" class=" control-label" style="color:green;"> ¿Que posición de hijo tiene? (Ejemplo: el 1, 2, 3)</label>
-											<input type="number" class="form-control" name="child_number" id="child_number" minlength="6" maxlength="8" value="1" placeholder="1" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);if (this.value < 0) this.value = 0;if (document.getElementById('parent_dni').value==''){alert('Por favor asigna primero el DNI del representante');document.getElementById('child_number').value='';document.getElementById('parent_dni').focus();};">
-										</div>
-									</div>
-
-									<!-- <div class="col-md-4" id="parent_ref_div" style="display:none">
-									<div class="form-group">
-										<label for="parent_ref" class=" control-label" style="color:red;"> DNI Referencia (Para no cedulados)</label>
-										<input type="text" class="form-control" name="parent_ref" id="parent_ref" readonly placeholder="DNI madre + posición del hijo" minlength="6" maxlength="8" value="<?php echo $part->parent_ref; ?>" >
-									</div>
-								</div> -->
+										</div> -->
 
 
 
 
-									<div class="col-md-6 mui-textfield mui-textfield--float-label" id="name_l">
-										<input type="text" name="name" id="name" required placeholder="">
-										<label><i class="fa fa-user"></i> Primer nombre</label>
-									</div>
+														<div class="col-md-6 mui-textfield mui-textfield--float-label" id="name_l">
+															<input type="text" name="name" id="name" required placeholder="">
+															<label><i class="fa fa-user"></i> Primer nombre</label>
+														</div>
 
-									<div class="col-md-6 mui-textfield mui-textfield--float-label" id="name_2_l">
-										<input type="text" name="name_2" id="name_2" placeholder="">
-										<label><i class="fa fa-user"></i> Segundo nombre</label>
-									</div>
+														<div class="col-md-6 mui-textfield mui-textfield--float-label" id="name_2_l">
+															<input type="text" name="name_2" id="name_2" placeholder="">
+															<label><i class="fa fa-user"></i> Segundo nombre</label>
+														</div>
 
-									<div class="col-md-6 mui-textfield mui-textfield--float-label" id="lastname_l">
-										<input type="text" name="lastname" id="lastname" required placeholder="">
-										<label><i class="fa fa-user"></i> Primer apellido</label>
-									</div>
+														<div class="col-md-6 mui-textfield mui-textfield--float-label" id="lastname_l">
+															<input type="text" name="lastname" id="lastname" required placeholder="">
+															<label><i class="fa fa-user"></i> Primer apellido</label>
+														</div>
 
-									<div class="col-md-6 mui-textfield mui-textfield--float-label" id="lastname_2_l">
-										<input type="text" name="lastname_2" id="lastname_2" placeholder="">
-										<label><i class="fa fa-user"></i> Segundo apellido</label>
-									</div>
+														<div class="col-md-6 mui-textfield mui-textfield--float-label" id="lastname_2_l">
+															<input type="text" name="lastname_2" id="lastname_2" placeholder="">
+															<label><i class="fa fa-user"></i> Segundo apellido</label>
+														</div>
 
-									<div class="col-md-6 mui-textfield mui-textfield--float-label-true">
-										<input type="date" name="user_f_nacimiento" id="user_f_nacimiento" required placeholder="" min="1928-01-01" max="2021-12-31">
-										<label><i class="fa fa-user"></i> Fecha de nacimiento*</label>
-									</div>
+														<div class="col-md-6 mui-textfield mui-textfield--float-label-true">
+															<input type="date" name="user_f_nacimiento" id="user_f_nacimiento" required placeholder="" min="1928-01-01" max="2021-12-31">
+															<label><i class="fa fa-user"></i> Fecha de nacimiento*</label>
+														</div>
 
-									<div class="col-md-6 mui-textfield mui-textfield--float-label" id="phone_l">
-										<input type="tel" name="phone" id="phone" placeholder="" maxlength="12" list="list_code">
-										<label><i class="fa fa-user"></i> Teléfono</label>
-									</div>
+														<div class="col-md-6 mui-textfield mui-textfield--float-label" id="phone_l">
+															<input type="tel" name="phone" id="phone" placeholder="" maxlength="12" list="list_code">
+															<label><i class="fa fa-user"></i> Teléfono</label>
+														</div>
 
-									<div class="col-md-6 mui-textfield mui-textfield--float-label" id="email_l">
-										<input type="email" name="email" id="email" placeholder="">
-										<label><i class="fa fa-user"></i> Correo</label>
-									</div>
-
-
-									<div class="col-md-6 mui-select">
-										<select name="gender" id="gender" required>
-											<option value="">-GÉNERO-</option>
-											<option value="<?php echo "Hombre"; ?>"><?php echo "Hombre"; ?></option>
-											<option value="<?php echo "Mujer"; ?>"><?php echo "Mujer"; ?></option>
-										</select>
-										<label><i class="fa fa-user"></i> Género*</label>
-									</div>
-
-									<div class="col-md-6 mui-select">
-										<select name="user_comunity_type" id="user_comunity_type" required>
-											<option value=""><?php echo "-SELECCIONE-" ?></option>
-											<option value="<?php echo "No aplica" ?>"> <?php echo "No aplica" ?></option>
-											<option value="<?php echo "Indígena" ?>"> <?php echo "Indígena" ?></option>
-											<option value="<?php echo "Campesina" ?>"> <?php echo "Campesina" ?></option>
-											<option value="<?php echo "Afrodescendiente" ?>"> <?php echo "Afrodescendiente" ?></option>
-											<option value="<?php echo "Privado de Libertad" ?>"> <?php echo "Privado de Libertad" ?></option>
-										</select>
-										<label><i class="fa fa-user"></i> Comunidad a la que pertenece*</label>
-									</div>
-
-									<div class="col-md-6 mui-select">
-										<select name="user_pertenece_organizacion" id="user_pertenece_organizacion" required>
-											<option value=""><?php echo "-SELECCIONE-" ?></option>
-											<option value="<?php echo "No aplica" ?>"><?php echo "No aplica" ?></option>
-											<option value="<?php echo "Consejo Comunal" ?>"><?php echo "Consejo Comunal" ?></option>
-											<option value="<?php echo "Comuna" ?>"><?php echo "Comuna" ?></option>
-											<option value="<?php echo "UBCH" ?>"><?php echo "UBCH" ?></option>
-											<option value="<?php echo "Clap" ?>"><?php echo "Clap" ?></option>
-											<option value="<?php echo "Comité" ?>"><?php echo "Comité" ?></option>
-											<option value="<?php echo "Movimiento" ?>"><?php echo "Movimiento" ?></option>
-											<option value="<?php echo "Colectivo" ?>"><?php echo "Colectivo" ?></option>
-										</select>
-										<label><i class="fa fa-user"></i> Pertenece a Organización social*</label>
-									</div>
+														<div class="col-md-6 mui-textfield mui-textfield--float-label" id="email_l">
+															<input type="email" name="email" id="email" placeholder="">
+															<label><i class="fa fa-user"></i> Correo</label>
+														</div>
 
 
-									<div class="col-md-6 mui-select">
-										<select name="user_etnia" id="user_etnia" required>
-											<option value="">-ETNIA-</option>
-											<?php foreach ($etnias as $name) : ?>
-												<option value="<?php echo $name["name"]; ?>"> <?php echo $name["name"]; ?></option>
-											<?php endforeach; ?>
-										</select>
-										<label><i class="fa fa-user"></i> Pueblo indígena*</label>
-									</div>
+														<div class="col-md-6 mui-select">
+															<select name="gender" id="gender" required>
+																<option value="">-GÉNERO-</option>
+																<option value="<?php echo "Hombre"; ?>"><?php echo "Hombre"; ?></option>
+																<option value="<?php echo "Mujer"; ?>"><?php echo "Mujer"; ?></option>
+															</select>
+															<label><i class="fa fa-user"></i> Género*</label>
+														</div>
 
-									<div class="col-md-6 mui-select">
-										<select name="disability_type" id="disability_type" required>
-											<option value="">-DISCAPACIDAD-</option>
-											<?php foreach ($discapacidad as $name) : ?>
-												<option value="<?php echo $name["disability"]; ?>"> <?php echo $name["disability"]; ?></option>
-											<?php endforeach; ?>
-										</select>
-										<label><i class="fa fa-user"></i> Discapacidad*</label>
-									</div>
+														<div class="col-md-6 mui-select">
+															<select name="user_comunity_type" id="user_comunity_type" required>
+																<option value=""><?php echo "-SELECCIONE-" ?></option>
+																<option value="<?php echo "No aplica" ?>"> <?php echo "No aplica" ?></option>
+																<option value="<?php echo "Indígena" ?>"> <?php echo "Indígena" ?></option>
+																<option value="<?php echo "Campesina" ?>"> <?php echo "Campesina" ?></option>
+																<option value="<?php echo "Afrodescendiente" ?>"> <?php echo "Afrodescendiente" ?></option>
+																<option value="<?php echo "Privado de Libertad" ?>"> <?php echo "Privado de Libertad" ?></option>
+															</select>
+															<label><i class="fa fa-user"></i> Comunidad a la que pertenece*</label>
+														</div>
 
-
-									<div class="col-md-6 mui-select">
-										<select name="user_profesion" class="form-control" id="user_profesion" required>
-											<option value="">-SELECCIONE-</option>
-											<option value="Otra">Otra</option>
-											<option value="Estudiante">Estudiante</option>
-											<option value="Trabajo del hogar">Trabajo del hogar</option>
-											<?php foreach ($professions as $name) : ?>
-												<option value="<?php echo $name["p_name"]; ?>"> <?php echo $name["p_name"]; ?></option>
-											<?php endforeach; ?>
-										</select>
-										<label><i class="fa fa-user"></i> Profesión*</label>
-									</div>
-
-									<div class="col-md-6 mui-select">
-										<select name="user_ocupacion" class="form-control" id="user_ocupacion" required>
-											<option value="">-SELECCIONE-</option>
-											<option value="Otra">Otra</option>
-											<option value="Estudiante">Estudiante</option>
-											<option value="Trabajo del hogar">Trabajo del hogar</option>
-											<?php foreach ($occupations as $name) : ?>
-												<option value="<?php echo $name["p_name"]; ?>"> <?php echo $name["p_name"]; ?></option>
-											<?php endforeach; ?>
-										</select>
-										<label><i class="fa fa-user"></i> Ocupación*</label>
-									</div>
+														<div class="col-md-6 mui-select">
+															<select name="user_pertenece_organizacion" id="user_pertenece_organizacion" required>
+																<option value=""><?php echo "-SELECCIONE-" ?></option>
+																<option value="<?php echo "No aplica" ?>"><?php echo "No aplica" ?></option>
+																<option value="<?php echo "Consejo Comunal" ?>"><?php echo "Consejo Comunal" ?></option>
+																<option value="<?php echo "Comuna" ?>"><?php echo "Comuna" ?></option>
+																<option value="<?php echo "UBCH" ?>"><?php echo "UBCH" ?></option>
+																<option value="<?php echo "Clap" ?>"><?php echo "Clap" ?></option>
+																<option value="<?php echo "Comité" ?>"><?php echo "Comité" ?></option>
+																<option value="<?php echo "Movimiento" ?>"><?php echo "Movimiento" ?></option>
+																<option value="<?php echo "Colectivo" ?>"><?php echo "Colectivo" ?></option>
+															</select>
+															<label><i class="fa fa-user"></i> Pertenece a Organización social*</label>
+														</div>
 
 
+														<div class="col-md-6 mui-select">
+															<select name="user_etnia" id="user_etnia" required>
+																<option value="">-ETNIA-</option>
+																<?php foreach ($etnias as $name) : ?>
+																	<option value="<?php echo $name["name"]; ?>"> <?php echo $name["name"]; ?></option>
+																<?php endforeach; ?>
+															</select>
+															<label><i class="fa fa-user"></i> Pueblo indígena*</label>
+														</div>
 
-									<div class="col-md-12 mui-select" id="equipo_sala_comunal_f" style="display:none">
-										<select name="equipo_sala_comunal" id="equipo_sala_comunal">
-											<option value=""><?php echo "-SELECCIONE-" ?></option>
-											<option value="<?php echo "Responsable de la Sala de Autogobierno" ?>"><?php echo "Responsable de la Sala de Autogobierno" ?></option>
-											<option value="<?php echo "Secretario" ?>"><?php echo "Secretario" ?></option>
-											<option value="<?php echo "Sistematizadores" ?>"><?php echo "Sistematizadores" ?></option>
-											<option value="<?php echo "Misioneros de las Grandes Misiones de Nueva Generación" ?>"><?php echo "Misioneros de las Grandes Misiones de Nueva Generación" ?></option>
-											<option value="<?php echo "Voceros del Gabinete Popular Comunal: Economía Productiva" ?>"><?php echo "Voceros del Gabinete Popular Comunal: Economía Productiva" ?></option>
-											<option value="<?php echo "Voceros del Gabinete Popular Comunal: Ciudades Humanas y Servicios" ?>"><?php echo "Voceros del Gabinete Popular Comunal: Ciudades Humanas y Servicios" ?></option>
-											<option value="<?php echo "Voceros del Gabinete Popular Comunal: Seguridad y Paz" ?>"><?php echo "Voceros del Gabinete Popular Comunal: Seguridad y Paz" ?></option>
-											<option value="<?php echo "Voceros del Gabinete Popular Comunal: Suprema Felicidad Social" ?>"><?php echo "Voceros del Gabinete Popular Comunal: Suprema Felicidad Social" ?></option>
-											<option value="<?php echo "Voceros del Gabinete Popular Comunal: Organización y Planificación Popular" ?>"><?php echo "Voceros del Gabinete Popular Comunal: Organización y Planificación Popular" ?></option>
-											<option value="<?php echo "Voceros del Gabinete Popular Comunal: Ecosocialismo, Ciencia y Tecnología" ?>"><?php echo "Voceros del Gabinete Popular Comunal: Ecosocialismo, Ciencia y Tecnología" ?></option>
-										</select>
-										<label><i class="fa fa-user"></i> Equipo coordinador de la Sala Comunal del Sistema de Gobierno Popular*</label>
-									</div>
+														<div class="col-md-6 mui-select">
+															<select name="disability_type" id="disability_type" required>
+																<option value="">-DISCAPACIDAD-</option>
+																<?php foreach ($discapacidad as $name) : ?>
+																	<option value="<?php echo $name["disability"]; ?>"> <?php echo $name["disability"]; ?></option>
+																<?php endforeach; ?>
+															</select>
+															<label><i class="fa fa-user"></i> Discapacidad*</label>
+														</div>
+
+
+														<div class="col-md-6 mui-select">
+															<select name="user_profesion" class="form-control" id="user_profesion" required>
+																<option value="">-SELECCIONE-</option>
+																<option value="Otra">Otra</option>
+																<option value="Estudiante">Estudiante</option>
+																<option value="Trabajo del hogar">Trabajo del hogar</option>
+																<?php foreach ($professions as $name) : ?>
+																	<option value="<?php echo $name["p_name"]; ?>"> <?php echo $name["p_name"]; ?></option>
+																<?php endforeach; ?>
+															</select>
+															<label><i class="fa fa-user"></i> Profesión*</label>
+														</div>
+
+														<div class="col-md-6 mui-select">
+															<select name="user_ocupacion" class="form-control" id="user_ocupacion" required>
+																<option value="">-SELECCIONE-</option>
+																<option value="Otra">Otra</option>
+																<option value="Estudiante">Estudiante</option>
+																<option value="Trabajo del hogar">Trabajo del hogar</option>
+																<?php foreach ($occupations as $name) : ?>
+																	<option value="<?php echo $name["p_name"]; ?>"> <?php echo $name["p_name"]; ?></option>
+																<?php endforeach; ?>
+															</select>
+															<label><i class="fa fa-user"></i> Ocupación*</label>
+														</div>
 
 
 
-									<div class="col-md-6">
-										<div class="form-group">
-											<button type="submit" name="" class="btn btn-primary btn-block">Agregar</button>
+														<div class="col-md-12 mui-select" id="equipo_sala_comunal_f" style="display:none">
+															<select name="equipo_sala_comunal" id="equipo_sala_comunal">
+																<option value=""><?php echo "-SELECCIONE-" ?></option>
+																<option value="<?php echo "Responsable de la Sala de Autogobierno" ?>"><?php echo "Responsable de la Sala de Autogobierno" ?></option>
+																<option value="<?php echo "Secretario" ?>"><?php echo "Secretario" ?></option>
+																<option value="<?php echo "Sistematizadores" ?>"><?php echo "Sistematizadores" ?></option>
+																<option value="<?php echo "Misioneros de las Grandes Misiones de Nueva Generación" ?>"><?php echo "Misioneros de las Grandes Misiones de Nueva Generación" ?></option>
+																<option value="<?php echo "Voceros del Gabinete Popular Comunal: Economía Productiva" ?>"><?php echo "Voceros del Gabinete Popular Comunal: Economía Productiva" ?></option>
+																<option value="<?php echo "Voceros del Gabinete Popular Comunal: Ciudades Humanas y Servicios" ?>"><?php echo "Voceros del Gabinete Popular Comunal: Ciudades Humanas y Servicios" ?></option>
+																<option value="<?php echo "Voceros del Gabinete Popular Comunal: Seguridad y Paz" ?>"><?php echo "Voceros del Gabinete Popular Comunal: Seguridad y Paz" ?></option>
+																<option value="<?php echo "Voceros del Gabinete Popular Comunal: Suprema Felicidad Social" ?>"><?php echo "Voceros del Gabinete Popular Comunal: Suprema Felicidad Social" ?></option>
+																<option value="<?php echo "Voceros del Gabinete Popular Comunal: Organización y Planificación Popular" ?>"><?php echo "Voceros del Gabinete Popular Comunal: Organización y Planificación Popular" ?></option>
+																<option value="<?php echo "Voceros del Gabinete Popular Comunal: Ecosocialismo, Ciencia y Tecnología" ?>"><?php echo "Voceros del Gabinete Popular Comunal: Ecosocialismo, Ciencia y Tecnología" ?></option>
+															</select>
+															<label><i class="fa fa-user"></i> Equipo coordinador de la Sala Comunal del Sistema de Gobierno Popular*</label>
+														</div>
+
+
+
+														<div class="col-md-6">
+															<div class="form-group">
+																<button type="submit" name="" class="btn btn-primary btn-block">Agregar</button>
+															</div>
+														</div>
+													</div>
+
+												</form>
+
+												<datalist id="list_code">
+													<option value="0412">
+													<option value="0414">
+													<option value="0416">
+													<option value="0424">
+													<option value="0426">
+												</datalist>
+
+
+
+											</div>
 										</div>
 									</div>
 								</div>
+							</div>
 
-							</form>
 
-							<datalist id="list_code">
-								<option value="0412">
-								<option value="0414">
-								<option value="0416">
-								<option value="0424">
-								<option value="0426">
-							</datalist>
+
+
+
 
 
 						</div>
@@ -651,7 +685,7 @@ $pag = isset($_GET['pag']) ? $_GET['pag'] : '';
 $compag = (int)(!isset($_GET['pag'])) ? 1 : $_GET['pag'];
 
 
-$sql = "SELECT 
+$sql = "SELECT DISTINCT ON (participants_list.id)
 participants_list.id,
 participants_list.id_activity,
 participants_list.uid_fac,
@@ -668,7 +702,7 @@ participants_list.id,
 formaciones.completado,
 formaciones.participant_id
 from participants_list 
-INNER JOIN formaciones 
+LEFT JOIN formaciones 
 ON formaciones.id_activity::INT = participants_list.id_activity 
 where participants_list.id_activity=" . $_GET['id_activity'] . " order by id asc ";
 
@@ -761,8 +795,10 @@ $DB_name = "participants_list";
 								<td><?php echo $types["phone"]; ?></td>
 								<td>
 									<a onclick="aprobar('<?php echo $types['participant_id']; ?>','<?php echo $types['completado']; ?>')" href="javascript:void(0);">
-										<button type="button" class="btn <?php if($types['completado']=='false') echo 'btn-danger'; else echo 'btn-success'; ?> btn-sm">
-											<?php if($types['completado']=='false') echo 'Aprobar'; else echo 'Desaprobar'; ?>
+										<button type="button" class="btn <?php if ($types['completado'] == 'false') echo 'btn-danger';
+																			else echo 'btn-success'; ?> btn-sm">
+											<?php if ($types['completado'] == 'false') echo 'Aprobar';
+											else echo 'Desaprobar'; ?>
 										</button>
 									</a>
 
@@ -839,6 +875,12 @@ $DB_name = "participants_list";
 <script language="javascript">
 	$('#cover-spin').show(0);
 
+
+	function reset_form() {
+		document.getElementById("validar").reset();
+		let elementoColapsable = document.getElementById('collapseOne');
+		elementoColapsable.classList.add('show');
+	}
 
 	// CARGA DATOS DEL RESPONSABLE CON AJAX Y RETARDO AL ESCRIBIR
 	var controladorTiempo = "";
@@ -983,6 +1025,8 @@ $DB_name = "participants_list";
 					compareDni(' is-invalid');
 				}
 
+				let elementoColapsable = document.getElementById('collapseOne');
+				elementoColapsable.classList.add('show');
 
 			} else {
 				document.getElementById("q_participante").value = "";
@@ -994,6 +1038,8 @@ $DB_name = "participants_list";
 					toastify(array["param"], true, 15000, "error");
 				}
 
+				let elementoColapsable = document.getElementById('collapseOne');
+				elementoColapsable.classList.add('hide');
 			}
 
 
@@ -1004,6 +1050,7 @@ $DB_name = "participants_list";
 
 
 	$(document).ready(function() {
+
 		var dni = document.getElementById("document_id").value;
 		var controladorTiempo = "";
 
