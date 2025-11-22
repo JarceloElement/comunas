@@ -70,6 +70,14 @@ function alter_db()
 
     // ExecutorPg::doit('ALTER TABLE IF EXISTS public.formaciones ADD COLUMN IF NOT EXISTS participant_id BIGINT;');
 
+
+    // repara formaciones
+    // UPDATE formaciones SET user_dni=participants_list.document_id FROM participants_list WHERE formaciones.participant_id=participants_list.id;
+    // UPDATE formaciones SET usuario_id=participants_list.id_user_final::INT FROM participants_list WHERE formaciones.participant_id=participants_list.id;
+    // UPDATE formaciones SET id_activity=participants_list.id_activity FROM participants_list WHERE formaciones.participant_id=participants_list.id;
+
+
+
     // ===========================================
 
 
