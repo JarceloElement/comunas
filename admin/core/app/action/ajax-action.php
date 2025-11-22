@@ -1102,7 +1102,7 @@ if ($func_post == "add_participant") {
                 ?
                 );";
         $values = [
-            $usuario_id,
+            $id_user_final,
             $_POST["id_taller"],
             "true",
             date("Y-m-d H:i:s"),
@@ -1113,7 +1113,7 @@ if ($func_post == "add_participant") {
             $codigo_taller,
             $orden_taller,
             $id_activity,
-            $usuario_dni_existente,
+            $document_id,
             $id_participant
 
         ];
