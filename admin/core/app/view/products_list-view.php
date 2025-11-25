@@ -435,6 +435,7 @@
 	$('#cover-spin').show(0);
 
 	$(document).ready(function() {
+		toastify("Aviso: En este momento la carga está en mantenimiento", true, 25000, "warning");
 
 	});
 </script>
@@ -520,7 +521,7 @@ $social_medias = SocialMediasData::getBySQL("SELECT * FROM social_medias;")[0];
 
 								<div class="form-row">
 
-									<div class="col-md-6">
+									<!-- <div class="col-md-6">
 										<div class="form-group">
 											<label for="format" class="control-label">Categoría del producto*</label>
 											<select name="format" class="form-control" id="format" required>
@@ -540,7 +541,7 @@ $social_medias = SocialMediasData::getBySQL("SELECT * FROM social_medias;")[0];
 												<option value=""><?php echo "-SELECCIONE CATEGORÍA-" ?></option>
 											</select>
 										</div>
-									</div>
+									</div> -->
 
 									<!-- <div class="col-md-12">
 										<div class="form-group">
@@ -666,7 +667,7 @@ $social_medias = SocialMediasData::getBySQL("SELECT * FROM social_medias;")[0];
 									<div class="col-md-6">
 										<br>
 										<div class="form-group">
-											<button type="submit" name="" id="add_part" class="btn btn-primary btn-block">Agregar</button>
+											<!-- <button type="submit" name="" id="add_part" class="btn btn-primary btn-block">Agregar</button> -->
 										</div>
 									</div>
 
