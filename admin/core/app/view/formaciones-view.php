@@ -436,16 +436,16 @@ if ((isset($_GET["q"]) || isset($_GET["start_at"]) || isset($_GET["finish_at"]) 
     $TotalReg = $users[1];
 
 
-    // if ($_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 6) {
-    //     // total aproximado con pg_class
-    //     $base = new DatabasePg();
-    //     $conn = $base->connectPg();
-    //     $row_table = $conn->prepare("SELECT reltuples::integer FROM pg_class WHERE relname = 'formaciones'");
-    //     $row_table->execute();
-    //     $total_data = $row_table->fetchAll(PDO::FETCH_ASSOC);
-    //     $TotalReg = $total_data[0]["reltuples"];
-    //     // $TotalReg = 1000;
-    // }
+    if ($_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 6) {
+        // total aproximado con pg_class
+        $base = new DatabasePg();
+        $conn = $base->connectPg();
+        $row_table = $conn->prepare("SELECT reltuples::integer FROM pg_class WHERE relname = 'formaciones'");
+        $row_table->execute();
+        $total_data = $row_table->fetchAll(PDO::FETCH_ASSOC);
+        $TotalReg = $total_data[0]["reltuples"];
+        // $TotalReg = 1000;
+    }
 
 
     $param_csv = $total_sql;
