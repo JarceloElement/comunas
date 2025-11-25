@@ -341,6 +341,8 @@ date_default_timezone_set("America/La_Paz");
                 estado = document.getElementsByClassName("user_state").item(id).id;
                 user_username = '<?php echo $_SESSION['user_username']; ?>';
 
+                training_type = document.getElementsByClassName("training_type").item(id).id;
+                console.log(training_type);
 
 
                 line_action = planning_line_action;
@@ -414,28 +416,28 @@ date_default_timezone_set("America/La_Paz");
                     <?php if ($_SESSION["user_type"] != 4 && $_SESSION["user_type"] != 5 && $_SESSION["user_type"] != 6 && $_SESSION["user_type"] != 7 && $_SESSION["user_type"] != 8) : ?>
 
                         // if (line_action === "Formación a la medida"){
-                        if (line_action === "Formación a la medida" || line_action == "Comunidades de aprendizaje") {
+                        // if (line_action === "Formación a la medida" || line_action == "Comunidades de aprendizaje") {
 
-                            if (document.getElementById("contenido_des").value === "") {
-                                document.getElementById("contenido_des").focus();
-                                return;
-                            } else if (document.getElementById("modalidad_formacion").value === "") {
-                                document.getElementById("modalidad_formacion").focus();
-                                if (getOS() == "Android") {
-                                    alert("Por favor elige la modalidad de formación");
-                                } else {
-                                    toastify('Por favor elige la modalidad de formación', true, 10000, "warning");
-                                }
-                                return;
-                            } else if (document.getElementById("duracion_dias").value === "") {
-                                document.getElementById("duracion_dias").focus();
-                                return;
-                            } else if (document.getElementById("duracion_horas").value === "") {
-                                document.getElementById("duracion_horas").focus();
-                                return;
+                        if (document.getElementById("contenido_des").value === "") {
+                            document.getElementById("contenido_des").focus();
+                            return;
+                        } else if (document.getElementById("modalidad_formacion").value === "") {
+                            document.getElementById("modalidad_formacion").focus();
+                            if (getOS() == "Android") {
+                                alert("Por favor elige la modalidad de formación");
+                            } else {
+                                toastify('Por favor elige la modalidad de formación', true, 10000, "warning");
                             }
-
+                            return;
+                        } else if (document.getElementById("duracion_dias").value === "") {
+                            document.getElementById("duracion_dias").focus();
+                            return;
+                        } else if (document.getElementById("duracion_horas").value === "") {
+                            document.getElementById("duracion_horas").focus();
+                            return;
                         }
+
+                        // }
 
                     <?php endif; ?>
                 }
@@ -1268,7 +1270,7 @@ $DB_name = "reporte_planif";
                             $specific = ($user["specific_action"] != '') ? $user["specific_action"] : '<font color="red">SELECCIONE</font>';
                             $training = ($user["training_type"] != '') ? $user["training_type"] : '<font color="red">-</font>';
                             $taller = ($user["tipo_taller"] != '') ? $user["tipo_taller"] : '<font color="red">Tipo de taller</font>';
-                            if ($user["specific_action"] == "Formación en habilidades digitales") {
+                            if ($user["codigo_taller"] != '') {
                                 $data_activity = $planning_line_action . " % " . $type . " % " . $specific . " % " . $training . " % " . $taller;
                             } else {
                                 $data_activity = $planning_line_action . " % " . $type . " % " . $specific . " % " . $training;
@@ -1517,6 +1519,8 @@ $DB_name = "reporte_planif";
                             <p class="responsible_name" id='<?php echo $user["responsible_name"]; ?>'></p>
                             <p class="user_state" id='<?php echo $user["estate"]; ?>'></p>
                             <p class="responsible_type" id='<?php echo $user["responsible_type"]; ?>'></p>
+                            <p class="training_type" id='<?php echo $training; ?>'></p>
+                            <p class="tipo_taller" id='<?php echo $user["tipo_taller"]; ?>'></p>
                             </p>
 
 

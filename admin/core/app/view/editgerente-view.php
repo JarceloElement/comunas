@@ -8,7 +8,7 @@ $coordinations = CoordTypeData::getAll();
 $personal_type = PersonalTypeData::getAll();
 
 $user = GerenciasData::getByIdPg($_GET["id"]);
-// print_r($user->f_name);
+// print_r($user);
 
 ?>
 
@@ -50,7 +50,7 @@ $user = GerenciasData::getByIdPg($_GET["id"]);
         console.log(array);
         toastify(array.alert, true, 13000, array.alert_type);
         $('#cover-spin').hide(0);
-        // window.location.href = "./?view=gerencias&swal="+array.alert;
+        window.location.href = "./?view=gerencias&swal="+array.alert;
 
       } else {
         $('#cover-spin').hide(0);
