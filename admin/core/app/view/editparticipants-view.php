@@ -118,7 +118,6 @@ $occupations = $con->query("SELECT * from occupations order by p_name");
 					<input type="hidden" name="date_activity" id="date_activity" value="<?php echo $part["date_activity"]; ?>">
 					<input type="hidden" name="id_user_final" id="id_user_final" value="<?php echo $part["id_user_final"]; ?>">
 					<input type="hidden" name="id_activity" id="id_activity" value="<?php echo $part["id_activity"]; ?>">
-					<input type="hidden" name="line_action" id="line_action" value="<?php echo $_GET['line_action']; ?>">
 
 
 
