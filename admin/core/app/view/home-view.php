@@ -35,7 +35,7 @@ function charlimit_sub_title($string, $limit)
 
 	</div>
 	<div class="card-body">
-		<h4 class="card-title">¡Bienvenidos de vuelata!</h4>
+		<h4 class="card-title">¡Bienvenidos de vuelta!</h4>
 		<!-- <p class="card-text">Si es primera vez que se agrega el servicio de un usuario, antes debe ser registrado en el sistema como nuevo usuario</p> -->
 		<!-- <a href="#" data-toggle="modal" data-target="#image_preview" class="btn btn-success">Nuevo servicio</a> -->
 		<a href="./index.php?view=newplanning" class="btn btn-success">Nuevo reporte</a>
