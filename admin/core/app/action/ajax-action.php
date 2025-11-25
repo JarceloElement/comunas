@@ -420,7 +420,7 @@ if ($func_get == "aprobar_participante") {
 
     if ($completado == 'true') {
         $sql = "UPDATE formaciones set completado='$completado', fecha_completado='$fecha_completado' where participant_id=$participant_id";
-    }else {
+    } else {
         $sql = "UPDATE formaciones set completado='$completado', fecha_completado=NULL where participant_id=$participant_id";
     }
 
@@ -1946,7 +1946,7 @@ if ($func_post == "update_planning") {
     }
 
     $codigo_curso = ExecutorPg::get("SELECT codigo_curso from training_type where name_training_type='" . $_POST["training_type"] . "';")[0][0]["codigo_curso"];;
-    $codigo_taller = ExecutorPg::get("SELECT codigo_taller from tipo_taller where nombre_taller='" . $_POST["codigo_taller"] . "';")[0][0]["codigo_taller"];;
+    $codigo_taller = ExecutorPg::get("SELECT codigo_taller from tipo_taller where nombre_taller='" . $_POST["tipo_taller"] . "';")[0][0]["codigo_taller"];;
 
 
     $param = PlanningActivityData::getById($_POST["id"]);
@@ -1999,7 +1999,7 @@ if ($func_post == "update_planning") {
 
         $array = array(
             "error" => "false",
-            "data"  => "ID: " . $codigo_curso . ", " . $codigo_taller,
+            "data"  => "ID: " . $codigo_curso."-".$codigo_taller,
             "alert" => "Registro creado con éxito.",
             "alert_type" => "dashboard"
         );
@@ -2044,6 +2044,10 @@ if ($func_post == "update_status") {
         return false;
     }
 
+    $codigo_curso = ExecutorPg::get("SELECT codigo_curso from training_type where name_training_type='" . $_POST["training_type"] . "';")[0][0]["codigo_curso"];;
+    $codigo_taller = ExecutorPg::get("SELECT codigo_taller from tipo_taller where nombre_taller='" . $_POST["tipo_taller"] . "';")[0][0]["codigo_taller"];;
+
+
     $usuario_final = FinalUsersData::getByUserId($_POST["user_id"]);
     if ($usuario_final != "null") {
         $profile_image = $usuario_final->profile_image;
@@ -2057,18 +2061,18 @@ if ($func_post == "update_status") {
     $sql = "UPDATE reports set 
 		status_activity = ?, 
 		notific = ?, 
+		cod_curso = ?, 
+		codigo_taller = ?, 
 		profile_image = ? 
 		where id = ?;";
     $values = [
         $_POST["status_activity"],
         $_POST["notific"],
+        $codigo_curso,
+        $codigo_taller,
         $profile_image,
         (int)$_POST["id"]
     ];
-
-
-
-
     try {
         $result = ExecutorPg::update($sql, $values);
 
@@ -2080,7 +2084,7 @@ if ($func_post == "update_status") {
 
         $array = array(
             "error" => "false",
-            "data"  => "ID: " . $result,
+            "data"  => "ID: " . $codigo_curso."-".$codigo_taller,
             "alert" => "Registro creado con éxito.",
             "alert_type" => "dashboard"
         );

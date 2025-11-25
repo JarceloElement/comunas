@@ -248,6 +248,10 @@ function charlimit_title($string, $limit)
 				user_username = '<?php echo $_SESSION['user_username']; ?>';
 				// console.log(code_info);
 
+				training_type = document.getElementsByClassName("tipo_curso").item(id).id;
+                tipo_taller = document.getElementsByClassName("tipo_taller").item(id).id;
+
+
 				document.getElementById("user_id").value = data_user_id;
 				document.getElementById("id_status").value = id_activity;
 				document.getElementById("act_title").innerHTML = activity_title;
@@ -296,6 +300,8 @@ function charlimit_title($string, $limit)
 							code_info: code_info,
 							estado: estado,
 							activity_title: activity_title,
+							training_type: training_type,
+                            tipo_taller: tipo_taller,
 
 						}
 					})
@@ -2229,6 +2235,8 @@ $DB_name = "reports";
 							<p class="date_pub_end" id='<?php echo date("Y-m-d", strtotime($date_pub_end[0])); ?>'></p>
 							<p class="activity_title" id='<?php echo $user["activity_title"]; ?>'></p>
 							<p class="products" id='<?php echo $product; ?>'></p>
+							<p class="tipo_curso" id='<?php echo $user["training_type"]; ?>'></p>
+                            <p class="tipo_taller" id='<?php echo $user["tipo_taller"]; ?>'></p>
 
 						<?php
 							$ID += 1;
