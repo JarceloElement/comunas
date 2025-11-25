@@ -478,7 +478,7 @@ $user_code_info = $_SESSION['user_code_info'];
 $users = array();
 
 
-if ((isset($_GET["q"]) || isset($_GET["start_at_1"]) || isset($_GET["finish_at_1"]) || isset($_GET["start_at"]) || isset($_GET["finish_at"]) || isset($_GET["estado"]) || isset($_GET["user_id"]) || isset($_GET["linea_accion"]) || isset($_GET["code_info"]) || isset($_GET["max_age"]) || isset($_GET["min_age"])) && ($_GET["q"] != "" || $_GET["start_at"] != "" || $_GET["finish_at"] != "" || $_GET["start_at_1"] != "" || $_GET["finish_at_1"] != "" || $_GET["code_info"] != "" || $_GET["linea_accion"] != "" || $_GET["estado"] != "" || $_GET["user_id"] != "" || $_GET["max_age"] != "" || $_GET["min_age"] != "")) {
+if ((isset($_GET["q"]) || isset($_GET["start_at_1"]) || isset($_GET["finish_at_1"]) || isset($_GET["start_at"]) || isset($_GET["finish_at"]) || isset($_GET["estado"]) || isset($_GET["user_id"]) || isset($_GET["linea_accion"]) || isset($_GET["code_info"]) || isset($_GET["max_age"]) || isset($_GET["min_age"])) && ($_GET["q"] != "" || $_GET["start_at"] != "" || $_GET["finish_at"] != "" || $_GET["start_at_1"] != "" || $_GET["finish_at_1"] != "" || $_GET["code_info"] != "" || $_GET["linea_accion"] != "" || $_GET["estado"] != "" || $_GET["user_id"] != "" || $max_age != "" || $min_age != "")) {
 
 	$sql = "SELECT 
 	participants_list.id, 
