@@ -333,6 +333,8 @@ date_default_timezone_set("America/La_Paz");
                 var responsible_dni = document.getElementsByClassName("responsible_dni").item(id).id;
                 notific_data = document.getElementsByClassName("notific_var").item(id).id;
 
+                training_type = document.getElementsByClassName("training_type").item(id).id;
+
                 code_info = document.getElementsByClassName("code_info").item(id).id;
                 dimensiones = dimensiones.replace(/%/g, '<font color="black">/</font>');
 
@@ -341,7 +343,6 @@ date_default_timezone_set("America/La_Paz");
                 estado = document.getElementsByClassName("user_state").item(id).id;
                 user_username = '<?php echo $_SESSION['user_username']; ?>';
 
-                training_type = document.getElementsByClassName("training_type").item(id).id;
                 console.log(training_type);
 
 
@@ -1264,6 +1265,7 @@ $DB_name = "reporte_planif";
                         $admin_edit = 0;
 
                         foreach ($users as $user) {
+                            $training_type  = $user["training_type"];
                             $planning_line_action  = $user["line_action"];
                             $report_type  = $user["report_type"];
                             $type = ($user["report_type"] != '') ? $user["report_type"] : '<font color="red">SELECCIONE</font>';
@@ -1519,7 +1521,7 @@ $DB_name = "reporte_planif";
                             <p class="responsible_name" id='<?php echo $user["responsible_name"]; ?>'></p>
                             <p class="user_state" id='<?php echo $user["estate"]; ?>'></p>
                             <p class="responsible_type" id='<?php echo $user["responsible_type"]; ?>'></p>
-                            <p class="training_type" id='<?php echo $training; ?>'></p>
+                            <p class="training_type" id='<?php echo $training_type; ?>'></p>
                             <p class="tipo_taller" id='<?php echo $user["tipo_taller"]; ?>'></p>
                             </p>
 

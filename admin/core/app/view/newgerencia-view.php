@@ -43,12 +43,16 @@ $personal_type = PersonalTypeData::getAll();
       });
 
       if (res.ok) {
+        console.log(res);
         const result_await = await res.text();
         var array = JSON.parse(result_await);
         console.log(array);
         toastify(array.alert, true, 13000, array.alert_type);
         $('#cover-spin').hide(0);
-        form.get(0).reset();
+        // form.get(0).reset();
+        setTimeout(function() {
+          window.location.href = "./?view=gerencias";
+        }, 800);
 
       } else {
         $('#cover-spin').hide(0);

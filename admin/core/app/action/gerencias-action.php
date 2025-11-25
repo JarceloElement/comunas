@@ -23,6 +23,8 @@ if ($func_get == "add") {
 
     $rx = GerenciasData::getByDniPg($_POST["document_number"]);
     if ($rx == "null") {
+
+
         $r = new GerenciasData();
         $r->f_state = $_POST["f_state"];
         $r->f_name = $_POST["f_name"];
@@ -49,13 +51,25 @@ if ($func_get == "add") {
         $r->observations = $_POST["observations"];
         $r->date_update = $date_now;
 
-        $r->addPg();
-
-        $array = array(
-            "data"  => $r,
-            "alert" => "Registro creado con éxito",
-            "alert_type" => "dashboard"
-        );
+        try {
+            $r->addPg();
+            $_SESSION['alert'] = '¡Registro creado con éxito!';
+            $array = array(
+                "error"  => "false",
+                "data"  => "Result: " . $completado,
+                "alert" => "Registro creado con éxito.",
+                "alert_type" => "dashboard"
+            );
+        } catch (Exception $e) {
+            $array = array(
+                "error"  => "true",
+                "data"  => "",
+                "alert" => "¡Error: " . $e->getMessage() . "!",
+                "alert_type" => "error"
+            );
+        }
+        echo json_encode($array);
+        return;
     } else {
         $array = array(
             "data"  => "",
@@ -65,8 +79,8 @@ if ($func_get == "add") {
         );
     }
 
-    $res = json_encode($array);
-    echo $res;
+    echo json_encode($array);
+    return;
 }
 
 
@@ -102,15 +116,25 @@ if ($func_get == "update") {
         $r->estatus = $_POST["estatus"];
         $r->observations = $_POST["observations"];
         $r->date_update = $date_now;
-        $result = $r->updatePg();
-
-
-        $array = array(
-            "data"  => $result,
-            "alert" => "Registro actualizado con éxito",
-            "alert_type" => "dashboard",
-            "id" => $_POST
-        );
+        try {
+            $result = $r->updatePg();
+            $_SESSION['alert'] = '¡Registro actualizado con éxito!';
+            $array = array(
+                "error"  => "false",
+                "data"  => "Result: " . $completado,
+                "alert" => "Registro actualizado con éxito.",
+                "alert_type" => "dashboard"
+            );
+        } catch (Exception $e) {
+            $array = array(
+                "error"  => "true",
+                "data"  => "",
+                "alert" => "¡Error: " . $e->getMessage() . "!",
+                "alert_type" => "error"
+            );
+        }
+        echo json_encode($array);
+        return;
     } else {
         $array = array(
             "data"  => "",
