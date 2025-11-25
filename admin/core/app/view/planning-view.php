@@ -11,11 +11,6 @@ $location = "index.php?view=report";
 date_default_timezone_set('UTC');
 date_default_timezone_set("America/La_Paz");
 
-// $notific = new NotificData();
-// $notific->url = "http://infoapp2.infocentro.gob.ve";
-// $notific->message = "La planificación de la actividad:\n <b>Hola</b>";
-// $notific->sendTelegram();
-
 ?>
 
 <!-- MODAL IMAGE POPUP -->
@@ -333,7 +328,6 @@ date_default_timezone_set("America/La_Paz");
                 var responsible_dni = document.getElementsByClassName("responsible_dni").item(id).id;
                 notific_data = document.getElementsByClassName("notific_var").item(id).id;
 
-                training_type = document.getElementsByClassName("training_type").item(id).id;
 
                 code_info = document.getElementsByClassName("code_info").item(id).id;
                 dimensiones = dimensiones.replace(/%/g, '<font color="black">/</font>');
@@ -343,7 +337,8 @@ date_default_timezone_set("America/La_Paz");
                 estado = document.getElementsByClassName("user_state").item(id).id;
                 user_username = '<?php echo $_SESSION['user_username']; ?>';
 
-                console.log(training_type);
+                training_type = document.getElementsByClassName("tipo_curso").item(id).id;
+                tipo_taller = document.getElementsByClassName("tipo_taller").item(id).id;
 
 
                 line_action = planning_line_action;
@@ -489,9 +484,12 @@ date_default_timezone_set("America/La_Paz");
                             code_info: code_info,
                             estado: estado,
                             activity_title: activity_title,
+                            training_type: training_type,
+                            tipo_taller: tipo_taller,
                         }
                     })
                     .done(function(msg) {
+                        console.log(msg);
                         if (getOS() == "Android") {
                             alert("Registro guardado");
                         } else {
@@ -1521,7 +1519,7 @@ $DB_name = "reporte_planif";
                             <p class="responsible_name" id='<?php echo $user["responsible_name"]; ?>'></p>
                             <p class="user_state" id='<?php echo $user["estate"]; ?>'></p>
                             <p class="responsible_type" id='<?php echo $user["responsible_type"]; ?>'></p>
-                            <p class="training_type" id='<?php echo $training_type; ?>'></p>
+                            <p class="tipo_curso" id='<?php echo $training_type; ?>'></p>
                             <p class="tipo_taller" id='<?php echo $user["tipo_taller"]; ?>'></p>
                             </p>
 

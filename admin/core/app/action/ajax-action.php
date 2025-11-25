@@ -1945,6 +1945,10 @@ if ($func_post == "update_planning") {
         $profile_image = "";
     }
 
+    $codigo_curso = ExecutorPg::get("SELECT codigo_curso from training_type where name_training_type='" . $_POST["training_type"] . "';")[0][0]["codigo_curso"];;
+    $codigo_taller = ExecutorPg::get("SELECT codigo_taller from tipo_taller where nombre_taller='" . $_POST["codigo_taller"] . "';")[0][0]["codigo_taller"];;
+
+
     $param = PlanningActivityData::getById($_POST["id"]);
     // print_r($param); 
 
@@ -1961,6 +1965,8 @@ if ($func_post == "update_planning") {
 		notific = ?, 
 		datetime = ?, 
 		date_ini = ?, 
+		cod_curso = ?, 
+        codigo_taller = ?,
 		date_end = ?, 
 		profile_image = ? 
 		where id = ?;";
@@ -1973,6 +1979,8 @@ if ($func_post == "update_planning") {
         $_POST["notific"],
         $datetime,
         $date_ini,
+        $codigo_curso,
+        $codigo_taller,
         $date_end,
         $profile_image,
         $_POST["id"]
@@ -1991,7 +1999,7 @@ if ($func_post == "update_planning") {
 
         $array = array(
             "error" => "false",
-            "data"  => "ID: " . $result,
+            "data"  => "ID: " . $codigo_curso . ", " . $codigo_taller,
             "alert" => "Registro creado con éxito.",
             "alert_type" => "dashboard"
         );
