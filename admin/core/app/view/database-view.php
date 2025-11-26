@@ -24,84 +24,84 @@ function alter_db()
 
 
     // categoria_productos
-    if ($con->query("SHOW TABLES FROM infoappdb01 WHERE Tables_in_infoappdb01 = 'categoria_productos' ")->num_rows != 1) {
-        $table_1 = "categoria_productos";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_1 (
-        id INT(100) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        nombre_categoria VARCHAR(200) COLLATE latin1_spanish_ci,
-        cod_categoria VARCHAR(50) COLLATE latin1_spanish_ci,
-        fecha_reg datetime DEFAULT CURRENT_TIMESTAMP
-        ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci";
-        print_r(Executor::doit($sql)[1]);
-        echo $table_1 . "--Creada";
+    // if ($con->query("SHOW TABLES FROM infoappdb01 WHERE Tables_in_infoappdb01 = 'categoria_productos' ")->num_rows != 1) {
+    //     $table_1 = "categoria_productos";
+    //     $sql = "CREATE TABLE IF NOT EXISTS $table_1 (
+    //     id INT(100) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    //     nombre_categoria VARCHAR(200) COLLATE latin1_spanish_ci,
+    //     cod_categoria VARCHAR(50) COLLATE latin1_spanish_ci,
+    //     fecha_reg datetime DEFAULT CURRENT_TIMESTAMP
+    //     ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci";
+    //     print_r(Executor::doit($sql)[1]);
+    //     echo $table_1 . "--Creada";
 
-        Executor::doit('INSERT INTO categoria_productos (nombre_categoria,cod_categoria) value ("Aplicación móvil","FI-OCE-01")');
-        Executor::doit('INSERT INTO categoria_productos (nombre_categoria,cod_categoria) value ("Audios","FI-OCE-02")');
-        Executor::doit('INSERT INTO categoria_productos (nombre_categoria,cod_categoria) value ("Diseño gráfico","FI-OCE-03")');
-        Executor::doit('INSERT INTO categoria_productos (nombre_categoria,cod_categoria) value ("Escrito","FI-OCE-04")');
-        Executor::doit('INSERT INTO categoria_productos (nombre_categoria,cod_categoria) value ("Fotografía","FI-OCE-05")');
-        Executor::doit('INSERT INTO categoria_productos (nombre_categoria,cod_categoria) value ("Portal","FI-OCE-06")');
-        Executor::doit('INSERT INTO categoria_productos (nombre_categoria,cod_categoria) value ("Radio","FI-OCE-07")');
-        Executor::doit('INSERT INTO categoria_productos (nombre_categoria,cod_categoria) value ("Redes sociales","FI-OCE-08")');
-        Executor::doit('INSERT INTO categoria_productos (nombre_categoria,cod_categoria) value ("Revista","FI-OCE-09")');
-        Executor::doit('INSERT INTO categoria_productos (nombre_categoria,cod_categoria) value ("TV","FI-OCE-10")');
-        Executor::doit('INSERT INTO categoria_productos (nombre_categoria,cod_categoria) value ("Videos","FI-OCE-11")');
+    //     Executor::doit('INSERT INTO categoria_productos (nombre_categoria,cod_categoria) value ("Aplicación móvil","FI-OCE-01")');
+    //     Executor::doit('INSERT INTO categoria_productos (nombre_categoria,cod_categoria) value ("Audios","FI-OCE-02")');
+    //     Executor::doit('INSERT INTO categoria_productos (nombre_categoria,cod_categoria) value ("Diseño gráfico","FI-OCE-03")');
+    //     Executor::doit('INSERT INTO categoria_productos (nombre_categoria,cod_categoria) value ("Escrito","FI-OCE-04")');
+    //     Executor::doit('INSERT INTO categoria_productos (nombre_categoria,cod_categoria) value ("Fotografía","FI-OCE-05")');
+    //     Executor::doit('INSERT INTO categoria_productos (nombre_categoria,cod_categoria) value ("Portal","FI-OCE-06")');
+    //     Executor::doit('INSERT INTO categoria_productos (nombre_categoria,cod_categoria) value ("Radio","FI-OCE-07")');
+    //     Executor::doit('INSERT INTO categoria_productos (nombre_categoria,cod_categoria) value ("Redes sociales","FI-OCE-08")');
+    //     Executor::doit('INSERT INTO categoria_productos (nombre_categoria,cod_categoria) value ("Revista","FI-OCE-09")');
+    //     Executor::doit('INSERT INTO categoria_productos (nombre_categoria,cod_categoria) value ("TV","FI-OCE-10")');
+    //     Executor::doit('INSERT INTO categoria_productos (nombre_categoria,cod_categoria) value ("Videos","FI-OCE-11")');
 
 
 
-        if ($con->query("SHOW COLUMNS FROM products_type WHERE Field = 'tipo_categoria' ")->num_rows != 1) {
-            Executor::doit('ALTER TABLE products_type add column tipo_categoria VARCHAR(50) DEFAULT "" AFTER id;');
-        };
-        if ($con->query("SHOW COLUMNS FROM products_type WHERE Field = 'cod_producto' ")->num_rows != 1) {
-            Executor::doit('ALTER TABLE products_type add column cod_producto VARCHAR(50) DEFAULT "" AFTER name;');
-        };
+    //     if ($con->query("SHOW COLUMNS FROM products_type WHERE Field = 'tipo_categoria' ")->num_rows != 1) {
+    //         Executor::doit('ALTER TABLE products_type add column tipo_categoria VARCHAR(50) DEFAULT "" AFTER id;');
+    //     };
+    //     if ($con->query("SHOW COLUMNS FROM products_type WHERE Field = 'cod_producto' ")->num_rows != 1) {
+    //         Executor::doit('ALTER TABLE products_type add column cod_producto VARCHAR(50) DEFAULT "" AFTER name;');
+    //     };
 
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Aplicación móvil","Telegram","FI-OCE-01-1")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Aplicación móvil","WhatsApp","FI-OCE-01-2")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Aplicación móvil","Telegram","FI-OCE-01-1")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Aplicación móvil","WhatsApp","FI-OCE-01-2")');
 
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Audios","Edición de audio","FI-OCE-02-1")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Audios","Grabación de audio","FI-OCE-02-2")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Audios","Edición de audio","FI-OCE-02-1")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Audios","Grabación de audio","FI-OCE-02-2")');
 
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Diseño gráfico","Banners","FI-OCE-03-1")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Diseño gráfico","Flyers","FI-OCE-03-2")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Diseño gráfico","Edición fotografía","FI-OCE-03-3")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Diseño gráfico","Infografías","FI-OCE-03-4")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Diseño gráfico","Paquetes gráficos","FI-OCE-03-5")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Diseño gráfico","Slider","FI-OCE-03-6")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Diseño gráfico","Banners","FI-OCE-03-1")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Diseño gráfico","Flyers","FI-OCE-03-2")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Diseño gráfico","Edición fotografía","FI-OCE-03-3")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Diseño gráfico","Infografías","FI-OCE-03-4")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Diseño gráfico","Paquetes gráficos","FI-OCE-03-5")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Diseño gráfico","Slider","FI-OCE-03-6")');
 
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Escrito","Baterías","FI-OCE-04-1")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Escrito","Artículos","FI-OCE-04-2")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Escrito","Correos","FI-OCE-04-3")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Escrito","Guiones","FI-OCE-04-4")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Escrito","Notas de prensa","FI-OCE-04-5")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Escrito","Baterías","FI-OCE-04-1")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Escrito","Artículos","FI-OCE-04-2")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Escrito","Correos","FI-OCE-04-3")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Escrito","Guiones","FI-OCE-04-4")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Escrito","Notas de prensa","FI-OCE-04-5")');
 
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Fotografía","Captura básica","FI-OCE-05-1")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Fotografía","Captura producida","FI-OCE-05-2")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Fotografía","Captura básica","FI-OCE-05-1")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Fotografía","Captura producida","FI-OCE-05-2")');
 
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Portal","Página blog","FI-OCE-06-1")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Portal","Página web","FI-OCE-06-2")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Portal","Página blog","FI-OCE-06-1")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Portal","Página web","FI-OCE-06-2")');
 
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Radio","Radio en vivo","FI-OCE-07-1")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Radio","Radio podcast","FI-OCE-07-2")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Radio","Radio en vivo","FI-OCE-07-1")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Radio","Radio podcast","FI-OCE-07-2")');
 
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Redes sociales","Facebook","FI-OCE-08-1")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Redes sociales","Facebook grupo","FI-OCE-08-2")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Redes sociales","Instagram","FI-OCE-08-3")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Redes sociales","Pinterest","FI-OCE-08-4")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Redes sociales","Threads","FI-OCE-08-5")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Redes sociales","TikTok","FI-OCE-08-6")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Redes sociales","YouTube","FI-OCE-08-7")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Redes sociales","Facebook","FI-OCE-08-1")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Redes sociales","Facebook grupo","FI-OCE-08-2")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Redes sociales","Instagram","FI-OCE-08-3")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Redes sociales","Pinterest","FI-OCE-08-4")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Redes sociales","Threads","FI-OCE-08-5")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Redes sociales","TikTok","FI-OCE-08-6")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Redes sociales","YouTube","FI-OCE-08-7")');
 
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Revista","Revista digital","FI-OCE-09-1")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Revista","Revista digital","FI-OCE-09-1")');
 
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("TV","Programa vía streaming","FI-OCE-10-1")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("TV","Programa vía streaming","FI-OCE-10-1")');
 
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Videos","Edición de video","FI-OCE-11-1")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Videos","Grabación de video","FI-OCE-11-2")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Videos","TikTok","FI-OCE-11-3")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Videos","Video reportaje","FI-OCE-11-4")');
-        Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Videos","Video tutorial","FI-OCE-11-5")');
-    }
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Videos","Edición de video","FI-OCE-11-1")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Videos","Grabación de video","FI-OCE-11-2")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Videos","TikTok","FI-OCE-11-3")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Videos","Video reportaje","FI-OCE-11-4")');
+    //     Executor::doit('INSERT INTO products_type (tipo_categoria,name,cod_producto) value ("Videos","Video tutorial","FI-OCE-11-5")');
+    // }
 
 
 
@@ -341,12 +341,12 @@ function alter_db()
     };
 
     // mapa social
-    if ($con->query("SHOW COLUMNS FROM info_social_map_organizations WHERE Field = 'organization_address' ")->num_rows != 1) {
-        Executor::doit('ALTER TABLE info_social_map_organizations add column organization_address VARCHAR(200) DEFAULT "null" AFTER organization_limit_area;');
-    };
-    if ($con->query("SHOW COLUMNS FROM info_social_map_educations WHERE Field = 'school_address' ")->num_rows != 1) {
-        Executor::doit('ALTER TABLE info_social_map_educations add column school_address VARCHAR(200) DEFAULT "null" AFTER school_name;');
-    };
+    // if ($con->query("SHOW COLUMNS FROM info_social_map_organizations WHERE Field = 'organization_address' ")->num_rows != 1) {
+    //     Executor::doit('ALTER TABLE info_social_map_organizations add column organization_address VARCHAR(200) DEFAULT "null" AFTER organization_limit_area;');
+    // };
+    // if ($con->query("SHOW COLUMNS FROM info_social_map_educations WHERE Field = 'school_address' ")->num_rows != 1) {
+    //     Executor::doit('ALTER TABLE info_social_map_educations add column school_address VARCHAR(200) DEFAULT "null" AFTER school_name;');
+    // };
 
     // Datos
     // if ($con->query("SHOW COLUMNS FROM specific_action WHERE Field = 'activity_description' ")->num_rows != 1) {
@@ -354,14 +354,14 @@ function alter_db()
     // };
 
     // info_social_map_educations
-    if ($con->query("SHOW COLUMNS FROM info_social_map_educations WHERE Field = 'isnt_type' ")->num_rows != 1) {
-        Executor::doit('ALTER TABLE info_social_map_educations add column isnt_type VARCHAR(50) DEFAULT "Educativa" AFTER school_id;');
-    };
+    // if ($con->query("SHOW COLUMNS FROM info_social_map_educations WHERE Field = 'isnt_type' ")->num_rows != 1) {
+    //     Executor::doit('ALTER TABLE info_social_map_educations add column isnt_type VARCHAR(50) DEFAULT "Educativa" AFTER school_id;');
+    // };
 
     // info_social_map_educations
-    if ($con->query("SHOW COLUMNS FROM info_social_map_organizations WHERE Field = 'isnt_type' ")->num_rows != 1) {
-        Executor::doit('ALTER TABLE info_social_map_organizations add column isnt_type VARCHAR(50) DEFAULT "Organización" AFTER organization_id;');
-    };
+    // if ($con->query("SHOW COLUMNS FROM info_social_map_organizations WHERE Field = 'isnt_type' ")->num_rows != 1) {
+    //     Executor::doit('ALTER TABLE info_social_map_organizations add column isnt_type VARCHAR(50) DEFAULT "Organización" AFTER organization_id;');
+    // };
 
     // actions_line
     // if ($con->query("SHOW COLUMNS FROM actions_line WHERE Field = 'permisos' ")->num_rows != 1) {
@@ -376,14 +376,16 @@ function alter_db()
     // 26 octubre 2025
     Executor::doit('SET FOREIGN_KEY_CHECKS=0;');
 
-    Executor::doit('UPDATE info_social_map_educations INNER JOIN user ON user.id = info_social_map_educations.user_id SET info_social_map_educations.code_info = user.code_info;');
-    Executor::doit('UPDATE info_social_map_organizations INNER JOIN user ON user.id = info_social_map_organizations.user_id SET info_social_map_organizations.code_info = user.code_info;');
-    Executor::doit('UPDATE info_social_map INNER JOIN user ON user.id = info_social_map.user_id SET info_social_map.code_info = user.code_info;');
+    // Executor::doit('UPDATE info_social_map_educations INNER JOIN user ON user.id = info_social_map_educations.user_id SET info_social_map_educations.code_info = user.code_info;');
+    // Executor::doit('UPDATE info_social_map_organizations INNER JOIN user ON user.id = info_social_map_organizations.user_id SET info_social_map_organizations.code_info = user.code_info;');
+    // Executor::doit('UPDATE info_social_map INNER JOIN user ON user.id = info_social_map.user_id SET info_social_map.code_info = user.code_info;');
 
     // CREAR UN CONSTRAINT PARA ACTUALIZAR LOS CODIGOS DEL MAPA CON EL CODIGO DEL USUARIO EN MYSQL
-    if ($con->query("SHOW INDEX FROM info_social_map WHERE Key_name = 'idx_mapa_info_code' ")->num_rows != 1) {
-        Executor::doit('ALTER TABLE `info_social_map` ADD INDEX `idx_mapa_info_code` (code_info);');
-    };
+    // if ($con->query("SHOW INDEX FROM info_social_map WHERE Key_name = 'idx_mapa_info_code' ")->num_rows != 1) {
+    //     Executor::doit('ALTER TABLE `info_social_map` ADD INDEX `idx_mapa_info_code` (code_info);');
+    // };
+
+
     // Executor::doit('ALTER TABLE info_social_map DROP CONSTRAINT info_social_map_ibfk_10;');
     // Executor::doit('ALTER TABLE info_social_map DROP CONSTRAINT info_social_map_ibfk;');
     // Executor::doit('ALTER TABLE info_social_map ADD CONSTRAINT `info_social_map_ibfk` FOREIGN KEY (code_info) REFERENCES `user` (code_info) ON UPDATE CASCADE ON DELETE SET NULL;');
@@ -396,19 +398,19 @@ function alter_db()
 
 
     // CREAR UN CONSTRAINT PARA ACTUALIZAR EL CODIGO DE LAS INSTITUCIONES CON EL CODIGO DEL USUARIO EN MYSQL
-    if ($con->query("SHOW INDEX FROM user WHERE Key_name = 'idx_user_code_info' ")->num_rows != 1) {
-        Executor::doit('ALTER TABLE `user` ADD INDEX `idx_user_code_info` (code_info);');
-    };
+    // if ($con->query("SHOW INDEX FROM user WHERE Key_name = 'idx_user_code_info' ")->num_rows != 1) {
+    //     Executor::doit('ALTER TABLE `user` ADD INDEX `idx_user_code_info` (code_info);');
+    // };
 
-    if ($con->query("SHOW INDEX FROM info_social_map_educations WHERE Key_name = 'idx_map_educations_info_code' ")->num_rows != 1) {
-        Executor::doit('ALTER TABLE `info_social_map_educations` ADD INDEX `idx_map_educations_info_code` (code_info);');
-    };
+    // if ($con->query("SHOW INDEX FROM info_social_map_educations WHERE Key_name = 'idx_map_educations_info_code' ")->num_rows != 1) {
+    //     Executor::doit('ALTER TABLE `info_social_map_educations` ADD INDEX `idx_map_educations_info_code` (code_info);');
+    // };
     // Executor::doit('ALTER TABLE info_social_map_educations DROP CONSTRAINT `info_map_educations_ibfk`;');
     // Executor::doit('ALTER TABLE info_social_map_educations ADD CONSTRAINT `info_map_educations_ibfk` FOREIGN KEY (code_info) REFERENCES `user` (code_info) ON UPDATE CASCADE;');
 
-    if ($con->query("SHOW INDEX FROM info_social_map_organizations WHERE Key_name = 'idx_map_organizations_info_code' ")->num_rows != 1) {
-        Executor::doit('ALTER TABLE `info_social_map_organizations` ADD INDEX `idx_map_organizations_info_code` (code_info);');
-    };
+    // if ($con->query("SHOW INDEX FROM info_social_map_organizations WHERE Key_name = 'idx_map_organizations_info_code' ")->num_rows != 1) {
+    //     Executor::doit('ALTER TABLE `info_social_map_organizations` ADD INDEX `idx_map_organizations_info_code` (code_info);');
+    // };
     // Executor::doit('ALTER TABLE info_social_map_organizations DROP CONSTRAINT `info_social_map_organizations_ibfk_6`;');
     // Executor::doit('ALTER TABLE info_social_map_organizations DROP CONSTRAINT `info_map_organizations_ibfk`;');
     // Executor::doit('ALTER TABLE info_social_map_organizations ADD CONSTRAINT `info_map_organizations_ibfk` FOREIGN KEY (code_info) REFERENCES `user` (code_info) ON UPDATE CASCADE;');
@@ -426,7 +428,7 @@ function alter_db()
     // Executor::doit('ALTER TABLE categoria_productos CHANGE nombre_categoria nombre_categoria VARCHAR(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;');
     // Executor::doit('ALTER TABLE `products_type` ADD INDEX(tipo_categoria);');
     // Executor::doit('ALTER TABLE `categoria_productos` ADD INDEX(`nombre_categoria`);');
-    Executor::doit('ALTER TABLE products_type ADD FOREIGN KEY (tipo_categoria) REFERENCES categoria_productos(nombre_categoria) ON DELETE CASCADE ON UPDATE CASCADE;');
+    // Executor::doit('ALTER TABLE products_type ADD FOREIGN KEY (tipo_categoria) REFERENCES categoria_productos(nombre_categoria) ON DELETE CASCADE ON UPDATE CASCADE;');
 
     // deshabilitar las claves foraneas para poder eliminar y editar las tablas secundarias
 
