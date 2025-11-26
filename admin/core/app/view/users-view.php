@@ -397,6 +397,7 @@ $alert = isset($_GET['swal']) ? $_GET['swal'] : "";
 													<td><?php echo $user->region; ?></td>
 													<td><?php echo $user->rol; ?></td>
 													<td><?php echo $user->user_type; ?></td>
+													<td><?php echo $user->puede_cargar; ?></td>
 
 													<!-- SI NO TIENE PRIVILEGIO 7 NO PUEDE EDITAR EL USURIO ADMIN -->
 													<?php if ($_SESSION["user_type"] != 7 && $user->user_type != 7) { ?>
@@ -429,6 +430,7 @@ $alert = isset($_GET['swal']) ? $_GET['swal'] : "";
 													<td><?php echo $user->region; ?></td>
 													<td><?php echo $user->rol; ?></td>
 													<td><?php echo $user->user_type; ?></td>
+													<td><?php echo $user->puede_cargar; ?></td>
 													<td style="width:30px;"><a href="index.php?view=edituser&id=<?php echo $user->id; ?>" class="btn btn-warning btn-sm">Editar</a>
 														<!-- <a href="./?action=ajax&function=del_user&id=<!?php echo $user->id;?>" class="btn btn-danger btn-sm">Eliminar</a></td> -->
 												</tr>
@@ -450,6 +452,7 @@ $alert = isset($_GET['swal']) ? $_GET['swal'] : "";
 														<td><?php echo $user->region; ?></td>
 														<td><?php echo $user->rol; ?></td>
 														<td><?php echo $user->user_type; ?></td>
+													<td><?php echo $user->puede_cargar; ?></td>
 														<td style="width:30px;"><a href="index.php?view=edituser&id=<?php echo $user->id; ?>" class="btn btn-warning btn-sm">Editar</a>
 															<!-- <a href="./?action=ajax&function=del_user&id=<!?php echo $user->id;?>" class="btn btn-danger btn-sm">Eliminar</a></td> -->
 													</tr>
@@ -471,6 +474,7 @@ $alert = isset($_GET['swal']) ? $_GET['swal'] : "";
 													<td><?php echo $user->region; ?></td>
 													<td><?php echo $user->rol; ?></td>
 													<td><?php echo $user->user_type; ?></td>
+													<td><?php echo $user->puede_cargar; ?></td>
 													<td style="width:30px;"><a href="index.php?view=edituser&id=<?php echo $user->id; ?>" class="btn btn-warning btn-sm">Editar</a>
 														<!-- <a href="./?action=ajax&function=del_user&id=<!?php echo $user->id;?>" class="btn btn-danger btn-sm">Eliminar</a></td> -->
 												</tr>
@@ -491,6 +495,7 @@ $alert = isset($_GET['swal']) ? $_GET['swal'] : "";
 													<td><?php echo $user->region; ?></td>
 													<td><?php echo $user->rol; ?></td>
 													<td><?php echo $user->user_type; ?></td>
+													<td><?php echo $user->puede_cargar; ?></td>
 													<td style="width:30px;"><a href="index.php?view=edituser&id=<?php echo $user->id; ?>" class="btn btn-warning btn-sm">Editar</a>
 														<a onclick="del_item('<?php echo $user->id; ?>')" href="javascript:void(0);">
 															<button type="button" class="btn btn-danger btn-sm"><i>
@@ -518,6 +523,7 @@ $alert = isset($_GET['swal']) ? $_GET['swal'] : "";
 													<td><?php echo $user->region; ?></td>
 													<td><?php echo $user->rol; ?></td>
 													<td><?php echo $user->user_type; ?></td>
+													<td><?php echo $user->puede_cargar; ?></td>
 													<td style="width:30px;">
 														<?php if ($_SESSION["user_id"] == $user->id) { ?>
 															<a href="index.php?view=edituser&id=<?php echo $user->id; ?>" class="btn btn-warning btn-sm">Editar</a>
@@ -542,6 +548,7 @@ $alert = isset($_GET['swal']) ? $_GET['swal'] : "";
 													<td><?php echo $user->region; ?></td>
 													<td><?php echo $user->rol; ?></td>
 													<td><?php echo $user->user_type; ?></td>
+													<td><?php echo $user->puede_cargar; ?></td>
 													<td style="width:30px;"><a href="index.php?view=edituser&id=<?php echo $user->id; ?>" class="btn btn-warning btn-sm">Editar</a>
 														<!-- <a href="./?action=ajax&function=del_user&id=<!?php echo $user->id;?>" class="btn btn-danger btn-sm">Eliminar</a></td> -->
 												</tr>
