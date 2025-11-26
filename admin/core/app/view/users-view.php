@@ -135,11 +135,12 @@ $alert = isset($_GET['swal']) ? $_GET['swal'] : "";
 					PERMISOS
 					<br>
 
-					<?php foreach ($user_type as $p): 
-						if($p->user_type != 7){
-						?>
-						<label for=""><?php echo "(" . $p->user_type . ") " . $p->user_type_name; ?></label><br>
-					<?php } endforeach; ?>
+					<?php foreach ($user_type as $p):
+						if ($p->user_type != 7) {
+					?>
+							<label for=""><?php echo "(" . $p->user_type . ") " . $p->user_type_name; ?></label><br>
+					<?php }
+					endforeach; ?>
 
 				<?php } ?>
 
@@ -310,15 +311,21 @@ $alert = isset($_GET['swal']) ? $_GET['swal'] : "";
 
 								?>
 
-									<div class="col-md-12">
-
-										<div class="form-group text_label">
-											<?php echo "<span class='text_label'> <i class='fa fa-bullhorn icon_label' ></i> <b> Hay " . $TotalReg . " Registros </b>. La cantidad se dividió a " . $TotalRegistro . " páginas para mostrar de " . $CantidadMostrar . " en " . $CantidadMostrar . "</span>" . "<br><br>"; ?>
+									<?php if ($_SESSION["user_type"] != 4) { ?>
+										<div class="col-md-12">
+											<div class="form-group text_label">
+												<?php echo "<span class='text_label'> <i class='fa fa-bullhorn icon_label' ></i> <b> Hay " . $TotalReg . " Registros </b>. La cantidad se dividió a " . $TotalRegistro . " páginas para mostrar de " . $CantidadMostrar . " en " . $CantidadMostrar . "</span>" . "<br><br>"; ?>
+											</div>
+											<a class="btn btn-success" href="../core/app/view/exportxlsxmysql.php?param=<?php echo $param_csv . '&param_sql=true&filename=' . $DB_name; ?>" name="Descargar"><i class="fa fa-file-excel-o"></i> XLSX</a>
 										</div>
+									<?php } else { ?>
+										<div class="col-md-12">
+											<div class="form-group text_label">
+												<?php echo "<span class='text_label'> <i class='fa fa-bullhorn icon_label' ></i> <b> Hay " . $TotalReg . " Registros </b>. La cantidad se dividió a " . $TotalRegistro . " páginas para mostrar de " . $CantidadMostrar . " en " . $CantidadMostrar . "</span>" . "<br><br>"; ?>
+											</div>
+										</div>
+									<?php } ?>
 
-										<a class="btn btn-success" href="../core/app/view/exportxlsxmysql.php?param=<?php echo $param_csv . '&param_sql=true&filename=' . $DB_name; ?>" name="Descargar"><i class="fa fa-file-excel-o"></i> XLSX</a>
-
-									</div>
 
 									<br>
 

@@ -136,7 +136,9 @@ $status_type = StatusInfocentroData::getAll();
 
 										<div class="col">
 											<div class="input-group-prepend">
-												<span class="input-group-text"><i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M8 14q-.425 0-.712-.288T7 13t.288-.712T8 12t.713.288T9 13t-.288.713T8 14m4 0q-.425 0-.712-.288T11 13t.288-.712T12 12t.713.288T13 13t-.288.713T12 14m4 0q-.425 0-.712-.288T15 13t.288-.712T16 12t.713.288T17 13t-.288.713T16 14M5 22q-.825 0-1.412-.587T3 20V6q0-.825.588-1.412T5 4h1V2h2v2h8V2h2v2h1q.825 0 1.413.588T21 6v14q0 .825-.587 1.413T19 22zm0-2h14V10H5z"/></svg></i> </span> Desde
+												<span class="input-group-text"><i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+															<path fill="currentColor" d="M8 14q-.425 0-.712-.288T7 13t.288-.712T8 12t.713.288T9 13t-.288.713T8 14m4 0q-.425 0-.712-.288T11 13t.288-.712T12 12t.713.288T13 13t-.288.713T12 14m4 0q-.425 0-.712-.288T15 13t.288-.712T16 12t.713.288T17 13t-.288.713T16 14M5 22q-.825 0-1.412-.587T3 20V6q0-.825.588-1.412T5 4h1V2h2v2h8V2h2v2h1q.825 0 1.413.588T21 6v14q0 .825-.587 1.413T19 22zm0-2h14V10H5z" />
+														</svg></i> </span> Desde
 											</div>
 											<input type="date" name="start_at" value="<?php if (isset($_GET["start_at"]) && $_GET["start_at"] != "") {
 																							echo $_GET["start_at"];
@@ -146,7 +148,9 @@ $status_type = StatusInfocentroData::getAll();
 
 										<div class="col">
 											<div class="input-group-prepend">
-												<span class="input-group-text"><i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M8 14q-.425 0-.712-.288T7 13t.288-.712T8 12t.713.288T9 13t-.288.713T8 14m4 0q-.425 0-.712-.288T11 13t.288-.712T12 12t.713.288T13 13t-.288.713T12 14m4 0q-.425 0-.712-.288T15 13t.288-.712T16 12t.713.288T17 13t-.288.713T16 14M5 22q-.825 0-1.412-.587T3 20V6q0-.825.588-1.412T5 4h1V2h2v2h8V2h2v2h1q.825 0 1.413.588T21 6v14q0 .825-.587 1.413T19 22zm0-2h14V10H5z"/></svg></i> </span> Hasta
+												<span class="input-group-text"><i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+															<path fill="currentColor" d="M8 14q-.425 0-.712-.288T7 13t.288-.712T8 12t.713.288T9 13t-.288.713T8 14m4 0q-.425 0-.712-.288T11 13t.288-.712T12 12t.713.288T13 13t-.288.713T12 14m4 0q-.425 0-.712-.288T15 13t.288-.712T16 12t.713.288T17 13t-.288.713T16 14M5 22q-.825 0-1.412-.587T3 20V6q0-.825.588-1.412T5 4h1V2h2v2h8V2h2v2h1q.825 0 1.413.588T21 6v14q0 .825-.587 1.413T19 22zm0-2h14V10H5z" />
+														</svg></i> </span> Hasta
 											</div>
 											<input type="date" name="finish_at" value="<?php if (isset($_GET["finish_at"]) && $_GET["finish_at"] != "") {
 																							echo $_GET["finish_at"];
@@ -276,16 +280,13 @@ if ((isset($_GET["q"]) || isset($_GET["start_at"]) || isset($_GET["finish_at"]) 
 
 		if ($_GET["linea_accion"] == "Comunidades de participación digital") {
 			$sql .= " (reports.line_action='Medios digitales' or reports.line_action='Infocentro adentro' or reports.line_action='Participación digital' or reports.line_action='Sistematización de Experiencias' or reports.line_action='" . $_GET["linea_accion"] . "')";
-		}
-		else if ($_GET["linea_accion"] == "Comunidades de aprendizaje") {
+		} else if ($_GET["linea_accion"] == "Comunidades de aprendizaje") {
 			$sql .= " (reports.line_action='Formación a la medida' or reports.line_action='" . $_GET["linea_accion"] . "')";
-		}
-		else if ($_GET["linea_accion"] == "Medios digitales") {
+		} else if ($_GET["linea_accion"] == "Medios digitales") {
 			$sql .= " (reports.line_action='Tejiendo redes' or reports.line_action='" . $_GET["linea_accion"] . "')";
-		}
-		else if ($_GET["linea_accion"] == "Acceso abierto") {
+		} else if ($_GET["linea_accion"] == "Acceso abierto") {
 			$sql .= " (reports.line_action='Unidades socio-productivas' or reports.line_action='" . $_GET["linea_accion"] . "')";
-		}else{
+		} else {
 			$sql .= " (reports.line_action='" . $_GET["linea_accion"] . "')";
 		}
 
@@ -313,16 +314,16 @@ if ((isset($_GET["q"]) || isset($_GET["start_at"]) || isset($_GET["finish_at"]) 
 
 
 	if ($_GET["start_at"] != "" and $_GET["finish_at"] != "") {
-		if (($_GET["q"] != "" || $_GET["info_id"] != "" || $_GET["linea_accion"] != "" || $_GET["estado"] != "" || $_GET["user_id"] != "") ) {
+		if (($_GET["q"] != "" || $_GET["info_id"] != "" || $_GET["linea_accion"] != "" || $_GET["estado"] != "" || $_GET["user_id"] != "")) {
 			$sql .= " and ";
 		}
 		// $sql .= " to_date(left(products_list.date,10), 'DD-MM-YYYY') BETWEEN '" . $start_at . "' and '" . $finish_at . "'";
 		$sql .= " reports.date_ini BETWEEN '" . $start_at . "' and '" . $finish_at . "'";
 	}
 
-	
+
 	if ($_GET["start_at"] != "" and $_GET["finish_at"] == "") {
-		if (($_GET["q"] != "" || $_GET["info_id"] != "" || $_GET["linea_accion"] != "" || $_GET["estado"] != "" || $_GET["user_id"] != "") ) {
+		if (($_GET["q"] != "" || $_GET["info_id"] != "" || $_GET["linea_accion"] != "" || $_GET["estado"] != "" || $_GET["user_id"] != "")) {
 			$sql .= ' and ';
 		}
 		// $sql .= " to_date(left(products_list.date,10), 'DD-MM-YYYY')>=to_date('" . $start_at . "','DD-MM-YYYY')";
@@ -458,17 +459,29 @@ $DB_name = "products_list";
 
 <?php if (count($users[0]) > 0) { ?>
 	<!-- si hay usuarios -->
-	<div class="col-md-12">
 
-		<div class="form-group text_label">
-			<?php echo "<span class='text_label'> <i class='fa fa-bullhorn icon_label' ></i> <b> Hay " . $TotalReg . " Registros </b>. La cantidad se dividió a " . $TotalRegistro . " páginas para mostrar de " . $CantidadMostrar . " en " . $CantidadMostrar . "</span>" . "<br><br>"; ?>
+
+
+	<?php if ($_SESSION["user_type"] != 4) { ?>
+		<div class="col-md-12">
+
+			<div class="form-group text_label">
+				<?php echo "<span class='text_label'> <i class='fa fa-bullhorn icon_label' ></i> <b> Hay " . $TotalReg . " Registros </b>. La cantidad se dividió a " . $TotalRegistro . " páginas para mostrar de " . $CantidadMostrar . " en " . $CantidadMostrar . "</span>" . "<br><br>"; ?>
+			</div>
+
+			<a target="_blank" href="./pdf/csv_pdo.php?param_csv=<?php echo $param_csv . '&param_sql=' . $param_sql . '&DB_name=' . $DB_name; ?>" name="Descargar" class=" btn btn-success "><i class="fa fa-file-excel-o"></i> CSV</a>
+			<a target="_blank" class="btn btn-success" href="../core/app/view/exportxlsx_2.php?param=<?php echo $param_xlsx . '&param_sql=true&filename=' . $DB_name; ?>" name="Descargar"><i class="fa fa-file-excel-o"></i> XLSX</a>
+
 		</div>
+	<?php } else { ?>
+		<div class="col-md-12">
 
-		<a target="_blank" href="./pdf/csv_pdo.php?param_csv=<?php echo $param_csv . '&param_sql=' . $param_sql . '&DB_name=' . $DB_name; ?>" name="Descargar" class=" btn btn-success "><i class="fa fa-file-excel-o"></i> CSV</a>
-		<a target="_blank" class="btn btn-success" href="../core/app/view/exportxlsx_2.php?param=<?php echo $param_xlsx . '&param_sql=true&filename=' . $DB_name; ?>" name="Descargar"><i class="fa fa-file-excel-o"></i> XLSX</a>
-		<!-- <a target="_blank" href="./pdf/jspdf_prod.php?param_pdf=<?php echo $param_csv . '&param_sql=' . $param_sql . '&DB_name=' . $DB_name; ?>" name="Descargar" class=" btn btn-danger "><i class="fa fa-file-pdf-o"></i> </a> -->
+			<div class="form-group text_label">
+				<?php echo "<span class='text_label'> <i class='fa fa-bullhorn icon_label' ></i> <b> Hay " . $TotalReg . " Registros </b>. La cantidad se dividió a " . $TotalRegistro . " páginas para mostrar de " . $CantidadMostrar . " en " . $CantidadMostrar . "</span>" . "<br><br>"; ?>
+			</div>
 
-	</div>
+		</div>
+	<?php } ?>
 
 
 
@@ -554,10 +567,10 @@ $DB_name = "products_list";
 									<?php if ($_SESSION["user_type"] != 10) { ?>
 
 										<!-- <!?php if ($_SESSION["user_id"] == $types["uid_fac"]) { ?> -->
-											<!-- <a href="index.php?view=editproduct&id=<!?php echo $types["id"]; ?>" class="btn btn-warning btn-sm">Editar</a> -->
+										<!-- <a href="index.php?view=editproduct&id=<!?php echo $types["id"]; ?>" class="btn btn-warning btn-sm">Editar</a> -->
 
 										<!-- <!?php } elseif ($_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 9) { ?> -->
-										<?php if ($_SESSION["user_type"] == 2 || $_SESSION["user_type"] == 3 || $_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 9) { ?>
+										<?php if ($_SESSION["user_type"] == 2 || $_SESSION["user_type"] == 3 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 9) { ?>
 
 											<a href="index.php?view=editproduct&id=<?php echo $types["id"]; ?>" class="btn btn-warning btn-sm">Editar</a>
 

@@ -226,31 +226,33 @@
 
                 <!--  SOLO ADMIN VISIBLE -->
                 <div class="col-md-6 mui-select" id="tipo_de_usuario" style="display:none;">
-                  <select name="user_type" id="user_type" required>
+                  <select name="user_type" id="tipo_de_usuario_select" required>
                     <!-- busca el nombre por el ID -->
                     <option value="<?php echo $user->user_type; ?>"><?php echo UserTypeData::getNameById($user->user_type); ?></option>
                     <?php foreach ($user_type as $p): ?>
 
                       <!-- ROOT -->
-                      <?php if ($_SESSION["user_type"] == 7) { ?>
-                        <option value="<?php echo $p->user_type; ?>"> <?php echo $p->user_type_name; ?></option>
+                      <?php if ($_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 6) { ?>
+                        <?php if ($p->user_type != 7) { ?>
+                          <option value="<?php echo $p->user_type; ?>" data="<?php echo $p->user_type_name; ?>"> <?php echo $p->user_type_name; ?></option>
+                        <?php } ?>
 
                         <!-- Politicas Admin -->
                       <?php } elseif ($_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6) { ?>
                         <?php if ($p->user_type != 7) { ?>
-                          <option value="<?php echo $p->user_type; ?>"> <?php echo $p->user_type_name; ?></option>
+                          <option value="<?php echo $p->user_type; ?>" data="<?php echo $p->user_type_name; ?>"> <?php echo $p->user_type_name; ?></option>
                         <?php } ?>
 
                         <!-- Gerencias ADMIN -->
                       <?php } elseif ($_SESSION["user_type"] == 9) { ?>
                         <?php if ($p->user_type == 4) { ?>
-                          <option value="<?php echo $p->user_type; ?>"> <?php echo $p->user_type_name; ?></option>
+                          <option value="<?php echo $p->user_type; ?>" data="<?php echo $p->user_type_name; ?>"> <?php echo $p->user_type_name; ?></option>
                         <?php } ?>
 
                         <!-- Coordinador estadal -->
                       <?php } elseif ($_SESSION["user_type"] == 8) { ?>
-                        <?php if ($p->user_type == 2 || $p->user_type == 3 || $p->user_type == 8) { ?>
-                          <option value="<?php echo $p->user_type; ?>"> <?php echo $p->user_type_name; ?></option>
+                        <?php if ($p->user_type == 2 || $p->user_type == 3) { ?>
+                          <option value="<?php echo $p->user_type; ?>" data="<?php echo $p->user_type_name; ?>"> <?php echo $p->user_type_name; ?></option>
                         <?php } ?>
                       <?php } ?>
 
@@ -450,11 +452,11 @@
     });
 
 
-    $("#user_type").change(function() {
+    $("#tipo_de_usuario_select").change(function() {
 
       data = $(this).val();
-      console.log(data);
-      toastify("Privilegio: " + data, true, 2000, "warning");
+      // console.log(data);
+      // toastify("Privilegio: " + data, true, 2000, "warning");
 
       // limpiar el select
       const $select = document.querySelector("#rol");
@@ -471,6 +473,7 @@
           $('#rol').append($('<option>').val('').text('-SELECCIONE-'));
           $('#rol').append($('<option>').val('Facilitador').text('Facilitador'));
           $('#rol').append($('<option>').val('Analista').text('Analista'));
+          $('#rol').append($('<option>').val('Promotor').text('Promotor'));
         <?php } else { ?>
           $('#rol').append($('<option>').val('Facilitador').text('Facilitador'));
         <?php } ?>
@@ -492,14 +495,8 @@
         <?php if ($_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7) { ?>
           // <!-- Gerencias sustantiva CCS-->
           $('#rol').append($('<option>').val('').text('-SELECCIONE-'));
-          $('#rol').append($('<option>').val('Comunicación').text('Comunicación'));
-          $('#rol').append($('<option>').val('Formación').text('Formación'));
-          $('#rol').append($('<option>').val('Infraestructura').text('Infraestructura'));
-          $('#rol').append($('<option>').val('Tecnología').text('Tecnología'));
-          $('#rol').append($('<option>').val('Red móvil').text('Red móvil'));
-          $('#rol').append($('<option>').val('Organización').text('Organización'));
-          $('#rol').append($('<option>').val('Administración').text('Administración'));
-          $('#rol').append($('<option>').val('Políticas públicas').text('Políticas públicas'));
+          $('#rol').append($('<option>').val('Revisión').text('Revisión'));
+
         <?php } ?>
 
       }
@@ -545,6 +542,7 @@
 
       if (data == '8') {
         $('#rol').append($('<option>').val('Jefe estadal').text('Jefe estadal'));
+        $('#rol').append($('<option>').val('Responsable de sala').text('Responsable de sala'));
       }
 
       if (data == '10') {

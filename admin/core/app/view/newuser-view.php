@@ -339,14 +339,7 @@ $alert = isset($_GET["alert"]) ? $_GET["alert"] : '';
         <?php if ($_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7) { ?>
           // <!-- Gerencias sustantiva CCS-->
           $('#rol').append($('<option>').val('').text('-SELECCIONE-'));
-          $('#rol').append($('<option>').val('Comunicación').text('Comunicación'));
-          $('#rol').append($('<option>').val('Formación').text('Formación'));
-          $('#rol').append($('<option>').val('Infraestructura').text('Infraestructura'));
-          $('#rol').append($('<option>').val('Tecnología').text('Tecnología'));
-          $('#rol').append($('<option>').val('Red móvil').text('Red móvil'));
-          $('#rol').append($('<option>').val('Organización').text('Organización'));
-          $('#rol').append($('<option>').val('Administración').text('Administración'));
-          $('#rol').append($('<option>').val('Políticas públicas').text('Políticas públicas'));
+          $('#rol').append($('<option>').val('Revisión').text('Revisión'));
         <?php } ?>
 
       }

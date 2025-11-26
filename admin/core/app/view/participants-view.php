@@ -558,16 +558,13 @@ if ((isset($_GET["q"]) || isset($_GET["start_at_1"]) || isset($_GET["finish_at_1
 
 		if ($_GET["linea_accion"] == "Comunidades de participación digital") {
 			$sql .= " (reports.line_action='Medios digitales' or reports.line_action='Infocentro adentro' or reports.line_action='Participación digital' or reports.line_action='Sistematización de Experiencias' or reports.line_action='" . $_GET["linea_accion"] . "')";
-		}
-		else if ($_GET["linea_accion"] == "Comunidades de aprendizaje") {
+		} else if ($_GET["linea_accion"] == "Comunidades de aprendizaje") {
 			$sql .= " (reports.line_action='Formación a la medida' or reports.line_action='" . $_GET["linea_accion"] . "')";
-		}
-		else if ($_GET["linea_accion"] == "Medios digitales") {
+		} else if ($_GET["linea_accion"] == "Medios digitales") {
 			$sql .= " (reports.line_action='Tejiendo redes' or reports.line_action='" . $_GET["linea_accion"] . "')";
-		}
-		else if ($_GET["linea_accion"] == "Acceso abierto") {
+		} else if ($_GET["linea_accion"] == "Acceso abierto") {
 			$sql .= " (reports.line_action='Unidades socio-productivas' or reports.line_action='" . $_GET["linea_accion"] . "')";
-		}else{
+		} else {
 			$sql .= " (reports.line_action='" . $_GET["linea_accion"] . "')";
 		}
 	}
@@ -806,25 +803,34 @@ $DB_name = "participants_list";
 
 <?php if (count($users[0]) > 0) { ?>
 	<!-- si hay usuarios -->
-	<div class="col-md-12">
-
-		<?php if ($TotalReg > 0) { ?>
-			<div class="form-group text_label">
-				<?php echo "<span class='text_label'> <i class='fa fa-bullhorn icon_label' ></i> <b> Hay " . $TotalReg . " Registros</b>. La cantidad se dividió a " . $TotalRegistro . " páginas para mostrar de " . $CantidadMostrar . " en " . $CantidadMostrar . "</span>" . "<br><br>"; ?>
-			</div>
-		<?php } ?>
 
 
-		<a target="_blank" href="./pdf/csv_pdo.php?param_csv=<?php echo $param_csv . '&param_sql=' . $param_sql . '&DB_name=' . $DB_name; ?>" name="Descargar" class=" btn btn-success "><i class="fa fa-file-excel-o"></i> CSV</a>
-		<!-- <a target="_blank" class="btn btn-success" href="../core/app/view/exportxlsx.php?param=<?php echo $param_xlsx . '&param_sql=true&filename=' . $DB_name; ?>" name="Descargar"><i class="fa fa-file-excel-o"></i> XLSX</a> -->
-		<a target="_blank" class="btn btn-success" href="../core/app/view/exportxlsx_2.php?param=<?php echo $param_xlsx . '&param_sql=true&filename=' . $DB_name; ?>" name="Descargar"><i class="fa fa-file-excel-o"></i> XLSX</a>
-		<!-- <a target="_blank" class="btn btn-success" href="../core/app/view/exportxlsx_3.php?param=<?php echo $param_xlsx . '&param_sql=true&filename=' . $DB_name; ?>" name="Descargar"><i class="fa fa-file-excel-o"></i> XLSX</a> -->
-		<!-- <a target="_blank" class="btn btn-success" href="../core/app/view/exportxlsx_4.php?param=<?php echo $param_xlsx . '&param_sql=true&filename=' . $DB_name; ?>" name="Descargar"><i class="fa fa-file-excel-o"></i> XLSX</a> -->
-		<!-- <a target="_blank" href="./pdf/jspdf_part.php?param_pdf=<?php echo $param_csv . '&param_sql=' . $param_sql . '&DB_name=' . $DB_name; ?>" name="Descargar" class=" btn btn-danger "><i class="fa fa-file-pdf-o"></i> </a> -->
-		<!-- <a href="./pdf/jspdf.php" name="Descargar" class=" btn btn-default "><i class="fa fa-file-pdf-o"></i> </a> -->
 
-	</div>
+	<?php if ($_SESSION["user_type"] != 4) { ?>
+		<div class="col-md-12">
 
+			<?php if ($TotalReg > 0) { ?>
+				<div class="form-group text_label">
+					<?php echo "<span class='text_label'> <i class='fa fa-bullhorn icon_label' ></i> <b> Hay " . $TotalReg . " Registros</b>. La cantidad se dividió a " . $TotalRegistro . " páginas para mostrar de " . $CantidadMostrar . " en " . $CantidadMostrar . "</span>" . "<br><br>"; ?>
+				</div>
+			<?php } ?>
+
+
+			<a target="_blank" href="./pdf/csv_pdo.php?param_csv=<?php echo $param_csv . '&param_sql=' . $param_sql . '&DB_name=' . $DB_name; ?>" name="Descargar" class=" btn btn-success "><i class="fa fa-file-excel-o"></i> CSV</a>
+			<a target="_blank" class="btn btn-success" href="../core/app/view/exportxlsx_2.php?param=<?php echo $param_xlsx . '&param_sql=true&filename=' . $DB_name; ?>" name="Descargar"><i class="fa fa-file-excel-o"></i> XLSX</a>
+
+		</div>
+	<?php } else { ?>
+		<div class="col-md-12">
+
+			<?php if ($TotalReg > 0) { ?>
+				<div class="form-group text_label">
+					<?php echo "<span class='text_label'> <i class='fa fa-bullhorn icon_label' ></i> <b> Hay " . $TotalReg . " Registros</b>. La cantidad se dividió a " . $TotalRegistro . " páginas para mostrar de " . $CantidadMostrar . " en " . $CantidadMostrar . "</span>" . "<br><br>"; ?>
+				</div>
+			<?php } ?>
+
+		</div>
+	<?php } ?>
 
 
 
@@ -925,7 +931,7 @@ $DB_name = "participants_list";
 									<?php if ($_SESSION["user_type"] != 10) { ?>
 										<?php if ($_SESSION["user_id"] == $user["uid_fac"]) { ?>
 											<a href="index.php?view=editparticipants&id=<?php echo $user["id"]; ?>&id_activity=<?php echo $user["id_activity"]; ?>&code_info=<?php echo $user["code_info"]; ?>&pag=<?php echo $pag; ?>" class="btn btn-warning btn-sm">Editar</a>
-										<?php } elseif ($_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 9) { ?>
+										<?php } elseif ($_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 9) { ?>
 											<a href="index.php?view=editparticipants&id=<?php echo $user["id"]; ?>&id_activity=<?php echo $user["id_activity"]; ?>&code_info=<?php echo $user["code_info"]; ?>&pag=<?php echo $pag; ?>" class="btn btn-warning btn-sm">Editar</a>
 										<?php } ?>
 									<?php } ?>

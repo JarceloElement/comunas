@@ -145,12 +145,18 @@ error_reporting(E_ALL);
 	</h4>
 </div>
 Sala de Autogobierno u Organización (1)
+<br>
 Facilitador o Promotor (2)
+<br>
 Coordinador estadal (3)
-<!-- Gerencias (4) -->
+<br>
+Gerencias nacional (Solo revisión) (4)
 <!-- Gerencia RNI (5) -->
+<br>
 Dirección de Políticas Públicas de Min Comunas (6)
+<br>
 Administración del sistema (7)
+<br>
 Jefe de Estado o Responsable de Sala Unificada (8)
 <!-- Gerencias ADMIN (9) -->
 
