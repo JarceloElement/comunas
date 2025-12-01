@@ -365,7 +365,7 @@ if ((isset($_GET["q"]) || isset($_GET["start_at"]) || isset($_GET["finish_at"]) 
     $users = ProductsData::getBySQL($sql);
 
     // Asigna url de paginacion
-    $url_pag = "<a href=\"?view=products&q=" . $q . "&info_id=" . $code_info . "&estado=" . $estado_q . "&linea_accion=" . $linea_accion_q . "&user_id=" . $user_id . "&start_at=" . $start_at_q . "&finish_at=" . $finish_at_q . "&pag=";
+    $url_pag = "<a href=\"?view=formaciones&q=" . $q . "&info_id=" . $code_info . "&estado=" . $estado_q . "&linea_accion=" . $linea_accion_q . "&user_id=" . $user_id . "&start_at=" . $start_at_q . "&finish_at=" . $finish_at_q . "&pag=";
 
 
     $param_sql = "true";

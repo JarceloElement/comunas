@@ -75,6 +75,8 @@ function alter_db()
     // UPDATE formaciones SET user_dni=participants_list.document_id FROM participants_list WHERE formaciones.participant_id=participants_list.id;
     // UPDATE formaciones SET usuario_id=participants_list.id_user_final::INT FROM participants_list WHERE formaciones.participant_id=participants_list.id;
     // UPDATE formaciones SET id_activity=participants_list.id_activity FROM participants_list WHERE formaciones.participant_id=participants_list.id;
+    // UPDATE formaciones SET cod_curso=reports.cod_curso FROM reports WHERE formaciones.id_activity::INT=reports.id;
+    // UPDATE formaciones SET cod_taller=reports.codigo_taller FROM reports WHERE formaciones.id_activity::INT=reports.id;
 
 
 
