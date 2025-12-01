@@ -1,4 +1,9 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
 $action_line = ActionsLineData::getAll();
 $estado = EstadoData::getAll();
 $municipio = MunicipioData::getAll();
@@ -64,7 +69,7 @@ $status_type = StatusInfocentroData::getAll();
 
 
 
-<!-- 
+
 <div class="content">
 	<div class="container-fluid">
 		<div class="row">
@@ -72,14 +77,14 @@ $status_type = StatusInfocentroData::getAll();
 				<div class="card">
 
 					<div class="card-header card-header-primary">
-						<h4 class="title text-left">Productos de actividades</h4>
+						<h4 class="title text-left">Personas formadas</h4>
 					</div>
 
 					<div class="form-group">
 
 						<div class="card-body">
 							<form class="form-horizontal" role="form">
-								<input type="hidden" name="view" value="products">
+								<input type="hidden" name="view" value="formaciones">
 
 								<div class="form-group">
 									<div class="row">
@@ -195,7 +200,7 @@ $status_type = StatusInfocentroData::getAll();
 		</div>
 
 	</div>
-</div> -->
+</div>
 
 
 
@@ -248,39 +253,35 @@ if ((isset($_GET["q"]) || isset($_GET["start_at"]) || isset($_GET["finish_at"]) 
     $sql = "SELECT 
 	";
     $fields = "
-	reports.user_id, 
-	products_list.id, 
-	products_list.id_activity, 
-	products_list.date, 
-	products_list.estate, 
-	products_list.info_id, 
-	products_list.code_info, 
-	reports.line_action,
-	reports.date_ini,  
-	reports.report_type, 
-	reports.activity_title, 
-	reports.datetime, 
-	products_list.action_performed, 
-	products_list.format, 
-	products_list.format_detail, 
-	products_list.quantity_created, 
-	products_list.quantity_published, 
-	products_list.web_link, 
-	products_list.date_reg";
+    reports.code_info, 
+    reports.date_ini, 
+    reports.datetime, 
+    reports.activity_title, 
+    reports.line_action, 
+    reports.estate,
+    formaciones.id, 
+    formaciones.id_activity, 
+    formaciones.user_dni, 
+    formaciones.taller_id, 
+    formaciones.orden_taller, 
+    formaciones.cod_curso, 
+    formaciones.cod_taller, 
+    formaciones.fecha_completado, 
+    formaciones.completado";
     $sql .= $fields;
     $sql .= " from formaciones 
 	INNER JOIN reports on formaciones.id_activity::INT = reports.id where";
 
 
     if ($_GET["q"] != "") {
-        $sql .= " (products_list.activity_title like '%$_GET[q]%' or products_list.action_performed like '%$_GET[q]%' or products_list.date like '%$_GET[q]%' or  products_list.format like '%$_GET[q]%' or products_list.format_detail like '%$_GET[q]%' ) ";
+        $sql .= " ( formaciones.usuario_id='" . (int)$q . "' or formaciones.cod_curso like '%$q%' or formaciones.cod_taller like '%$q%' or formaciones.user_dni like '%$q%') ";
     }
 
     if ($info_id != "") {
         if ($_GET["q"] != "") {
             $sql .= ' and ';
         }
-        $sql .= " products_list.info_id='" . $info_id . "'";
+        $sql .= " reports.info_id='" . $info_id . "'";
     }
 
     if ($_GET["user_id"] != "") {
@@ -379,6 +380,7 @@ if ((isset($_GET["q"]) || isset($_GET["start_at"]) || isset($_GET["finish_at"]) 
         $total_sql = "SELECT 
 		";
         $fields = "
+        reports.code_info, 
 		reports.datetime, 
 		reports.activity_title, 
 		reports.line_action, 
@@ -400,6 +402,7 @@ if ((isset($_GET["q"]) || isset($_GET["start_at"]) || isset($_GET["finish_at"]) 
         $total_sql = "SELECT 
 		";
         $fields = "
+        reports.code_info, 
 		reports.datetime, 
 		reports.activity_title, 
 		reports.line_action, 
@@ -473,9 +476,7 @@ $DB_name = "formaciones";
                 <?php echo "<span class='text_label'> <i class='fa fa-bullhorn icon_label' ></i> <b> Hay " . $TotalReg . " Registros </b>. La cantidad se dividió a " . $TotalRegistro . " páginas para mostrar de " . $CantidadMostrar . " en " . $CantidadMostrar . "</span>" . "<br><br>"; ?>
             </div>
 
-            <a target="_blank" href="./pdf/csv_pdo.php?param_csv=<?php echo $param_csv . '&param_sql=' . $param_sql . '&DB_name=' . $DB_name; ?>" name="Descargar" class=" btn btn-success "><i class="fa fa-file-excel-o"></i> CSV</a>
             <a target="_blank" class="btn btn-success" href="../core/app/view/exportxlsx_2.php?param=<?php echo $param_xlsx . '&param_sql=true&filename=' . $DB_name; ?>" name="Descargar"><i class="fa fa-file-excel-o"></i> XLSX</a>
-            <!-- <a target="_blank" href="./pdf/jspdf_prod.php?param_pdf=<?php echo $param_csv . '&param_sql=' . $param_sql . '&DB_name=' . $DB_name; ?>" name="Descargar" class=" btn btn-danger "><i class="fa fa-file-pdf-o"></i> </a> -->
 
         </div>
     <?php } else { ?>
@@ -493,9 +494,9 @@ $DB_name = "formaciones";
     <div class="col-md-12">
         <br>
         <div class="card">
-            <div class="card-header card-header-primary">
+            <!-- <div class="card-header card-header-primary">
                 <h4 class="title text-left">Personas registradas en talleres (Aún se está modificando)</h4>
-            </div>
+            </div> -->
             <div class="card-content table-responsive">
                 <div class="card-body">
                     <table class="table table-bordered table-hover">
@@ -503,10 +504,11 @@ $DB_name = "formaciones";
                         <!-- INONOS -->
                         <thead>
                             <th class="text_label "> <i class="fa fa-check icon_table"></i></th>
+                            <th class="text_label "> <i class="fa fa-gear icon_table"></i></th>
+                            <th class="text_label " style="width: 100px;"> <i class="fa fa-map-marker icon_table"></i></th>
                             <th class="text_label "> <i class="fa fa-user icon_table"></i></th>
                             <th class="text_label "> <i class="fa fa-gear icon_table"></i></th>
                             <th class="text_label " style="width: 400px;"> <i class="fa fa-list-alt icon_table"></i></th>
-                            <th class="text_label " style="width: 100px;"> <i class="fa fa-map-marker icon_table"></i></th>
                             <th class="text_label "> <i class="fa fa-building icon_table"></i></th>
                             <th class="text_label "> <i class="fa fa-building icon_table"></i></th>
                             <th class="text_label "> <i class="fa fa-cog icon_table"></i></th>
@@ -518,10 +520,11 @@ $DB_name = "formaciones";
                         <!-- TITULOS -->
                         <thead>
                             <th>N°</th>
+                            <th>Info</th>
+                            <th>Estado</th>
                             <th>C.I part</th>
                             <th>Id-Actividad</th>
                             <th>Título Actividad</th>
-                            <th>Estado</th>
                             <th>Cod. curso</th>
                             <th>Cod. taller</th>
                             <th>N° taller</th>
@@ -541,10 +544,11 @@ $DB_name = "formaciones";
                         ?>
                             <tr>
                                 <td><?php echo $var_count; ?></td>
+                                <td><?php echo $types["code_info"]; ?></td>
+                                <td><?php echo $types["estate"]; ?></td>
                                 <td><?php echo $types["user_dni"]; ?></td>
                                 <td><?php echo $types["id_activity"]; ?></td>
                                 <td><?php echo $types["activity_title"]; ?></td>
-                                <td><?php echo $types["estate"]; ?></td>
                                 <td><?php echo $types["cod_curso"]; ?></td>
                                 <td><?php echo $types["cod_taller"]; ?></td>
                                 <td><?php echo $types["orden_taller"]; ?></td>
