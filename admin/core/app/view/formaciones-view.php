@@ -268,9 +268,8 @@ if ((isset($_GET["q"]) || isset($_GET["start_at"]) || isset($_GET["finish_at"]) 
 	products_list.web_link, 
 	products_list.date_reg";
     $sql .= $fields;
-    $sql .= " from products_list 
-	INNER JOIN reports on products_list.id_activity = reports.id where";
-
+    $sql .= " from formaciones 
+	INNER JOIN reports on formaciones.id_activity::INT = reports.id where";
 
 
     if ($_GET["q"] != "") {
@@ -394,36 +393,29 @@ if ((isset($_GET["q"]) || isset($_GET["start_at"]) || isset($_GET["finish_at"]) 
 		formaciones.fecha_completado, 
 		formaciones.completado";
         $total_sql .= $fields;
-        $total_sql .= " from formaciones 
-		INNER JOIN reports on formaciones.id_activity::INT = reports.id";
+        $total_sql .= " from formaciones INNER JOIN reports on formaciones.id_activity::INT = reports.id";
         $total_sql .= " group by " . $fields;
         $total_sql .= " order by reports.datetime desc";
     } else {
         $total_sql = "SELECT 
 		";
         $fields = "
-		reports.user_id, 
-		products_list.id, 
-		products_list.id_activity, 
-		products_list.date, 
-		products_list.estate, 
-		products_list.code_info, 
-		products_list.info_id, 
-		reports.line_action, 
-		reports.report_type, 
-		reports.activity_title, 
 		reports.datetime, 
-		products_list.action_performed, 
-		products_list.format, 
-		products_list.format_detail, 
-		products_list.quantity_created, 
-		products_list.quantity_published, 
-		products_list.web_link, 
-		products_list.date_reg";
+		reports.activity_title, 
+		reports.line_action, 
+        reports.estate,
+		formaciones.id, 
+		formaciones.id_activity, 
+		formaciones.user_dni, 
+		formaciones.taller_id, 
+		formaciones.orden_taller, 
+		formaciones.cod_curso, 
+		formaciones.cod_taller, 
+		formaciones.fecha_completado, 
+		formaciones.completado";
         $total_sql .= $fields;
-        $total_sql .= " from products_list 
-		INNER JOIN reports on products_list.id_activity = reports.id";
-        $total_sql .= " where products_list.estate='" . $_SESSION["user_region"] . "'";
+        $total_sql .= " from formaciones INNER JOIN reports on formaciones.id_activity::INT = reports.id";
+        $total_sql .= " where reports.estate='" . $_SESSION["user_region"] . "'";
         $total_sql .= " group by " . $fields;
         $total_sql .= " order by reports.datetime desc";
     }
