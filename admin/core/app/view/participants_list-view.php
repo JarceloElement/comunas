@@ -120,9 +120,6 @@
 
 		// toastify("Aviso: En este momento la carga está en mantenimiento", true, 25000, "warning");
 
-
-
-
 		let elementoColapsable = document.getElementById('collapseOne');
 		elementoColapsable.classList.add('hide');
 
