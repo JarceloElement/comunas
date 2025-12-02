@@ -884,7 +884,7 @@ if ($func_post == "add_participant") {
                 // );
                 // echo json_encode($array);
                 // return;
-FIGR-2025-TALLPROTEX01
+
 
             } catch (Exception $e) {
                 $array = array(
