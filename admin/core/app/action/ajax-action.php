@@ -1157,29 +1157,28 @@ if ($func_post == "add_participant") {
     // $update_person->id_activity = $_POST["id_activity"];
     $id_activity = $_POST["id_activity"];
 
-    if ($_POST["gender"] == "Hombre" || $_POST["gender"] == "M" || $_POST["gender"] == "m") {
-        // print_r($update_person->update_participant_ma_add());
+    // if ($_POST["gender"] == "Hombre" || $_POST["gender"] == "M" || $_POST["gender"] == "m") {
         $row = $conn->prepare("SELECT COUNT(*) as total from participants_list where gender='Hombre' and id_activity='$id_activity'");
         $row->execute();
         $total_data = $row->fetchAll(PDO::FETCH_ASSOC);
-        $total_person = $total_data[0]["total"];
+        $total_person_ma = $total_data[0]["total"];
         // echo $total_person;
 
-        $sql = "UPDATE reports	set person_ma = ? where id = ?;";
-        $values = [(int)$total_person, (int)$id_activity];
-        ExecutorPg::update($sql, $values);
-    }
-    if ($_POST["gender"] == "Mujer" || $_POST["gender"] == "F" || $_POST["gender"] == "f") {
+        // $sql = "UPDATE reports	set person_ma = ? where id = ?;";
+        // $values = [(int)$total_person, (int)$id_activity];
+        // ExecutorPg::update($sql, $values);
+    // }
+    // if ($_POST["gender"] == "Mujer" || $_POST["gender"] == "F" || $_POST["gender"] == "f") {
         $row = $conn->prepare("SELECT COUNT(*) as total from participants_list where gender='Mujer' and id_activity='$id_activity'");
         $row->execute();
         $total_data = $row->fetchAll(PDO::FETCH_ASSOC);
-        $total_person = $total_data[0]["total"];
+        $total_person_fe = $total_data[0]["total"];
         // echo $total_person;
 
-        $sql = "UPDATE reports set person_fe = ? where id = ?;";
-        $values = [(int)$total_person, (int)$id_activity];
+        $sql = "UPDATE reports set person_fe = ?, person_ma = ? where id = ?;";
+        $values = [(int)$total_person_fe, (int)$total_person_ma, (int)$id_activity];
         ExecutorPg::update($sql, $values);
-    }
+    // }
 
     $array = array(
         "error"  => "false",
