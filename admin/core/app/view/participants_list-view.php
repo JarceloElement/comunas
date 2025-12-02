@@ -310,7 +310,7 @@
 					}
 
 				} else {
-					// location.reload();
+					location.reload();
 				}
 
 			} else {
