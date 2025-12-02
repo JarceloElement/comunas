@@ -872,7 +872,7 @@ if ($func_post == "add_participant") {
                     throw new Exception("El usuario no ha completado el taller anterior. Ya está inscrito en el taller N° $taller_anterior de este curso, debe completarlo primero antes de inscribirse en el curso siguiente.");
                 }
                 if ($prelacion == "null" && $orden_taller != 1 && $taller_anterior != 0) {
-                    throw new Exception("El usuario no puede realizar éste taller todavía. Antes debe completar el taller N° $taller_anterior de este curso. Por favor verifica que el Taller Anterior N° $taller_anterior tenga este mismo código del curso: $cod_curso");
+                    throw new Exception("El usuario no puede realizar éste taller todavía. Antes debe completar el taller N° $taller_anterior de este curso. Por favor verifica que el Taller Anterior N° ( $taller_anterior ) tenga este mismo código del curso ( $cod_curso )");
                 }
 
                 // $_SESSION['alert'] = '¡Retorno!';
