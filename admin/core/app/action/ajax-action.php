@@ -872,8 +872,8 @@ if ($func_post == "add_participant") {
                     throw new Exception("El usuario no ha completado el taller anterior. Ya está inscrito en el taller N° $taller_anterior, de este curso, debe completarlo primero antes de inscribirse en el curso siguiente.");
                 }
                 if ($prelacion == "null" && $orden_taller != 1 && $taller_anterior != 0) {
-                    throw new Exception("El usuario no puede realizar éste taller todavía. Antes debe completar el taller N° $taller_anterior de este curso");
                     throw new Exception("Curso: $cod_curso - Taller Anterior: $taller_anterior - Prelacion: $prelacion");
+                    throw new Exception("El usuario no puede realizar éste taller todavía. Antes debe completar el taller N° $taller_anterior de este curso");
                 }
 
                 // $_SESSION['alert'] = '¡Retorno!';
@@ -2001,7 +2001,7 @@ if ($func_post == "update_planning") {
 
         $array = array(
             "error" => "false",
-            "data"  => "ID: " . $codigo_curso."-".$codigo_taller,
+            "data"  => "ID: " . $codigo_curso . "-" . $codigo_taller,
             "alert" => "Registro creado con éxito.",
             "alert_type" => "dashboard"
         );
@@ -2086,7 +2086,7 @@ if ($func_post == "update_status") {
 
         $array = array(
             "error" => "false",
-            "data"  => "ID: " . $codigo_curso."-".$codigo_taller,
+            "data"  => "ID: " . $codigo_curso . "-" . $codigo_taller,
             "alert" => "Registro creado con éxito.",
             "alert_type" => "dashboard"
         );
