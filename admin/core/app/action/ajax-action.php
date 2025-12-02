@@ -908,7 +908,9 @@ if ($func_post == "add_participant") {
 
             // echo json_encode($array);
             // return;
-
+            // 8601923
+            // 7140438
+            // 8038849
 
             $user_correo = $_POST["email"] != "" ? $_POST["email"] : (isset($rx[0]["user_correo"]) ? $rx[0]["user_correo"] : "");
             $user_telefono = $_POST["phone"] != "" ? $_POST["phone"] : (isset($rx[0]["user_telefono"]) ? $rx[0]["user_telefono"] : "");
@@ -1165,26 +1167,7 @@ if ($func_post == "add_participant") {
 
         $sql = "UPDATE reports	set person_ma = ? where id = ?;";
         $values = [(int)$total_person, (int)$id_activity];
-        // ExecutorPg::update($sql, $values);
-        try {
-            $resul = ExecutorPg::update($sql, $values);
-            $_SESSION['alert'] = '¡Usuario actualizado!';
-            $array = array(
-                "error"  => "false",
-                "data"  => "ID: " . $resul,
-                "alert" => "Usuario actualizado.",
-                "alert_type" => "dashboard"
-            );
-        } catch (Exception $e) {
-            $array = array(
-                "error"  => "true",
-                "data"  => "",
-                "alert" => "¡Error: " . $e->getMessage() . "!",
-                "alert_type" => "error"
-            );
-            echo json_encode($array);
-            return;
-        }
+        ExecutorPg::update($sql, $values);
     }
     if ($_POST["gender"] == "Mujer" || $_POST["gender"] == "F" || $_POST["gender"] == "f") {
         $row = $conn->prepare("SELECT COUNT(*) as total from participants_list where gender='Mujer' and id_activity='$id_activity'");
@@ -1195,26 +1178,7 @@ if ($func_post == "add_participant") {
 
         $sql = "UPDATE reports set person_fe = ? where id = ?;";
         $values = [(int)$total_person, (int)$id_activity];
-        // ExecutorPg::update($sql, $values);
-        try {
-            $resul = ExecutorPg::update($sql, $values);
-            $_SESSION['alert'] = '¡Usuario actualizado!';
-            $array = array(
-                "error"  => "false",
-                "data"  => "ID: " . $resul,
-                "alert" => "Usuario actualizado.",
-                "alert_type" => "dashboard"
-            );
-        } catch (Exception $e) {
-            $array = array(
-                "error"  => "true",
-                "data"  => "",
-                "alert" => "¡Error: " . $e->getMessage() . "!",
-                "alert_type" => "error"
-            );
-            echo json_encode($array);
-            return;
-        }
+        ExecutorPg::update($sql, $values);
     }
 
     $array = array(
