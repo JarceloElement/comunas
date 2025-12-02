@@ -856,13 +856,14 @@ if ($func_post == "add_participant") {
                 $res_2 = ExecutorPg::get($sql)[0][0];
                 $prelacion = isset($res_2["completado"]) ? $res_2["completado"] : "null";
 
-                if ($taller_completado == "false" && $_SESSION["user_id"] != $res["update_by"]) {
+                // verifica que el participante esta en el taller
+                if ($taller_completado != "null" && $_SESSION["user_id"] != $res["update_by"]) {
                     throw new Exception("El usuario ya está registrado en el mismo taller por otro facilitador.");
                 }
-                if ($taller_completado == "false" && $_SESSION["user_id"] == $res["update_by"] && $id_activity == $res["id_activity"]) {
-                    throw new Exception("El usuario ya lo tienes registrado en este taller.");
+                if ($taller_completado != "null" && $_SESSION["user_id"] == $res["update_by"] && $id_activity == $res["id_activity"]) {
+                    throw new Exception("El usuario ya lo tienes registrado en este taller. Verifica que ya este aprobado.");
                 }
-                if ($taller_completado == "false" && $_SESSION["user_id"] == $res["update_by"] && $id_activity != $res["id_activity"]) {
+                if ($taller_completado != "null" && $_SESSION["user_id"] == $res["update_by"] && $id_activity != $res["id_activity"]) {
                     throw new Exception("El usuario ya lo tienes registrado en el mismo taller pero en otra actividad.");
                 }
 
