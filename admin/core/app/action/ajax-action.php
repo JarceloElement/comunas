@@ -873,7 +873,7 @@ if ($func_post == "add_participant") {
                 }
                 if ($prelacion == "null" && $orden_taller != 1 && $taller_anterior != 0) {
                     // throw new Exception("Curso: $cod_curso - Taller Anterior: $taller_anterior - Prelacion: $prelacion");
-                    throw new Exception("El usuario no puede realizar éste taller todavía. Antes debe completar el taller N° $taller_anterior de este curso.\nCurso: $cod_curso - Taller Anterior: $taller_anterior - Prelacion: $prelacion");
+                    throw new Exception("El usuario no puede realizar éste taller todavía. Antes debe completar el taller N° $taller_anterior de este curso. \n Curso: $cod_curso - Taller Anterior: $taller_anterior - Prelacion: $prelacion");
                 }
 
                 // $_SESSION['alert'] = '¡Retorno!';
