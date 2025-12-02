@@ -851,10 +851,19 @@ if ($func_post == "add_participant") {
                 $taller_completado = isset($res["completado"]) ? $res["completado"] : "null";
 
                 // buscar el taller anterior y verifica que este completado
-                $taller_anterior = $orden_taller - 1;
-                $sql = "SELECT * from formaciones where orden_taller='$taller_anterior' and cod_curso='$cod_curso' and user_dni='$usuario_dni_existente';";
-                $res_2 = ExecutorPg::get($sql)[0][0];
-                $prelacion = isset($res_2["completado"]) ? $res_2["completado"] : "null";
+                $sql = "SELECT tipo_taller.id from tipo_taller LEFT JOIN training_type ON training_type.name_training_type=tipo_taller.name_training_type where training_type.codigo_curso='$cod_curso';";
+                $talleres_encurso = ExecutorPg::get($sql)[0];
+                $n_talleres = count($talleres_encurso);
+                // throw new Exception("Cantidad de talleres en el curso: " . count($talleres_encurso));
+
+                if ($n_talleres > 1) {
+                    // si el curso tiene mas de un taller busca el taller anterior
+                    $taller_anterior = $orden_taller - 1;
+                    $sql = "SELECT * from formaciones where orden_taller='$taller_anterior' and cod_curso='$cod_curso' and user_dni='$usuario_dni_existente';";
+                    $res_2 = ExecutorPg::get($sql)[0][0];
+                    $prelacion = isset($res_2["completado"]) ? $res_2["completado"] : "null";
+                }
+
 
                 // verifica que el participante esta en el taller
                 if ($taller_completado != "null" && $_SESSION["user_id"] != $res["update_by"]) {
@@ -868,17 +877,17 @@ if ($func_post == "add_participant") {
                 }
 
                 // prelacion
-                if ($prelacion == "false" && $orden_taller != 1) {
-                    throw new Exception("El usuario no ha completado el taller anterior. Ya está inscrito en el taller N° $taller_anterior de este curso, debe completarlo primero antes de inscribirse en el curso siguiente.");
+                if ($prelacion == "false" && $orden_taller != 1 && $n_talleres > 1) {
+                    throw new Exception("El usuario no ha completado el taller anterior. Ya está inscrito en el taller N° $taller_anterior de este curso, verifica que esté aprobado.");
                 }
-                if ($prelacion == "null" && $orden_taller != 1 && $taller_anterior != 0) {
+                if ($prelacion == "null" && $orden_taller != 1 && $taller_anterior != 0 && $n_talleres > 1) {
                     throw new Exception("El usuario no puede realizar éste taller todavía. Antes debe completar el taller N° $taller_anterior de este curso. \nPor favor verifica que el Taller Anterior N°($taller_anterior) tenga este mismo código del curso ( $cod_curso ). \nSi es diferente notificar a la gerencia.");
                 }
 
                 // $_SESSION['alert'] = '¡Retorno!';
                 // $array = array(
                 //     "error"  => "false",
-                //     "data"  => "¡Retorno: " . $taller_completado . "-" . $prelacion,
+                //     "data"  => "¡Retorno: " . $cod_curso . "-" . $n_talleres,
                 //     "alert" => "¡Retorno.",
                 //     "alert_type" => "dashboard"
                 // );
