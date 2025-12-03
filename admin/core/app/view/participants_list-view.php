@@ -800,7 +800,7 @@ $DB_name = "participants_list";
 								<td><?php echo $var_count; ?></td>
 								<!-- <td><!?php echo $_GET['estate']; ?></td> -->
 								<td><?php echo $types["uid_fac"]; ?></td>
-								<td><?php echo $types["id_user_final"]; ?></td>
+								<td><?php echo $types["id_user_final"]."-".$types['participant_id']; ?></td>
 								<td><?php echo $types["estate"]; ?></td>
 								<td><?php echo $types["name"]; ?></td>
 								<td><?php echo $types["lastname"]; ?></td>
