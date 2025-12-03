@@ -118,9 +118,9 @@
 
 
 	$('#cover-spin').show(0);
-// 8601923
-// 7140438
-// 8038849
+	// 8601923
+	// 7140438
+	// 8038849
 	$(document).ready(function() {
 
 
@@ -800,7 +800,7 @@ $DB_name = "participants_list";
 								<td><?php echo $var_count; ?></td>
 								<!-- <td><!?php echo $_GET['estate']; ?></td> -->
 								<td><?php echo $types["uid_fac"]; ?></td>
-								<td><?php echo $types["id_user_final"]."-".$types['participant_id']; ?></td>
+								<td><?php echo $types["id_user_final"] . "-" . $types['participant_id']; ?></td>
 								<td><?php echo $types["estate"]; ?></td>
 								<td><?php echo $types["name"]; ?></td>
 								<td><?php echo $types["lastname"]; ?></td>
@@ -810,13 +810,23 @@ $DB_name = "participants_list";
 								<td><?php echo $types["gender"]; ?></td>
 								<td><?php echo $types["phone"]; ?></td>
 								<td>
-									<a onclick="aprobar('<?php echo $types['participant_id']; ?>','<?php echo $types['completado']; ?>')" href="javascript:void(0);">
-										<button type="button" class="btn <?php if ($types['completado'] == 'false') echo 'btn-danger';
-																			else echo 'btn-success'; ?> btn-sm">
-											<?php if ($types['completado'] == 'false') echo 'Aprobar';
-											else echo 'Desaprobar'; ?>
-										</button>
-									</a>
+									<?php if ($types['participant_id'] == "") { ?>
+										<a onclick="del_item('<?php echo $types['id']; ?>','<?php echo $types['gender']; ?>','<?php echo $types['id_activity']; ?>')" href="javascript:void(0);">
+											<button type="button" class="btn btn-danger btn-sm">
+													Eliminar y cargar nuevamente
+											</button>
+										</a>
+									<?php } else { ?>
+										<a onclick="aprobar('<?php echo $types['participant_id']; ?>','<?php echo $types['completado']; ?>')" href="javascript:void(0);">
+											<button type="button" class="btn <?php if ($types['completado'] == 'false') echo 'btn-danger';
+																				else echo 'btn-success'; ?> btn-sm">
+												<?php if ($types['completado'] == 'false') echo 'Aprobar';
+												else echo 'Desaprobar'; ?>
+											</button>
+										</a>
+									<?php } ?>
+
+
 
 								</td>
 
