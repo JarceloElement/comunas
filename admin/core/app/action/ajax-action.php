@@ -844,6 +844,8 @@ if ($func_post == "add_participant") {
                 $tipo_taller = $_POST["tipo_taller"];
                 $codigo_taller = $_POST["codigo_taller"] ? $_POST["codigo_taller"] : $tipo_taller;
 
+                $taller_anterior = $orden_taller - 1;
+
 
                 // saber si ya esta registrado en el taller
                 $sql = "SELECT * from formaciones where user_dni='$usuario_dni_existente' and cod_taller='$codigo_taller' and orden_taller='$orden_taller' and cod_curso='$cod_curso';";
@@ -854,11 +856,20 @@ if ($func_post == "add_participant") {
                 $sql = "SELECT tipo_taller.id from tipo_taller LEFT JOIN training_type ON training_type.name_training_type=tipo_taller.name_training_type where training_type.codigo_curso='$cod_curso';";
                 $talleres_encurso = ExecutorPg::get($sql)[0];
                 $n_talleres = count($talleres_encurso);
-                // throw new Exception("Cantidad de talleres en el curso: " . count($talleres_encurso));
+
+                // busca talleres anteriores de la misma etapa
+                $n_talleres_etapa = array();
+                $sql = "SELECT tipo_taller.orden_taller from tipo_taller LEFT JOIN reports ON reports.report_type=tipo_taller.etapa where reports.id='$id_activity';";
+                $talleres_etapa = ExecutorPg::get($sql)[0];
+                foreach ($talleres_etapa as $te) {
+                    if ($te["orden_taller"] < $orden_taller) {
+                        $n_talleres_etapa[] = $te["orden_taller"];
+                    }
+                }
+                // throw new Exception("Cantidad de talleres etapa: " . count($n_talleres_etapa));
 
                 if ($n_talleres > 1) {
                     // si el curso tiene mas de un taller busca el taller anterior
-                    $taller_anterior = $orden_taller - 1;
                     $sql = "SELECT * from formaciones where orden_taller='$taller_anterior' and cod_curso='$cod_curso' and user_dni='$usuario_dni_existente';";
                     $res_2 = ExecutorPg::get($sql)[0][0];
                     $prelacion = isset($res_2["completado"]) ? $res_2["completado"] : "null";
@@ -876,18 +887,33 @@ if ($func_post == "add_participant") {
                     throw new Exception("El usuario ya lo tienes registrado en el mismo taller pero en otra actividad.");
                 }
 
-                // prelacion
+                // prelacion por curso
                 if ($prelacion == "false" && $orden_taller != 1 && $n_talleres > 1) {
                     throw new Exception("El usuario no ha completado el taller anterior. Ya está inscrito en el taller N° $taller_anterior de este curso, verifica que esté aprobado.");
                 }
                 if ($prelacion == "null" && $orden_taller != 1 && $taller_anterior != 0 && $n_talleres > 1) {
                     throw new Exception("El usuario no puede realizar éste taller todavía. Antes debe completar el taller N° $taller_anterior de este curso. \nPor favor verifica que el Taller Anterior N°($taller_anterior) tenga este mismo código del curso ( $cod_curso ). \nSi es diferente notificar a la gerencia.");
                 }
+                // prelacion por etapa
+                if (count($n_talleres_etapa) > 0) {
+                    foreach ($n_talleres_etapa as $nt_e) {
+                        $sql = "SELECT * from formaciones where orden_taller='$nt_e' and user_dni='$usuario_dni_existente';";
+                        $res_3 = ExecutorPg::get($sql)[0][0];
+                        $prelacion_etapa = isset($res_3["completado"]) ? $res_3["completado"] : "null";
+
+                        if ($prelacion_etapa == "false") {
+                            throw new Exception("El usuario no ha completado el taller anterior de esta etapa. Debe completar el taller N° $nt_e antes de continuar.");
+                        }
+                        if ($prelacion_etapa == "null") {
+                            throw new Exception("El usuario no puede realizar éste taller todavía. Antes debe completar el taller N° $nt_e de esta etapa.");
+                        }
+                    }
+                }
 
                 // $_SESSION['alert'] = '¡Retorno!';
                 // $array = array(
                 //     "error"  => "false",
-                //     "data"  => "¡Retorno: " . $cod_curso . "-" . $n_talleres,
+                //     "data"  => "¡Retorno: " . $prelacion_etapa . "-" . implode(",", $n_talleres_etapa) . "!",
                 //     "alert" => "¡Retorno.",
                 //     "alert_type" => "dashboard"
                 // );
