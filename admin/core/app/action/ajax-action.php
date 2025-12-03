@@ -779,6 +779,12 @@ if ($func_post == "add_participant") {
     $id_user_final = "0";
     $parent_dni = "";
 
+    $id_activity = $_POST["id_activity"];
+    $orden_taller = $_POST["orden_taller"];
+    $cod_curso = $_POST["cod_curso"];
+    $tipo_taller = $_POST["tipo_taller"];
+    $codigo_taller = $_POST["codigo_taller"] ? $_POST["codigo_taller"] : $tipo_taller;
+
 
     if (($_POST["document_id"] != "" || $_POST["document_id"] != "0") && $_POST["user_has_document"] == "Si") {
         $document_id = $_POST["document_id"];
@@ -838,11 +844,7 @@ if ($func_post == "add_participant") {
                 // buscar prelacion de cursos
                 $usuario_id = $rx[0]["id"];
                 $usuario_dni_existente = $rx[0]["user_dni"];
-                $id_activity = $_POST["id_activity"];
-                $orden_taller = $_POST["orden_taller"];
-                $cod_curso = $_POST["cod_curso"];
-                $tipo_taller = $_POST["tipo_taller"];
-                $codigo_taller = $_POST["codigo_taller"] ? $_POST["codigo_taller"] : $tipo_taller;
+
 
                 $taller_anterior = $orden_taller - 1;
 
@@ -906,7 +908,6 @@ if ($func_post == "add_participant") {
                         }
                         if ($prelacion_etapa == "null") {
                             throw new Exception("El usuario no puede realizar éste taller todavía. \nAntes debe inscribir el taller N° $nt_e de esta etapa.\nError: $usuario_dni_existente-" . implode(",", $n_talleres_etapa) . "");
-                
                         }
                     }
                 }
