@@ -905,7 +905,15 @@ if ($func_post == "add_participant") {
                             throw new Exception("El usuario no ha aprobado el taller anterior de esta etapa. \nYa está inscrito pero debe ser aprobado en el taller N° $nt_e antes de continuar.");
                         }
                         if ($prelacion_etapa == "null") {
-                            throw new Exception("El usuario no puede realizar éste taller todavía. \nAntes debe inscribir el taller N° $nt_e de esta etapa.");
+                            // throw new Exception("El usuario no puede realizar éste taller todavía. \nAntes debe inscribir el taller N° $nt_e de esta etapa.");
+                            $array = array(
+                                "error"  => "false",
+                                "data"  => "¡Retorno: " . $prelacion_etapa . "-" . implode(",", $n_talleres_etapa) . "!",
+                                "alert" => "El usuario no puede realizar éste taller todavía. \nAntes debe inscribir el taller N° $nt_e de esta etapa.",
+                                "alert_type" => "dashboard"
+                            );
+                            echo json_encode($array);
+                            return;
                         }
                     }
                 }
@@ -1184,26 +1192,26 @@ if ($func_post == "add_participant") {
     $id_activity = $_POST["id_activity"];
 
     // if ($_POST["gender"] == "Hombre" || $_POST["gender"] == "M" || $_POST["gender"] == "m") {
-        $row = $conn->prepare("SELECT COUNT(*) as total from participants_list where gender='Hombre' and id_activity='$id_activity'");
-        $row->execute();
-        $total_data = $row->fetchAll(PDO::FETCH_ASSOC);
-        $total_person_ma = $total_data[0]["total"];
-        // echo $total_person;
+    $row = $conn->prepare("SELECT COUNT(*) as total from participants_list where gender='Hombre' and id_activity='$id_activity'");
+    $row->execute();
+    $total_data = $row->fetchAll(PDO::FETCH_ASSOC);
+    $total_person_ma = $total_data[0]["total"];
+    // echo $total_person;
 
-        // $sql = "UPDATE reports	set person_ma = ? where id = ?;";
-        // $values = [(int)$total_person, (int)$id_activity];
-        // ExecutorPg::update($sql, $values);
+    // $sql = "UPDATE reports	set person_ma = ? where id = ?;";
+    // $values = [(int)$total_person, (int)$id_activity];
+    // ExecutorPg::update($sql, $values);
     // }
     // if ($_POST["gender"] == "Mujer" || $_POST["gender"] == "F" || $_POST["gender"] == "f") {
-        $row = $conn->prepare("SELECT COUNT(*) as total from participants_list where gender='Mujer' and id_activity='$id_activity'");
-        $row->execute();
-        $total_data = $row->fetchAll(PDO::FETCH_ASSOC);
-        $total_person_fe = $total_data[0]["total"];
-        // echo $total_person;
+    $row = $conn->prepare("SELECT COUNT(*) as total from participants_list where gender='Mujer' and id_activity='$id_activity'");
+    $row->execute();
+    $total_data = $row->fetchAll(PDO::FETCH_ASSOC);
+    $total_person_fe = $total_data[0]["total"];
+    // echo $total_person;
 
-        $sql = "UPDATE reports set person_fe = ?, person_ma = ? where id = ?;";
-        $values = [(int)$total_person_fe, (int)$total_person_ma, (int)$id_activity];
-        ExecutorPg::update($sql, $values);
+    $sql = "UPDATE reports set person_fe = ?, person_ma = ? where id = ?;";
+    $values = [(int)$total_person_fe, (int)$total_person_ma, (int)$id_activity];
+    ExecutorPg::update($sql, $values);
     // }
 
     $array = array(
