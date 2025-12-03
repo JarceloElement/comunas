@@ -905,7 +905,7 @@ if ($func_post == "add_participant") {
                             throw new Exception("El usuario no ha aprobado el taller anterior de esta etapa. \nYa está inscrito pero debe ser aprobado en el taller N° $nt_e antes de continuar.");
                         }
                         if ($prelacion_etapa == "null") {
-                            throw new Exception("El usuario no puede realizar éste taller todavía. \nAntes debe inscribir el taller N° $nt_e de esta etapa.\nError: $prelacion_etapa" . implode(",", $n_talleres_etapa) . "");
+                            throw new Exception("El usuario no puede realizar éste taller todavía. \nAntes debe inscribir el taller N° $nt_e de esta etapa.\nError: $usuario_dni_existente-" . implode(",", $n_talleres_etapa) . "");
                 
                         }
                     }
