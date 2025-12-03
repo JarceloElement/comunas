@@ -64,12 +64,18 @@
 	async function aprobar(participant_id, completado) {
 
 		$('#cover-spin').show(0);
+		var orden_taller = document.getElementById("orden_taller").value;
+		var cod_curso = document.getElementById("cod_curso").value;
+		var codigo_taller = document.getElementById("codigo_taller").value;
 
 		// 1. Datos para la URL
 		const datos = {
 			function: "aprobar_participante",
 			participant_id: participant_id,
-			completado: completado
+			completado: completado,
+			orden_taller: orden_taller,
+			cod_curso: cod_curso,
+			codigo_taller: codigo_taller
 		};
 		// 2. Construir la URL con los parámetros de búsqueda
 		const params = new URLSearchParams(datos);

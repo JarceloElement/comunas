@@ -416,12 +416,14 @@ if ($func_get == "aprobar_participante") {
     }
 
     $fecha_completado = date("Y-m-d H:i:s");
-
+    $orden_taller = $_GET["orden_taller"]; 
+    $cod_curso = $_GET["cod_curso"];
+    $codigo_taller = $_GET["codigo_taller"];
 
     if ($completado == 'true') {
-        $sql = "UPDATE formaciones set completado='$completado', fecha_completado='$fecha_completado' where participant_id=$participant_id";
+        $sql = "UPDATE formaciones set orden_taller='$orden_taller', cod_curso='$cod_curso', codigo_taller='$codigo_taller', completado='$completado', fecha_completado='$fecha_completado' where participant_id=$participant_id";
     } else {
-        $sql = "UPDATE formaciones set completado='$completado', fecha_completado=NULL where participant_id=$participant_id";
+        $sql = "UPDATE formaciones set orden_taller='$orden_taller', cod_curso='$cod_curso', codigo_taller='$codigo_taller', completado='$completado', fecha_completado=NULL where participant_id=$participant_id";
     }
 
 
