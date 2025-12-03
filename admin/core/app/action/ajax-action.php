@@ -889,10 +889,10 @@ if ($func_post == "add_participant") {
 
                 // prelacion por curso
                 if ($prelacion == "false" && $orden_taller != 1 && $n_talleres > 1) {
-                    throw new Exception("El usuario no ha completado el taller anterior. Ya está inscrito en el taller N° $taller_anterior de este curso, verifica que esté aprobado.");
+                    throw new Exception("El usuario no ha aprobado el taller anterior. \nYa está inscrito en el taller N° $taller_anterior de este curso, verifica que esté aprobado.");
                 }
                 if ($prelacion == "null" && $orden_taller != 1 && $taller_anterior != 0 && $n_talleres > 1) {
-                    throw new Exception("El usuario no puede realizar éste taller todavía. Antes debe completar el taller N° $taller_anterior de este curso. \nPor favor verifica que el Taller Anterior N°($taller_anterior) tenga este mismo código del curso ( $cod_curso ). \nSi es diferente notificar a la gerencia.");
+                    throw new Exception("El usuario no puede realizar éste taller todavía. Antes debe completar el taller N° $taller_anterior de este curso.");
                 }
                 // prelacion por etapa
                 if (count($n_talleres_etapa) > 0) {
@@ -902,10 +902,10 @@ if ($func_post == "add_participant") {
                         $prelacion_etapa = isset($res_3["completado"]) ? $res_3["completado"] : "null";
 
                         if ($prelacion_etapa == "false") {
-                            throw new Exception("El usuario no ha completado el taller anterior de esta etapa. Debe completar el taller N° $nt_e antes de continuar.");
+                            throw new Exception("El usuario no ha aprobado el taller anterior de esta etapa. \nYa está inscrito pero debe ser aprobado en el taller N° $nt_e antes de continuar.");
                         }
                         if ($prelacion_etapa == "null") {
-                            throw new Exception("El usuario no puede realizar éste taller todavía. Antes debe completar el taller N° $nt_e de esta etapa.");
+                            throw new Exception("El usuario no puede realizar éste taller todavía. \nAntes debe inscribir el taller N° $nt_e de esta etapa.");
                         }
                     }
                 }
