@@ -711,13 +711,12 @@ participants_list.id,
 formaciones.completado,
 formaciones.participant_id
 from participants_list 
-LEFT JOIN formaciones 
-ON formaciones.id_activity::INT = participants_list.id_activity AND formaciones.participant_id = participants_list.id 
-where participants_list.id_activity=" . $_GET['id_activity'] . " order by id asc ";
+LEFT JOIN formaciones ON formaciones.id_activity::INT = participants_list.id_activity  
+where formaciones.participant_id = participants_list.id AND participants_list.id_activity=" . $_GET['id_activity'] . " order by id asc ";
 
 $total = ParticipantsData::getBySQL($sql);
 $TotalReg = $total[1];
-
+// print_r($sql);
 
 $param_csv = $sql;
 $sql .= " LIMIT " . $CantidadMostrar . " OFFSET " . (($compag - 1) * $CantidadMostrar);
