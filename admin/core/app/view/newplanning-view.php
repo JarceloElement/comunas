@@ -1106,7 +1106,7 @@ $fecha_end = "2025-01-01";
                         code_info: code_info,
                         estado_info: estado_info
                     }, function(data) {
-                        // console.log(data);
+                        console.log(data);
                         var array = JSON.parse(data);
                         console.log(array);
                         // $("#institucion_formacion").html(array["html"]);

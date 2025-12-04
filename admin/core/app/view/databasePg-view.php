@@ -78,16 +78,7 @@ function alter_db()
     // UPDATE formaciones SET cod_curso=reports.cod_curso FROM reports WHERE formaciones.id_activity::INT=reports.id;
     // UPDATE formaciones SET cod_taller=reports.codigo_taller FROM reports WHERE formaciones.id_activity::INT=reports.id;
 
-
-
-    // ===========================================
-
-
-
-
-
-
-
+    // DELETE FROM participants_list pl WHERE id_activity NOT IN (SELECT id FROM reports WHERE id_activity = pl.id_activity)
 
 
     // EJECUTAR SQL DESDE ARCHIVOS.sql
