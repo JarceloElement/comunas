@@ -931,7 +931,7 @@ $DB_name = "participants_list";
 									<?php if ($_SESSION["user_type"] != 10) { ?>
 										<?php if ($_SESSION["user_id"] == $user["uid_fac"]) { ?>
 											<a href="index.php?view=editparticipants&id=<?php echo $user["id"]; ?>&id_activity=<?php echo $user["id_activity"]; ?>&code_info=<?php echo $user["code_info"]; ?>&pag=<?php echo $pag; ?>" class="btn btn-warning btn-sm">Editar</a>
-										<?php } elseif ($_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 9) { ?>
+										<?php } elseif ($_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 9) { ?>
 											<a href="index.php?view=editparticipants&id=<?php echo $user["id"]; ?>&id_activity=<?php echo $user["id_activity"]; ?>&code_info=<?php echo $user["code_info"]; ?>&pag=<?php echo $pag; ?>" class="btn btn-warning btn-sm">Editar</a>
 										<?php } ?>
 									<?php } ?>

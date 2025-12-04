@@ -125,7 +125,7 @@ $alert = isset($_GET['swal']) ? $_GET['swal'] : "";
 		<div class="card-body">
 
 			<div class="card-content table-responsive">
-				<?php if ($_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 8 || $_SESSION["user_type"] == 9) {
+				<?php if ($_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 6) {
 				?>
 					<a href="index.php?view=newuser" class="btn btn-default"><i class='fa fa-user'></i> Nuevo Usuario</a>
 
@@ -162,7 +162,7 @@ $alert = isset($_GET['swal']) ? $_GET['swal'] : "";
 								<form class="form-horizontal" role="form">
 									<input type="hidden" name="view" value="users">
 
-									<?php if ($_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 3 || $_SESSION["user_type"] == 8 || $_SESSION["user_type"] == 9) { ?>
+									<?php if ($_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 3 || $_SESSION["user_type"] == 8) { ?>
 										<br>
 
 										<div class="form-group">
@@ -279,6 +279,13 @@ $alert = isset($_GET['swal']) ? $_GET['swal'] : "";
 										$total_q = UserData::getBySQL($query);
 										$Total_q = $total_q;
 									} else if ($_SESSION["user_type"] == 0 ||  $_SESSION["user_type"] == 1 || $_SESSION["user_type"] == 2 || $_SESSION["user_type"] == 3 || $_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 10) {
+										$sql = "SELECT * from user where id='" . $_SESSION["user_id"] . "' order by id desc LIMIT " . (($compag - 1) * $CantidadMostrar) . " , " . $CantidadMostrar;
+										$users = UserData::getBySQL($sql);
+
+										$query = "SELECT * from user where id='" . $_SESSION["user_id"] . "' ";
+										$total_q = UserData::getBySQL($query);
+										$Total_q = $total_q;
+									} else if ($_SESSION["user_type"] == 5) {
 										$sql = "SELECT * from user where id='" . $_SESSION["user_id"] . "' order by id desc LIMIT " . (($compag - 1) * $CantidadMostrar) . " , " . $CantidadMostrar;
 										$users = UserData::getBySQL($sql);
 
@@ -416,7 +423,7 @@ $alert = isset($_GET['swal']) ? $_GET['swal'] : "";
 												</tr>
 
 												<!-- Gerencia RNI ve y crea todas las gerencias centrales -->
-											<?php } elseif ($_SESSION["user_type"] == 5 && ($user->user_type == 2 || $user->user_type == 3 || $user->user_type == 4 || $user->user_type == 8)) { ?>
+											<?php } elseif ($_SESSION["user_type"] == 5 && ($user->user_type == 5)) { ?>
 												<tr>
 													<td><?php echo $user->id; ?></td>
 													<td><?php echo $user->name . " " . $user->lastname; ?></td>

@@ -406,7 +406,7 @@
     // alert(user_type);
 
 
-    if (user_type == 9 || user_type == 8 || user_type == 7 || user_type == 6 || user_type == 5) {
+    if (user_type == 8 || user_type == 7 || user_type == 6) {
       $($div_user_type).show();
       $($div_user_rol).show();
       $($user_region).show();

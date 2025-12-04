@@ -2023,10 +2023,10 @@ $DB_name = "reports";
 								<!-- imagenes -->
 								<td><a href='index.php?view=image_edit&id=<?php echo $user["id"]; ?>&code_info=<?php echo $user["code_info"]; ?>&user_id=<?php echo $user["user_id"]; ?>&estate=<?php echo $user["estate"]; ?>&title=<?php echo $user["activity_title"]; ?>' class="btn btn-default btn-sm"><i class="material-icons">image</i></a></td>
 								<td>
-									<?php if ($_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7) { ?>
+									<?php if ( $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7) { ?>
 										<div class="btn-group btn-group-xs">
 
-											<?php if (($_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5) && $_SESSION["user_id"] == $user["user_id"]) { ?>
+											<?php if ($_SESSION["user_id"] == $user["user_id"]) { ?>
 
 												<a href="index.php?view=editactivity&user_id=<?php echo $user["user_id"]; ?>&id=<?php echo $user["id"]; ?>&code_info=<?php echo $user["code_info"]; ?>&estado=<?php echo $user["estate"]; ?>&id_act=<?php echo $id_act; ?>&participantes=<?php if (isset($_GET["participantes"])) {
 																																																																								echo $_GET["participantes"];

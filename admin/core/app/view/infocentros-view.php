@@ -114,7 +114,7 @@ if (isset($_GET['pag'])) {
 <!-- /.modal -->
 
 
-<?php if ($_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 9) { ?>
+<?php if ($_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7) { ?>
 
 	<div class="row">
 		<div class="col-md-12">
@@ -544,7 +544,7 @@ $DB_name = "infocentros";
 
 		<!-- <a href="./pdf/jspdf_info.php?param_pdf=<?php echo $param_csv . '&param_sql=' . $param_sql . '&DB_name=' . $DB_name; ?>" name="Descargar" class=" btn btn-danger "><i class="fa fa-file-pdf-o"></i> </a> -->
 
-		<?php if ($_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 9): ?>
+		<?php if ($_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7): ?>
 			<a href="./index.php?view=newinfocentro" class="btn btn-info">Agregar infocentro</a>
 		<?php endif ?>
 	</div>
@@ -711,7 +711,7 @@ $DB_name = "infocentros";
 
 
 													<?php if ($_SESSION["user_type"] != 10) { ?>
-														<?php if ($_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 9  || $_SESSION["user_type"] == 10) { ?>
+														<?php if ($_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7) { ?>
 															<td style="width:180px;">
 																<a href="index.php?view=editinfocentro&id=<?php echo $user["id"]; ?>" class="btn btn-warning btn-sm"><i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 																			<path fill="currentColor" d="M3 21v-4.25L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.438.65T21 6.4q0 .4-.137.763t-.438.662L7.25 21zM17.6 7.8L19 6.4L17.6 5l-1.4 1.4z" />

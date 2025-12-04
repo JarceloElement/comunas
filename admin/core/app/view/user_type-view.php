@@ -153,6 +153,9 @@ Coordinador estadal (3)
 Gerencias nacional (Solo revisión) (4)
 <!-- Gerencia RNI (5) -->
 <br>
+Gerencias nacional (Genera reportes) (5)
+<!-- Gerencia RNI (5) -->
+<br>
 Dirección de Políticas Públicas de Min Comunas (6)
 <br>
 Administración del sistema (7)

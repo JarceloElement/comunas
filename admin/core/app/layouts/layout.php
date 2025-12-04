@@ -434,7 +434,7 @@ $view = $_GET["view"];
 
             <!-- accordion personal-->
             <!-- <!?php if ($_SESSION["user_type"] == 2 || $_SESSION["user_type"] == 3 || $_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 8 || $_SESSION["user_type"] == 9 || $_SESSION["user_type"] == 10) { ?> -->
-            <?php if ($_SESSION["user_type"] == 2 || $_SESSION["user_type"] == 3 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 8 || $_SESSION["user_type"] == 9 || $_SESSION["user_type"] == 10) { ?>
+            <?php if ($_SESSION["user_type"] == 2 || $_SESSION["user_type"] == 3 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 8) { ?>
 
               <li class="nav-item ">
                 <a class="nav-link" data-toggle="collapse" data-parent="#accordion" href="#collapse_personal">
@@ -503,7 +503,7 @@ $view = $_GET["view"];
 
             <!-- accordion regiones-->
             <?php if ($_SESSION["user_type"] != 10) { ?>
-              <?php if ($_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 8) { ?>
+              <?php if ($_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 8) { ?>
                 <li class="nav-item ">
               <a class="nav-link" data-toggle="collapse" data-parent="#accordion" href="#collapse_reg">
                 <i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m15 21l-6-2.1l-4.65 1.8q-.5.2-.925-.112T3 19.75v-14q0-.325.188-.575T3.7 4.8L9 3l6 2.1l4.65-1.8q.5-.2.925.113T21 4.25v14q0 .325-.187.575t-.513.375zm-1-2.45V6.85l-4-1.4v11.7z"/></svg></i>
@@ -599,7 +599,7 @@ $view = $_GET["view"];
 
             <!-- accordion datos-->
             <?php if ($_SESSION["user_type"] != 10) { ?>
-              <?php if ($_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 9) { ?>
+              <?php if ($_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7) { ?>
 
                 <li class="nav-item ">
                   <a class="nav-link" data-toggle="collapse" data-parent="#accordion" href="#collapse_data">
@@ -760,7 +760,7 @@ $view = $_GET["view"];
                   </a>
                 </li> -->
 
-                <?php if ($_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 9) { ?>
+                <?php if ($_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7) { ?>
 
                   <li class="nav-item user_type" id="user_type" type="collapse_data">
                     <a class="nav-link" href="./?view=user_type">

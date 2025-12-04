@@ -708,7 +708,7 @@ $DB_name = "products_list";
 										<!-- <a href="index.php?view=editproduct&id=<!?php echo $types["id"]; ?>" class="btn btn-warning btn-sm">Editar</a> -->
 
 										<!-- <!?php } elseif ($_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 9) { ?> -->
-										<?php if ($_SESSION["user_type"] == 2 || $_SESSION["user_type"] == 3 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 9) { ?>
+										<?php if ($_SESSION["user_type"] == 2 || $_SESSION["user_type"] == 3 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7) { ?>
 
 											<a href="index.php?view=editproduct&id=<?php echo $types["id"]; ?>" class="btn btn-warning btn-sm">Editar</a>
 
