@@ -812,17 +812,28 @@ $DB_name = "participants_list";
 									<?php if ($types['participant_id'] == "") { ?>
 										<a onclick="del_item('<?php echo $types['id']; ?>','<?php echo $types['gender']; ?>','<?php echo $types['id_activity']; ?>')" href="javascript:void(0);">
 											<button type="button" class="btn btn-danger btn-sm">
-													Eliminar y cargar nuevamente
+												Eliminar y cargar nuevamente
 											</button>
 										</a>
 									<?php } else { ?>
-										<a onclick="aprobar('<?php echo $types['participant_id']; ?>','<?php echo $types['completado']; ?>')" href="javascript:void(0);">
-											<button type="button" class="btn <?php if ($types['completado'] == 'false') echo 'btn-danger';
-																				else echo 'btn-success'; ?> btn-sm">
-												<?php if ($types['completado'] == 'false') echo 'Aprobar';
-												else echo 'Desaprobar'; ?>
-											</button>
-										</a>
+										<?php if ($_SESSION["user_id"] == $types["uid_fac"]) { ?>
+
+											<a onclick="aprobar('<?php echo $types['participant_id']; ?>','<?php echo $types['completado']; ?>')" href="javascript:void(0);">
+												<button type="button" class="btn <?php if ($types['completado'] == 'false') echo 'btn-danger';
+																					else echo 'btn-success'; ?> btn-sm">
+													<?php if ($types['completado'] == 'false') echo 'Aprobar';
+													else echo 'Desaprobar'; ?>
+												</button>
+											</a>
+										<?php } else { ?>
+											<a onclick="aprobar('<?php echo $types['participant_id']; ?>','<?php echo $types['completado']; ?>')" href="javascript:void(0);">
+												<button type="button" class="btn <?php if ($types['completado'] == 'false') echo 'btn-danger';
+																					else echo 'btn-success'; ?> btn-sm disabled">
+													<?php if ($types['completado'] == 'false') echo 'Aprobar';
+													else echo 'Desaprobar'; ?>
+												</button>
+											</a>
+										<?php } ?>
 									<?php } ?>
 
 
