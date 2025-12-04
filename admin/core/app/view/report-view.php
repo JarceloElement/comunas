@@ -1936,7 +1936,7 @@ $DB_name = "reports";
 								$id_activity = $user["id"];
 
 								// elimina los participantes que no esten en formaciones con esta actividad
-								$row = $conn->prepare("DELETE FROM participants_list pl WHERE pl.id_activity = $id_activity AND NOT EXISTS (SELECT 1 FROM formaciones f WHERE f.user_dni = pl.document_id)");
+								$row = $conn->prepare("DELETE FROM participants_list pl WHERE pl.id_activity = '$id_activity' AND document_id NOT IN (SELECT user_dni FROM formaciones WHERE id_activity = '$id_activity')");
 								$row->execute();
 
 								$row = $conn->prepare("SELECT COUNT(*) as total from participants_list where gender='Hombre' and id_activity='$id_activity'");
