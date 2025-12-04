@@ -435,4 +435,13 @@ class ParticipantsData
 		$query = Executor::doit($sql);
 		return Model::one($query[0], new ParticipantsData());
 	}
+
+	public static function getParticipant($id_act, $user_dni)
+	{
+		$sql = "select * from " . self::$tablename . " where id_activity=$id_act and document_id='$user_dni'";
+		// $query = Executor::doit($sql);
+		// return Model::one($query[0], new ParticipantsData());
+        return ExecutorPg::get($sql)[0][0];
+
+	}
 }

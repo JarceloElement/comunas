@@ -718,6 +718,8 @@ $total = ParticipantsData::getBySQL($sql);
 $TotalReg = $total[1];
 // print_r($sql);
 echo "<script>console.log(`$sql`);</script>";
+// $participant = ParticipantsData::getParticipant(172296, "22255588");
+// print_r($participant["id"]);
 
 $param_csv = $sql;
 $sql .= " LIMIT " . $CantidadMostrar . " OFFSET " . (($compag - 1) * $CantidadMostrar);

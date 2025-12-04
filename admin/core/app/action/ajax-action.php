@@ -416,7 +416,7 @@ if ($func_get == "aprobar_participante") {
     }
 
     $fecha_completado = date("Y-m-d H:i:s");
-    $orden_taller = $_GET["orden_taller"]; 
+    $orden_taller = $_GET["orden_taller"];
     $cod_curso = $_GET["cod_curso"];
     $codigo_taller = $_GET["codigo_taller"];
 
@@ -901,7 +901,7 @@ if ($func_post == "add_participant") {
                     throw new Exception("El usuario no puede realizar éste taller todavía. Antes debe completar el taller N° $taller_anterior de este curso.");
                 }
 
-                
+
                 // prelacion por etapa
                 if (count($n_talleres_etapa) > 0) {
                     foreach ($n_talleres_etapa as $nt_e) {
@@ -1013,6 +1013,37 @@ if ($func_post == "add_participant") {
 
 
         $activity = ReportActivityData::getByIdPg((int)$_POST["id_activity"]);
+        $participant = ParticipantsData::getParticipant((int)$_POST["id_activity"], $document_id);
+        // $participant = ParticipantsData::getParticipant(172296, "22255588");
+        // $id_part = $participant[0]["id"];
+        //  $array = array(
+        //     "error"  => "true",
+        //     "data"  => "$id_part",
+        //     "alert" => "¡Error: $document_id",
+        //     "alert_type" => "error"
+        // );
+        // echo json_encode($array);
+        // return;
+
+
+        // elimino los participantes repetidos
+        if (isset($participant["id"])) {
+            // $id_participant = $participant["id"];
+            $id_activity = $participant["id_activity"];
+
+            $conn = DatabasePg::connectPg();
+            $row = $conn->prepare("DELETE FROM participants_list pl WHERE pl.id_activity = $id_activity");
+            $row->execute();
+
+            //  $array = array(
+            //     "error"  => "true",
+            //     "data"  => "",
+            //     "alert" => "LOG: $id_participant",
+            //     "alert_type" => "error"
+            // );
+            // echo json_encode($array);
+            // return;
+        }
 
         $sql = "INSERT into participants_list (
 			id_user_final, 
@@ -1114,9 +1145,7 @@ if ($func_post == "add_participant") {
         // echo implode(",",$values);
         $id_participant = ExecutorPg::insert($sql, $values)[0]['id'];
 
-
-        // $resul = $param->add_Pg();
-
+        // registra la formacion del participante
         $sql = "INSERT into formaciones (
                 usuario_id, 
                 taller_id, 
@@ -1184,49 +1213,47 @@ if ($func_post == "add_participant") {
         return;
     }
 
-    // actualiza el total de participantes en los reportes
-    $conn = DatabasePg::connectPg();
-    // $update_person = new ReportActivityData();
-    // $update_person->perso_gender = $_POST["gender"];
-    // $update_person->id_activity = $_POST["id_activity"];
-    $id_activity = $_POST["id_activity"];
+    try {
 
-    // if ($_POST["gender"] == "Hombre" || $_POST["gender"] == "M" || $_POST["gender"] == "m") {
-    $row = $conn->prepare("SELECT COUNT(*) as total from participants_list where gender='Hombre' and id_activity='$id_activity'");
-    $row->execute();
-    $total_data = $row->fetchAll(PDO::FETCH_ASSOC);
-    $total_person_ma = $total_data[0]["total"];
-    // echo $total_person;
+        // actualiza el total de participantes en los reportes
+        $conn = DatabasePg::connectPg();
+        $id_activity = $_POST["id_activity"];
 
-    // $sql = "UPDATE reports	set person_ma = ? where id = ?;";
-    // $values = [(int)$total_person, (int)$id_activity];
-    // ExecutorPg::update($sql, $values);
-    // }
-    // if ($_POST["gender"] == "Mujer" || $_POST["gender"] == "F" || $_POST["gender"] == "f") {
-    $row = $conn->prepare("SELECT COUNT(*) as total from participants_list where gender='Mujer' and id_activity='$id_activity'");
-    $row->execute();
-    $total_data = $row->fetchAll(PDO::FETCH_ASSOC);
-    $total_person_fe = $total_data[0]["total"];
-    // echo $total_person;
+        // elimina los participantes que no esten en formaciones con esta actividad
+        $row = $conn->prepare("DELETE FROM participants_list pl WHERE pl.id_activity = $id_activity AND NOT EXISTS (SELECT 1 FROM formaciones f WHERE f.user_dni = pl.document_id)");
+        $row->execute();
 
-    $sql = "UPDATE reports set person_fe = ?, person_ma = ? where id = ?;";
-    $values = [(int)$total_person_fe, (int)$total_person_ma, (int)$id_activity];
-    ExecutorPg::update($sql, $values);
-    // }
+        $row = $conn->prepare("SELECT COUNT(*) as total from participants_list where gender='Hombre' and id_activity='$id_activity'");
+        $row->execute();
+        $total_data = $row->fetchAll(PDO::FETCH_ASSOC);
+        $total_person_ma = $total_data[0]["total"];
 
-    $array = array(
-        "error"  => "false",
-        "data"  => "ID: " . $id_participant,
-        "alert" => "Usuario agregado.",
-        "alert_type" => "dashboard"
-    );
-    echo json_encode($array);
+        $row = $conn->prepare("SELECT COUNT(*) as total from participants_list where gender='Mujer' and id_activity='$id_activity'");
+        $row->execute();
+        $total_data = $row->fetchAll(PDO::FETCH_ASSOC);
+        $total_person_fe = $total_data[0]["total"];
 
+        $sql = "UPDATE reports set person_fe = ?, person_ma = ? where id = ?;";
+        $values = [(int)$total_person_fe, (int)$total_person_ma, (int)$id_activity];
+        ExecutorPg::update($sql, $values);
 
-    // echo "id_user_final- " . $id_user_final;
-    // echo "¡Agregado!";
-    // $PHP_SELFx = "index.php?view=participants_list&swal=Agregado correctamente&id_activity=" . $_POST["id_activity"] . "&activity=" . $_POST["activity"] . "&code_info=" . $_POST['code_info'] . "&estate=" . $_POST['estate'] . "&date_activity=" . $_POST['date_activity'] . "&line_action=" . $_POST['line_action'] . "&report_type=" . $_POST['report_type'];
-    // echo $PHP_SELFx;
+        $array = array(
+            "error"  => "false",
+            "data"  => "ID: " . $id_participant,
+            "alert" => "Usuario agregado.",
+            "alert_type" => "dashboard"
+        );
+        echo json_encode($array);
+    } catch (Exception $e) {
+        $array = array(
+            "error"  => "true",
+            "data"  => "",
+            "alert" => "¡Error: " . $e->getMessage() . "!",
+            "alert_type" => "error"
+        );
+        echo json_encode($array);
+        return;
+    }
 }
 
 
