@@ -1931,8 +1931,30 @@ $DB_name = "reports";
 
 
 								<?php
+								// actualizar el total de participantes hombre y mujeres
+								$conn = DatabasePg::connectPg();
+								$id_activity = $user["id"];
+
+								// elimina los participantes que no esten en formaciones con esta actividad
+								$row = $conn->prepare("DELETE FROM participants_list pl WHERE pl.id_activity = $id_activity AND NOT EXISTS (SELECT 1 FROM formaciones f WHERE f.user_dni = pl.document_id)");
+								$row->execute();
+
+								$row = $conn->prepare("SELECT COUNT(*) as total from participants_list where gender='Hombre' and id_activity='$id_activity'");
+								$row->execute();
+								$total_data = $row->fetchAll(PDO::FETCH_ASSOC);
+								$total_person_ma = $total_data[0]["total"];
+
+								$row = $conn->prepare("SELECT COUNT(*) as total from participants_list where gender='Mujer' and id_activity='$id_activity'");
+								$row->execute();
+								$total_data = $row->fetchAll(PDO::FETCH_ASSOC);
+								$total_person_fe = $total_data[0]["total"];
+
+								$sql = "UPDATE reports set person_fe = ?, person_ma = ? where id = ?;";
+								$values = [(int)$total_person_fe, (int)$total_person_ma, (int)$id_activity];
+								ExecutorPg::update($sql, $values);
+
 								// total de participantes
-								$total_part = (int)$user["person_fe"] + (int)$user["person_ma"];
+								$total_part = (int)$total_person_fe + (int)$total_person_ma;
 
 								?>
 
@@ -2009,10 +2031,10 @@ $DB_name = "reports";
 												<a href="index.php?view=editactivity&user_id=<?php echo $user["user_id"]; ?>&id=<?php echo $user["id"]; ?>&code_info=<?php echo $user["code_info"]; ?>&estado=<?php echo $user["estate"]; ?>&id_act=<?php echo $id_act; ?>&participantes=<?php if (isset($_GET["participantes"])) {
 																																																																								echo $_GET["participantes"];
 																																																																							} ?>&start_at=<?php if (isset($_GET["start_at"])) {
-																																																																													echo $_GET["start_at"];
-																																																																												} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
-																																																																																echo $_GET["finish_at"];
-																																																																															} ?>&pag=<?php if (isset($_GET["pag"])) {
+																																																																												echo $_GET["start_at"];
+																																																																											} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
+																																																																																	echo $_GET["finish_at"];
+																																																																																} ?>&pag=<?php if (isset($_GET["pag"])) {
 																																																																																			echo $_GET["pag"];
 																																																																																		} ?>" type="button" rel="tooltip2" data-placement="top" title="Editar" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a>
 												<?php $URL = "index.php?action=delplanning&id=" . $user["id"] . "&estado=" . $user["estate"] . "&participantes=" . $participants_q . "&start_at=" . $start_at_q . "&finish_at=" . $finish_at_q . "&pag=" . $pag; ?>
@@ -2022,10 +2044,10 @@ $DB_name = "reports";
 												<!-- <a href="index.php?view=editactivity&user_id=<?php echo $user["user_id"]; ?>&id=<?php echo $user["id"]; ?>&code_info=<?php echo $user["code_info"]; ?>&estado=<?php echo $user["estate"]; ?>&id_act=<?php echo $id_act; ?>&participantes=<?php if (isset($_GET["participantes"])) {
 																																																																									echo $_GET["participantes"];
 																																																																								} ?>&start_at=<?php if (isset($_GET["start_at"])) {
-																																																																														echo $_GET["start_at"];
-																																																																													} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
-																																																																																	echo $_GET["finish_at"];
-																																																																																} ?>&pag=<?php if (isset($_GET["pag"])) {
+																																																																													echo $_GET["start_at"];
+																																																																												} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
+																																																																																		echo $_GET["finish_at"];
+																																																																																	} ?>&pag=<?php if (isset($_GET["pag"])) {
 																																																																																				echo $_GET["pag"];
 																																																																																			} ?>" type="button" rel="tooltip2" data-placement="top" title="Editar" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a> -->
 												<?php $URL = "index.php?action=delplanning&id=" . $user["id"] . "&estado=" . $user["estate"] . "&participantes=" . $participants_q . "&start_at=" . $start_at_q . "&finish_at=" . $finish_at_q . "&pag=" . $pag; ?>
@@ -2047,10 +2069,10 @@ $DB_name = "reports";
 												<!-- <a href="index.php?view=editactivity&user_id=<?php echo $user["user_id"]; ?>&id=<?php echo $user["id"]; ?>&code_info=<?php echo $user["code_info"]; ?>&estado=<?php echo $user["estate"]; ?>&id_act=<?php echo $id_act; ?>&participantes=<?php if (isset($_GET["participantes"])) {
 																																																																									echo $_GET["participantes"];
 																																																																								} ?>&start_at=<?php if (isset($_GET["start_at"])) {
-																																																																														echo $_GET["start_at"];
-																																																																													} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
-																																																																																	echo $_GET["finish_at"];
-																																																																																} ?>&pag=<?php if (isset($_GET["pag"])) {
+																																																																													echo $_GET["start_at"];
+																																																																												} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
+																																																																																		echo $_GET["finish_at"];
+																																																																																	} ?>&pag=<?php if (isset($_GET["pag"])) {
 																																																																																				echo $_GET["pag"];
 																																																																																			} ?>" type="button" rel="tooltip2" data-placement="top" title="Editar" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a> -->
 												<?php $URL = "index.php?action=delplanning&id=" . $user["id"] . "&estado=" . $user["estate"] . "&participantes=" . $participants_q . "&start_at=" . $start_at_q . "&finish_at=" . $finish_at_q . "&pag=" . $pag; ?>
@@ -2083,10 +2105,10 @@ $DB_name = "reports";
 													<!-- <a href="index.php?view=editactivity&user_id=<?php echo $user["user_id"]; ?>&id=<?php echo $user["id"]; ?>&code_info=<?php echo $user["code_info"]; ?>&estado=<?php echo $user["estate"]; ?>&id_act=<?php echo $id_act; ?>&participantes=<?php if (isset($_GET["participantes"])) {
 																																																																										echo $_GET["participantes"];
 																																																																									} ?>&start_at=<?php if (isset($_GET["start_at"])) {
-																																																																															echo $_GET["start_at"];
-																																																																														} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
-																																																																																		echo $_GET["finish_at"];
-																																																																																	} ?>&pag=<?php if (isset($_GET["pag"])) {
+																																																																														echo $_GET["start_at"];
+																																																																													} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
+																																																																																			echo $_GET["finish_at"];
+																																																																																		} ?>&pag=<?php if (isset($_GET["pag"])) {
 																																																																																					echo $_GET["pag"];
 																																																																																				} ?>" type="button" rel="tooltip2" data-placement="top" title="Editar" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a> -->
 													<?php $URL = "index.php?action=delplanning&id=" . $user["id"] . "&estado=" . $user["estate"] . "&participantes=" . $participants_q . "&start_at=" . $start_at_q . "&finish_at=" . $finish_at_q . "&pag=" . $pag; ?>
@@ -2117,10 +2139,10 @@ $DB_name = "reports";
 												<!-- <a href="index.php?view=editactivity&user_id=<?php echo $user["user_id"]; ?>&id=<?php echo $user["id"]; ?>&code_info=<?php echo $user["code_info"]; ?>&estado=<?php echo $user["estate"]; ?>&id_act=<?php echo $id_act; ?>&participantes=<?php if (isset($_GET["participantes"])) {
 																																																																									echo $_GET["participantes"];
 																																																																								} ?>&start_at=<?php if (isset($_GET["start_at"])) {
-																																																																														echo $_GET["start_at"];
-																																																																													} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
-																																																																																	echo $_GET["finish_at"];
-																																																																																} ?>&pag=<?php if (isset($_GET["pag"])) {
+																																																																													echo $_GET["start_at"];
+																																																																												} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
+																																																																																		echo $_GET["finish_at"];
+																																																																																	} ?>&pag=<?php if (isset($_GET["pag"])) {
 																																																																																				echo $_GET["pag"];
 																																																																																			} ?>" type="button" rel="tooltip" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a> -->
 												<?php if ($user["notific"] != "") { ?>
@@ -2142,10 +2164,10 @@ $DB_name = "reports";
 												<!-- <a href="index.php?view=editactivity&user_id=<?php echo $user["user_id"]; ?>&id=<?php echo $user["id"]; ?>&code_info=<?php echo $user["code_info"]; ?>&estado=<?php echo $user["estate"]; ?>&id_act=<?php echo $id_act; ?>&participantes=<?php if (isset($_GET["participantes"])) {
 																																																																									echo $_GET["participantes"];
 																																																																								} ?>&start_at=<?php if (isset($_GET["start_at"])) {
-																																																																														echo $_GET["start_at"];
-																																																																													} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
-																																																																																	echo $_GET["finish_at"];
-																																																																																} ?>&pag=<?php if (isset($_GET["pag"])) {
+																																																																													echo $_GET["start_at"];
+																																																																												} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
+																																																																																		echo $_GET["finish_at"];
+																																																																																	} ?>&pag=<?php if (isset($_GET["pag"])) {
 																																																																																				echo $_GET["pag"];
 																																																																																			} ?>" type="button" rel="tooltip" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a> -->
 												<?php if ($user["notific"] != "") { ?>
@@ -2169,10 +2191,10 @@ $DB_name = "reports";
 												<!-- <a href="index.php?view=editactivity&user_id=<?php echo $user["user_id"]; ?>&id=<?php echo $user["id"]; ?>&code_info=<?php echo $user["code_info"]; ?>&estado=<?php echo $user["estate"]; ?>&id_act=<?php echo $id_act; ?>&participantes=<?php if (isset($_GET["participantes"])) {
 																																																																									echo $_GET["participantes"];
 																																																																								} ?>&start_at=<?php if (isset($_GET["start_at"])) {
-																																																																														echo $_GET["start_at"];
-																																																																													} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
-																																																																																	echo $_GET["finish_at"];
-																																																																																} ?>&pag=<?php if (isset($_GET["pag"])) {
+																																																																													echo $_GET["start_at"];
+																																																																												} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
+																																																																																		echo $_GET["finish_at"];
+																																																																																	} ?>&pag=<?php if (isset($_GET["pag"])) {
 																																																																																				echo $_GET["pag"];
 																																																																																			} ?>" type="button" rel="tooltip" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a> -->
 												<?php if ($user["notific"] != "") { ?>
@@ -2194,10 +2216,10 @@ $DB_name = "reports";
 												<!-- <a href="index.php?view=editactivity&user_id=<?php echo $user["user_id"]; ?>&id=<?php echo $user["id"]; ?>&code_info=<?php echo $user["code_info"]; ?>&estado=<?php echo $user["estate"]; ?>&id_act=<?php echo $id_act; ?>&participantes=<?php if (isset($_GET["participantes"])) {
 																																																																									echo $_GET["participantes"];
 																																																																								} ?>&start_at=<?php if (isset($_GET["start_at"])) {
-																																																																														echo $_GET["start_at"];
-																																																																													} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
-																																																																																	echo $_GET["finish_at"];
-																																																																																} ?>&pag=<?php if (isset($_GET["pag"])) {
+																																																																													echo $_GET["start_at"];
+																																																																												} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
+																																																																																		echo $_GET["finish_at"];
+																																																																																	} ?>&pag=<?php if (isset($_GET["pag"])) {
 																																																																																				echo $_GET["pag"];
 																																																																																			} ?>" type="button" rel="tooltip" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a> -->
 												<?php if ($user["notific"] != "") { ?>
