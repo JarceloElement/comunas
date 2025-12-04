@@ -11,7 +11,7 @@ $conn = DatabasePg::connectPg();
 $code_info = strtoupper($_POST['code_info']);
 $user_type = $_SESSION['user_type'];
 $user_code_info = $_SESSION['user_code_info'];
-$user_region = $_POST['estado_info'];
+$user_region = strtoupper($_POST['estado_info']);
 
 
 // facilitadores busca instituciones vinculadas a ese infocentro
@@ -20,7 +20,7 @@ if ($user_type == 2) {
 	// $res = $statement_1->fetchAll(PDO::FETCH_ASSOC);
 	// $statement_2 = $db->query("SELECT info_social_map_organizations.organization_name as e_name, info_social_map_organizations.id as id_institucion, info_social_map_organizations.organization_address as e_address, info_social_map_organizations.organization_type as isnt_type FROM info_social_map_organizations where info_social_map_organizations.organization_name != '' and info_social_map_organizations.organization_name != 'null' and info_social_map_organizations.code_info='$code_info' GROUP BY info_social_map_organizations.organization_name, info_social_map_organizations.id, info_social_map_organizations.organization_address ORDER BY info_social_map_organizations.organization_name");
 	// $res_2 = $statement_2->fetchAll(PDO::FETCH_ASSOC);
-	$sql = "SELECT * FROM organizaciones WHERE UPPER(code_info)='$code_info' AND estado_organizacion='$user_region' ORDER BY nombre_organizacion";
+	$sql = "SELECT * FROM organizaciones WHERE UPPER(code_info)='$code_info' AND UPPER(estado_organizacion)='$user_region' ORDER BY nombre_organizacion";
 	$stmt = $conn->prepare($sql);
 	$stmt->execute();
 
