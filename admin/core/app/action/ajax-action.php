@@ -856,7 +856,7 @@ if ($func_post == "add_participant") {
                 $res = ExecutorPg::get($sql)[0][0];
                 $taller_completado = isset($res["completado"]) ? $res["completado"] : "null";
 
-                // buscar el taller anterior y verifica que este completado
+                // buscar cantidad de talleres del mismo curso
                 $sql = "SELECT tipo_taller.id from tipo_taller LEFT JOIN training_type ON training_type.name_training_type=tipo_taller.name_training_type where training_type.codigo_curso='$cod_curso';";
                 $talleres_encurso = ExecutorPg::get($sql)[0];
                 $n_talleres = count($talleres_encurso);
@@ -872,8 +872,9 @@ if ($func_post == "add_participant") {
                 }
                 // throw new Exception("Cantidad de talleres etapa: " . count($n_talleres_etapa));
 
+                // si el curso tiene mas de un taller busca el taller anterior
+                $prelacion = "";
                 if ($n_talleres > 1) {
-                    // si el curso tiene mas de un taller busca el taller anterior
                     $sql = "SELECT * from formaciones where orden_taller='$taller_anterior' and cod_curso='$cod_curso' and user_dni='$usuario_dni_existente';";
                     $res_2 = ExecutorPg::get($sql)[0][0];
                     $prelacion = isset($res_2["completado"]) ? $res_2["completado"] : "null";
@@ -891,13 +892,16 @@ if ($func_post == "add_participant") {
                     throw new Exception("El usuario ya lo tienes registrado en el mismo taller pero en otra actividad.");
                 }
 
-                // prelacion por curso
+
+                // prelacion por curso | si hay mas de un taller en el curso
                 if ($prelacion == "false" && $orden_taller != 1 && $n_talleres > 1) {
                     throw new Exception("El usuario no ha aprobado el taller anterior. \nYa está inscrito en el taller N° $taller_anterior de este curso, verifica que esté aprobado.");
                 }
                 if ($prelacion == "null" && $orden_taller != 1 && $taller_anterior != 0 && $n_talleres > 1) {
                     throw new Exception("El usuario no puede realizar éste taller todavía. Antes debe completar el taller N° $taller_anterior de este curso.");
                 }
+
+                
                 // prelacion por etapa
                 if (count($n_talleres_etapa) > 0) {
                     foreach ($n_talleres_etapa as $nt_e) {
