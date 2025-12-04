@@ -34,7 +34,7 @@ function charlimit_sub_title($string, $limit)
 		<h4 class="title text-left">Sistema de reporte de actividades</h4>
 
 	</div>
-	<?php if ($_SESSION["user_type"] != 5): ?>
+	<?php if ($_SESSION["user_type"] != 4 && $_SESSION["user_type"] != 5): ?>
 		<div class="card-body">
 			<h4 class="card-title">¡Bienvenidos de vuelta!</h4>
 			<!-- <p class="card-text">Si es primera vez que se agrega el servicio de un usuario, antes debe ser registrado en el sistema como nuevo usuario</p> -->
