@@ -717,6 +717,7 @@ where formaciones.participant_id = participants_list.id AND participants_list.id
 $total = ParticipantsData::getBySQL($sql);
 $TotalReg = $total[1];
 // print_r($sql);
+echo "<script>console.log(`$sql`);</script>";
 
 $param_csv = $sql;
 $sql .= " LIMIT " . $CantidadMostrar . " OFFSET " . (($compag - 1) * $CantidadMostrar);
