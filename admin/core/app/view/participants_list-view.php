@@ -826,7 +826,7 @@ $DB_name = "participants_list";
 												</button>
 											</a>
 										<?php } else { ?>
-											<a onclick="aprobar('<?php echo $types['participant_id']; ?>','<?php echo $types['completado']; ?>')" href="javascript:void(0);">
+											<a href="javascript:void(0);">
 												<button type="button" class="btn <?php if ($types['completado'] == 'false') echo 'btn-danger';
 																					else echo 'btn-success'; ?> btn-sm disabled">
 													<?php if ($types['completado'] == 'false') echo 'Aprobar';
