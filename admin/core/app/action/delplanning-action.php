@@ -20,12 +20,12 @@ $estado = $_GET["estado"];
 $start_at = $_GET["start_at"];
 $finish_at = $_GET["finish_at"];
 $info_id = $_GET["info_id"];
-
+$participantes = $_GET[""];
 
 $sql = "delete from participants_list where id_activity= ?;";
 ExecutorPg::del($sql,(int)$id_activity);
 
-$sql = "delete from products_list where id_activity= ?;";
+$sql = "delete from products_list where id_activity=| ?;";
 ExecutorPg::del($sql,(int)$id_activity);
 
 $report = ReportActivityData::getByIdPg((int)$id_activity);
@@ -39,18 +39,18 @@ $sql = "SELECT * from participants_list where id_activity='$id_activity' AND gen
 $result_m = ExecutorPg::get($sql)[1];
 
 // set log
-$log = new LogDelete();
-$log->user_id = $user_id . "| " . $user_name;
-$log->user_code_info = $user_code_info;
-$log->id_deleted = $id_activity;
-$log->code_deleted = $report["code_info"];
-$log->state_deleted = $report["estate"];
-$log->type_deleted = "Planificada";
-$log->activity_title = $report["activity_title"];
-$log->line_action = $report["line_action"];
-$log->t_hombres = $result_f;
-$log->t_mujeres = $result_m;
-$log->add();
+// $log = new LogDelete();
+// $log->user_id = $user_id . "| " . $user_name;
+// $log->user_code_info = $user_code_info;
+// $log->id_deleted = $id_activity;
+// $log->code_deleted = $report["code_info"];
+// $log->state_deleted = $report["estate"];
+// $log->type_deleted = "Planificada";
+// $log->activity_title = $report["activity_title"];
+// $log->line_action = $report["line_action"];
+// $log->t_hombres = $result_f;
+// $log->t_mujeres = $result_m;
+// $log->add();
 // end set log
 
 $images_to_del = explode(", ", $report["image"]);
