@@ -778,6 +778,7 @@ $DB_name = "participants_list";
 							<th>N°</th>
 							<th>UID_Fac</th>
 							<th>ID_user</th>
+							<th>ID_act</th>
 							<th>Estado</th>
 							<th>Nombre</th>
 							<th>Apellido</th>
@@ -800,6 +801,7 @@ $DB_name = "participants_list";
 								<!-- <td><!?php echo $_GET['estate']; ?></td> -->
 								<td><?php echo $types["uid_fac"]; ?></td>
 								<td><?php echo $types["id_user_final"] . "-" . $types['participant_id']; ?></td>
+								<td><?php echo $types["id_activity"]; ?></td>
 								<td><?php echo $types["estate"]; ?></td>
 								<td><?php echo $types["name"]; ?></td>
 								<td><?php echo $types["lastname"]; ?></td>
