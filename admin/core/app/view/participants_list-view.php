@@ -861,7 +861,7 @@ $DB_name = "participants_list";
 											</button>
 										</a>
 
-									<?php } elseif ($_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 9 || (($_SESSION["user_type"] == 8 || $_SESSION["user_rol"] == 'Políticas públicas') && $_SESSION["user_region"] == $_GET["estate"])) { ?>
+									<?php } elseif ($_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 9 || (($_SESSION["user_type"] == 8 || $_SESSION["user_rol"] == 'Políticas públicas') && $_SESSION["user_region"] == $_GET["estate"])) { ?>
 
 										<a href='index.php?view=editparticipants&id=<?php echo $types["id"]; ?>&code_info=<?php echo $_GET['code_info']; ?>&estate=<?php echo $_GET['estate']; ?>&id_activity=<?php echo $_GET["id_activity"]; ?>&date_activity=<?php echo $_GET["date_activity"]; ?>&activity=<?php echo $_GET["activity"]; ?>&gender=<?php echo $types["gender"]; ?>&line_action=<?php echo $_GET["line_action"]; ?>&report_type=<?php echo $_GET["report_type"]; ?>&pag=<?php echo $pag; ?>' class="btn btn-warning btn-sm"><i><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24">
 													<path fill="currentColor" d="M3 21v-4.25L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.438.65T21 6.4q0 .4-.137.763t-.438.662L7.25 21zM17.6 7.8L19 6.4L17.6 5l-1.4 1.4z" />

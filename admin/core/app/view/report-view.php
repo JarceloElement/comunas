@@ -1964,7 +1964,7 @@ $DB_name = "reports";
 									<td>
 										<a href='index.php?view=participants_list&tipo_taller=<?php echo $user["tipo_taller"]; ?>&codigo_taller=<?php echo $user["codigo_taller"]; ?>&orden_taller=<?php echo $user["orden_taller"]; ?>&cod_curso=<?php echo $user["cod_curso"]; ?>&user_id=<?php echo $user["user_id"]; ?>&line_action=<?php echo $user["line_action"]; ?>&report_type=<?php echo $user["report_type"]; ?>&code_info=<?php echo $user["code_info"]; ?>&estate=<?php echo $user["estate"]; ?>&id_activity=<?php echo $user["id"]; ?>&date_activity=<?php echo $user["date_pub"]; ?>&activity=<?php echo $user["activity_title"]; ?>&n_taller=<?php echo $user["orden_taller"]; ?>' class="btn btn-info btn-sm 
 											<?php
-											if ($user["user_id"] != $_SESSION["user_id"] && $user["estate"] != $_SESSION["user_region"] && ($_SESSION["user_type"] != 6 && $_SESSION["user_type"] != 7 && $_SESSION["user_type"] != 8)) {
+											if ($user["user_id"] != $_SESSION["user_id"] && $user["estate"] != $_SESSION["user_region"] && ($_SESSION["user_type"] != 5 && $_SESSION["user_type"] != 6 && $_SESSION["user_type"] != 7 && $_SESSION["user_type"] != 8)) {
 												echo 'disabled';
 											} else if (($_SESSION["user_rol"] == 'Políticas públicas' && $user["estate"] == $_SESSION["user_region"])) {
 												echo '';
