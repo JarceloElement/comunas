@@ -20,12 +20,11 @@ $estado = $_GET["estado"];
 $start_at = $_GET["start_at"];
 $finish_at = $_GET["finish_at"];
 $info_id = $_GET["info_id"];
-$participantes = $_GET[""];
 
 $sql = "delete from participants_list where id_activity= ?;";
 ExecutorPg::del($sql,(int)$id_activity);
 
-$sql = "delete from products_list where id_activity=| ?;";
+$sql = "delete from products_list where id_activity= ?;";
 ExecutorPg::del($sql,(int)$id_activity);
 
 $report = ReportActivityData::getByIdPg((int)$id_activity);
@@ -80,7 +79,7 @@ foreach ($images_to_del as $i) {
 }
 
 if ($_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7) {
-    print "<script>window.location='index.php?view=planning&swal=Eliminado" . "&estado=&participantes=" . $participantes . "&start_at=" . $start_at . "&finish_at=" . $finish_at . "&pag=" . $pag . "&info_id=" . $info_id . "&q=" ."';</script>";
+    print "<script>window.location='index.php?view=planning&swal=Eliminado" . "&estado=&participantes=" . "&start_at=" . $start_at . "&finish_at=" . $finish_at . "&pag=" . $pag . "&info_id=" . $info_id . "&q=" ."';</script>";
 } else {
-    print "<script>window.location='index.php?view=planning&swal=Eliminado" . "&estado=" . $estado . "&participantes=" . $participantes . "&start_at=" . $start_at . "&finish_at=" . $finish_at . "&pag=" . $pag . "&info_id=" . $info_id . "&q=" ."';</script>";
+    print "<script>window.location='index.php?view=planning&swal=Eliminado" . "&estado=" . $estado . "&participantes=" . "&start_at=" . $start_at . "&finish_at=" . $finish_at . "&pag=" . $pag . "&info_id=" . $info_id . "&q=" ."';</script>";
 }
