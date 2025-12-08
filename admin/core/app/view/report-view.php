@@ -1939,10 +1939,10 @@ $DB_name = "reports";
 								$conn = DatabasePg::connectPg();
 								$id_activity = $user["id"];
 
-								$nombre_curso = $user["training_type"];
-								$sql = "SELECT tipo_taller.*, training_type.codigo_curso from tipo_taller LEFT JOIN training_type ON training_type.name_training_type=tipo_taller.name_training_type where tipo_taller.name_training_type='$nombre_curso' order by tipo_taller.etapa asc, tipo_taller.orden_taller::INTEGER asc";
-								$curso = TrainingTypeData::getObj($sql)[0];
-								$codigo_curso = $curso->codigo_curso;
+								// $nombre_curso = $user["training_type"];
+								// $sql = "SELECT tipo_taller.*, training_type.codigo_curso from tipo_taller LEFT JOIN training_type ON training_type.name_training_type=tipo_taller.name_training_type where tipo_taller.name_training_type='$nombre_curso' order by tipo_taller.etapa asc, tipo_taller.orden_taller::INTEGER asc";
+								// $curso = TrainingTypeData::getObj($sql)[0];
+								// $codigo_curso = $curso->codigo_curso;
 
 
 								// elimina los participantes que no esten en formaciones con esta actividad
@@ -2028,7 +2028,7 @@ $DB_name = "reports";
 									<div class="btn btn-primary btn-sm">
 										<?php echo $user["orden_taller"] ?>
 									</div>
-									<label style="font-size: 10px;"><?php echo $user["cod_curso"]."/".$codigo_curso ?></label>
+									<label style="font-size: 10px;"><?php echo $user["cod_curso"] ?></label>
 
 								</td>
 
