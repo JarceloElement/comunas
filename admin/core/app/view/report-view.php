@@ -2030,7 +2030,7 @@ $DB_name = "reports";
 
 								<!-- orden taller -->
 								<td>
-									<label style="font-size: 10px;"><?php echo $codigo_curso ?></label>
+									<!-- <label style="font-size: 10px;"><!?php echo $codigo_curso ?></label> -->
 									<div class="btn btn-primary btn-sm">
 										<?php echo $user["orden_taller"] ?>
 									</div>
