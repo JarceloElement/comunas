@@ -1939,6 +1939,12 @@ $DB_name = "reports";
 								$conn = DatabasePg::connectPg();
 								$id_activity = $user["id"];
 
+								$nombre_curso = $user["training_type"];
+								$sql = "SELECT tipo_taller.*, training_type.codigo_curso from tipo_taller LEFT JOIN training_type ON training_type.name_training_type=tipo_taller.name_training_type where tipo_taller.name_training_type='$nombre_curso' order by tipo_taller.etapa asc, tipo_taller.orden_taller::INTEGER asc";
+								$curso = TrainingTypeData::getObj($sql)[0];
+								$codigo_curso = $curso->codigo_curso;
+
+
 								// elimina los participantes que no esten en formaciones con esta actividad
 								$row = $conn->prepare("DELETE FROM participants_list pl WHERE pl.id_activity = '$id_activity' AND document_id NOT IN (SELECT user_dni FROM formaciones WHERE id_activity = '$id_activity')");
 								$row->execute();
@@ -2022,14 +2028,14 @@ $DB_name = "reports";
 									<div class="btn btn-primary btn-sm">
 										<?php echo $user["orden_taller"] ?>
 									</div>
-										<label style="font-size: 10px;"><?php echo $user["cod_curso"] ?></label>
+									<label style="font-size: 10px;"><?php echo $user["cod_curso"]."/".$codigo_curso ?></label>
 
 								</td>
 
 								<!-- imagenes -->
 								<td><a href='index.php?view=image_edit&id=<?php echo $user["id"]; ?>&code_info=<?php echo $user["code_info"]; ?>&user_id=<?php echo $user["user_id"]; ?>&estate=<?php echo $user["estate"]; ?>&title=<?php echo $user["activity_title"]; ?>' class="btn btn-default btn-sm"><i class="material-icons">image</i></a></td>
 								<td>
-									<?php if ( $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7) { ?>
+									<?php if ($_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7) { ?>
 										<div class="btn-group btn-group-xs">
 
 											<?php if ($_SESSION["user_id"] == $user["user_id"]) { ?>
@@ -2039,10 +2045,10 @@ $DB_name = "reports";
 																																																																							} ?>&start_at=<?php if (isset($_GET["start_at"])) {
 																																																																												echo $_GET["start_at"];
 																																																																											} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
-																																																																																	echo $_GET["finish_at"];
-																																																																																} ?>&pag=<?php if (isset($_GET["pag"])) {
-																																																																																			echo $_GET["pag"];
-																																																																																		} ?>" type="button" rel="tooltip2" data-placement="top" title="Editar" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a>
+																																																																																echo $_GET["finish_at"];
+																																																																															} ?>&pag=<?php if (isset($_GET["pag"])) {
+																																																																																				echo $_GET["pag"];
+																																																																																			} ?>" type="button" rel="tooltip2" data-placement="top" title="Editar" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a>
 												<?php $URL = "index.php?action=delplanning&id=" . $user["id"] . "&estado=" . $user["estate"] . "&participantes=" . $participants_q . "&start_at=" . $start_at_q . "&finish_at=" . $finish_at_q . "&pag=" . $pag; ?>
 												<button type="button" onclick="del_item('<?php echo $URL; ?>')" title="Eliminar" class="btn btn-danger btn-sm"><i class="material-icons">close</i></button></a>
 											<?php } else if ($_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7) { ?>
@@ -2052,10 +2058,10 @@ $DB_name = "reports";
 																																																																								} ?>&start_at=<?php if (isset($_GET["start_at"])) {
 																																																																													echo $_GET["start_at"];
 																																																																												} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
-																																																																																		echo $_GET["finish_at"];
-																																																																																	} ?>&pag=<?php if (isset($_GET["pag"])) {
-																																																																																				echo $_GET["pag"];
-																																																																																			} ?>" type="button" rel="tooltip2" data-placement="top" title="Editar" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a> -->
+																																																																																	echo $_GET["finish_at"];
+																																																																																} ?>&pag=<?php if (isset($_GET["pag"])) {
+																																																																																					echo $_GET["pag"];
+																																																																																				} ?>" type="button" rel="tooltip2" data-placement="top" title="Editar" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a> -->
 												<?php $URL = "index.php?action=delplanning&id=" . $user["id"] . "&estado=" . $user["estate"] . "&participantes=" . $participants_q . "&start_at=" . $start_at_q . "&finish_at=" . $finish_at_q . "&pag=" . $pag; ?>
 												<button type="button" onclick="del_item('<?php echo $URL; ?>')" title="Eliminar" class="btn btn-danger btn-sm"><i class="material-icons">close</i></button></a>
 											<?php } ?>
@@ -2077,10 +2083,10 @@ $DB_name = "reports";
 																																																																								} ?>&start_at=<?php if (isset($_GET["start_at"])) {
 																																																																													echo $_GET["start_at"];
 																																																																												} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
-																																																																																		echo $_GET["finish_at"];
-																																																																																	} ?>&pag=<?php if (isset($_GET["pag"])) {
-																																																																																				echo $_GET["pag"];
-																																																																																			} ?>" type="button" rel="tooltip2" data-placement="top" title="Editar" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a> -->
+																																																																																	echo $_GET["finish_at"];
+																																																																																} ?>&pag=<?php if (isset($_GET["pag"])) {
+																																																																																					echo $_GET["pag"];
+																																																																																				} ?>" type="button" rel="tooltip2" data-placement="top" title="Editar" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a> -->
 												<?php $URL = "index.php?action=delplanning&id=" . $user["id"] . "&estado=" . $user["estate"] . "&participantes=" . $participants_q . "&start_at=" . $start_at_q . "&finish_at=" . $finish_at_q . "&pag=" . $pag; ?>
 												<button type="button" onclick="del_item('<?php echo $URL; ?>')" title="Eliminar" class="btn btn-danger btn-sm"><i class="material-icons">close</i></button></a>
 
@@ -2113,10 +2119,10 @@ $DB_name = "reports";
 																																																																									} ?>&start_at=<?php if (isset($_GET["start_at"])) {
 																																																																														echo $_GET["start_at"];
 																																																																													} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
-																																																																																			echo $_GET["finish_at"];
-																																																																																		} ?>&pag=<?php if (isset($_GET["pag"])) {
-																																																																																					echo $_GET["pag"];
-																																																																																				} ?>" type="button" rel="tooltip2" data-placement="top" title="Editar" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a> -->
+																																																																																		echo $_GET["finish_at"];
+																																																																																	} ?>&pag=<?php if (isset($_GET["pag"])) {
+																																																																																						echo $_GET["pag"];
+																																																																																					} ?>" type="button" rel="tooltip2" data-placement="top" title="Editar" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a> -->
 													<?php $URL = "index.php?action=delplanning&id=" . $user["id"] . "&estado=" . $user["estate"] . "&participantes=" . $participants_q . "&start_at=" . $start_at_q . "&finish_at=" . $finish_at_q . "&pag=" . $pag; ?>
 													<button type="button" onclick="del_item('<?php echo $URL; ?>')" title="Eliminar" class="btn btn-danger btn-sm"><i class="material-icons">close</i></button></a>
 
@@ -2147,10 +2153,10 @@ $DB_name = "reports";
 																																																																								} ?>&start_at=<?php if (isset($_GET["start_at"])) {
 																																																																													echo $_GET["start_at"];
 																																																																												} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
-																																																																																		echo $_GET["finish_at"];
-																																																																																	} ?>&pag=<?php if (isset($_GET["pag"])) {
-																																																																																				echo $_GET["pag"];
-																																																																																			} ?>" type="button" rel="tooltip" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a> -->
+																																																																																	echo $_GET["finish_at"];
+																																																																																} ?>&pag=<?php if (isset($_GET["pag"])) {
+																																																																																					echo $_GET["pag"];
+																																																																																				} ?>" type="button" rel="tooltip" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a> -->
 												<?php if ($user["notific"] != "") { ?>
 													<a href="#" type="show_notific" id="<?php echo $ID; ?>" data-toggle="modal" data-target="#show_notific" class="btn btn-success btn-sm"><i class="material-icons">notifications</i></a>
 												<?php } ?>
@@ -2172,10 +2178,10 @@ $DB_name = "reports";
 																																																																								} ?>&start_at=<?php if (isset($_GET["start_at"])) {
 																																																																													echo $_GET["start_at"];
 																																																																												} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
-																																																																																		echo $_GET["finish_at"];
-																																																																																	} ?>&pag=<?php if (isset($_GET["pag"])) {
-																																																																																				echo $_GET["pag"];
-																																																																																			} ?>" type="button" rel="tooltip" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a> -->
+																																																																																	echo $_GET["finish_at"];
+																																																																																} ?>&pag=<?php if (isset($_GET["pag"])) {
+																																																																																					echo $_GET["pag"];
+																																																																																				} ?>" type="button" rel="tooltip" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a> -->
 												<?php if ($user["notific"] != "") { ?>
 													<a href="#" type="show_notific" id="<?php echo $ID; ?>" data-toggle="modal" data-target="#show_notific" class="btn btn-success btn-sm"><i class="material-icons">notifications</i></a>
 												<?php } ?>
@@ -2199,10 +2205,10 @@ $DB_name = "reports";
 																																																																								} ?>&start_at=<?php if (isset($_GET["start_at"])) {
 																																																																													echo $_GET["start_at"];
 																																																																												} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
-																																																																																		echo $_GET["finish_at"];
-																																																																																	} ?>&pag=<?php if (isset($_GET["pag"])) {
-																																																																																				echo $_GET["pag"];
-																																																																																			} ?>" type="button" rel="tooltip" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a> -->
+																																																																																	echo $_GET["finish_at"];
+																																																																																} ?>&pag=<?php if (isset($_GET["pag"])) {
+																																																																																					echo $_GET["pag"];
+																																																																																				} ?>" type="button" rel="tooltip" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a> -->
 												<?php if ($user["notific"] != "") { ?>
 													<a href="#" type="show_notific" id="<?php echo $ID; ?>" data-toggle="modal" data-target="#show_notific" class="btn btn-success btn-sm"><i class="material-icons">notifications</i></a>
 												<?php } ?>
@@ -2224,10 +2230,10 @@ $DB_name = "reports";
 																																																																								} ?>&start_at=<?php if (isset($_GET["start_at"])) {
 																																																																													echo $_GET["start_at"];
 																																																																												} ?>&finish_at=<?php if (isset($_GET["finish_at"])) {
-																																																																																		echo $_GET["finish_at"];
-																																																																																	} ?>&pag=<?php if (isset($_GET["pag"])) {
-																																																																																				echo $_GET["pag"];
-																																																																																			} ?>" type="button" rel="tooltip" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a> -->
+																																																																																	echo $_GET["finish_at"];
+																																																																																} ?>&pag=<?php if (isset($_GET["pag"])) {
+																																																																																					echo $_GET["pag"];
+																																																																																				} ?>" type="button" rel="tooltip" class="btn btn-warning btn-sm"><i class="material-icons">edit</i></a> -->
 												<?php if ($user["notific"] != "") { ?>
 													<a href="#" type="show_notific" id="<?php echo $ID; ?>" data-toggle="modal" data-target="#show_notific" class="btn btn-success btn-sm"><i class="material-icons">notifications</i></a>
 												<?php } ?>
