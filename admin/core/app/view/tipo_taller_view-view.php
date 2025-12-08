@@ -312,6 +312,10 @@ $training_type = TrainingTypeData::getAll();
 
 <!-- Obtengo los datos para la paginacion -->
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 $CantidadMostrar = 500;
 $url_pag_atras = "";
 $url_pag_adelante = "";
@@ -321,10 +325,10 @@ $compag = (int)(!isset($_GET['pag'])) ? 1 : $_GET['pag'];
 
 
 // pg
-$total = TrainingTypeData::getAllPg("SELECT * from tipo_taller order by etapa asc, orden_taller::INTEGER asc");
+$total = TrainingTypeData::getAllPg("SELECT tipo_taller.*, training_type.codigo_curso from tipo_taller LEFT JOIN training_type ON training_type.name_training_type=tipo_taller.name_training_type order by tipo_taller.etapa asc, tipo_taller.orden_taller::INTEGER asc");
 $TotalReg = $total[1];
 
-$sql = "SELECT * from tipo_taller order by etapa asc, orden_taller::INTEGER asc";
+$sql = "SELECT tipo_taller.*, training_type.codigo_curso from tipo_taller LEFT JOIN training_type ON training_type.name_training_type=tipo_taller.name_training_type order by tipo_taller.etapa asc, tipo_taller.orden_taller::INTEGER asc";
 
 $param_csv = mb_convert_encoding($sql, 'UTF-8', 'UTF-8');
 // $param_sql = mb_convert_encoding($sql, 'UTF-8', 'UTF-8');
@@ -389,6 +393,7 @@ $TotalRegistro  = ceil($TotalReg / $CantidadMostrar);
                                             <th>Duración</th>
                                             <th>Nivel</th>
                                             <th>Modalidad</th>
+                                            <th>Código curso</th>
                                             <th>Orden taller</th>
                                             <th>Código taller</th>
                                             <th>Permisos</th>
@@ -410,6 +415,7 @@ $TotalRegistro  = ceil($TotalReg / $CantidadMostrar);
                                                 <td><?php echo $user->duracion_horas; ?></td>
                                                 <td><?php echo $user->nivel; ?></td>
                                                 <td><?php echo $user->modalidad; ?></td>
+                                                <td><?php echo $user->codigo_curso; ?></td>
                                                 <td><?php echo $user->orden_taller; ?></td>
                                                 <td><?php echo $user->codigo_taller; ?></td>
                                                 <td><label style="font-size: 12px; width:400px; color:black;"><?php echo $user->permisos; ?></label></td>
