@@ -1949,8 +1949,6 @@ $DB_name = "reports";
 									$codigo_curso = $curso->codigo_curso;
 								}
 
-								// echo $codigo_curso;
-
 
 								// elimina los participantes que no esten en formaciones con esta actividad
 								$row = $conn->prepare("DELETE FROM participants_list pl WHERE pl.id_activity = '$id_activity' AND document_id NOT IN (SELECT user_dni FROM formaciones WHERE id_activity = '$id_activity')");
@@ -1966,8 +1964,8 @@ $DB_name = "reports";
 								$total_data = $row->fetchAll(PDO::FETCH_ASSOC);
 								$total_person_fe = $total_data[0]["total"];
 
-								$sql = "UPDATE reports set person_fe = ?, person_ma = ? where id = ?;";
-								$values = [(int)$total_person_fe, (int)$total_person_ma, (int)$id_activity];
+								$sql = "UPDATE reports set cod_curso=?, person_fe = ?, person_ma = ? where id = ?;";
+								$values = [$codigo_curso, (int)$total_person_fe, (int)$total_person_ma, (int)$id_activity];
 								ExecutorPg::update($sql, $values);
 
 								// total de participantes
