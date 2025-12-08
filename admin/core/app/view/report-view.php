@@ -1376,6 +1376,7 @@ if ((isset($_GET["q"]) || isset($_GET["estado"]) || isset($_GET["start_at"]) || 
 
 		$sql = "SELECT * FROM reports";
 		$sql_dw = "SELECT reports.id, 
+		reports.cod_curso, 
 		reports.is_active, 
 		reports.status_activity, 
 		reports.user_id, 
@@ -1427,6 +1428,7 @@ if ((isset($_GET["q"]) || isset($_GET["estado"]) || isset($_GET["start_at"]) || 
 	} elseif ($_SESSION["user_rol"] == 'Analista') {
 		$sql = "SELECT * FROM reports";
 		$sql_dw = "SELECT reports.id, 
+		reports.cod_curso, 
 		reports.is_active, 
 		reports.status_activity, 
 		reports.user_id, 
@@ -1473,6 +1475,7 @@ if ((isset($_GET["q"]) || isset($_GET["estado"]) || isset($_GET["start_at"]) || 
 
 		$sql = "SELECT * FROM reports";
 		$sql_dw = "SELECT reports.id, 
+		reports.cod_curso, 
 		reports.is_active, 
 		reports.status_activity, 
 		reports.user_id, 
@@ -1518,6 +1521,7 @@ if ((isset($_GET["q"]) || isset($_GET["estado"]) || isset($_GET["start_at"]) || 
 	} else {
 		$sql = "SELECT * FROM reports";
 		$sql_dw = "SELECT reports.id, 
+		reports.cod_curso, 
 		reports.is_active, 
 		reports.status_activity, 
 		reports.user_id, 
@@ -1713,7 +1717,7 @@ $DB_name = "reports";
 							<th class="text-center"> <label>Título</label></th>
 							<th class="text-center"> <label>Participantes</label></th>
 							<th class="text-center"> <label>Productos</label></th>
-							<th class="text-center"> <label>N°taller</label></th>
+							<th class="text-center"> <label>N°taller Curso</label></th>
 							<th class="text-center"><label>Imág</label></th>
 							<th class="text-center"><label>Acciones</label></th>
 						</thead>
@@ -2018,6 +2022,8 @@ $DB_name = "reports";
 									<div class="btn btn-primary btn-sm">
 										<?php echo $user["orden_taller"] ?>
 									</div>
+										<label style="font-size: 10px;"><?php echo $user["cod_curso"] ?></label>
+
 								</td>
 
 								<!-- imagenes -->
