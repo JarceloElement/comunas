@@ -130,12 +130,17 @@ $fecha_end = "2025-01-01";
 
     $(function() {
         $('input[name="fecha"]').daterangepicker({
+            minDate: "01/11/2025", // Fecha mínima permitida
+            // maxDate: "31/12/2025", // Fecha máxima permitida
             // opens: 'center',
-            startDate: moment(),
+
+            // normalmente
+            // startDate: moment(),
+
             // "endDate": "06/30/2023",
             // minDate: moment().add(10, 'days').calendar(),
             // maxDate: moment().add(60, 'days').calendar(),
-            minDate: moment().startOf('month'),
+            // minDate: moment().startOf('month'),
             locale: {
                 format: 'DD-MM-Y',
                 // format: 'Y-MM-DD',
