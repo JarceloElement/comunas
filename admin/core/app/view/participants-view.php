@@ -664,7 +664,7 @@ if ((isset($_GET["q"]) || isset($_GET["start_at_1"]) || isset($_GET["finish_at_1
 } else {
 
 	if ($_SESSION["user_type"] == 4 || $_SESSION["user_type"] == 5 || $_SESSION["user_type"] == 6 || $_SESSION["user_type"] == 7) {
-		$total_sql = "SELECT 
+		$total_sql = "SELECT DISTINCT 
 		participants_list.id, 
 		participants_list.id_user_final, 
 		participants_list.uid_fac, 
@@ -706,11 +706,11 @@ if ((isset($_GET["q"]) || isset($_GET["start_at_1"]) || isset($_GET["finish_at_1
 		from participants_list 
 		INNER JOIN reports on participants_list.id_activity = reports.id 
 		LEFT JOIN final_users on participants_list.document_id = final_users.user_dni 
-		LEFT JOIN formaciones on reports.id = formaciones.id_activity::INT
+		LEFT JOIN formaciones on reports.id = formaciones.id_activity::INT 
 		where (split_part(participants_list.date_activity, '/',1)>='01-01-2023') 
 		order by participants_list.date_reg desc";
 	} else {
-		$total_sql = "SELECT 
+		$total_sql = "SELECT DISTINCT 
 		participants_list.id, 
 		participants_list.id_user_final, 
 		participants_list.uid_fac, 
@@ -752,7 +752,7 @@ if ((isset($_GET["q"]) || isset($_GET["start_at_1"]) || isset($_GET["finish_at_1
 		from participants_list 
 		INNER JOIN reports on participants_list.id_activity = reports.id 
 		LEFT JOIN final_users on participants_list.document_id = final_users.user_dni 
-		LEFT JOIN formaciones on reports.id = formaciones.id_activity::INT
+		LEFT JOIN formaciones on reports.id = formaciones.id_activity::INT 
 		where reports.estate='" . $_SESSION["user_region"] . "' and (split_part(participants_list.date_activity, '/',1)>='01-01-2023') 
 		order by participants_list.date_reg desc";
 	}
