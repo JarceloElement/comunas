@@ -1969,9 +1969,9 @@ $DB_name = "reports";
 								$values = [$codigo_curso, (int)$total_person_fe, (int)$total_person_ma, (int)$id_activity];
 								ExecutorPg::update($sql, $values);
 
-								$sql = "UPDATE formaciones set cod_taller=?, cod_curso=? where id_activity = ?;";
-								$values = [$codigo_taller, $codigo_curso, (int)$id_activity];
-								ExecutorPg::update($sql, $values);
+								// $sql = "UPDATE formaciones set cod_taller=?, cod_curso=? where id_activity = ?;";
+								// $values = [$codigo_taller, $codigo_curso, (int)$id_activity];
+								// ExecutorPg::update($sql, $values);
 
 								// total de participantes
 								$total_part = (int)$total_person_fe + (int)$total_person_ma;
