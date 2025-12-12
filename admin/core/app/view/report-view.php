@@ -1944,9 +1944,9 @@ $DB_name = "reports";
 								// $nombre_curso = $user["training_type"];
 								$codigo_curso = "";
 								$sql = "SELECT tipo_taller.*, training_type.codigo_curso from tipo_taller LEFT JOIN training_type ON training_type.name_training_type=tipo_taller.name_training_type where tipo_taller.orden_taller='$orden_taller' and tipo_taller.etapa='$etapa' order by tipo_taller.etapa asc, tipo_taller.orden_taller::INTEGER asc";
-									$curso = TrainingTypeData::getObj($sql)[0];
-								if (isset($curso->codigo_curso)) {
-									$codigo_curso = $curso->codigo_curso;
+									$curso = TrainingTypeData::getObj($sql);
+								if (isset($curso[0]->codigo_curso)) {
+									$codigo_curso = $curso[0]->codigo_curso;
 								}
 
 
