@@ -11,9 +11,9 @@ $user_code_info = "";
 $user_id = "";
 
 
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 ?>
 
 
@@ -1969,9 +1969,10 @@ $DB_name = "reports";
 								$values = [$codigo_curso, (int)$total_person_fe, (int)$total_person_ma, (int)$id_activity];
 								ExecutorPg::update($sql, $values);
 
-								// $sql = "UPDATE formaciones set cod_taller=?, cod_curso=? where id_activity = ?;";
-								// $values = [$codigo_taller, $codigo_curso, (int)$id_activity];
-								// ExecutorPg::update($sql, $values);
+								// $sql = "UPDATE formaciones set cod_taller=?, cod_curso=? where id_activity = ? AND cod_taller IN (SELECT codigo_taller FROM tipo_taller WHERE codigo_taller = '$codigo_taller');";
+								$sql = "UPDATE formaciones set cod_taller=? where id_activity = ? AND EXISTS (SELECT 1 FROM tipo_taller AS tt WHERE tt.codigo_taller = ?);";
+								$values = [$codigo_taller, (int)$id_activity, $codigo_taller];
+								ExecutorPg::update($sql, $values);
 
 								// total de participantes
 								$total_part = (int)$total_person_fe + (int)$total_person_ma;
