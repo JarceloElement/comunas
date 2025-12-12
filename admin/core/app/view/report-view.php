@@ -1965,8 +1965,8 @@ $DB_name = "reports";
 								$total_data = $row->fetchAll(PDO::FETCH_ASSOC);
 								$total_person_fe = $total_data[0]["total"];
 
-								$sql = "UPDATE reports set cod_taller=?, cod_curso=?, person_fe = ?, person_ma = ? where id = ?;";
-								$values = [$codigo_taller, $codigo_curso, (int)$total_person_fe, (int)$total_person_ma, (int)$id_activity];
+								$sql = "UPDATE reports set cod_curso=?, person_fe = ?, person_ma = ? where id = ?;";
+								$values = [$codigo_curso, (int)$total_person_fe, (int)$total_person_ma, (int)$id_activity];
 								ExecutorPg::update($sql, $values);
 
 								// total de participantes
