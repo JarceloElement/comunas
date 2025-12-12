@@ -1941,6 +1941,7 @@ $DB_name = "reports";
 
 								$etapa = $user["report_type"];
 								$orden_taller = $user["orden_taller"];
+								$codigo_taller = $user["codigo_taller"];
 								// $nombre_curso = $user["training_type"];
 								$codigo_curso = "";
 								$sql = "SELECT tipo_taller.*, training_type.codigo_curso from tipo_taller LEFT JOIN training_type ON training_type.name_training_type=tipo_taller.name_training_type where tipo_taller.orden_taller='$orden_taller' and tipo_taller.etapa='$etapa' order by tipo_taller.etapa asc, tipo_taller.orden_taller::INTEGER asc";
@@ -1964,8 +1965,8 @@ $DB_name = "reports";
 								$total_data = $row->fetchAll(PDO::FETCH_ASSOC);
 								$total_person_fe = $total_data[0]["total"];
 
-								$sql = "UPDATE reports set cod_curso=?, person_fe = ?, person_ma = ? where id = ?;";
-								$values = [$codigo_curso, (int)$total_person_fe, (int)$total_person_ma, (int)$id_activity];
+								$sql = "UPDATE reports set cod_taller=?, cod_curso=?, person_fe = ?, person_ma = ? where id = ?;";
+								$values = [$codigo_taller, $codigo_curso, (int)$total_person_fe, (int)$total_person_ma, (int)$id_activity];
 								ExecutorPg::update($sql, $values);
 
 								// total de participantes
