@@ -361,7 +361,7 @@ if ((isset($_GET["q"]) || isset($_GET["start_at"]) || isset($_GET["finish_at"]) 
 
     $conn = DatabasePg::connectPg();
 
-    // $sql .= " AND user_fecha_servicio between '2024-01-01' and '2025-12-31'";
+    // $sql .= " AND user_fecha_servicio between '2024-01-01' and '2026-12-31'";
     // $sql .= " order by user_fecha_reg desc";
     $sql .= " LIMIT " . $CantidadMostrar . " OFFSET " . (($compag - 1) * $CantidadMostrar);
     echo $sql;

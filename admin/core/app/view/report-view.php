@@ -1322,10 +1322,10 @@ if ((isset($_GET["q"]) || isset($_GET["estado"]) || isset($_GET["start_at"]) || 
 
 	$sql .= " AND";
 	$sql .= " reports.is_active='1' AND reports.status_activity='1' AND reports.estate!=''";
-	$sql .= " AND reports.date_ini between '2024-01-01' and '2025-12-31'";
+	$sql .= " AND reports.date_ini between '2024-01-01' and '2026-12-31'";
 	$sql .= " group by " . $fields;
 	$sql .= " order by reports.date_ini desc";
-	$sql_dw .= " AND reports.is_active='1' AND reports.status_activity='1' AND reports.estate!='' AND reports.date_ini between '2024-01-01' and '2025-12-31' group by " . $fields . " order by reports.date_ini desc";
+	$sql_dw .= " AND reports.is_active='1' AND reports.status_activity='1' AND reports.estate!='' AND reports.date_ini between '2024-01-01' and '2026-12-31' group by " . $fields . " order by reports.date_ini desc";
 
 	$stmt = $conn->prepare($sql);
 	$stmt->execute();

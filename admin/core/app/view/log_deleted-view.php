@@ -84,7 +84,7 @@ error_reporting(E_ALL);
 
 								if ((isset($_GET["q"])) && ($_GET["q"] != "")) {
 
-									$sql = "SELECT * from del_log WHERE datetime between '2024-01-01' and '2025-12-31' and";
+									$sql = "SELECT * from del_log WHERE datetime between '2024-01-01' and '2026-12-31' and";
 
 									// solo admin visualiza la data nacional
 									if ($_SESSION["user_type"] == 7 || $_SESSION["user_type"] == 6) {
@@ -118,14 +118,14 @@ error_reporting(E_ALL);
 								} else {
 									if ($_SESSION["user_type"] == 1 || $_SESSION["user_type"] == 2 || $_SESSION["user_type"] == 3 || $_SESSION["user_type"] == 8) {
 
-										$sql = "SELECT * from del_log WHERE datetime between '2024-01-01' and '2025-12-31' and state_deleted='" . $_SESSION["user_region"] . "' order by id desc LIMIT " . (($compag - 1) * $CantidadMostrar) . " , " . $CantidadMostrar;
+										$sql = "SELECT * from del_log WHERE datetime between '2024-01-01' and '2026-12-31' and state_deleted='" . $_SESSION["user_region"] . "' order by id desc LIMIT " . (($compag - 1) * $CantidadMostrar) . " , " . $CantidadMostrar;
 										$users = LogDelete::getBySQL($sql);
 
-										$query = "SELECT * from del_log WHERE datetime between '2024-01-01' and '2025-12-31' and state_deleted='" . $_SESSION["user_region"] . "' ";
+										$query = "SELECT * from del_log WHERE datetime between '2024-01-01' and '2026-12-31' and state_deleted='" . $_SESSION["user_region"] . "' ";
 										$total_r = LogDelete::getBySQL($query);
 										$total_q = count($total_r);
 									} else {
-										$sql = "SELECT * from del_log WHERE datetime between '2024-01-01' and '2025-12-31' order by id desc LIMIT " . (($compag - 1) * $CantidadMostrar) . " , " . $CantidadMostrar;
+										$sql = "SELECT * from del_log WHERE datetime between '2024-01-01' and '2026-12-31' order by id desc LIMIT " . (($compag - 1) * $CantidadMostrar) . " , " . $CantidadMostrar;
 										$users = LogDelete::getBySQL($sql);
 										$total_q = count(LogDelete::getAll());
 									}
