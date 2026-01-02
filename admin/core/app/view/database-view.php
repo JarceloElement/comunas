@@ -387,7 +387,7 @@ function alter_db()
 
 
     // Executor::doit('ALTER TABLE info_social_map DROP CONSTRAINT info_social_map_ibfk_10;');
-    // Executor::doit('ALTER TABLE info_social_map DROP CONSTRAINT info_social_map_ibfk;');
+    Executor::doit('ALTER TABLE info_social_map DROP CONSTRAINT info_social_map_ibfk;');
     // Executor::doit('ALTER TABLE info_social_map ADD CONSTRAINT `info_social_map_ibfk` FOREIGN KEY (code_info) REFERENCES `user` (code_info) ON UPDATE CASCADE ON DELETE SET NULL;');
 
 
