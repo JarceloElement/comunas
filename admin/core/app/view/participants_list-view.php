@@ -694,7 +694,7 @@ $pag = isset($_GET['pag']) ? $_GET['pag'] : '';
 $compag = (int)(!isset($_GET['pag'])) ? 1 : $_GET['pag'];
 
 
-$sql = "SELECT DISTINCT ON (participants_list.id)
+$sql = "SELECT DISTINCT ON (participants_list.id) 
 participants_list.id,
 participants_list.id_activity,
 participants_list.uid_fac,
@@ -709,10 +709,10 @@ participants_list.gender,
 participants_list.phone,
 participants_list.id,
 formaciones.completado,
-formaciones.participant_id
+formaciones.participant_id 
 from participants_list 
-LEFT JOIN formaciones ON formaciones.id_activity::INT = participants_list.id_activity  
-where formaciones.participant_id = participants_list.id AND participants_list.id_activity=" . $_GET['id_activity'] . " order by id asc ";
+LEFT JOIN formaciones ON formaciones.id_activity::INT = participants_list.id_activity 
+where formaciones.participant_id = participants_list.id AND participants_list.id_activity=" . $_GET['id_activity'] . " order by id asc";
 
 $total = ParticipantsData::getBySQL($sql);
 $TotalReg = $total[1];
@@ -764,7 +764,7 @@ $DB_name = "participants_list";
 							<?php echo "<span class='text_label'> <i class='fa fa-bullhorn icon_label' ></i> <b> Hay " . $TotalReg . " Registros </b>. La cantidad se dividió a " . $TotalRegistro . " páginas para mostrar de " . $CantidadMostrar . " en " . $CantidadMostrar . "</span>" . "<br><br>"; ?>
 						</div>
 
-						<a href="./pdf/csv.php?param_csv=<?php echo $param_csv . '&param_sql=' . $param_sql . '&DB_name=' . $DB_name; ?>" name="Descargar" class=" btn btn-success "><i class="fa fa-file-excel-o"></i> CSV</a>
+						<!-- <a href="./pdf/csv.php?param_csv=<!?php echo $param_csv . '&param_sql=' . $param_sql . '&DB_name=' . $DB_name; ?>" name="Descargar" class=" btn btn-success "><i class="fa fa-file-excel-o"></i> CSV</a> -->
 						<a target="_blank" class="btn btn-success" href="../core/app/view/exportxlsx_2.php?param=<?php echo $param_csv . '&param_sql=' . $param_sql . '&filename=' . $DB_name; ?>" name="Descargar"><i class="fa fa-file-excel-o"></i> XLSX</a>
 
 					<?php } else { ?>
