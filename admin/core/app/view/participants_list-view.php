@@ -714,6 +714,7 @@ from participants_list
 LEFT JOIN formaciones ON formaciones.id_activity::INT = participants_list.id_activity 
 where formaciones.participant_id = participants_list.id AND participants_list.id_activity=" . $_GET['id_activity'] . " order by id asc";
 
+
 $total = ParticipantsData::getBySQL($sql);
 $TotalReg = $total[1];
 // print_r($sql);
