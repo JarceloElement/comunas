@@ -18,6 +18,7 @@ error_reporting(E_ALL);
 
 
 
+
 <?php
 // limitar texto de la tarjeta
 function charlimit_title($string, $limit)
