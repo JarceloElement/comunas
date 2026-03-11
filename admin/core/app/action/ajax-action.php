@@ -851,72 +851,81 @@ if ($func_post == "add_participant") {
                 $taller_anterior = $orden_taller - 1;
 
 
+                // PAUSAR la prelacion
                 // saber si ya esta registrado en el taller
-                $sql = "SELECT * from formaciones where user_dni='$usuario_dni_existente' and cod_taller='$codigo_taller' and orden_taller='$orden_taller' and cod_curso='$cod_curso';";
-                $res = ExecutorPg::get($sql)[0][0];
-                $taller_completado = isset($res["completado"]) ? $res["completado"] : "null";
+                // $sql = "SELECT * from formaciones where user_dni='$usuario_dni_existente' and cod_taller='$codigo_taller' and orden_taller='$orden_taller' and cod_curso='$cod_curso';";
+                // $res = ExecutorPg::get($sql)[0][0];
+                // $taller_completado = isset($res["completado"]) ? $res["completado"] : "null";
 
+                // PAUSAR la prelacion
                 // buscar cantidad de talleres del mismo curso
-                $sql = "SELECT tipo_taller.id from tipo_taller LEFT JOIN training_type ON training_type.name_training_type=tipo_taller.name_training_type where training_type.codigo_curso='$cod_curso';";
-                $talleres_encurso = ExecutorPg::get($sql)[0];
-                $n_talleres = count($talleres_encurso);
+                // $sql = "SELECT tipo_taller.id from tipo_taller LEFT JOIN training_type ON training_type.name_training_type=tipo_taller.name_training_type where training_type.codigo_curso='$cod_curso';";
+                // $talleres_encurso = ExecutorPg::get($sql)[0];
+                // $n_talleres = count($talleres_encurso);
 
+                // PAUSAR la prelacion
                 // busca talleres anteriores de la misma etapa
-                $n_talleres_etapa = array();
-                $sql = "SELECT tipo_taller.orden_taller from tipo_taller LEFT JOIN reports ON reports.report_type=tipo_taller.etapa where reports.id='$id_activity';";
-                $talleres_etapa = ExecutorPg::get($sql)[0];
-                foreach ($talleres_etapa as $te) {
-                    if ($te["orden_taller"] < $orden_taller) {
-                        $n_talleres_etapa[] = $te["orden_taller"];
-                    }
-                }
-                // throw new Exception("Cantidad de talleres etapa: " . count($n_talleres_etapa));
+                // $n_talleres_etapa = array();
+                // $sql = "SELECT tipo_taller.orden_taller from tipo_taller LEFT JOIN reports ON reports.report_type=tipo_taller.etapa where reports.id='$id_activity';";
+                // $talleres_etapa = ExecutorPg::get($sql)[0];
+                // foreach ($talleres_etapa as $te) {
+                //     if ($te["orden_taller"] < $orden_taller) {
+                //         $n_talleres_etapa[] = $te["orden_taller"];
+                //     }
+                // }
 
                 // si el curso tiene mas de un taller busca el taller anterior
                 $prelacion = "";
-                if ($n_talleres > 1) {
-                    $sql = "SELECT * from formaciones where orden_taller='$taller_anterior' and cod_curso='$cod_curso' and user_dni='$usuario_dni_existente';";
-                    $res_2 = ExecutorPg::get($sql)[0][0];
-                    $prelacion = isset($res_2["completado"]) ? $res_2["completado"] : "null";
-                }
 
+                // PAUSAR la prelacion
+                // if ($n_talleres > 1) {
+                //     $sql = "SELECT * from formaciones where orden_taller='$taller_anterior' and cod_curso='$cod_curso' and user_dni='$usuario_dni_existente';";
+                //     $res_2 = ExecutorPg::get($sql)[0][0];
+                //     $prelacion = isset($res_2["completado"]) ? $res_2["completado"] : "null";
+                // }
+
+                // PAUSAR la prelacion
 
                 // verifica que el participante esta en el taller
-                if ($taller_completado != "null" && $_SESSION["user_id"] != $res["update_by"]) {
-                    throw new Exception("El usuario ya está registrado en el mismo taller por otro facilitador.");
-                }
-                if ($taller_completado != "null" && $_SESSION["user_id"] == $res["update_by"] && $id_activity == $res["id_activity"]) {
-                    throw new Exception("El usuario ya lo tienes registrado en este taller. Verifica que ya este aprobado.");
-                }
-                if ($taller_completado != "null" && $_SESSION["user_id"] == $res["update_by"] && $id_activity != $res["id_activity"]) {
-                    throw new Exception("El usuario ya lo tienes registrado en el mismo taller pero en otra actividad.");
-                }
+                // if ($taller_completado != "null" && $_SESSION["user_id"] != $res["update_by"]) {
+                //     throw new Exception("El usuario ya está registrado en el mismo taller por otro facilitador.");
+                // }
+                // if ($taller_completado != "null" && $_SESSION["user_id"] == $res["update_by"] && $id_activity == $res["id_activity"]) {
+                //     throw new Exception("El usuario ya lo tienes registrado en este taller. Verifica que ya este aprobado.");
+                // }
+                // if ($taller_completado != "null" && $_SESSION["user_id"] == $res["update_by"] && $id_activity != $res["id_activity"]) {
+                //     throw new Exception("El usuario ya lo tienes registrado en el mismo taller pero en otra actividad.");
+                // }
 
+                // PAUSAR la prelacion
 
                 // prelacion por curso | si hay mas de un taller en el curso
-                if ($prelacion == "false" && $orden_taller != 1 && $n_talleres > 1) {
-                    throw new Exception("El usuario no ha aprobado el taller anterior. \nYa está inscrito en el taller N° $taller_anterior de este curso, verifica que esté aprobado.");
-                }
-                if ($prelacion == "null" && $orden_taller != 1 && $taller_anterior != 0 && $n_talleres > 1) {
-                    throw new Exception("El usuario no puede realizar éste taller todavía. Antes debe completar el taller N° $taller_anterior de este curso.");
-                }
+                // if ($prelacion == "false" && $orden_taller != 1 && $n_talleres > 1) {
+                //     throw new Exception("El usuario no ha aprobado el taller anterior. \nYa está inscrito en el taller N° $taller_anterior de este curso, verifica que esté aprobado.");
+                // }
+                // if ($prelacion == "null" && $orden_taller != 1 && $taller_anterior != 0 && $n_talleres > 1) {
+                //     throw new Exception("El usuario no puede realizar éste taller todavía. Antes debe completar el taller N° $taller_anterior de este curso.");
+                // }
 
+                // PAUSAR la prelacion
 
                 // prelacion por etapa
-                if (count($n_talleres_etapa) > 0) {
-                    foreach ($n_talleres_etapa as $nt_e) {
-                        $sql = "SELECT * from formaciones where orden_taller='$nt_e' and user_dni='$usuario_dni_existente';";
-                        $res_3 = ExecutorPg::get($sql)[0][0];
-                        $prelacion_etapa = isset($res_3["completado"]) ? $res_3["completado"] : "null";
+                // if (count($n_talleres_etapa) > 0) {
+                //     foreach ($n_talleres_etapa as $nt_e) {
+                //         $sql = "SELECT * from formaciones where orden_taller='$nt_e' and user_dni='$usuario_dni_existente';";
+                //         $res_3 = ExecutorPg::get($sql)[0][0];
+                //         $prelacion_etapa = isset($res_3["completado"]) ? $res_3["completado"] : "null";
 
-                        if ($prelacion_etapa == "false") {
-                            throw new Exception("El usuario no ha aprobado el taller anterior de esta etapa. \nYa está inscrito pero debe ser aprobado en el taller N° $nt_e antes de continuar.");
-                        }
-                        if ($prelacion_etapa == "null") {
-                            throw new Exception("El usuario no puede realizar éste taller todavía. \nAntes debe inscribir el taller N° $nt_e de esta etapa.\nError: $usuario_dni_existente-" . implode(",", $n_talleres_etapa) . "");
-                        }
-                    }
-                }
+                //         if ($prelacion_etapa == "false") {
+                //             throw new Exception("El usuario no ha aprobado el taller anterior de esta etapa. \nYa está inscrito pero debe ser aprobado en el taller N° $nt_e antes de continuar.");
+                //         }
+                //         if ($prelacion_etapa == "null") {
+                //             throw new Exception("El usuario no puede realizar éste taller todavía. \nAntes debe inscribir el taller N° $nt_e de esta etapa.\nError: $usuario_dni_existente-" . implode(",", $n_talleres_etapa) . "");
+                //         }
+                //     }
+                // }
+
+
 
                 // $_SESSION['alert'] = '¡Retorno!';
                 // $array = array(
